@@ -1,0 +1,128 @@
+I'm basing my comments on the Keycloak example below. Good news is this is a really good example, bad news is you will need to implement your own identity provider for OneLogin.
+
+https://github.com/camunda/camunda-bpm-identity-keycloak
+
+Why do you need the Identity plugin?
+
+If you want to see Users and Groups show up in Camunda, a custom IdentityProvider needs to be implemented.
+
+Should I use a plugin?
+
+It's necessary to use the plugin mechanism of Camunda to tie your functionality into Camunda and this is the recommended way to extend Camunda.
+
+https://github.com/camunda-consulting/code/tree/master/snippets/springboot-keycloak-sso
+
+https://docs.camunda.org/manual/latest/user-guide/process-engine/process-engine-plugins/
+
+What you need to know about the Plugin and the Identity Provider
+
+The ReadOnlyIdenitityProvider interface is the key to integrating a custom identity provider. This interface allows Camunda to query and inject the authenticated users into Camundas security context pulling the users and groups so you can then create authorizations in Camunda as needed. This is implemented via the KeycloakIdentityProviderSession class.
+
+https://github.com/camunda/camunda-bpm-identity-keycloak/blob/master/extension/src/main/java/org/camunda/bpm/extension/keycloak/KeycloakIdentityProviderSession.java
+
+Some nice abstractions have been implemented with the Keycloak plugin. The KeycloakIdentityProviderFactory integrates Spring RestTemplate allowing Camunda to poll Keycloak efficiently using the PoolingHttpClientConnectionManager.
+
+https://github.com/camunda/camunda-bpm-identity-keycloak/blob/master/extension/src/main/java/org/camunda/bpm/extension/keycloak/KeycloakIdentityProviderFactory.java
+
+KeycloakIdentityProviderPlugin ties the plugin together by extending the KeycloakConfiguration and implementing ProcessEnginePlugin. This class allows us to configure the process engine upon initialization and set groups and users into Camunda's security context, creating authorizations for the admin user. This could be easily modified to do what you need in addition to setting the admin user.
+
+Also, this is where the ReadOnlyIdenitityProvider is utilized via the KeycloakIdentityProviderSession calling the Spring RestTemplate initiating an HTTP session with Keycloak and getting our users and groups as needed for the login process.
+
+https://github.com/camunda/camunda-bpm-identity-keycloak/blob/master/extension/src/main/java/org/camunda/bpm/extension/keycloak/plugin/KeycloakIdentityProviderPlugin.java
+
+Another interesting class that is somewhat specific to Keycloak but should be similar in OneLogin is the KeycloakContextProvider which makes sure we have a valid token and is utilized in the ReadOnlyIdentityProvider when we query users and groups.
+
+https://github.com/camunda/camunda-bpm-identity-keycloak/blob/master/extension/src/main/java/org/camunda/bpm/extension/keycloak/KeycloakContextProvider.java
+
+Tying the Plugin together with Spring Security and our App
+
+Implementing WebSecurityConfigurerAdapter is the typical approach to customize and configure Spring Security. This should be familiar to those using Spring-boot. There are many resorucese to learn Spring-security. In this example a very simple policy is set to allow authenticated users to access our /app context.
+
+
+    @Override
+        protected void configure(HttpSecurity http) throws Exception {
+
+        	http
+        	.csrf().ignoringAntMatchers("/api/**")
+        	.and()
+            .antMatcher("/**")
+            .authorizeRequests()
+              .antMatchers("/app/**")
+              .authenticated()
+            .anyRequest()
+              .permitAll()
+            ;
+
+        }
+
+Additionally, we define a bean that registers our Authentication Provider with a ContainerBasedAuthenticationFilter that Camunda provides to tie the authentication into the servlet filter chain that will be executed on every request to the app.
+
+
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    	@Bean
+        public FilterRegistrationBean containerBasedAuthenticationFilter(){
+
+            FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
+            filterRegistration.setFilter(new ContainerBasedAuthenticationFilter());
+            filterRegistration.setInitParameters(Collections.singletonMap("authentication-provider", "org.camunda.bpm.extension.keycloak.showcase.sso.KeycloakAuthenticationProvider"));
+            filterRegistration.setOrder(101); // make sure the filter is registered after the Spring Security Filter Chain
+            filterRegistration.addUrlPatterns("/app/*");
+            return filterRegistration;
+        }
+The authentication provider is implemented based on the Camunda's ContainerBasedAuthenticationProvider providing the mechanism to define the Authentication based on Camunda's expectation of having an authenticated user. Remember we set this in the servlet filter chain so it can be used by the request. Note the ContainerBasedAuthenticationProvider ties together the OAuth2 authentication process by utilizing the dependancy:
+
+    <dependency>
+        <groupId>org.springframework.security.oauth.boot</groupId>
+        <artifactId>spring-security-oauth2-autoconfigure</artifactId>
+        <version>${version.springSecurityOauth2}</version>
+    </dependency>
+
+and the enabled Oauth2 SSO
+
+    @EnableOAuth2Sso
+
+Finally utilizing the SecurityContext to check the userId. This also uses the email and relies that camunda is set to use email as Camunda user id instead of the user name.
+
+   @Override
+        public AuthenticationResult extractAuthenticatedUser(HttpServletRequest request, ProcessEngine engine) {
+
+        	// Extract authentication details
+            OAuth2Authentication authentication = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
+            if (authentication == null) {
+                return AuthenticationResult.unsuccessful();
+            }
+            Authentication userAuthentication = authentication.getUserAuthentication();
+            if (userAuthentication == null || userAuthentication.getDetails() == null) {
+                return AuthenticationResult.unsuccessful();
+            }
+
+            // Extract user ID from Keycloak authentication result - which is part of the requested user info
+            @SuppressWarnings("unchecked")
+            // String userId = ((HashMap<String, String>) userAuthentication.getDetails()).get("sub");
+            String userId = ((HashMap<String, String>) userAuthentication.getDetails()).get("email"); // useEmailAsCamundaUserId = true
+            // String userId = ((HashMap<String, String>) userAuthentication.getDetails()).get("preferred_username"); // useUsernameAsCamundaUserId = true
+            if (StringUtils.isEmpty(userId)) {
+                return AuthenticationResult.unsuccessful();
+            }
+
+            // Authentication successful
+            AuthenticationResult authenticationResult = new AuthenticationResult(userId, true);
+            authenticationResult.setGroups(getUserGroups(userId, engine));
+
+            return authenticationResult;
+        }
+
+Registering the Bean KeycloakIdentityProviderPlugin with spring ties the plugin into the application context. Using the marker interface that's implemented as part of the plugin ProcessEnginePlugin Camunda is able to utilize the plugin and call overridden methods during the Authentication and Authorization process.
+
+    @Component
+    @ConfigurationProperties(prefix="plugin.identity.keycloak")
+    public class KeycloakIdentityProvider extends KeycloakIdentityProviderPlugin {
+
+    }
+
+See example for more https://github.com/camunda/camunda-bpm-identity-keycloak/tree/master/examples/sso-kubernetes
+
+Please let me know if this is enough information for you to take it from here? I've currently used about 4 consulting hours.
+
+Additionally, there are examples for Spiring-boot OAuth2 with OneLogin on Github. Maybe these can give you a head-start.
+https://github.com/onelogin/onelogin-oidc-java/tree/master/spring-boot-app

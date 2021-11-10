@@ -1,0 +1,86 @@
+### [[example-camunda-docker-springboot]] Example: Run Camunda Spring-Boot with Docker
+
+==== Prerequisites
+
+* Install Docker
+* Create a https://docs.camunda.org/manual/latest/user-guide/process-applications/maven-archetypes/[Camunda Spring-Boot project]
+
+NOTE: This is tested with https://docs.camunda.org/manual/latest/user-guide/process-applications/maven-archetypes/[Maven Archetype Spring-Boot Project]
+
+```bash
+mvn archetype:generate
+
+  -DinteractiveMode=false
+
+  -DarchetypeGroupId=org.camunda.bpm.archetype
+
+  -DarchetypeArtifactId=camunda-archetype-spring-boot
+
+  -DarchetypeVersion=7.15.0
+
+  -DgroupId=org.example.camunda.bpm
+
+  -DartifactId=camunda-bpm-project
+
+  -Dversion=0.0.1-SNAPSHOT
+
+  -Dpackage=org.example.<your-company>.bpm
+```
+
+
+==== Create a DockerFile for Spring-Boot project
+- Place the docker file in the home dir of the project
+
+```yaml
+####
+## run Maven build in Docker image layer and cache dependencies
+####
+FROM maven:3-jdk-8 as builder
+
+# Create build directory
+WORKDIR /usr/src/build
+
+# copy files from project
+COPY pom.xml pom.xml
+COPY settings.xml settings.xml
+COPY src/ src/
+
+# optional if you are build the poc-stater to include nodejs and react project
+#COPY package.json package.json
+#COPY webpack.config.js webpack.config.js
+#COPY .env .env
+
+# run maven build and cache dependencies
+RUN --mount=type=cache,target=/root/.m2 mvn -s settings.xml -DskipTests -Dmaven.test.skip clean package
+
+####
+## create another image layer and run the app that was built
+####
+FROM openjdk:8-jdk as process-application
+
+# Create app directory
+WORKDIR /usr/src/app
+
+# copy the built jar to the new image
+COPY --from=builder /usr/src/build/target/<<your-jar-name>>.jar ${WORKDIR}
+
+# run the application
+#ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/usr/src/app/<<your-jar-name>>.jar"]
+
+ # optional if you are build the poc-stater to include java code examples
+#ENTRYPOINT ["java","-Dspring.profiles.active=ordering,cors,gui,eventing,integration,email,prod","-Djava.security.egd=file:/dev/./urandom","-jar","/usr/src/app/camunda-poc-starter.jar"]
+
+```
+
+==== Build the Spring-Boot Image before running
+
+ docker build -t camunda-bpm-project .
+
+
+==== Run Camunda Spring-Boot Docker Image
+
+    docker run -p 8080:8080 camunda-bpm-project
+
+
+
+

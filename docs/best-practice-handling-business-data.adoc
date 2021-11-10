@@ -1,0 +1,34 @@
+## [[best-practice-handling-business-data]]Handling Business Data and UI Integration
+TIP: See the pattern described in the Camunda Best Practices https://camunda.com/best-practices/handling-data-in-processes/[Handling Data In Processes] and https://camunda.com/best-practices/enhancing-tasklists-with-business-data/[Enhancing Tasklist with Business Data]
+
+IMPORTANT: Consider when and why to https://camunda.com/best-practices/handling-data-in-processes/#_storing_just_the_strong_relevant_data_strong[store variables in Camunda] and read more about best practices concerning storing variables.
+
+====
+Often and for numerous reasons we need to consolidate data from different sources. In this app I use JPA and Spring REST with some of springs features to build a custom API. Primarily for making integration with the UI easier. Here are few reasons why I take this approach.
+
+- Reduce queries the UI does to the backend
+- Make it easier to build UI components
+- Create abstraction layer that can be used to integrate other technical and business requirements like reporting and security.
+- Have a source of truth for process meta-data
+
+NOTE: Also keep in mind I want to keep every-thing self contained for PoC purposes. Think in logical terms and that these components could be another technology or several other technologies depending on the specific needs.
+====
+
+#### [[camunda-rest-api]]Camunda REST API
+====
+Camunda has a powerful rest API. This code repository has many examples of interacting with the CAMUNDA REST API from the custom UI and using postman. See the `postman` folder in the project home.
+
+Import the postman collection and take a look at the queries to start the workflow and correlate messages.
+
+see more https://docs.camunda.org/manual/latest/reference/rest/[CAMUNDA REST API]
+
+====
+
+#### JPA Spring Data Repositories
+====
+A separate API and logically separate data-store is used to query order data.
+
+We can guarantee the data is updated in the data store with the workflow. See the section above on the JavaDelegates that implement the publishing functionality.
+
+https://spring.io/blog/2011/02/10/getting-started-with-spring-data-jpa[Spring Data JPA] is the technology used for business data. Spring Data allows for an easy way to create API's that are easy for a UI to query. Also an easy way to combine data into a useful form for the UI to consume.
+====

@@ -1,0 +1,23 @@
+### [[best-practices-failover-across-regions]]Best Practices: Failover Across Regions
+
+The most common approach to fail-over across regions is to use the database technology to replicate the Camunda database across regions in a Active/Passive manner. Additionally it's necessary to suspend camunda process execution and requests to Camunda in passive cluster. This can be dove via API. I.E. deactivate/reactivate the Camunda engine in the Passive region using the Camunda API.
+
+==== Utilizing a loadbalancer to deactivate requests to Passive cluster
+Common approach is to use a loadbalancer to control the requests to active and passive clusters. When activating the passive cluster it would be necessary to redirect traffic to the cluster. This would be handled by a loadbalancing technology such as Nginx.
+
+==== How to activate and deactivate the Camunda engine
+
+https://docs.camunda.org/manual/latest/reference/rest/job[Stopping Jobs] In some use cases you may want to have control of Job execution at a granular level.
+
+https://camunda.com/best-practices/operating-camunda/#__strong_turning_on_off_strong_all_job_execution[Completely shut off the Job Executor] A Java API exists but no REST API
+
+https://docs.camunda.org/manual/latest/reference/rest/process-definition/put-activate-suspend-by-id/[Suspend processes via REST API] Useful to stop the execution of all workflows based on certain porcess definition.
+
+NOTE: The approach to failover is based on the database technology. Some database technology does not support Active/Active or HOT/HOT cluster with Camunda database isolation level of READ_COMMITTED while a couple database technologies do.
+
+==== HOT/HOT cluster with Camunda and CockroachDB
+It some distributed computing scenarios it may be necessary to have a true active/active cluster configuration. Camunda supports CockroachDB for this use-case. Read more about the features and limitations.
+
+https://docs.camunda.org/manual/7.15/user-guide/process-engine/database/cockroachdb-configuration/#communication-with-cockroachdb[Configuring Cockroach with Camunda]
+
+https://docs.camunda.org/manual/7.15/user-guide/process-engine/database/cockroachdb-configuration/[CockroachDB Specific features and limitations with Camunda]

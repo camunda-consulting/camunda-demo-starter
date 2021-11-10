@@ -1,0 +1,11 @@
+## [[enterprise-camunda]]Using Enterprise Camunda
+
+IMPORTANT: Using Camunda Enterprise - it's necessary to request a https://camunda.com/download/enterprise/[Camunda Enterprise License].
+
+====
+Update the settings.xml file in the project home with the credentials that you get from Camunda. This will allow you to pull the enterprise artifacts from our nexus repository.
+====
+NOTE: You may need to configure a proxy to reach our repository. See the example in the settings.xml.
+
+//### Loading Test Data
+//TODO: Create REST end-point to parse csv and load service request data, start processes associating with a service id/business key

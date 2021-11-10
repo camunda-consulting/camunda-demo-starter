@@ -1,0 +1,18 @@
+
+
+//image::images/report/camunda-background.svg[canvas,size=contain]
+//image::images/report/camunda-background.svg[background, size=cover]
+//image:./images/report/camunda-logo.png[Camunda Logo]
+
+=== Disclaimer
+Copyright 2021 by Camunda Services GmbH.
+
+----
+Camunda has prepared this report for the exclusive use and benefit of the Customer and solely for the intended purposes as agreed between the Customer and Camunda.
+
+Any recommendations, opinions or findings stated in this report are based on circumstances and facts supplied by the Customer as they existed at the time the report was written, and are current only as of the date the report has been submitted.  Camunda does not accept any responsibility to update any recommendations, opinions or findings contained in this report. The validity and comprehensiveness of the information supplied by the Customer at the time of consultation has not been independently verified and, for the purposes of this report, it is assumed that the information provided to Camunda is both complete and accurate. Where field investigations have been carried out these have been restricted to a level of detail required to achieve the stated objectives of the work referred to in the Agreement.
+
+The report is not intended to and should not be used or relied upon by any other party other than the Customer unless express written consent has been obtained from Camunda. Neither Camunda, nor any of its officers, directors, agents or employees, accepts any duty of care, to any other person or entity other than the Customer. Camunda specifically disclaims any warranty of merchantability, fitness for a particular purpose and does not make any warranty implied or expressed to any matter dealt within this report, or assumes any responsibility for any loss or damage suffered arising from matters dealt with or conclusions expressed in this report. This disclaimer, however, does not apply in cases of willful misconduct or gross negligence of Camunda or where any warranties implied by law cannot be validly waived.
+
+The concepts and information contained in this report are the property of Camunda and are strictly confidential. Except as expressly provided for in the Agreement, the Customer or any third party is prohibited from copying, reproducing, modifying, distributing, displaying, publishing or transmitting any of the contents of this report, and nothing otherwise stated or implied in this report confers any license or right to do so. 
+----

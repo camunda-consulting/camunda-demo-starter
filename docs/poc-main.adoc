@@ -1,0 +1,50 @@
+= Camunda Workshop Report [DRAFT]
+Doc Writer <paul.lungu@camunda.com>
+v1.0, 2021-09-23
+:toc: right
+
+include::./poc-report-cover.adoc[]
+
+include::./poc-history.adoc[]
+
+include::./poc-usecase-fda.adoc[]
+
+//include::./poc-important-considerations.adoc[]
+
+//include::./poc-running-use-case.adoc[]
+
+//include::./example-camunda-storing-variables.adoc[]
+//
+//include::./example-camunda-docker-tomcat.adoc[]
+//
+//include::./example-camunda-docker-springboot.adoc[]
+//
+//include::./example-camunda-helm.adoc[]
+//
+//include::./best-practice-securing-db-connection.adoc[]
+//
+//include::./best-practice-using-enterprise-camunda.adoc[]
+//
+//include::./best-practice-postman-testing.adoc[]
+//
+//include::./poc-architecture.adoc[]
+//
+//include::./best-practice-patterns-for-integration.adoc[]
+
+//include::./example-kafka-integration.adoc[]
+
+//include::./best-practice-reporting-metircs.adoc[]
+
+//include::./example-spring-event-listener-bridge.adoc[]
+//
+//include::./example-history-redirect-engine-plugin.adoc[]
+
+//include::./poc-ui-integration.adoc[]
+
+//include::./best-practice-handling-business-data.adoc[]
+
+//include::./poc-developer-how-to.adoc[]
+
+//include::./poc-other-tools.adoc[]
+
+//include::./best-practice-pre-launch-concepts.adoc[]

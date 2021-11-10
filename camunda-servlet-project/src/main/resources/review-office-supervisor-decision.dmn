@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="Definitions_c0e7acdc-f1a5-44c4-ba2e-02ef76438256" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.10.0" camunda:diagramRelationId="2ff9bd72-ed4b-4c03-9b62-0e35a7d0e713">
+  <decision id="Decision_0vslh6y" name="Review Office">
+    <informationRequirement id="InformationRequirement_0dlaa5h">
+      <requiredInput href="#InputData_14zclfi" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0mpuaaq">
+      <requiredInput href="#InputData_04g6sg9" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0azx1hv">
+      <input id="Input_1" label="Established Name" biodi:width="341">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text>establishedName</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1i7js39" label="Indication" biodi:width="215">
+        <inputExpression id="LiteralExpression_0zs627p" typeRef="string">
+          <text>indication</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Office" name="office" typeRef="string" />
+      <rule id="DecisionRule_1qaxs5z">
+        <inputEntry id="UnaryTests_0pzk7ip">
+          <text>contains(establishedName,"blood")</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0icweug">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0d19gg5">
+          <text>"OBRR"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1aeak60">
+        <inputEntry id="UnaryTests_0f35y86">
+          <text>contains(establishedName,"vaccine")</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1be9epr">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ofq0u6">
+          <text>"OVRR"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1t6jgey">
+        <inputEntry id="UnaryTests_11wgz7p">
+          <text>contains(establishedName,"tissue")</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0qg8um6">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0e4ddu6">
+          <text>"OTAT"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0oxj0ga">
+        <inputEntry id="UnaryTests_0rs5y16">
+          <text>contains(establishedName,"test")</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0m2ezww">
+          <text>"hiv"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_16w7nel">
+          <text>"OBRR"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0s0id2v">
+        <inputEntry id="UnaryTests_07gosy3">
+          <text>contains(establishedName,"test")</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1buxvv5">
+          <text>"allergy", "allergies", "allergen"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0uektvd">
+          <text>"OVRR"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ni0b9w">
+        <inputEntry id="UnaryTests_0m5op34">
+          <text>contains(establishedName,"therapy")</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1wn5dg0">
+          <text>"hiv"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1lbzkfj">
+          <text>"OVRR"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0vfvmzc">
+        <inputEntry id="UnaryTests_0bvi6dm">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12n0gvr">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1tg8ciq">
+          <text>"OVRR"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="Decision_schedule" name="Schedule">
+    <informationRequirement id="InformationRequirement_0maoy14">
+      <requiredDecision href="#Decision_review" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0mq3c2u">
+      <requiredDecision href="#Decision_0vslh6y" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_007fn9t" hitPolicy="FIRST">
+      <input id="InputClause_0fbffit" label="Review Office">
+        <inputExpression id="LiteralExpression_0df2ysf" typeRef="string">
+          <text>office</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_15am3z7" label="Priority">
+        <inputExpression id="LiteralExpression_1nudr0f" typeRef="string">
+          <text>priority</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1tfkokr" label="Schedule" name="schedule" typeRef="string" />
+      <output id="OutputClause_0rz9tbk" label="Office" name="office" typeRef="string" />
+      <rule id="DecisionRule_0yt5gkq">
+        <inputEntry id="UnaryTests_0f9fmj4">
+          <text>"OVRR", "OTAT"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ymwywp">
+          <text>"high"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0hsd6nb">
+          <text>"P08"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1u7zhub" expressionLanguage="juel">
+          <text>${office}</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1k02p8r">
+        <inputEntry id="UnaryTests_1jyet1g">
+          <text>"OVRR", "OTAT"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1n3unno">
+          <text>"medium", "low"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0hgkpqt">
+          <text>"S12"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1s5p4s3" expressionLanguage="juel">
+          <text>${office}</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0t337tu">
+        <inputEntry id="UnaryTests_1x8y5tq">
+          <text>"OBRR"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ctpg4j">
+          <text>"high"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1up0e4x">
+          <text>"S06"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0katjo7" expressionLanguage="juel">
+          <text>${office}</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_13d3ih0">
+        <inputEntry id="UnaryTests_0qnq2t6">
+          <text>"OBRR"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0pwnfm8">
+          <text>"medium"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0y402y3">
+          <text>"S08"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1pvt92d" expressionLanguage="juel">
+          <text>${office}</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_07exlx9">
+        <inputEntry id="UnaryTests_0670w2n">
+          <text>"OBRR"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_03gq7qx">
+          <text>"low"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0mb77an">
+          <text>"S12"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0th339t" expressionLanguage="juel">
+          <text>${office}</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0d94ogv">
+        <inputEntry id="UnaryTests_086lnp5">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1byzqv5">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0a2ka6g">
+          <text>"S12"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0hugxb3">
+          <text>"OVRR"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="Decision_review" name="Review Priority">
+    <informationRequirement id="InformationRequirement_0gwoavs">
+      <requiredInput href="#InputData_04g6sg9" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1ne86p1">
+      <requiredInput href="#InputData_1r0mdyj" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0lt8p0y">
+      <input id="InputClause_14ncboc" label="Indication">
+        <inputExpression id="LiteralExpression_1b2e9y5" typeRef="string">
+          <text>indication</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1anat6v" label="Dosage Form">
+        <inputExpression id="LiteralExpression_1k84hct" typeRef="string">
+          <text>dosageForm</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_07jo40l" label="Priority" name="priority" typeRef="string" />
+      <rule id="DecisionRule_1bljwus">
+        <inputEntry id="UnaryTests_0heofbw">
+          <text>"covid", "anthrax"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1br9cyu">
+          <text>"injection"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0za9a6b">
+          <text>"high"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_01melnk">
+        <inputEntry id="UnaryTests_1vebpal">
+          <text>"covid"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0wff2o7">
+          <text>"tablet", "capsule"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ohontf">
+          <text>"high"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ikzt3c">
+        <inputEntry id="UnaryTests_0c9sadg">
+          <text>"covid"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0wok7ep">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_079v4ip">
+          <text>"medium"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0o36drc">
+        <inputEntry id="UnaryTests_05ehoao">
+          <text>"anthrax"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ylwumg">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_15az6h3">
+          <text>"medium"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_151xpzo">
+        <inputEntry id="UnaryTests_1wnkcw1">
+          <text>"influenza"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08al5la">
+          <text>"injection"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0cec60k">
+          <text>"medium"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0hfi3m9">
+        <inputEntry id="UnaryTests_1jglsp1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0oz49ud">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1i2pjy5">
+          <text>"low"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_14zclfi" name="Established Name" />
+  <inputData id="InputData_04g6sg9" name="Indication" />
+  <inputData id="InputData_1r0mdyj" name="Dosage Form" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="Decision_0vslh6y">
+        <dc:Bounds height="80" width="180" x="270" y="330" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1qzw9ar" dmnElementRef="Decision_schedule">
+        <dc:Bounds height="80" width="180" x="410" y="80" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0mq87vl" dmnElementRef="InformationRequirement_0maoy14">
+        <di:waypoint x="660" y="330" />
+        <di:waypoint x="530" y="180" />
+        <di:waypoint x="530" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0vq1wlh" dmnElementRef="Decision_review">
+        <dc:Bounds height="80" width="180" x="570" y="330" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1q38z9n" dmnElementRef="InputData_14zclfi">
+        <dc:Bounds height="45" width="125" x="157" y="468" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0a3757v" dmnElementRef="InformationRequirement_0dlaa5h">
+        <di:waypoint x="220" y="468" />
+        <di:waypoint x="330" y="430" />
+        <di:waypoint x="330" y="410" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_19xvlyh" dmnElementRef="InformationRequirement_0mq3c2u">
+        <di:waypoint x="360" y="330" />
+        <di:waypoint x="470" y="180" />
+        <di:waypoint x="470" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0qzwygz" dmnElementRef="InputData_04g6sg9">
+        <dc:Bounds height="45" width="125" x="437" y="468" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1tfx4dc" dmnElementRef="InformationRequirement_0mpuaaq">
+        <di:waypoint x="500" y="468" />
+        <di:waypoint x="390" y="430" />
+        <di:waypoint x="390" y="410" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_05o5ies" dmnElementRef="InformationRequirement_0gwoavs">
+        <di:waypoint x="500" y="468" />
+        <di:waypoint x="630" y="430" />
+        <di:waypoint x="630" y="410" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0q4pzw1" dmnElementRef="InputData_1r0mdyj">
+        <dc:Bounds height="45" width="125" x="698" y="469" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1450fup" dmnElementRef="InformationRequirement_1ne86p1">
+        <di:waypoint x="761" y="469" />
+        <di:waypoint x="690" y="430" />
+        <di:waypoint x="690" y="410" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

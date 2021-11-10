@@ -1,0 +1,31 @@
+sleuth/zipkin is not natively supported by Camunda, so if you want to have an ootb solution, we can assist you in filing a feature request.
+
+The reason for the behavior you're observing is most probably the internal transaction handling of Camunda. Whenever a process instance reaches a wait state or async point, the state is persisted in SQL database and the processing is stopped. This is the point where any span/trace information is dropped.
+
+When the process is resumed, this is another thread that potentially is executed in even another process/on another node of your Camunda cluster. Hence, the span information has to be persisted in the first place and re-established when the process advances. Camunda won't do this out-of-the-box.
+
+To make it happen, the community built two approaches (surely there are more solutions thinkable), I want to introduce quickly:
+
+1. Manually store/restore span information to/from process instance data
+Please find a PoC that showcases this approach here: https://github.com/berndruecker/camunda-zipkin-springboot-demo
+
+The idea is as follows: Whenever a thread interacts with a Camunda process, a newly created span (or the one that was incepted from kafka/REST) is stored as process variable with the process instance. Then, whenever Camunda calls a service, this span is restored such that any interceptor is capable of using the trace id to transport it to the downstream service called.
+
+In the example, the span is persisted with the process instance here: github
+Then, in every delegate code, you have to load the span like here: github
+Finally, when the process instance is ended, you have to close the span like here, it can be done via process end execution listener: github
+
+The major drawback with this approach is that you have to write the integration on your own, which implies creating your own Rest-interface if needed (the Camunda REST API won't work). Given you use Kafka for communication and mainly delegate code to call out, this could be done in the Kafka listener code and abstract classes for implementing delegates.
+
+2. Integrate store and restore of span data using aspect oriented programming
+Please find here an example that builds on top of the previous example. It uses aspect oriented programming to attach the store/restore of the span to internal Camunda methods, and, it provides a custom Kafka interceptor.
+
+I don't want to go into detail how exactly this example works since I see some severe issues with the approach. Mainly, it relies on aspects on internal Camunda API, so with each new version Camunda, there is a certain probability to break. Also, it is kind of a huge decision to add aspect oriented programming to your project, if you do not have it already.
+
+
+
+Please note that both examples have PoC character and are not meant to be used in prod without modification.
+
+Let me know if we should help you to pursue on of these approaches. If so, please provide more details how the communication "into" Camunda and "out of" Camunda is currently implemented in your project.
+
+https://jira.camunda.com/browse/SUPPORT-8728

@@ -1,0 +1,433 @@
+/*.translucent-form-overlay {*/
+/*    max-width: 500px;*/
+/*    width: 100%;*/
+/*    background-color: rgba(54, 54, 54, 0.8);*/
+/*    padding: 20px;*/
+/*    color: #fefefe;*/
+/*}*/
+
+.translucent-form-overlay {
+    color: #777;
+    background-image: url(https://camunda.com/wp-content/themes/camunda/assets/svg/hero-bg.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 8.25rem 0;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+}
+
+
+.translucent-form-overlay .columns.row {
+    display: block;
+}
+
+.translucent-form-overlay h3, .translucent-form-overlay label {
+    color: #da3116;
+}
+
+.translucent-form-overlay input, .translucent-form-overlay select {
+    color: #8a8a8a;
+}
+
+.translucent-form-overlay input::-webkit-input-placeholder {
+    color: #8a8a8a;
+}
+
+.translucent-form-overlay input:-ms-input-placeholder {
+    color: #8a8a8a;
+}
+
+.translucent-form-overlay input::placeholder {
+    color: #8a8a8a;
+}
+
+ul li{
+  list-style-type: none;
+  padding: 1px;
+}
+
+ul li .label{
+    color: #890050;
+    background-color: #f2f2f2;
+    border: 0px solid #efab00;
+}
+
+
+.data{
+  float: right;
+}
+
+input[type=checkbox]
+{
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(2); /* IE */
+  -moz-transform: scale(2); /* FF */
+  -webkit-transform: scale(2); /* Safari and Chrome */
+  -o-transform: scale(2); /* Opera */
+  padding: 10px;
+  margin-left: 20px;
+}
+
+.
+.note {
+    display: none;
+}
+
+a:hover + .note {
+    display: block;
+}
+
+.menu a {
+    color: #f2f2f2;
+    padding: 0.7rem 1rem;
+}
+
+.menu li a{
+    border-radius: 5px 5px 5px 5px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    background-color: #efab00;
+}
+
+.button.small.my-button {
+    /*padding: 0.46rem 1rem;*/
+    border-radius: 4px 4px 4px 4px;
+    background-color: #efab00;
+}
+
+.button-group.small a{
+    border-radius: 4000px 4000px 4000px 4000px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border: 0.5px solid #efab00;
+    background-color: #f7f7f7;
+    color: #3c3c3c;
+}
+
+.top-bar.my-bar{
+    background-color: rgba(10, 10, 10, 0.5);
+}
+
+.top-bar.my-status-bar{
+    background-color: rgba(10, 10, 10, 0.5);;
+}
+
+.top-bar ul.menu{
+    background-color: rgb(10 10 10 / 0%);
+}
+
+.top-bar .my-task-filter-bar{
+    background-color: rgb(254 254 254 / 29%);
+}
+
+.title-bar-right.my-title-bar-right {
+    padding: 19px;
+}
+
+label.text-center {
+    color: #0a0a0a;
+    font-weight: bold;
+}
+
+.my-title-bar.title-bar {
+    background: #0a0a0a;
+    color: #fefefe;
+    padding: 0.5rem;
+}
+
+.my-title-bar.title-bar button{
+    background: rgba(10, 10, 10, 0.5);
+    color: #00bfbf;
+    padding: 0.5rem;
+}
+
+.my-form {
+    padding-top: 5rem;
+    padding-bottom: 27rem;
+    background-color: #fefefe
+}
+
+.my-form.detail-form {
+
+    padding-bottom: 41rem;
+
+}
+
+.my-form.item-form {
+
+    padding-bottom: 1rem;
+
+}
+
+.my-label {
+    padding-right: 1rem;
+    color: #f1f1f1;
+}
+
+table tbody tr:nth-child(even).my-line {
+    background-color: rgb(239 171 0 / 10%);
+}
+
+.form-registration {
+    background: #fefefe;
+}
+
+.form-registration .form-registration-img {
+    position: relative;
+}
+
+.form-registration .form-registration-img .form-registration-img-caption {
+    position: absolute;
+    padding: 0.5rem;
+    text-align: center;
+    width: 100%;
+    bottom: 0;
+    background: -webkit-gradient(linear, left bottom, left top, color-stop(1, rgba(254, 254, 254, 0.3)), color-stop(0, #fefefe));
+}
+
+.form-registration-group {
+    padding: 1rem;
+}
+
+.form-registration-group .form-registration-input {
+    border-radius: 0;
+}
+
+.form-registration-group .form-registration-input:focus {
+    border: 2px solid #22bb5b;
+    box-shadow: 0 0 5px #22bb5b;
+}
+
+.form-registration-group .form-registration-submit-button {
+    text-transform: uppercase;
+    margin-bottom: 0;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 0 1rem 0;
+    padding: 0.85em 1em;
+    -webkit-appearance: none;
+    border: 1px solid transparent;
+    border-radius: 0;
+    transition: background-color 0.25s ease-out, color 0.25s ease-out;
+    font-size: 0.9rem;
+    line-height: 1;
+    text-align: center;
+    cursor: pointer;
+    background-color: #22bb5b;
+    color: #fefefe;
+    display: block;
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0;
+    border-radius: 5000px;
+}
+
+[data-whatinput='mouse'] .form-registration-group .form-registration-submit-button {
+    outline: 0;
+}
+
+.form-registration-group .form-registration-submit-button:hover, .form-registration-group .form-registration-submit-button:focus {
+    background-color: #22bb5b;
+    color: #fefefe;
+}
+
+.form-registration-group .form-registration-social-button {
+    text-transform: uppercase;
+    font-size: 16px;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 0 1rem 0;
+    padding: 0.85em 1em;
+    -webkit-appearance: none;
+    border: 1px solid transparent;
+    border-radius: 0;
+    transition: background-color 0.25s ease-out, color 0.25s ease-out;
+    font-size: 0.9rem;
+    line-height: 1;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #efab00;
+    color: #efab00;
+    display: block;
+    width: 100%;
+    margin-right: 0;
+    margin-left: 0;
+    border-radius: 5000px;
+}
+
+[data-whatinput='mouse'] .form-registration-group .form-registration-social-button {
+    outline: 0;
+}
+
+.form-registration-group .form-registration-social-button, .form-registration-group .form-registration-social-button:hover, .form-registration-group .form-registration-social-button:focus {
+    background-color: transparent;
+}
+
+.form-registration-group .form-registration-social-button:hover, .form-registration-group .form-registration-social-button:focus {
+    border-color: #22bb5b;
+    color: #22bb5b;
+}
+
+.form-registration-group .form-registration-social-button .fa {
+    vertical-align: text-top;
+    margin-right: 0.5rem;
+}
+
+.form-registration-group .form-registration-member-signin {
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.form-registration-group .form-registration-member-signin a {
+    margin-left: 0.25rem;
+    color: #22bb5b;
+}
+
+.form-registration-group .form-registration-terms {
+    text-align: center;
+    font-size: 12px;
+}
+
+.form-registration-group .form-registration-terms a:first-child {
+    margin-right: 0.25rem;
+    color: #22bb5b;
+}
+
+.form-registration-group .form-registration-terms a:last-child {
+    margin-left: 0.25rem;
+    color: #22bb5b;
+}
+
+.form-registration-group .or-divider {
+    position: relative;
+    margin: 1.5rem 0px;
+    font-size: 14px;
+    font-weight: 600;
+    width: 100%;
+    height: 0px;
+    border: 1px solid #e6e6e6;
+}
+
+.form-registration-group .or-divider span {
+    color: #8a8a8a;
+    position: absolute;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    top: -12px;
+    background-color: #fefefe;
+    padding: 0 8px;
+}
+
+
+.product-feature-section {
+    background: rgb(230 230 230 / 88%);
+    padding: 0rem;
+}
+
+.product-feature-section-outer {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    max-width: 100%;
+    margin: 0 auto;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+@media print, screen and (min-width: 40em) {
+    .product-feature-section-outer {
+        max-width: 95%;
+    }
+}
+
+.product-feature-section-headline {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.product-feature-section-inner {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.product-feature-section-feature {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: flex-start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    padding: 1rem;
+    -webkit-flex: 1 0 50%;
+    -ms-flex: 1 0 50%;
+    flex: 1 0 50%;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.product-feature-section-feature.top-left {
+    border-right: 1px solid #efab00;
+    border-bottom: 1px solid #efab00;
+}
+
+.product-feature-section-feature.top-right {
+    border-bottom: 1px solid #efab00;
+}
+
+.product-feature-section-feature.bottom-left {
+    border-right: 1px solid #efab00;
+}
+
+.product-feature-section-feature .feature-title {
+    margin-bottom: 0;
+    line-height: 16px;
+    font-size: 0.875rem;
+}
+
+.product-feature-section-feature .feature-desc {
+    margin-bottom: 0;
+}
+
+.product-feature-section-feature .fa {
+    margin-right: 1.25rem;
+    font-size: 2rem;
+}
+
+@media print, screen and (min-width: 40em) {
+    .product-feature-section-feature {
+        padding: 1rem;
+        -webkit-flex: 1 0 50%;
+        -ms-flex: 1 0 50%;
+        flex: 1 0 50%;
+        -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+        -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+        flex-direction: row;
+    }
+}
+
+.card-section ul {
+    margin-left: 0.25rem;
+}
+
+div .card-section {
+    min-width: 28rem;
+}

@@ -1,0 +1,38 @@
+### [[history-enigne-plugin]] Example -  Engine plugin for modify history level
+
+====
+The engine plugin loads a history event handler and allows us to get a tranasaction context so that we can modify the history event only on certain transaction states such as _COMMITTED_. It's important to recognise that setting EventHandlers changes the way the events are handled, ordering and persistance of events can be different depending on the event handler used. 'CompositeHistoryEventHandler' seems to maintian order of events and the persistance of events while allowing to additionally redirect history events.
+====
+
+#### Use an engine plugin to configure a custom history level.
+
+    MyCustomHistoryLevelEnginePlugin.java
+
+Modify the application-history.yaml to set the custom history level corresponding to your `CustomHistoryLevel.java`
+```yaml
+camunda:
+  bpm:
+    history-level: custom-history-level
+```
+
+##### Running the use-case
+
+**Profiles** can be specified at the command line when the application starts. The notation is as follows. `-Dspring.profiles.active=history`
+
+```
+mvn spring-boot:run -Dspring.profiles.active=history
+```
+
+Or you can use the application.properties file to specify the profile.
+
+```yaml
+spring.profiles.active: history
+```
+
+---
+
+##### Running the example
+
+```
+mvn spring-boot:run
+```

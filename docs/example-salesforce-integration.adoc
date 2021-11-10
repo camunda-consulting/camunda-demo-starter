@@ -1,0 +1,302 @@
+= Example: Salesforce Integration Choreography
+Doc Writer <paul.lungu@camunda.com>
+v1.0, 2021-10-29
+:toc: right
+
+## Sales Force Integration
+=== Salesforce API's
+
+==== Object API's
+====
+Salesforce Object API's are RESTful api's that are easy to integrate with and require no special configuration in Salesforce. The downside is they are limited in functionality.
+
+https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_rest.htm
+
+====
+==== APEX API's
+====
+Apex API's allow more complex Querys and combine Salesforce Data in more ways. Downside is you have to create custom code and configuration within Salesforce.
+
+NOTE: This is beyond the scope of this guide.
+====
+
+
+=== Authorization and Authentication with OAuth
+
+==== OAuth Workflows
+
+- Code workflow - camunda does not support code workflow ootb. This would require and endpoint for grant callback and some customization of Camunda.
+
+TIP: The OAuth code workflow may best be handled outside of Camunda altogether in a proxy or integration layer. This would allow to decouple from Camunda identity management. The integration with Camunda would be purely the exchange of data.
+
+- User Password Workflow - Simple syncronous call to the Salesforce authenitcation api to get a token and then subsequently be able to query the object API.
+
+==== OAuth Apps
+Most vendors that utilize Oauth for Authorization use the concept of an "App". This is simply a configuration on the vendor side that enables the correct OAuth workflow.
+
+NOTE: User/Password Oauth workflow is used in this guide.
+
+https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_oauth_and_connected_apps.htm
+
+=== Setup a developer sandbox on Salesforce
+
+IMPORTANT: The easiest wat to test this integration with salesforce is to use a https://developer.salesforce.com/signup[developer sandbox].
+
+## Camunda Architecture and Integration
+
+NOTE: This is one possible integration pattern with Salesforce and Camunda. Other kinds of orchestrations can be done based on the architecture and workflow design.
+
+This pattern would be considered a choreography though the workflow is orchestrating the Agent user experience and technically insuring everything that needs to happen has happened. While still allowing us to have flexibility in how things are created and done.
+
+TIP: In a broader sense this is applying CQRS pattern with workflow see more about this pattern here. https://martinfowler.com/bliki/CQRS.html#:~:text=CQRS%20stands%20for%20Command%20Query,you%20use%20to%20read%20information[CQRS(Command Query Responsibility Segregation)] pattern for interaction. This can increase scalability while reducing complexity in distributed systems. The takeaway is to create data-stores that are optimized for different types of interactions primarily writing and reading.
+
+
+==== Aync Writes
+[.lead]
+*USE CASE:* Write the Case to Salesforce independent of the workflow.
+When a request is made to start a new case from a client an event is put to a topic/queue. Multiple subscribers pick up the event.
+
+IMPORTANT: Two independent actions happen *workflow is started* in Camunda and a *case is created* in Salesforce based on the Event.
+
+The case initialization saga or distributed transaction can be orchestrated by Camunda or not.
+image:./images/patterns/workflow-start-saga.png[Worflow Saga]
+
+---
+
+This case creation event subscriber lives outside of the workflow application as an independent app or worker creating a case in salesforce based on the request from the client. In this example a new damage report case is being created.
+
+[source,java]
+----
+package com.camunda.poc.starter.integration.pubsub;
+
+import org.apache.http.client.fluent.Request;
+import org.apache.http.entity.ContentType;
+import org.json.JSONObject;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.context.annotation.Profile;
+
+import java.io.IOException;
+import java.util.Map;
+import java.util.logging.Logger;
+
+@Profile("damage")
+@EnableBinding(EventChannels.class)
+public class WorkflowEventSubscriber {
+
+	private final Logger LOGGER = Logger.getLogger(WorkflowEventSubscriber.class.getName());
+
+	public WorkflowEventSubscriber(){}
+
+	private String accessToken;
+
+	@StreamListener("subscribeWorkflowEvent")
+	public void handle(Event event) throws Exception {
+
+		LOGGER.info("\n\n Received Event: " + event.getEventName());
+
+		if (event.getEventName().equalsIgnoreCase(Event.START_WORKFLOW_EVENT)) {
+
+			Map<String, Object> params = event.getEventParams();
+
+			JSONObject jsData = new JSONObject(params.get("processVariables").toString());
+
+			if (params != null) {
+				LOGGER.info("\n\n Event Params: " + jsData.toString() + "\n");
+				if (accessToken == null) {
+					String grant = requestSfOathGrant();
+					LOGGER.info(" ====>> Salesforce Grant \n" + grant);
+					//Parse JSON and get the workflow variables
+					accessToken = new JSONObject(grant).getString("access_token");
+				}
+				String key = jsData.getString("businessKey");
+				String body = createSfObject(accessToken, key);
+			}
+
+		} else {
+			LOGGER.info("\n\n Event Params NULL \n");
+		}
+
+	}//end handle function
+
+	private String requestSfOathGrant() throws IOException {
+		return Request.Post("https://login.salesforce.com/services/oauth2/token?grant_type=password&client_id=3MVG9p1Q1BCe9GmA2i4VM2yUSqOZwtXNI7EjJpLAE6YVLn5UCrtU5XOk0FPz6CzDAUMZuuLLwjaV.hYtyGTHp&client_secret=C54081258696E282D2646A3AB276E793ADA3B73915C82B0B352FDCA0C8123049" +
+				"&username=paullungu@camunda.com&password=Budwe1ser0MJWiTaYkeotUS9jiP1pHY39")
+				.execute().returnContent().asString();
+	}
+
+	private String createSfObject(String accessToken, String key) throws IOException {
+		return Request.Post("https://camunda2-dev-ed.my.salesforce.com/services/data/v52.0/sobjects/case")
+				.addHeader("Authorization", "Bearer "+accessToken)
+				.bodyString("{\n" +
+						"  \"SuppliedName\" : \""+key+"\"," +
+						"  \"Subject\" : \"Testing the integreation with Camunda\"" +
+						"}", ContentType.APPLICATION_JSON)
+				.execute().returnContent().asString();
+	}
+
+}
+----
+
+---
+
+This event subscriber lives inside of the workflow application and has access to the Camunda Java API. A workflow is started based on the event params. In this example a new damage report workflow is started.
+
+[source,java]
+----
+package com.camunda.poc.starter.integration.pubsub;
+
+import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.variable.Variables;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.context.annotation.Profile;
+
+import java.util.Map;
+import java.util.logging.Logger;
+
+@Profile("pubsub")
+@EnableBinding(EventChannels.class)
+public class EventSubscriber {
+
+	private final Logger LOGGER = Logger.getLogger(EventSubscriber.class.getName());
+
+	public EventSubscriber(){}
+
+	private RuntimeService runtimeService;
+
+	@Autowired
+	public EventSubscriber(RuntimeService runtimeService){
+		this.runtimeService = runtimeService;
+	}
+
+	@StreamListener("subscribeWorkflowEvent")
+	public void handle(Event event) throws Exception {
+		LOGGER.info("\n\n Received Event: " + event.getEventName());
+
+		RequestMapper mapper = event.getKafkaRequestMapper();
+
+		if (event.getEventName().equalsIgnoreCase(Event.START_WORKFLOW_EVENT)) {
+
+			Map<String, Object> params = event.getEventParams();
+
+			JSONObject jsData = new JSONObject(params.get("processVariables").toString());
+
+			if (params != null) {
+				LOGGER.info("\n\n Event Params: " + jsData.toString() + "\n");
+
+				//Use Camunda Message API to start the workflow
+				runtimeService.correlateMessage(jsData.get("workflowKey").toString(), jsData.get("businessKey").toString(),
+					Variables.createVariables().putValue("approved", true)
+							                   .putValue("responsible", true)
+							                   .putValue("severity", "high")
+							                   .putValue("location", jsData.get("location").toString())
+							                   .putValue("damageType", jsData.get("damageType").toString())
+				);
+
+			}else {
+			LOGGER.info("\n\n Event Params NULL \n");
+		  }
+
+		}
+
+	}
+
+}
+
+----
+==== Synchronous Reads
+
+[.lead]
+*USE CASE:* Damage Case Workflow ensures the case is completed. The workflow now checks and ensures that all the necessary info is available before we move on to next steps such as an agent working on the case. Additionally the workflow drives the case completion and user experience.
+
+image:./images/use-case/damage-report-choreography.png[Saleforce Case Choreography]
+
+This is the Camunda Java Delegate interface which synchronously checks if the Case is created in Salesforce.
+[source,java]
+----
+package com.camunda.poc.starter.usecase.damage.bpm;
+
+import org.apache.http.client.fluent.Request;
+import org.apache.http.entity.ContentType;
+import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.util.logging.Logger;
+
+
+/**
+ * This is an easy adapter implementation
+ * illustrating how a Java Delegate can be used
+ * from within a BPMN 2.0 Service Task.
+ */
+@Component("confirmDamageCase")
+public class ConfirmDamageCaseDelegate implements JavaDelegate {
+
+  private String accessToken;
+
+  private final Logger LOGGER = Logger.getLogger(Class.class.getName());
+
+  public void execute(DelegateExecution execution) throws Exception {
+
+    LOGGER.info("\n\n  ... "+Class.class.getName()+" invoked by "
+            + "processDefinitionId=" + execution.getProcessDefinitionId() +" \n "
+            + ", activtyId=" + execution.getCurrentActivityId() +" \n "
+            + ", activtyName='" + execution.getCurrentActivityName() + "'"+" \n "
+            + ", processInstanceId=" + execution.getProcessInstanceId()+" \n "
+            + ", businessKey=" + execution.getProcessBusinessKey()+" \n "
+            + ", executionId=" + execution.getId()+" \n "
+            + " \n\n");
+
+    if (accessToken == null) {
+      String grant = requestSfOathGrant();
+      LOGGER.info(" ====>> Salesforce Grant \n" + grant);
+      //Parse JSON and get the workflow variables
+      accessToken = new JSONObject(grant).getString("access_token");
+    }
+
+    //Use fluent HTTP api to get Damage Case from Salesforce
+    String responseBody = querySfObject(accessToken);
+
+    //Parse JSON and get the workflow variables
+    JSONObject jsonObj = new JSONObject(responseBody);
+
+    String caseId = null;
+    for(int i=0;i<jsonObj.getJSONArray("records").length();i++) {
+      JSONObject record = (JSONObject) jsonObj.getJSONArray("records").get(i);
+      String key = execution.getBusinessKey();
+      if (record.getString("SuppliedName").equalsIgnoreCase(key)) {
+        LOGGER.info(" ====>> Damage Case \n"+ record);
+        caseId = record.getString("CaseNumber");
+      }
+    }
+    if (caseId == null){
+      throw new Exception("Case Not Found!!!");
+    }else{
+      execution.setVariable("caseId", caseId);
+    }
+
+  }
+
+  private String requestSfOathGrant() throws IOException {
+    return Request.Post("https://login.salesforce.com/services/oauth2/token?grant_type=password&client_id=3MVG9p1Q1BCe9GmA2i4VM2yUSqOZwtXNI7EjJpLAE6YVLn5UCrtU5XOk0FPz6CzDAUMZuuLLwjaV.hYtyGTHp&client_secret=C54081258696E282D2646A3AB276E793ADA3B73915C82B0B352FDCA0C8123049" +
+            "&username=paullungu@camunda.com&password=Budwe1ser0MJWiTaYkeotUS9jiP1pHY39")
+            .execute().returnContent().asString();
+  }
+
+  private String querySfObject(String accessToken) throws IOException {
+    return Request.Get("https://camunda2-dev-ed.my.salesforce.com/services/data/v52.0/query?q=SELECT+Id,CaseNumber,Subject,SuppliedName+FROM+Case")
+            .addHeader("Authorization", "Bearer "+accessToken)
+            .execute().returnContent().asString();
+  }
+
+
+}
+----
+

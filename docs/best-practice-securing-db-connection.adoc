@@ -1,0 +1,106 @@
+=== [[best-practice-securing-db-connection]] Securing the connection to the database
+
+WARNING: This is not using a cert from an official certificate authority but instead creating it for testing purposes. A cert from an official certificate authority should be used. A similar process should work if you start out with a root cert from a official authority.
+
+See https://www.postgresql.org/docs/9.5/ssl-tcp.html for additional context
+
+==== Steps to create certs
+
+The certs need to be created before we can configure the connection. We need three certs.
+
+====
+- postgres.crt - this is the server cert
+- postgres.key - this is the server key
+- root.cert - this is the client cert
+====
+
+- [x] create a cert signing request CSR and public private key file
+
+    openssl req -new -nodes -text -out root.csr -keyout root.key -subj "/CN=camunda-postgres"
+
+- [x] set correct permissions
+
+    chmod og-rwx root.key
+
+- [x] find the openssl.cnf file
+
+    On MAC /System/Library/OpenSSL/openssl.cnf
+
+- [x] sign the root.csr cert signing request and generate the root.crt
+
+    openssl x509 -req -in root.csr -text -days 3650 -extfile /System/Library/OpenSSL/openssl.cnf -extensions v3_ca -signkey root.key -out root.crt
+
+- [x] create the server key with the root authority
+
+    openssl req -new -nodes -text -out server.csr -keyout postgres.key -subj "/CN=camunda-postgres"
+
+- [x] set correct permissions on the server key
+
+    chmod og-rwx postgres.key
+
+- [x] generate the server certificate
+
+    openssl x509 -req -in server.csr -text -days 365 -CA root.crt -CAkey root.key -CAcreateserial -out postgres.crt
+
+IMPORTANT: Make sure the *CN* name for your cert matches the *server name* you will use to connect. This can be tricky as it will potentially force a connection failure if you configure the *SSLMODE* on the client to be verify the certificate. See the configs in next section.
+
+
+==== Using SSL to connect the Camunda app to the database
+
+IMPORTANT: There are a few ways to connect using SSL and it depends on how you configure your certs on the client. You can use *default directories* or you can *configure the locations in the jdbc database connection string*, or you can use the *java trust store*. I will use the jdbc string in this example and explicitly point to the certs.
+
+===== Using the JDBC connection string
+    jdbc:postgresql://camunda-postgres:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true&ssl=true&sslrootcert=/opt/certs/root.crt&sslcert=/opt/certs/root.crt&sslmode=verify-full
+
+The parameters *ssl*, *sslmode*, *sslrootcert* and *sslcert* are used to enable and enforce SSL connection to the database. Telling the Postgres JDBC driver to connect using SSL.
+
+    ssl=true
+    sslrootcert=/opt/certs/root.crt
+    sslcert=/opt/certs/root.crt
+    sslmode=verify-full
+
+===== Configure the certs on the client
+
+It's important to place the certs in a location that is accessible to the Driver. See the Driver docs for other options configuring client certs.
+
+NOTE: The project contains the certs and the docker-compose config.
+
+I use docker compose to mount the certs where they can be found by the jdbc Driver in the docker image. Now the certs refrecnced in the connection string can be found at the mounted location.
+
+    volumes:
+      - ../certs:/opt/certs
+
+===== See the docs for more on configuring the client connection
+
+- https://jdbc.postgresql.org/documentation/head/ssl-client.html
+- https://jdbc.postgresql.org/documentation/head/connect.html#ssl
+
+==== Setting up SSL/TLS on the database server
+
+IMPORTANT: This is spcific to Postgres and will likely not work with other databases.
+
+NOTE: docker-compose is configured using the bitnami postgres image. See here for more https://github.com/bitnami/bitnami-docker-postgresql/blob/master/README.md
+
+
+IMPORTANT: If you use another distro of Postgres you may need to build the distro to enable SSL.
+
+Once the certs have been created (See above) then we can tell postgres where to find the certs. The Bitnami image provides environment variables to pass in the cert location.
+
+      POSTGRESQL_USER: camunda
+      POSTGRESQL_PASSWORD: camunda
+      POSTGRESQL_DATABASE: camunda
+      POSTGRESQL_ENABLE_TLS: 'yes'
+      POSTGRESQL_TLS_CERT_FILE: /opt/bitnami/postgresql/certs/postgres.crt
+      POSTGRESQL_TLS_KEY_FILE: /opt/bitnami/postgresql/certs/postgres.key
+
+The certs are mounted in the refrenced location
+
+    volumes:
+      - ../certs:/opt/bitnami/postgresql/certs
+
+See the docker-compose.yml for the complete example
+
+
+
+
+

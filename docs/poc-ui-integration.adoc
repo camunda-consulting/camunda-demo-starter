@@ -1,0 +1,23 @@
+## [[ui-integration]]UI Integration
+---
+
+#### ReactJS Integration
+
+image:./images/gui/ui.png[User Interface]
+
+====
+The Maven frontend-maven-plugin configured in pom.xml is used to build the ReactJS app. The plugin creates a bundle.js file which ends up in `src/main/resources/static/built/bundle.js`. The static directory makes static resources such as JS and HTML available to the java app.
+
+The Java application boot-straps the ReactJS App through Thymeleaf a java/spring frontend framework. The templates directory `src/main/resources/templates/app.html` has a HTML file app.html which calls the React app through a `<script />` tag loading the HTML into the react div `<div id="react"></div>`
+
+Thymeleaf ties the Java frontend together using a Spring controller. `src/main/java/com/camunda/poc/starter/use-case/service.request/controller/ui/UIServicerequestController.java`. Mapping the app context to /sr and calling the app.html.
+
+The React Components are organized under the `src\main\js\reactjs` folder into a use-case folder then subdivided by component.
+
+Webpack and package.json define the structure and dependencies for the React App that allow and build the app into the bundle.js which is later placed in the static directory as explained previously. Allowing our frontend to load the plain EcmaScript.
+
+Foundation CSS is used for styling https://get.foundation/sites/docs/index.html
+
+NOTE: The react app is built in this manner, wrapped in spring-boot app, for convenience and consistency. This makes dev-ops, demoing and getting started easier and may not be appropriate for other technology stacks and dev-ops scenarios.
+
+====

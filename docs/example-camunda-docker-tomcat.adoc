@@ -1,0 +1,42 @@
+### [[example-camunda-docker-tomcat]] Example: Run Camunda with Docker
+
+==== Prerequisites
+
+* Install Docker
+
+==== Run Camunda Docker Image
+
+NOTE: This is based on the official Camunda docker image
+
+See the https://github.com/camunda/docker-camunda-bpm-platform#get-started[Camunda Docker Image Getting Started] to quickly spin up the the Camunda docker image.
+
+
+==== Build the Enterprise Version before running
+
+https://github.com/camunda/docker-camunda-bpm-platform#build-when-behind-a-proxy[Build the Camunda Enterprise Image]
+
+==== Modify Camunda Docker Container with a Process Application
+
+NOTE: You must first build the process application .war artifact before you can add it to the Docker Container. See https://docs.camunda.org/manual/latest/user-guide/process-applications/maven-archetypes/[Create and Build a Camunda Process Application]
+
+```bash
+mvn archetype:generate
+
+  -DinteractiveMode=false
+
+  -DarchetypeGroupId=org.camunda.bpm.archetype
+
+  -DarchetypeArtifactId=camunda-archetype-servlet-war
+
+  -DarchetypeVersion=7.15.0
+
+  -DgroupId=org.example.camunda.bpm
+
+  -DartifactId=camunda-bpm-project
+
+  -Dversion=0.0.1-SNAPSHOT
+
+  -Dpackage=org.example.<your-company>.bpm
+```
+
+https://github.com/camunda/docker-camunda-bpm-platform#add-own-process-application[Add a Camunda Process Application to Docker Container]

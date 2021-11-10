@@ -1,0 +1,302 @@
+{
+	"info": {
+		"_postman_id": "c3323900-c5f5-4a64-a31d-493293fbe583",
+		"name": "camunda-external-task-examples",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "external-task-get",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/external-task",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"external-task"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "external-task-put-retries",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/external-task/1aca9d3a-dbc0-11e8-b153-0242bef773dc/retries",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"external-task",
+						"1aca9d3a-dbc0-11e8-b153-0242bef773dc",
+						"retries"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "external-task-fetchAndLock",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/external-task/fetchAndLock",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"external-task",
+						"fetchAndLock"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "external-task-failure",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/external-task/e0cd1c4c-dc6b-11e8-b153-0242bef773dc/failure",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"external-task",
+						"e0cd1c4c-dc6b-11e8-b153-0242bef773dc",
+						"failure"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "external-task-complete",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/external-task/1aca9d3a-dbc0-11e8-b153-0242bef773dc/complete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"external-task",
+						"1aca9d3a-dbc0-11e8-b153-0242bef773dc",
+						"complete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetch-and-lock-with-varibles",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"A credit-balance task is returned\", () => {",
+							"     pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"});",
+							"",
+							"pm.test(\"test exteranl task complete\", function () { ",
+							"",
+							"    var taskName = \"calculate-balance\";",
+							"",
+							"    var data = JSON.parse(responseBody);",
+							"    ",
+							"    var tasks = [];",
+							"    data.forEach(function(obj, index) { ",
+							"",
+							"        //expecting each extranl task to be of the same task        ",
+							"        pm.expect(obj.activityId).to.equal(taskName); ",
+							"",
+							"        //buffer the tasks to a list for later use",
+							"        tasks.push(obj);",
+							"",
+							"    });",
+							"    ",
+							"    //set the tasks into PM environment",
+							"    pm.environment.set(\"tasks\", tasks);",
+							"    console.log( \"Tasks Set: \"",
+							"                        +pm.environment.get(\"tasks\").length );",
+							"    ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"workerId\":\"123\",\n  \"maxTasks\":5,\n  \"usePriority\":true,\n  \"topics\":\n      [\n      \t{\n      \t\t\"topicName\": \"predicition-topic\",\n    \t\t\"lockDuration\": 1000,\n    \t\t\"variables\": [\"metadata\", \"credit\",\"balance\"]\n    \t}\n      ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/external-task/fetchAndLock",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"external-task",
+						"fetchAndLock"
+					]
+				},
+				"description": "Starts a process instance with the rest API"
+			},
+			"response": []
+		},
+		{
+			"name": "ext-task-complete-with-variables",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"//get the tasks from the PM environment",
+							"var tasks = pm.environment.get(\"tasks\");",
+							"console.log(\"External Tasks in Queue: \"+tasks.length);",
+							"",
+							"//set the task id and worker id into variables for the request to Camunda to complete the external task",
+							"var obj = tasks.pop();",
+							"console.log(\"TaskId: \"+obj.id+ \" WorkerId \"+obj.workerId);",
+							"pm.environment.set(\"id\", obj.id);",
+							"pm.environment.set(\"workerId\", obj.workerId);",
+							"pm.environment.set(\"tasks\", tasks);",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Test external task is complete\", () => {",
+							"     pm.response.to.have.status(204);",
+							"})"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"workerId\": \"{{workerId}}\",\n   \"variables\":\n\t{\n\t\t\"creditSufficient\": {\"value\": true}\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/external-task/{{id}}/complete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"external-task",
+						"{{id}}",
+						"complete"
+					]
+				},
+				"description": "Starts a process instance with the rest API"
+			},
+			"response": []
+		}
+	]
+}

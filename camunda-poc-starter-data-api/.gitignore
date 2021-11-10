@@ -1,0 +1,31 @@
+*.class
+*.db
+bundle.js*
+package-lock.json
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+/.settings/
+.project
+/target/
+.classpath
+/.bpmn/
+/node_modules/
+/node
+application-dev.properties
+/local-test/
+/.idea/
+*.iml
+/angular-starter/
+**/.DS_Store
+/.DS_Store
+../camunda-poc-starter-platform/settings.xml

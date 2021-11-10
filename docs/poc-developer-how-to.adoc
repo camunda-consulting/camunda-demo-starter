@@ -1,0 +1,52 @@
+## Developing with this PoC Starter Project
+
+#### Setting up React for Dev
+
+====
+Configure the api endpoint. This is the backend URI for the spring-boot server where the react app gets data
+
+In the .env file in the project home directory change the environment variables to match the spring-boot server context.
+
+NOTE: If running the react app as a standalalone and not on localhost configure the API_HOST and API_POST environment vars as follows inserting your host and port for the spring-boot server. You should only need to do this if you cannot access the spring-boot server on localhost and you plan to run the React App standalone.
+
+
+    API_HOST=http://127.0.0.1
+    API_PORT=8080
+    API_ROOT=api
+
+IMPORTANT: You will need to use the cors profile in this setup and potentially modify the cors config in the spring-boot app.
+
+
+Run node and server.js by starting a node server in the home directory of the project. You may need to run `npm install` first.
+
+    nodemon server.js
+
+Run the web-pack watch in the project home so you can update the bundle as you modify reactjs
+
+    webpack -w
+
+IMPORTANT: You may need to install nodejs, nodemon and webpack depending on your environment setup
+
+NOTE: If you are developing only front-end components than you can user docker-compose and follow the React setup above. And simply use docker-compose to run the server
+
+    cd to the docker-compose directory and run
+
+    docker-compose up
+
+====
+
+#### Running the server for Dev
+====
+For development on the backed run the spring-boot app on command line
+
+NOTE: You can enable spring-dev-tools to build front and back-end component in dev mode providing faster restarts and live-reload.
+
+run the app in dev mode by uncommenting spring-dev-tools in pom.xml
+
+WARNING: spring-dev-tools affects the way Camunda serializes objects into process vars and will cause serialization errors in some cases. So it is commented out in pom.xml by default.
+
+run the following with the appropriate profiles
+
+    mvn spring-boot:run mvn spring-boot:run -Dspring.profiles.active=<use-case>,gui,email,cors
+
+====

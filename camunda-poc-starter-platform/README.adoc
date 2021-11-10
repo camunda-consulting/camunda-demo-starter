@@ -1,0 +1,223 @@
+# Camunda PoC Starter
+
+The purpose of this application is to have a starter for PoC and other less structured engagements. This enables the consultant to easily discuss and demonstrate common concepts and patterns without customizing the application. Additionally it can be used as a starter project in many cases.
+
+### Use Case Examples
+|===
+| **Use Case** | **Feature Examples**
+| link:./docs/business-case-renewals.adoc[Business Case - Renewals]  | ReactJS UI Example
+| link:./docs/business-case-registrations.adoc[Business Case - Registration] | Bulk Complete Tasks UI Example, Thymeleaf, SpringMVC, data-tables
+| link:./docs/technical-case-email-notifications.adoc[Technical Case - Email Notifications] | Email Integration, Freemarker Templates
+| link:./docs/technical-case-events-and-messaging.adoc[Technical Case - Events and Messaging] | Integration with RabbitMQ, Global Execution Listener
+| link:./docs/technical-case-sso.adoc[Technical Case - SSO] | Keycloak Authentication
+| link:./docs/technical-case-camunda-variables.adoc[Technical Case - Camunda Variables] | REST, Objects, JSON, Entity Manager
+| link:./docs/technical-case-task-sot.adoc[Technical Case - Camunda as Task SoT] | Persistence and Retrieve task meta-data
+| link:/docs/technical-case-open-api.adoc[Technical Case - Open API] | Swagger
+| link:/docs/technical-case-ldap.adoc[Technical Case - LDAP] | LDAP Plugin Configuration
+| link:/docs/technical-case-history-engine-plugin.adoc[Technical Case - History Engine Plugin] | History Configuration, History Event Handler, History Transaction Listener, Custom History Level
+| link:/docs/technical-case-camunda-generic-pros-hisrtory-config.adoc[Technical Case - Generic Properties] | History Configuration with Generic Properties
+| link:/docs/technical-case-performance-tuning.adoc[Technical Case - Particle Performance Tuning] | Particle Guide to Performance Tuning
+| link:/docs/technical-case-task-sot.adoc[Technical Case - Camunda as Task Source of Truth] | Example using Camunda as source of truth for task meta-data
+|===
+
+### Get started in a PoC or other engagement
+
+1. Fork the project on github
+2. It's a simple spring-boot project at it's core. Simply run the app and you will have a working instance of Camunda.
+3. Bells and whistles can be added to the project by adding a profile when starting the project. See **Profiles** sections for more.
+
+### How to contribute
+
+To contribute please fork the project and then make your changes in a branch and create a pull request. The maintainer will merge your changes into the project. Please be sure to remove any customer information from the code or artifacts.
+
+### Project Structure
+
+The project has an opinionated project structure.
+
+#### **Conventions for reusable or general usecase JAVA code**
+
+such as auth or securtity or email etc... belong in the appropriate package under the **_starter_** package.
+
+For example for keycloak authentication
+
+```java
+src/main/java/com.camunda.poc.starter.auth.keycloak
+```
+
+#### **Conventions for JAVA code specific to a use case**
+
+there is **_usecase_** package. Create a new package under this package.
+
+```java
+ src/main/java/com.camunda.poc.starter.usecase.your-use-case
+
+```
+
+See the project for examples
+
+#### **Conventions for non-code artifacts**
+
+BPMN files live in ```src/main/resources/processes``` and use a prefix for general and specific use-case `` usecase-usecase-example.bpmn ``
+
+Example general use -case `` event-integration-example.bpmn ``
+
+Example specific use-case `` renewal-process-example.bpmn ``
+
+#### **Conventions for JS code**
+
+JS code for custom ReactJS UI lives in
+`` src/main/js/reactjs/<use-case> ``
+
+
+## Setting up the App for your use-case
+
+### Profiles
+
+The application can have many different configurations depending on where it is deployed and what the goal of the deployment may be. Profiles can be set standalone or in conjunction with other profiles to create the configuration needed for the app. Each profile will enable specific functionality. Profiles are set and enabled by postfix on a .properties file and/or a @Profile annotation on the specific code.
+
+The application utilizes Spring profiles to manage configurations and environments. See more here <https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html>
+
+The configurations are related to the profiles specified in the Profile Examples section. Additionally there is a default configuration that is not specific to an environment. The application uses properties to specify a configuration.
+
+These configurations are grouped into files with the following naming pattern. `application-{profile}.properties` or just `application.properties` for the default configuration.
+
+Profiles can be specified at the command line when the application starts. The notation is as follows. `-Dspring.profiles.active=dev,renewals`
+
+Or you can use the application.properties file to specify the profile.
+
+`spring.profiles.active: dev,renewals`
+
+**Note:** Properties specified at the command line override properties in the .properties files.
+
+**Note:** the global configurations are in the application.yml file in the resources directory.
+
+**Profile Examples**
+
+- Development `application-dev.properties` `-Dspring.profiles.active=dev`
+
+- Authentication and Authorization `applicaiton-auth.yaml`
+
+- Email `application-email.properites`
+
+- Integration `application-integration.properties`
+
+- Security `applicaiton-secutrity.properits`
+
+- Renewals Use Case `application-renewals.properties`
+- Production `application-prod.properties`
+
+#### Custom Application Configuration through code
+
+The ****AppConfigProperties.java**** class makes the configs code-able
+
+Adding configs to this class allows you to customize the configurations. This class will pickup properties from a .properties/yaml and allow you to inject this class into other classes as needed.
+
+**_more to come ..._**
+
+
+### Externalizing Configuration
+
+All the properties in the .properties files can be externalized.
+
+Look at the **_application-prod.properties_** files for examples of utilizing environment variables with the app. This is particularly useful if your running in serverless environment and you cannot store property values in your code repo.
+
+
+
+## Running the App
+
+The application can be packaged as a jar for easy deployment to serverless environment. Example of starting with profiles also externalizing the Sendgrid api key.
+
+[source,bash]
+----
+mvn clean install -DskipTests
+java -Dspring.profiles.active=prod,renewals,email -DSENDGRID_API_KEY=<someapikey> -jar target/camunda-poc-starter.jar
+----
+
+or for development run
+
+[source,bash]
+----
+mvn clean spring-boot:run -Dspring-boot.run.profiles=dev,<other profile>
+----
+
+**Profiles** can be specified at the command line when the application starts. The notation is as follows.
+
+[source,bash]
+----
+-Dspring.profiles.active=<profile>,<profile>
+----
+
+Or you can use the application.properties file to specify the profile.
+
+[source,yaml]
+----
+spring.profiles.active: <profile>,<profile>
+----
+
+
+## Deploying the app
+
+### Docker and Docker-Compose
+
+Services are configure in the docker-compose.yaml to run the app in docker with a default network.
+
+1. Uncomment the appropriate services for your application and profiles in the docker-compose.yaml located in the docker-compose directory.
+2. Make sure to build the spring-boot app
+3. run docker-compose up from the docker-compose directory
+
+### Heroku
+
+Deploying to heroku requires the use of GIT and the Heroku CLI. See following for more on deploying spring applications.
+
+- <https://devcenter.heroku.com/articles/deploying-spring-boot-apps-to-heroku>
+- <https://devcenter.heroku.com/articles/procfile>
+- <https://devcenter.heroku.com/articles/connecting-to-relational-databases-on-heroku-with-java#using-the-jdbc_database_url>
+
+Sometimes it's necessary to reset the DB. See following.
+
+- <https://devcenter.heroku.com/articles/heroku-postgresql#pg-reset>
+
+#### Environment configs
+
+There are a few configurations you must add to Heroku for the app to work correctly
+
+- JDBC_DATABASE_URL - This config is added for you. You wont see it in the Heroku dashboard. Run the following command to confirm this is set.
+
+----
+heroku run echo \$JDBC_DATABASE_URL
+----
+
+- Externalize environment specific configurations that should not be stored in .properties files. E.g. mail server password
+
+- Use environment configurations the app will use based off the profiles application-
+----
+<profile>.properties </profile>
+----
+
+
+TIP: **Procfile Example** This file is used to configure the HEROKU service to run the app. Spring profiles can be used along with the Procfile to configure the app. See profiles above for details on what each profile does. Keep in mind this is based on the Procfile and will only take affect in an environment that uses the procfile like Heroku.
+
+----
+web: java -Dserver.port=$PORT -Dspring.profiles.active=$PROFILE,$ENVIRONMENT -jar target/camunda-poc-starter-app.jar
+----
+
+In the heroku configuration panel we can feed in the parameters to our startup command and the app configs in the .properties files.
+
+​
+////
+## TODO
+
+- Use the Camunda REST api's from the React app
+- **Add middle-ware layer to aggregate calls to the REST API e.g. GraphQL**
+
+  - Implementation is to just add new spring controllers that call the camunda rest API's
+
+- Add keycloak and route API calls through security
+
+- **Create architecture diagrams to exemplify architecture usecases based on biz usecases**
+
+- Externalize email template
+
+- **Improve the style of the UI**
+
+////

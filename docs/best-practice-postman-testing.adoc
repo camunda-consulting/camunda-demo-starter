@@ -1,0 +1,10 @@
+## Testing with Postman
+
+Use the postman collections in the `postman` folder.
+
+With post-man you can move through the processes simulating REST requests to the app.
+
+- starting the processes
+- completing user tasks
+- correlating messages
+- loading test data

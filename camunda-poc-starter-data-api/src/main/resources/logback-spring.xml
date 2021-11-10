@@ -1,0 +1,28 @@
+<configuration>
+	<include resource="org/springframework/boot/logging/logback/base.xml"/>     
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- encoders are assigned the type
+         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <root level="info">
+    <appender-ref ref="STDOUT" />
+  </root>
+
+  <!-- performance loggers for visiblity into Commands -->
+  <!--  <logger name="org.camunda.bpm.engine.cmd" level="debug" />-->
+  <!--  <logger name="org.camunda.bpm.engine.persistence" level="debug" />-->
+
+  <!-- performance loggers for visiblity into job execution -->
+  <!--  <logger name="org.camunda.bpm.engine.jobexecutor" level="debug" />-->
+
+  <!-- performance loggers for Query -->
+  <!--  <logger name="org.camunda.bpm.engine.impl.persistence.entity.TaskEntity" level="debug" />-->
+
+
+
+</configuration>

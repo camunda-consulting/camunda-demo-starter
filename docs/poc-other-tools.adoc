@@ -1,0 +1,29 @@
+## Other Tools
+
+### Mail Slurper
+====
+Use mail slurper consuming mail messages sent by the workflow. This is an easy way to test email integrations.
+
+    cd into /dev-tools/mailslurper-1.14.1-<dist>
+
+    execute ./mailslurper
+
+Mail slurper is configured by editing the `/dev-tools/mailslurper-1.14.1-linux/config.json`
+The app is configured to use mail slurper in the `application-mail.properties`
+====
+
+### Kafka
+====
+NOTE: A simple Kafka congfig is packaged into docker-compose. See `docker-compose` directory in the project home folder. Also you can run docker compose as follows.
+```
+ docker-compose up
+```
+kafka image docs https://hub.docker.com/r/bitnami/kafka/
+
+Use the downloaded Kafka Distro if you prefer. I have included the distro in the `kafka` folder in the project home. See kafka docs to run it.
+
+NOTE: I use the consumer in the kafka distro during dev to see when messages are published.
+```
+./bin/kafka-console-consumer.sh --topic service-request-events --bootstrap-server localhost:9092
+```
+====

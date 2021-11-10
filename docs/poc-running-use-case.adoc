@@ -1,0 +1,79 @@
+
+## [[running-the-usecase]]Running the use-case
+
+IMPORTANT: if you want to use Camunda Enterprise you will need to download the enterpise license. See the section on <<enterprise-camunda,setting up Camunda Enterprise>>
+
+===== Option 1. Use spring-boot at the command line
+```
+mvn clean spring-boot:run -Dspring-boot.run.profiles=<profiles>
+```
+
+===== Option 2. Use docker-compose
+This should allow you to simple run the in a self contained manner. You must have docker installed on the machine.
+```
+docker-compose up
+```
+
+===== Option 3. Build the jar
+Build the .jar with maven
+
+  mvn clean package -DskipTests
+
+Run the .jar with java
+
+```
+java -Dspring.profiles.active=<profiles> -jar ./target/camunda-poc-starter.jar
+```
+
+===== Option 4. Use Kuberneties and Declaritive Infra
+This is still in progress.
+
+
+### [[using-springboot-profiles]]Using Profiles
+====
+**Profiles** can be specified in a few ways the notation is as follows.
+
+executing using java -jar
+
+```
+-Dspring.profiles.active=<profiles>
+```
+
+Or you can use the application.properties file
+
+```yaml
+spring.profiles.active: <profiles>
+```
+
+using maven and spring-boot goal
+```
+-Dspring-boot.run.profiles=<profiles>
+```
+
+Choosing the profiles depends on the design of the model and the technical requirements.
+
+Available profiles
+
+* *<usecase>* - use case specific profile e.g. 'ordering'
+* *cors* - profile to enable the spring security component
+* *gui* - profile to enable the custom UI frontend
+* *eventing* - profile activating Camunda Spring eventing bridge
+* *integration* - profile for testing integrations with Kafka
+* *email* - profile for testing email sending
+* *prod* - the production profiles associated with .properties file that allows use of environment variables to configure the application
+
+
+====
+
+IMPORTANT: Using Camunda Enterprise - it's necessary to request a <<enterprise-camunda,Camunda Enterprise License>>.
+
+//### Loading Test Data
+//TODO: Create REST end-point to parse csv and load service request data, start processes associating with a service id/business key
+
+### See it running
+====
+  Visit `http://<server>:<port>/app.html` to access the React app
+
+  Visit `http://<server>:<port>/camunda/app/cockpit` to access Camunda Cockpit
+
+====

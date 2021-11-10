@@ -1,0 +1,124 @@
+{
+	"info": {
+		"_postman_id": "2a223d19-178a-4acb-9276-4d945e058ea7",
+		"name": "camunda-message-examples",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "message-corrolation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"messageName\" : \"message-homeowner-poi\",\n  \"businessKey\" : \"{{loanNumber}}\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/message",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"message"
+					]
+				},
+				"description": "Starts a process instance with the rest API"
+			},
+			"response": []
+		},
+		{
+			"name": "message-corrolation-with-vars",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"messageName\" : \"Message_wait-for-bundle\",\n  \"businessKey\" : \"{{businessKey}}\",\n  \"processVariables\": {\n        \"bundles\": {\n            \"value\": \"[ \\\"bundle-000\\\"]\",\n            \"type\": \"object\",\n            \"valueInfo\": {\n                \"objectTypeName\": \"java.util.ArrayList\",\n                \"serializationDataFormat\": \"application/json\"\n            }\n        }   \n    },\n   \"withVariablesInReturn\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/message",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"message"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

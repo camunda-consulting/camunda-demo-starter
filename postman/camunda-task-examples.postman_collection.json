@@ -1,0 +1,312 @@
+{
+	"info": {
+		"_postman_id": "e6920867-2d5b-4f4a-83b8-baf77cf715d4",
+		"name": "camunda-task-examples",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get-process-definition",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"A credit-balance task is returned\", () => {",
+							"     pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"});",
+							"",
+							"var processName = \"PaymentProcess\";",
+							"",
+							"pm.test(\"Test if Payment Process exists\", function () { ",
+							"    ",
+							"    pm.expect(responseBody.has(processName)).to.equal(true); ",
+							"    ",
+							"    var data = JSON.parse(responseBody);",
+							"",
+							"    var reducedData = [];",
+							"    data.forEach(function (obj, index){",
+							"        ",
+							"            if(obj.key.includes(processName)){",
+							"                reducedData.push(obj);",
+							"            } ",
+							"        }",
+							"    )",
+							"    ",
+							"    obj = reducedData.reduce(function (reducer, current){",
+							"        console.log( current.version );",
+							"        if (current.version > reducer.version)",
+							"            return current;",
+							"        else",
+							"            return reducer;",
+							"    })    ",
+							"    ",
+							"    pm.environment.set(\"key\", obj.key);",
+							"    console.log( \"Process Key Set: \"",
+							"        +pm.environment.get(\"key\") );",
+							"",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/rest/process-definition",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"process-definition"
+					]
+				},
+				"description": "Create process instances for demo"
+			},
+			"response": []
+		},
+		{
+			"name": "get-tasks",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.environment.set(\"userTaskId\",jsonData[0].id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/task",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"task"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-task-by-bizKey",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"test task exists\", function () { ",
+							"",
+							"    // var taskName = \"Task_0fgkskn\";",
+							"",
+							"    var tasks = JSON.parse(responseBody);",
+							"    ",
+							"    // var tasks = [];",
+							"    // data.forEach(function(obj, index) { ",
+							"    //     // console.log(obj.taskDefinitionKey);",
+							"    //     //expecting each extranl task to be of the same task        ",
+							"    //     if(obj.taskDefinitionKey === taskName){",
+							"    //         //buffer the tasks to a list for later use",
+							"    //         tasks.push(obj);",
+							"    //     }",
+							"    // });",
+							"    ",
+							"    //set the tasks into PM environment",
+							"    // pm.environment.set(\"tasks\", tasks);",
+							"    pm.environment.set(\"userTaskId\", tasks[0].id);",
+							"    console.log( \"Set: userTaskId=\"",
+							"                        +tasks[0].id );",
+							"    ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/task?processInstanceBusinessKey={{businessKey}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"task"
+					],
+					"query": [
+						{
+							"key": "processInstanceBusinessKey",
+							"value": "{{businessKey}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-task-by-group",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.environment.set(\"userTaskId\",jsonData[0].id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/task?processInstanceBusinessKey=1dba86f6-1888-4d0e-9572-f2978e54d13e&assignee=paul",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"task"
+					],
+					"query": [
+						{
+							"key": "processInstanceBusinessKey",
+							"value": "1dba86f6-1888-4d0e-9572-f2978e54d13e"
+						},
+						{
+							"key": "assignee",
+							"value": "paul"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "complete-task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"variables\": {\n        \"aStringVariable\": {\n            \"value\": \"aStringValue\"\n        }\n    },\n    \"withVariablesInReturn\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/task/{{userTaskId}}/complete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"task",
+						"{{userTaskId}}",
+						"complete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "claim-task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"userId\": \"paul\"}\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/task/{{userTaskId}}/claim",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"task",
+						"{{userTaskId}}",
+						"claim"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

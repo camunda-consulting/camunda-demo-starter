@@ -1,0 +1,489 @@
+{
+	"info": {
+		"_postman_id": "2836c679-1a57-4a4a-b6ba-47e55997e191",
+		"name": "camunda-variables-example",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "start-process-custom-object",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"A valid response is reuturned\", () => {",
+							"     pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"});",
+							"",
+							"pm.test(\"Test if Payment Process Started and has ProcessId\", function () { ",
+							"    ",
+							"    var data = JSON.parse(responseBody);",
+							"",
+							"    console.log(` Response: Process Id =  ${data.id}` );",
+							"",
+							"",
+							"    var jsonData = pm.response.json();",
+							"    console.log(`Response: ${jsonData.id}`);",
+							"    ",
+							"    pm.response.to.have.jsonBody(\"id\"); ",
+							"",
+							"});",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"businessKey\" : \"{{$guid}}\",\n\t\"variables\": {\n\t\t\"renewalConfirmed\": \n\t\t{\n\t\t\t\"value\": false\n\t\t},\n\t\t\"address\":\n\t\t{\n\t\t\t\"value\":\"{\\\"type\\\": \\\"PostalAddress\\\",\\\"addressLocality\\\": \\\"Denver\\\",\\\"addressRegion\\\": \\\"CO\\\",\\\"postalCode\\\": \\\"80209\\\",\\\"streetAddress\\\": \\\"7 S. Broadway\\\"}\",\n\t\t\t\"type\":\"Json\",\n            \"transient\": true\n\t\t},\n\t\t\"contact\": \n\t\t{\n\t\t\t\"value\": \"{\\\"name\\\": \\\"Paul\\\", \\\"email\\\": \\\"Paul.Lungu@camunda.com\\\"}\",\n\t\t\t\"type\": \"Object\",\n\t\t\t\"valueInfo\": \n\t\t\t{\n\t\t\t\t\"objectTypeName\": \"com.camunda.poc.starter.entity.GenericJsonWrapper\",\n\t\t\t\t\"serializationDataFormat\": \"application/json\"\n\t\t\t}\n\t    }\n\t}\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/process-definition/key/process-variables-example/start",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"process-definition",
+						"key",
+						"process-variables-example",
+						"start"
+					]
+				},
+				"description": "Starts a process instance with the rest API"
+			},
+			"response": []
+		},
+		{
+			"name": "start-process-java-objects",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"A valid response is reuturned\", () => {",
+							"     pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"});",
+							"",
+							"pm.test(\"Test if Process Started and has ProcessId\", function () { ",
+							"    ",
+							"    var data = JSON.parse(responseBody);",
+							"",
+							"    console.log(` Response: Process Id =  ${data.id}` );",
+							"",
+							"    // Another way to access variables",
+							"    // var jsonData = pm.response.json();",
+							"    // console.log(`Response: ${jsonData.id}`);",
+							"    ",
+							"    pm.response.to.have.jsonBody(\"id\"); ",
+							"});",
+							"",
+							"pm.test(\"Test if Process Started and has businessKey\", function () { ",
+							"    ",
+							"    var data = JSON.parse(responseBody);",
+							"",
+							"    console.log(` Response: businessKey =  ${data.businessKey}` );",
+							"",
+							"    pm.environment.set(\"businessKey\", data.businessKey);",
+							"",
+							"    pm.response.to.have.jsonBody(\"businessKey\");",
+							"});",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"businessKey\" : \"{{$guid}}\",\n\t\"variables\": {\n\t\t\"contact\": \n\t\t{\n\t\t\t\"value\": \"{\\\"name\\\": \\\"Paul\\\", \\\"email\\\": \\\"Paul.Lungu@camunda.com\\\"}\",\n\t\t\t\"type\": \"Object\",\n\t\t\t\"valueInfo\": \n\t\t\t{\n\t\t\t\t\"objectTypeName\": \"com.camunda.poc.starter.entity.Contact\",\n\t\t\t\t\"serializationDataFormat\": \"application/x-java-serialized-object\"\n\t\t\t}\n\t    }\n\t}\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/process-definition/key/process-variables-example/start",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"process-definition",
+						"key",
+						"process-variables-example",
+						"start"
+					]
+				},
+				"description": "Starts a process instance with the rest API"
+			},
+			"response": []
+		},
+		{
+			"name": "start-process-arrayList",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var uuid = require('uuid');",
+							"var myUUID = uuid.v4();",
+							"console.log(myUUID);",
+							"",
+							"pm.environment.set(\"dynamicKey\", myUUID);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "guid",
+						"value": "{{$guid}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"messageName\": \"newQuote\",\n    \"businessKey\": \"{{dynamicKey}}\",\n    \"processVariables\": {\n        \"businessContext\": {\n            \"value\": \"[ \\\"Quantum\\\", \\\"APL\\\"]\",\n            \"type\": \"object\",\n            \"valueInfo\": {\n                \"objectTypeName\": \"java.util.ArrayList\",\n                \"serializationDataFormat\": \"application/json\"\n            }\n        },\n        \"treatmeantContext\": {\n            \"value\": \"[ { \\\"id\\\": \\\"Fast Track 1\\\", \\\"treatment\\\":\\\"1\\\", \\\"response\\\":\\\"null\\\" }, { \\\"id\\\": \\\"Quote_5.1\\\", \\\"treatment\\\":\\\"quote_screen_v2\\\", \\\"response\\\":\\\"1\\\" } ]\",\n            \"type\": \"object\",\n            \"valueInfo\": {\n                \"objectTypeName\": \"java.util.ArrayList\",\n                \"serializationDataFormat\": \"application/json\"\n            }\n        },\n        \"userInfo\": {\n            \"value\": \"[ { \\\"firstName\\\": \\\"Jane\\\", \\\"lastName\\\":\\\"Smith\\\", \\\"age\\\":\\\"25\\\" ,\\\"birthMonth\\\":\\\"6\\\" ,\\\"birthDate\\\":\\\"0\\\",\\\"birthYear\\\":\\\"1994\\\" ,\\\"address1\\\":\\\"783 Mulligan CT\\\" ,\\\"zipCode\\\":\\\"90011\\\" ,\\\"state\\\":\\\"CA\\\" } ]\",\n            \"type\": \"object\",\n            \"valueInfo\": {\n                \"objectTypeName\": \"java.util.ArrayList\",\n                \"serializationDataFormat\": \"application/json\"\n            }\n        },\n        \"vehicleDetails\": {\n            \"value\": \"[ { \\\"make\\\": \\\"Toyota\\\", \\\"model\\\":\\\"Camry\\\", \\\"year\\\":\\\"2015\\\" ,\\\"vin\\\":\\\"1GKKRSKD0FJ100486\\\" }  ]\",\n            \"type\": \"object\",\n            \"valueInfo\": {\n                \"objectTypeName\": \"java.util.ArrayList\",\n                \"serializationDataFormat\": \"application/json\"\n            }\n        },\n        \"devices\": {\n            \"value\": \"[ { \\\"laptop\\\": \\\"1\\\", \\\"desktop\\\":\\\"0\\\", \\\"smartPhone\\\":\\\"0\\\" ,\\\"Jewelry\\\":\\\"1\\\"  } ]\",\n            \"type\": \"object\",\n            \"valueInfo\": {\n                \"objectTypeName\": \"java.util.ArrayList\",\n                \"serializationDataFormat\": \"application/json\"\n            }\n        },\n        \"plans\": {\n            \"value\": \"[ {\\\"planId\\\": \\\"1\\\",\\\"planLevel\\\": \\\"good\\\",\\\"monthlyRate\\\": \\\"89\\\",\\\"planDetails\\\":[ { \\\"laptop\\\": \\\"1\\\", \\\"desktop\\\":\\\"0\\\",\\\"smartPhone\\\":\\\"0\\\",\\\"Jewelery\\\":\\\"0\\\" } ]},{\\\"planId\\\": \\\"2\\\",\\\"planLevel\\\": \\\"better\\\",\\\"monthlyRate\\\": \\\"44\\\",\\\"planDetails\\\":[ { \\\"laptop\\\": \\\"1\\\", \\\"desktop\\\":\\\"1\\\",\\\"smartPhone\\\":\\\"1\\\",\\\"Jewelery\\\":\\\"22\\\" } ]} ]\",\n            \"type\": \"object\",\n            \"valueInfo\": {\n                \"objectTypeName\": \"java.util.ArrayList\",\n                \"serializationDataFormat\": \"application/json\"\n            }\n        },\n        \"quotes\": {\n            \"value\": \"[ {\\\"quoteId\\\": \\\"2323212\\\",\\\"planId\\\": \\\"1\\\",\\\"status\\\":[ { \\\"indentityVerification\\\": \\\"Complete\\\", \\\"addressVerification\\\":\\\"Complete\\\",\\\"vehicleVerification\\\":\\\"Pending\\\",\\\"paymentProcessed\\\":\\\"To Be Completed\\\",\\\"planBind\\\":\\\"To Be Completed\\\" } ]} ]\",\n            \"type\": \"object\",\n            \"valueInfo\": {\n                \"objectTypeName\": \"java.util.ArrayList\",\n                \"serializationDataFormat\": \"application/json\"\n            }\n        },\n        \"mvrRequest\": {\n            \"value\": \"[ { \\\"typeOfInformation\\\": \\\"Vehicle/Vessel\\\", \\\"make\\\":\\\"Toyota\\\", \\\"model\\\":\\\"Camry\\\" ,\\\"vin\\\":\\\"1GKKRSKD0FJ100486\\\"  } ]\",\n            \"type\": \"object\",\n            \"valueInfo\": {\n                \"objectTypeName\": \"java.util.ArrayList\",\n                \"serializationDataFormat\": \"application/json\"\n            }\n            \n        \t\n        },\n            \"motorVehicleRecord\": {\n                \"value\": \"[ {\\\"recordDate\\\": \\\"1\\\",\\\"licenseState\\\": \\\"CA\\\",\\\"licenseNumber\\\": \\\"123456789\\\",\\\"issueDate\\\": \\\"06/18/2019\\\",\\\"expireDate\\\": \\\"06/18/2029\\\",\\\"class\\\": \\\"A\\\",\\\"endorsements\\\": \\\"X\\\",\\\"registeredOwner\\\":[ { \\\"firstName\\\": \\\"Jane\\\", \\\"lastName\\\":\\\"Smith\\\",\\\"sex\\\":\\\"F\\\",\\\"SSN\\\":\\\"123-456-7890\\\",\\\"age\\\": \\\"25\\\", \\\"birthMonth\\\":\\\"6\\\",\\\"birthDate\\\":\\\"1\\\",\\\"birthYear\\\":\\\"1994\\\",\\\"address1\\\":\\\"783 Mulligan CT\\\",\\\"zipCode\\\":\\\"900123\\\",\\\"state\\\":\\\"CA\\\" } ],\\\"courtHistory\\\":[ { \\\"date\\\": \\\"10/16/2001\\\", \\\"cmv/haz\\\":\\\"N\\\",\\\"jursidication\\\":\\\"USCA\\\",\\\"reason_offense_acc\\\":\\\"Surrendered CA License\\\",\\\"severity\\\":\\\"null\\\" },{ \\\"date\\\": \\\"01/3/2000\\\", \\\"cmv/haz\\\":\\\"N\\\",\\\"jursidication\\\":\\\"USCA\\\",\\\"reason_offense_acc\\\":\\\"LIC. SURR> FROM OUT-OF-ST\\\",\\\"severity\\\":\\\"null\\\" } ]} ]\",\n                \"type\": \"object\",\n                \"valueInfo\": {\n                    \"objectTypeName\": \"java.util.ArrayList\",\n                    \"serializationDataFormat\": \"application/json\"\n                }\n            }\n            \n        }\n    }\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/message",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "start-process-json-object",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"A valid response is reuturned\", () => {",
+							"     pm.response.to.have.status(200);",
+							"})",
+							"",
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"});",
+							"",
+							"pm.test(\"Test if Payment Process Started and has ProcessId\", function () { ",
+							"    ",
+							"    var data = JSON.parse(responseBody);",
+							"",
+							"    console.log(` Response: Process Id =  ${data.id}` );",
+							"",
+							"",
+							"    var jsonData = pm.response.json();",
+							"    console.log(`Response: ${jsonData.id}`);",
+							"    ",
+							"    pm.response.to.have.jsonBody(\"id\"); ",
+							"",
+							"});",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"businessKey\": \"{{$guid}}\",\n\t\"variables\": {\n\t\t\"memberSearchCriteria\": {\n\t\t\t\"value\": \"{\\\"contractType\\\": \\\"GlobalAccess\\\",\\\"contractPurchaseDate\\\": \\\"2019-10-14T00:00:00\\\", \\\"soldWeekType\\\": \\\"Fixed\\\",\\\"totalPoints\\\": \\\"130000\\\",\\\"purchaseSite\\\": \\\"9999\\\",\\\"resortAccessWindow\\\": \\\"InstantAccess\\\",\\\"reservationTypes\\\": \\\"Owner\\\",\\\"canBookSignature\\\": \\\"true\\\",\\\"canBookBonus\\\": \\\"false\\\", \\\"isSilverleafOwner\\\": \\\"true\\\", \\\"isMember\\\": \\\"true\\\", \\\"isLegacy\\\": \\\"true\\\", \\\"checkInDate\\\": \\\"2020-09-03T00:00:00\\\", \\\"checkinDay\\\": \\\"Firday\\\", \\\"maximumRoomType\\\": \\\"2BD Equiv\\\",\\\"weekNumber\\\":\\\"33\\\"}\",\n\t\t\t\"type\": \"Json\"\n\t\t},\n\t\t\"member\": {\n\t\t\t\"value\": \"{\\\"name\\\": \\\"Paul Lungu\\\", \\\"email\\\": \\\"Paul.Lungu@camunda.com\\\", \\\"points\\\": \\\"130000\\\", \\\"isSignature\\\": \\\"true\\\", \\\"contractPurchaseDate\\\": \\\"2019-10-14T00:00:00\\\"}\",\n\t\t\t\"type\": \"Object\",\n\t\t\t\"valueInfo\": {\n\t\t\t\t\"objectTypeName\": \"org.example.entity.Member\",\n\t\t\t\t\"serializationDataFormat\": \"application/json\"\n\t\t\t}\n\t\t}\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/process-definition/key/booking-window-process/start",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"process-definition",
+						"key",
+						"booking-window-process",
+						"start"
+					]
+				},
+				"description": "Starts a process instance with the rest API"
+			},
+			"response": []
+		},
+		{
+			"name": "start-process-primitives",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"",
+							"    var data = JSON.parse(responseBody);",
+							"",
+							"    //set the tasks into PM environment",
+							"    pm.environment.set(\"loanNumber\", data.businessKey);",
+							"    console.log( \"Loan Number: \"",
+							"                        +pm.environment.get(\"loanNumber\") );",
+							"    ",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"businessKey\" : \"{{$guid}}\",\n    \"variables\": {\n        \"fireInsuranceStatus\": {\n            \"value\": \"0\",\n            \"type\":\"Integer\"\n        },\n        \"remainingDays\": \n\t\t{\n\t\t\t\"value\": 10\n\t\t},\n        \"cutoffDate\": \n\t\t{\n\t\t\t\"value\": \"2021-05-13T00:00:00.000UTC+12:00\",\n\t\t\t\"type\": \"Date\"\n\t    }\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/process-definition/key/process-variables-example/start",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"process-definition",
+						"key",
+						"process-variables-example",
+						"start"
+					]
+				},
+				"description": "Starts a process instance with the rest API"
+			},
+			"response": []
+		},
+		{
+			"name": "start-process-transients",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"",
+							"    var data = JSON.parse(responseBody);",
+							"",
+							"    //set the tasks into PM environment",
+							"    pm.environment.set(\"loanNumber\", data.businessKey);",
+							"    console.log( \"Loan Number: \"",
+							"                        +pm.environment.get(\"loanNumber\") );",
+							"    ",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"businessKey\" : \"{{$guid}}\",\n    \"variables\": {\n        \"count\": {\n            \"value\": \"0\",\n            \"type\":\"Integer\",\n\t\t\t\"valueInfo\": \n\t\t\t{\n                \"transient\": true\n\t\t\t}\n        },\n        \"status\": \n\t\t{\n\t\t\t\"value\": 10,\n            \"type\":\"String\",\n\t\t\t\"valueInfo\": \n\t\t\t{\n                \"transient\": true\n\t\t\t}\n\t\t},\n        \"cutoffDate\": \n\t\t{\n\t\t\t\"value\": \"2021-05-13T00:00:00.000UTC+12:00\",\n\t\t\t\"type\": \"Date\",\n\t\t\t\"valueInfo\": \n\t\t\t{\n                \"transient\": true\n\t\t\t}\n\t    },\t\t\n        \"metadata\": {\n\t\t\t\"value\": \"{\\\"contractType\\\": \\\"GlobalAccess\\\",\\\"contractPurchaseDate\\\": \\\"2019-10-14T00:00:00\\\", \\\"soldWeekType\\\": \\\"Fixed\\\",\\\"totalPoints\\\": \\\"130000\\\",\\\"purchaseSite\\\": \\\"9999\\\",\\\"resortAccessWindow\\\": \\\"InstantAccess\\\",\\\"reservationTypes\\\": \\\"Owner\\\",\\\"canBookSignature\\\": \\\"true\\\",\\\"canBookBonus\\\": \\\"false\\\", \\\"isSilverleafOwner\\\": \\\"true\\\", \\\"isMember\\\": \\\"true\\\", \\\"isLegacy\\\": \\\"true\\\", \\\"checkInDate\\\": \\\"2020-09-03T00:00:00\\\", \\\"checkinDay\\\": \\\"Firday\\\", \\\"maximumRoomType\\\": \\\"2BD Equiv\\\",\\\"weekNumber\\\":\\\"33\\\"}\",\n\t\t\t\"type\": \"Json\",\n\t\t\t\"valueInfo\": \n\t\t\t{\n                \"transient\": true\n\t\t\t}\n\t\t},\n        \"employee\": \n\t\t{\n\t\t\t\"value\": \"{\\\"first\\\": \\\"Paul\\\", \\\"email\\\": \\\"Paul.Lungu@camunda.com\\\"}\",\n\t\t\t\"type\": \"Object\",\n\t\t\t\"valueInfo\": \n\t\t\t{\n\t\t\t\t\"objectTypeName\": \"com.camunda.poc.starter.entity.Employee\",\n\t\t\t\t\"serializationDataFormat\": \"application/x-java-serialized-object\",\n                \"transient\": true\n\t\t\t}\n\t    },\n        \"address\":\n\t\t{\n\t\t\t\"value\":\"{\\\"type\\\": \\\"PostalAddress\\\",\\\"addressLocality\\\": \\\"Denver\\\",\\\"addressRegion\\\": \\\"CO\\\",\\\"postalCode\\\": \\\"80209\\\",\\\"streetAddress\\\": \\\"7 S. Broadway\\\"}\",\n\t\t\t\"type\":\"Json\",\n\t\t\t\"valueInfo\": \n\t\t\t{\n                \"transient\": true\n\t\t\t}\n\t\t}\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/process-definition/key/process-variables-example/start",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"process-definition",
+						"key",
+						"process-variables-example",
+						"start"
+					]
+				},
+				"description": "Starts a process instance with the rest API"
+			},
+			"response": []
+		},
+		{
+			"name": "start-process-with-date",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"",
+							"    var data = JSON.parse(responseBody);",
+							"",
+							"    //set the tasks into PM environment",
+							"    pm.environment.set(\"loanNumber\", data.businessKey);",
+							"    console.log( \"Loan Number: \"",
+							"                        +pm.environment.get(\"loanNumber\") );",
+							"    ",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"businessKey\" : \"{{$guid}}\",\n    \"variables\": { \n        \"cutoffDate\": \n\t\t{\n\t\t\t\"value\": \"2021-05-13T00:00:00.000UTC+12:00\",\n\t\t\t\"type\": \"Date\"\n\t    }\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/process-definition/key/Process_FireInsuranceCancellation/start",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"process-definition",
+						"key",
+						"Process_FireInsuranceCancellation",
+						"start"
+					]
+				},
+				"description": "Starts a process instance with the rest API"
+			},
+			"response": []
+		}
+	]
+}

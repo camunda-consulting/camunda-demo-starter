@@ -1,0 +1,1 @@
+web: java -Dserver.port=$PORT -Dspring.profiles.active=$PROFILE,$ENVIRONMENT -jar target/camunda-react-starter-app.jar 

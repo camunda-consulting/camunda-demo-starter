@@ -1,0 +1,26 @@
+debug: false
+#logging.level.com.camunda.*: INFO
+
+server.port: 8080
+
+# See the docker-compose to use PostgreSQL
+spring:
+  datasource:
+    #shareable h2 database
+    url: jdbc:h2:./camunda-db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: sa
+
+  h2.console.enabled: true
+
+  jpa:
+    generate-ddl: false
+    hibernate.ddl-auto: none
+
+#Specify active profiles from YAML
+# WARNING: preferable to specify the profiles from the command line like ` -Dspring-boot.run.profiles=dev` or `-Dspring.profiles.active=jobs`
+#spring.profiles.active: ${profile:dev}
+
+
+#disable spring auto-configure
+#spring.autoconfigure.exclude: org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
