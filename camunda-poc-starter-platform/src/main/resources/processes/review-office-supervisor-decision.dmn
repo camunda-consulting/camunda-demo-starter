@@ -85,17 +85,6 @@
           <text>"OVRR"</text>
         </outputEntry>
       </rule>
-      <rule id="DecisionRule_0vfvmzc">
-        <inputEntry id="UnaryTests_0bvi6dm">
-          <text></text>
-        </inputEntry>
-        <inputEntry id="UnaryTests_12n0gvr">
-          <text></text>
-        </inputEntry>
-        <outputEntry id="LiteralExpression_1tg8ciq">
-          <text>"OVRR"</text>
-        </outputEntry>
-      </rule>
     </decisionTable>
   </decision>
   <decision id="Decision_schedule" name="Schedule">
