@@ -430,9 +430,61 @@ p{margin-bottom:1.25rem}
 <li><a href="#_summary">Summary</a></li>
 <li><a href="#_preparation_for_poc">Preparation for PoC</a></li>
 <li><a href="#_goals"> Goals</a></li>
-<li><a href="#_agenda_draft">Agenda (Draft)</a></li>
+<li><a href="#_agenda">Agenda</a></li>
+<li><a href="#_workshop_1_camunda_platform_modeling_bpmn">Workshop 1 - Camunda Platform, Modeling BPMN</a></li>
+<li><a href="#_automation_lifecycle">Automation Lifecycle</a></li>
+<li><a href="#_best_practice_modeling_bpmn_and_dmn">Best Practice - Modeling BPMN and DMN</a></li>
+<li><a href="#_workshop_2_executing_and_operating_workflow">Workshop 2 - Executing and Operating Workflow</a></li>
+<li><a href="#_workshop_3_project_setup_tech_stack_deployment_and_architecture">Workshop 3 - Project Setup, Tech Stack, Deployment and Architecture</a></li>
+<li><a href="#_camunda_platform_installation_options">Camunda Platform installation options</a></li>
+<li><a href="#_workshop_4_development_and_integration_patterns">Workshop 4 - Development and Integration Patterns</a></li>
 <li><a href="#_use_case_submission_review">Use Case - Submission Review</a></li>
 <li><a href="#_poc_integrations"> PoC Integrations</a></li>
+<li><a href="#_important_considerations">Important Considerations</a>
+<ul class="sectlevel2">
+<li><a href="#_example_run_camunda_with_docker"> Example: Run Camunda with Docker</a></li>
+<li><a href="#_example_run_camunda_spring_boot_with_docker"> Example: Run Camunda Spring-Boot with Docker</a></li>
+<li><a href="#_example_run_camunda_with_helm"> Example: Run Camunda with HELM</a></li>
+</ul>
+</li>
+<li><a href="#_using_enterprise_camunda">Using Enterprise Camunda</a></li>
+<li><a href="#_architecture">Architecture</a>
+<ul class="sectlevel3">
+<li><a href="#_architecture_and_engine_basics">Architecture and Engine Basics</a></li>
+<li><a href="#_generic_workflow_platform_architecture">Generic Workflow Platform Architecture</a></li>
+<li><a href="#_architecture_patterns">Architecture Patterns</a></li>
+<li><a href="#_poc_tech_stack_and_infra">PoC Tech Stack and Infra</a></li>
+<li><a href="#_access_to_the_workflow_execution_context">Access to the workflow execution context</a></li>
+<li><a href="#_external_task_pattern_for_polyglot_programming">External Task Pattern for Polyglot Programming</a></li>
+<li><a href="#_send_and_recieve">Send and Recieve</a></li>
+<li><a href="#_kafka_integration">Kafka Integration</a></li>
+</ul>
+</li>
+<li><a href="#_best_practices_reporting_and_metrics">Best Practices Reporting and Metrics</a></li>
+<li><a href="#_ui_integration">UI Integration</a>
+<ul class="sectlevel3">
+<li><a href="#_reactjs_integration">ReactJS Integration</a></li>
+</ul>
+</li>
+<li><a href="#_handling_business_data_and_ui_integration">Handling Business Data and UI Integration</a>
+<ul class="sectlevel3">
+<li><a href="#_camunda_rest_api">Camunda REST API</a></li>
+<li><a href="#_jpa_spring_data_repositories">JPA Spring Data Repositories</a></li>
+</ul>
+</li>
+<li><a href="#_important_pre_launch_concepts">Important Pre-Launch Concepts</a>
+<ul class="sectlevel2">
+<li><a href="#_history_and_database">History and Database</a></li>
+<li><a href="#_modeling_and_design">Modeling and Design</a></li>
+<li><a href="#_basic_system_monitoring">Basic System Monitoring</a></li>
+<li><a href="#_load_testing">Load testing</a></li>
+<li><a href="#_job_executor">Job Executor</a></li>
+<li><a href="#_appropriate_test_coverage">Appropriate Test Coverage</a></li>
+<li><a href="#_securing_camunda">Securing Camunda</a></li>
+<li><a href="#_failover_and_recovery_plan">Failover and Recovery Plan</a></li>
+<li><a href="#_customer_success_path">Customer Success Path</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -475,7 +527,13 @@ The concepts and information contained in this report are the property of Camund
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Nov 4, 2021</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Draft - Initial</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initial draft</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Paul Lungu</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Nov 10, 2021</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Several updates</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Paul Lungu</p></td>
 </tr>
 </tbody>
@@ -543,22 +601,22 @@ Preparing for a PoC is important. Please follow the points below to ensure that 
 <p>&#10003; Confirm agenda is within scope <a href="#poc-agenda">See PoC Agenda</a></p>
 </li>
 <li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-20">
-<p>&#10063; Contact info for primary contact on FDA side</p>
+<p>&#10003; Contact info for primary user on FDA side</p>
 </li>
 <li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-21">
-<p>&#10063; Provide Infrastructure Guidelines for PoC <a href="#poc-tech-stack-infra">See PoC Infra Section</a> and confirm Infra for PoC</p>
+<p>&#10003; Provide Infrastructure Guidelines for PoC <a href="#poc-tech-stack-infra">See PoC Infra Section</a> and confirm Infra for PoC</p>
 </li>
 <li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-22">
-<p>&#10063; Confirm integrations for Poc. <a href="#poc-integrations">See PoC Integrations Section</a></p>
+<p>&#10003; Confirm integrations for Poc. <a href="#poc-integrations">See PoC Integrations Section</a></p>
 </li>
 <li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-23">
 <p>&#10063; Provide Name and Email of participants several days prior to the start of the PoC</p>
 </li>
 <li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-24">
-<p>&#10063; Block time of participants in Calendars</p>
+<p>&#10003; Block time of participants in Calendars</p>
 </li>
 <li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-25">
-<p>&#10063; Send out invitations to all participants</p>
+<p>&#10003; Send out invitations to all participants</p>
 <div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-26">
 <ul>
 <li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-26">
@@ -566,10 +624,10 @@ Preparing for a PoC is important. Please follow the points below to ensure that 
 <div class="ulist checklist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-27">
 <ul class="checklist">
 <li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-27">
-<p>&#10063; <a href="https://camunda.com/download/modeler/">Download Camunda Modeler</a></p>
+<p>&#10003; <a href="https://camunda.com/download/modeler/">Download Camunda Modeler</a></p>
 </li>
 <li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-28">
-<p>&#10063; Confirm Access to <a href="https://cawemo.com/">Cawemo</a> - Invitations to the project will be sent out from Cawemo.com</p>
+<p>&#10003; Confirm Access to <a href="https://cawemo.com/">Cawemo</a> - Invitations to the project will be sent out from Cawemo.com</p>
 </li>
 </ul>
 </div>
@@ -592,13 +650,13 @@ Preparing for a PoC is important. Please follow the points below to ensure that 
 <p>&#10003; Deep dive hands-on modeling BPMN and DMN</p>
 </li>
 <li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-33">
-<p>&#10063; Deep dive hands-on for key technical deliverables</p>
+<p>&#10003; Deep dive hands-on for key technical deliverables</p>
 </li>
 <li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-34">
 <p>&#10063; Demonstrate low barier to productivity and light learning curve for devs</p>
 </li>
 <li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-35">
-<p>&#10063; Understand Camunda LifeCycle and related agile principles</p>
+<p>&#10003; Understand Camunda LifeCycle and related agile principles</p>
 </li>
 </ul>
 </div>
@@ -607,7 +665,7 @@ Preparing for a PoC is important. Please follow the points below to ensure that 
 <p>&#10063; Understand transparent change management with Camunda</p>
 </li>
 <li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-37">
-<p>&#10063; Demonstrate a process running in Camunda engine</p>
+<p>&#10003; Demonstrate a process running in Camunda engine</p>
 </li>
 <li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-38">
 <p>&#10063; Demonstrate capability to monitor and handle exception and incidents in business process orchestrations</p>
@@ -633,9 +691,9 @@ Preparing for a PoC is important. Please follow the points below to ensure that 
 </ul>
 </div>
 </div>
-<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-46">
-<h3 id="_agenda_draft"><a id="poc-agenda"></a>Agenda (Draft)</h3>
-<table class="tableblock frame-all grid-all stretch has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-49">
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-agenda.adoc-1">
+<h3 id="_agenda"><a id="poc-agenda"></a>Agenda</h3>
+<table class="tableblock frame-all grid-all stretch has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-agenda.adoc-4">
 <colgroup>
 <col style="width: 25%;">
 <col style="width: 25%;">
@@ -661,241 +719,1442 @@ Preparing for a PoC is important. Please follow the points below to ensure that 
 <td class="tableblock halign-left valign-top"><p class="tableblock">Nov 8, 2021 - 10am EST</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#workshop-1">Workshop 1</a></p>
-<p class="tableblock">FDA present use case, project overview</p>
-<p class="tableblock">Camunda to provide short intro to the Camunda Platform</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FDA and Camunda</p></td>
+<p class="tableblock">Present use case, project overview</p>
+<p class="tableblock">Provide short intro to the Camunda Platform</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Customer and Camunda</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Nov 8, 2021 - 11am EST</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#workshop-1">Workshop 1</a></p>
-<p class="tableblock">Camunda and FDA Hands on Modeling BPMN with Cawemo Biz Modeler</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FDA and Camunda</p></td>
+<p class="tableblock">Hands on Modeling BPMN with Cawemo Biz Modeler</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Customer and Camunda</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Nov 8, 2021 - 3pm EST</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#workshop-1">Workshop 1</a></p>
 <p class="tableblock">Camunda and FDA Hands on Modeling DMN Business Rules</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FDA and Camunda</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Customer and Camunda</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Nov 9, 2021 - 10am EST</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#workshop-2">Workshop 2</a></p>
 <p class="tableblock">Technical modeling and deploying the DMN and BPMN to Camunda.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FDA and Camunda</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Customer and Camunda</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Nov 10, 2021 - 10am EST</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#workshop-3">Workshop 3</a></p>
-<p class="tableblock">Camunda and FDA hands on technical walk-through</p>
+<p class="tableblock">Hands on technical walk-through</p>
 <p class="tableblock">Setting up a process application and deploying locally with Camunda, Docker and Kubernetes.</p>
 <p class="tableblock">Understanding Architecture Basics</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FDA and Camunda</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Customer and Camunda</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Nov 12, 2021 - 10am EST</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="#workshop-4">Workshop 4</a></p>
-<p class="tableblock">Camunda and FDA hands on technical walk-through</p>
+<p class="tableblock">Hands on technical walk-through</p>
 <p class="tableblock">Understand Development and Integration patterns</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">FDA and Camunda</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Customer and Camunda</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Oct 15, 2021 - 10am EST</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Demo Preparation Contingency Discussion</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Camunda and FDA</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Camunda and Customer</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Nov 17, 2021 - 10am EST</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2.5</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PoC DEMO Dry Run</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Camunda and FDA</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Camunda and Customer</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Nov 19, 2021 - 10am EST</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2.5</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">PoC DEMO</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Camunda and FDA</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Camunda and Customer</p></td>
 </tr>
 </tbody>
 </table>
-<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-128">
-<h4 id="_workshop_1_camunda_platform_modeling_bpmn"><a id="workshop-1"></a>Workshop 1 - Camunda Platform, Modeling BPMN</h4>
-<div class="sect4 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-130">
-<h5 id="_agenda_quick_walk_through_of_camunda_platform_hands_on_business_modeling_with_bpmn_and_dmn"><strong>Agenda</strong>:  Quick Walk through of Camunda Platform, Hands on business modeling with BPMN and DMN</h5>
-<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-132">
+</div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-50">
+<h3 id="_workshop_1_camunda_platform_modeling_bpmn"><a id="workshop-1"></a>Workshop 1 - Camunda Platform, Modeling BPMN</h3>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-52">
+<h4 id="_agenda_quick_walk_through_of_camunda_platform_hands_on_business_modeling_with_bpmn_and_dmn"><strong>Agenda</strong>:  Quick Walk through of Camunda Platform, Hands on business modeling with BPMN and DMN</h4>
+
+</div>
+</div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-automation-lifecycle.adoc-1">
+<h3 id="_automation_lifecycle">Automation Lifecycle</h3>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-automation-lifecycle.adoc-3">
 <p><span class="image"><img src="./images/camunda-platform.png" alt="Process Usecase"></span></p>
 </div>
-<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-134">
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-automation-lifecycle.adoc-5">
 <ul>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-134">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-automation-lifecycle.adoc-5">
 <p>Camunda <strong>process automation life-cycle</strong> lends itself well to agile and iterative design principles. Camunda provides powerful and flexible tools in each phase of the life-cycle allowing process designers, developers, workflow operators and business analysts to effectively create, code, operate and analyse business process from start to finish.</p>
-<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-136">
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-automation-lifecycle.adoc-7">
 <ul>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-136">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-automation-lifecycle.adoc-7">
 <p><strong>Design Phase</strong> business and it collaboration with Cawemo and Desktop Modeler</p>
 </li>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-137">
-<p><strong>Automate and Execute Phase</strong> technical and operational execution of process, interaction with process from operational and end user standpoint</p>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-automation-lifecycle.adoc-8">
+<p><strong>Execute Phase</strong> technical and operational execution of process, interaction with process from operational and end user standpoint</p>
 </li>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-138">
-<p><strong>Improvement Phase</strong></p>
-</li>
-</ul>
-</div>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-automation-lifecycle.adoc-9">
+<p><strong>Improvement Phase</strong> Reporting and metrics feed back to improve process</p>
 </li>
 </ul>
 </div>
+</li>
+</ul>
 </div>
 </div>
-<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-141">
-<h4 id="_modeling">Modeling</h4>
-<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-142">
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-modeling-bpmn-dmn.adoc-1">
+<h3 id="_best_practice_modeling_bpmn_and_dmn">Best Practice - Modeling BPMN and DMN</h3>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-modeling-bpmn-dmn.adoc-3">
+<h4 id="_bpmn_best_practices_and_examples">BPMN Best Practices and Examples</h4>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-modeling-bpmn-dmn.adoc-4">
 <ul>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-142">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-modeling-bpmn-dmn.adoc-4">
 <p>Business modeling with <a href="https://cawemo.com/">Cawemo</a></p>
 </li>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-143">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-modeling-bpmn-dmn.adoc-5">
 <p>Technical Modeling with <a href="https://camunda.com/download/modeler/">Camunda Modeler</a></p>
 </li>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-144">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-modeling-bpmn-dmn.adoc-6">
 <p>Framework to <a href="https://bpmn.io/">customize modeling experience</a></p>
 </li>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-145">
-<p><a href="https://github.com/camunda/camunda-modeler/tree/master/docs/element-templates">Element Templates</a> for configuring modeling experience</p>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-modeling-bpmn-dmn.adoc-7">
+<p>Understand <a href="https://github.com/camunda/camunda-modeler/tree/master/docs/element-templates">Element Templates</a> for configuring modeling experience</p>
 </li>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-146">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-modeling-bpmn-dmn.adoc-8">
 <p><a href="https://camunda.com/best-practices/building-flexibility-into-bpmn-models/">Modeling best practices</a></p>
 </li>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-147">
-<p><a href="https://camunda.com/dmn/">DMN Basics</a></p>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-modeling-bpmn-dmn.adoc-9">
+<p>Understand <a href="https://github.com/camunda/camunda-modeler-plugins">Modeler Plugins</a></p>
 </li>
 </ul>
 </div>
 </div>
-<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-149">
-<h4 id="_workshop_2_executing_and_operating_workflow"><a id="workshop-2"></a>Workshop 2 - Executing and Operating Workflow</h4>
-<div class="sect4 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-150">
-<h5 id="_agenda_technical_modeling_and_deploying_the_dmn_and_bpmn_to_camunda_understanding_cockpit_and_engine_basics">Agenda: Technical modeling and deploying the DMN and BPMN to Camunda. Understanding cockpit and engine basics</h5>
-<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-151">
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-modeling-bpmn-dmn.adoc-12">
+<h4 id="_dmn_best_practices_and_examples">DMN Best Practices and Examples</h4>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-modeling-bpmn-dmn.adoc-13">
 <ul>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-151">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-modeling-bpmn-dmn.adoc-13">
+<p><a href="https://camunda.com/dmn/">DMN Basics</a></p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-modeling-bpmn-dmn.adoc-14">
+<p><a href="https://camunda.com/dmn/">This is a quick primer on DMN</a></p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-modeling-bpmn-dmn.adoc-15">
+<p><a href="https://docs.camunda.org/manual/7.15/reference/dmn/">DMN reference</a></p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-modeling-bpmn-dmn.adoc-16">
+<p><a href="https://docs.camunda.org/manual/7.15/reference/dmn/decision-table/">Basics of configuring DMN</a></p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-modeling-bpmn-dmn.adoc-17">
+<p><a href="https://camunda.github.io/feel-scala/docs/reference">Reference to feel</a></p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-modeling-bpmn-dmn.adoc-18">
+<p><a href="https://docs.camunda.org/manual/latest/user-guide/dmn-engine/feel/type-handling/">In the weeds here on Date Types</a></p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-modeling-bpmn-dmn.adoc-19">
+<p><a href="https://consulting.camunda.com/dmn-simulator/">DMN Simulator</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-59">
+<h3 id="_workshop_2_executing_and_operating_workflow"><a id="workshop-2"></a>Workshop 2 - Executing and Operating Workflow</h3>
+<div class="sect4 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-60">
+<h5 id="_agenda_technical_modeling_and_deploying_the_dmn_and_bpmn_to_camunda_understanding_cockpit_and_engine_basics">Agenda: Technical modeling and deploying the DMN and BPMN to Camunda. Understanding cockpit and engine basics</h5>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-61">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-61">
 <p>Techincal Modeling making a workflow executable</p>
 </li>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-152">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-62">
 <p><a href="https://camunda.com/products/camunda-platform/cockpit/">Camunda Cockpit</a></p>
 </li>
 </ul>
 </div>
 </div>
-</div>
-<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-154">
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-64">
 <h4 id="_engine_fundamentals">Engine Fundamentals</h4>
-<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-155">
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-65">
 <ul>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-155">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-65">
 <p>Understanding <a href="https://docs.camunda.org/manual/7.15/user-guide/process-engine/transactions-in-processes/">Transactions and Thread Control</a></p>
 </li>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-156">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-66">
 <p>Understand <a href="https://docs.camunda.org/manual/7.15/user-guide/process-engine/history/">Camunda History, Audit and Cleanup</a></p>
 </li>
 </ul>
 </div>
 </div>
-<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-160">
-<h4 id="_workshop_3_project_setup_tech_stack_deployment_and_architecture"><a id="workshop-3"></a>Workshop 3 - Project Setup, Tech Stack, Deployment and Architecture</h4>
-<div class="sect4 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-161">
+</div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-70">
+<h3 id="_workshop_3_project_setup_tech_stack_deployment_and_architecture"><a id="workshop-3"></a>Workshop 3 - Project Setup, Tech Stack, Deployment and Architecture</h3>
+<div class="sect4 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-71">
 <h5 id="_agenda_setting_up_a_process_application_and_deploying_locally_with_camunda_docker_and_kubernetes_understand_architecture_basics">Agenda: Setting up a process application and deploying locally with Camunda, Docker and Kubernetes. Understand architecture basics.</h5>
-<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-163">
+
+</div>
+</div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-73">
+<h3 id="_camunda_platform_installation_options">Camunda Platform installation options</h3>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-74">
 <ul>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-163">
-<p>Camunda platform installation options</p>
-<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-164">
-<ul>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-164">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-74">
 <p>Spring-boot</p>
 </li>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-165">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-75">
 <p>Tomcat Servlet and other</p>
 </li>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-166">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-76">
+<p><a href="https://docs.camunda.org/manual/7.16/installation/" class="bare">https://docs.camunda.org/manual/7.16/installation/</a></p>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-77">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-77">
+<p><a href="https://github.com/camunda-community-hub/camunda-helm/tree/main/charts/camunda-bpm-platform">Camunda Kubernetes</a> with HELM</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-78">
+<p><a href="https://github.com/camunda/docker-camunda-bpm-platform">Official Camunda Docker Image</a></p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-79">
+<p><a href="https://github.com/camunda-community-hub/camunda-helm/tree/main/charts/camunda-bpm-platform">Official Camunda HELM Chart</a></p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-80">
+<p><a href="https://hub.docker.com/r/camunda/camunda-bpm-platform">Docker HUB Camunda Platform</a> see tags for options</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-81">
+<p><a href="https://github.com/plungu/camunda-helm">forked opinionated HELM chart</a></p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-82">
+<p>See <a href="https://docs.camunda.org/manual/7.15/introduction/supported-environments/">Supported Environments</a> to ensure the right infra is chosen</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-83">
+<p><a href="https://docs.camunda.org/manual/latest/update/">Upgrade Path and Practice</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-85">
+<p>===
+- Camunda Platform and REST API Architecture
+<strong> <a href="https://camunda.com/wp-content/uploads/2020/09/TB-Camunda_Reference_Architecture-092520.pdf">Camunda architecture</a>
+</strong> <a href="https://docs.camunda.org/manual/7.16/user-guide/process-engine/multi-tenancy/">Camunda Multitenancy Official Doc</a>
+- <a href="https://github.com/camunda/docker-camunda-bpm-platform">Camunda Docker</a> image and docs</p>
+</div>
+</div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-93">
+<h3 id="_workshop_4_development_and_integration_patterns"><a id="workshop-4"></a>Workshop 4 - Development and Integration Patterns</h3>
+<div class="sect4 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-94">
+<h5 id="_agenda_understand_development_and_integration_patterns">Agenda: Understand development and integration patterns</h5>
+
+</div>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-96">
+<h4 id="_integration_patterns">Integration Patterns</h4>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-97">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-97">
+<p>AMQP Pub/Sub</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-98">
+<p>Async Messaging</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-99">
+<p>Synchronous service tasks REST</p>
+</li>
+</ul>
+</div>
+<hr>
+</div>
+</div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-114">
+<h3 id="_use_case_submission_review">Use Case - Submission Review</h3>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-116">
+<h4 id="_workflow">Workflow</h4>
+<div class="exampleblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-117">
+<div class="content">
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-118">
+<p><strong>In Progress &#8230;&#8203;</strong></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-121">
+<h3 id="_poc_integrations"><a id="poc-integrations"></a> PoC Integrations</h3>
+<div class="ulist checklist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-126">
+<ul class="checklist">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-126">
+<p>&#10063; Pub/Sub with workflow</p>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-127">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-127">
+<p>Messaging through Kafka</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-128">
+<p>Start workflow</p>
+</li>
+</ul>
+</div>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-130">
+<p>&#10063; Notification</p>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-132">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-132">
+<p>Email Integration</p>
+</li>
+</ul>
+</div>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-135">
+<p>&#10063; UI integrations</p>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-138">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-138">
+<p>Ad-Hoc task creation and completion</p>
+</li>
+</ul>
+</div>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-139">
+<p>&#10063; Data Validation</p>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-140">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-140">
+<p>Creation, update and deletion of submission/object</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect1 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-important-considerations.adoc-1">
+<h2 id="_important_considerations"><a id="poc-important-considerations"></a>Important Considerations</h2>
+<div class="sectionbody">
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-important-considerations.adoc-3">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-important-considerations.adoc-3">
+<p>Understand <a href="#pre-launch-concepts">Pre Lauch Concepts</a></p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-important-considerations.adoc-4">
+<p>Understand <a href="https://docs.camunda.org/manual/latest/user-guide/process-engine/history">Camunda History</a></p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-important-considerations.adoc-5">
+<p>Understand <a href="https://docs.camunda.org/manual/latest/user-guide/process-engine/history/#history-cleanup">History Cleanup</a></p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-important-considerations.adoc-6">
+<p>Understand <a href="https://camunda.com/best-practices/performance-tuning-camunda">Performance Tuning with Camunda</a></p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-important-considerations.adoc-7">
+<p>Understand <a href="https://camunda.com/services/training/">Training</a></p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-important-considerations.adoc-8">
+<p><a href="https://github.com/camunda-community-hub">Camunda Community Hub</a></p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-important-considerations.adoc-9">
+<p>Understand <a href="https://docs.camunda.org/manual/latest/reference/rest/">REST API</a></p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-important-considerations.adoc-10">
+<p>Understand <a href="https://docs.camunda.org/enterprise/download">Camunda Downloads</a></p>
+</li>
+</ul>
+</div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-tomcat.adoc-1">
+<h3 id="_example_run_camunda_with_docker"><a id="example-camunda-docker-tomcat"></a> Example: Run Camunda with Docker</h3>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-tomcat.adoc-3">
+<h4 id="_prerequisites">Prerequisites</h4>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-tomcat.adoc-5">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-tomcat.adoc-5">
+<p>Install Docker</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-tomcat.adoc-7">
+<h4 id="_run_camunda_docker_image">Run Camunda Docker Image</h4>
+<div class="admonitionblock note has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-tomcat.adoc-9">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+This is based on the official Camunda docker image
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-tomcat.adoc-11">
+<p>See the <a href="https://github.com/camunda/docker-camunda-bpm-platform#get-started">Camunda Docker Image Getting Started</a> to quickly spin up the the Camunda docker image.</p>
+</div>
+</div>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-tomcat.adoc-14">
+<h4 id="_build_the_enterprise_version_before_running">Build the Enterprise Version before running</h4>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-tomcat.adoc-16">
+<p><a href="https://github.com/camunda/docker-camunda-bpm-platform#build-when-behind-a-proxy">Build the Camunda Enterprise Image</a></p>
+</div>
+</div>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-tomcat.adoc-18">
+<h4 id="_modify_camunda_docker_container_with_a_process_application">Modify Camunda Docker Container with a Process Application</h4>
+<div class="admonitionblock note has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-tomcat.adoc-20">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+You must first build the process application .war artifact before you can add it to the Docker Container. See <a href="https://docs.camunda.org/manual/latest/user-guide/process-applications/maven-archetypes/">Create and Build a Camunda Process Application</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-tomcat.adoc-22">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">mvn archetype:generate
+
+  -DinteractiveMode=false
+
+  -DarchetypeGroupId=org.camunda.bpm.archetype
+
+  -DarchetypeArtifactId=camunda-archetype-servlet-war
+
+  -DarchetypeVersion=7.15.0
+
+  -DgroupId=org.example.camunda.bpm
+
+  -DartifactId=camunda-bpm-project
+
+  -Dversion=0.0.1-SNAPSHOT
+
+  -Dpackage=org.example.&lt;your-company&gt;.bpm</code></pre>
+</div>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-main.adoc-18">
+<p><a href="https://github.com/camunda/docker-camunda-bpm-platform#add-own-process-application">Add a Camunda Process Application to Docker Container</a></p>
+</div>
+</div>
+</div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-springboot.adoc-1">
+<h3 id="_example_run_camunda_spring_boot_with_docker"><a id="example-camunda-docker-springboot"></a> Example: Run Camunda Spring-Boot with Docker</h3>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-springboot.adoc-3">
+<h4 id="_prerequisites_2">Prerequisites</h4>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-springboot.adoc-5">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-springboot.adoc-5">
+<p>Install Docker</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-springboot.adoc-6">
+<p>Create a <a href="https://docs.camunda.org/manual/latest/user-guide/process-applications/maven-archetypes/">Camunda Spring-Boot project</a></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-springboot.adoc-8">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+This is tested with <a href="https://docs.camunda.org/manual/latest/user-guide/process-applications/maven-archetypes/">Maven Archetype Spring-Boot Project</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-springboot.adoc-10">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="bash">mvn archetype:generate
+
+  -DinteractiveMode=false
+
+  -DarchetypeGroupId=org.camunda.bpm.archetype
+
+  -DarchetypeArtifactId=camunda-archetype-spring-boot
+
+  -DarchetypeVersion=7.15.0
+
+  -DgroupId=org.example.camunda.bpm
+
+  -DartifactId=camunda-bpm-project
+
+  -Dversion=0.0.1-SNAPSHOT
+
+  -Dpackage=org.example.&lt;your-company&gt;.bpm</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-springboot.adoc-31">
+<h4 id="_create_a_dockerfile_for_spring_boot_project">Create a DockerFile for Spring-Boot project</h4>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-springboot.adoc-32">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-springboot.adoc-32">
+<p>Place the docker file in the home dir of the project</p>
+</li>
+</ul>
+</div>
+<div class="listingblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-springboot.adoc-34">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#777">####</span>
+<span style="color:#777">## run Maven build in Docker image layer and cache dependencies</span>
+<span style="color:#777">####</span>
+<span style="color:#F00;background-color:#FAA">FROM maven:3-jdk-8 as builder</span>
+
+<span style="color:#777"># Create build directory</span>
+<span style="color:#F00;background-color:#FAA">WORKDIR /usr/src/build</span>
+
+<span style="color:#777"># copy files from project</span>
+<span style="color:#F00;background-color:#FAA">COPY pom.xml pom.xml</span>
+<span style="color:#F00;background-color:#FAA">COPY settings.xml settings.xml</span>
+<span style="color:#F00;background-color:#FAA">COPY src/ src/</span>
+
+<span style="color:#777"># optional if you are build the poc-stater to include nodejs and react project</span>
+<span style="color:#777">#COPY package.json package.json</span>
+<span style="color:#777">#COPY webpack.config.js webpack.config.js</span>
+<span style="color:#777">#COPY .env .env</span>
+
+<span style="color:#777"># run maven build and cache dependencies</span>
+<span style="color:#F00;background-color:#FAA">RUN --mount=type=cache,target=/root/.m2 mvn -s settings.xml -DskipTests -Dmaven.test.skip clean package</span>
+
+<span style="color:#777">####</span>
+<span style="color:#777">## create another image layer and run the app that was built</span>
+<span style="color:#777">####</span>
+<span style="color:#F00;background-color:#FAA">FROM openjdk:8-jdk as process-application</span>
+
+<span style="color:#777"># Create app directory</span>
+<span style="color:#F00;background-color:#FAA">WORKDIR /usr/src/app</span>
+
+<span style="color:#777"># copy the built jar to the new image</span>
+<span style="color:#F00;background-color:#FAA">COPY --from=builder /usr/src/build/target/&lt;&lt;your-jar-name&gt;&gt;.jar ${WORKDIR}</span>
+
+<span style="color:#777"># run the application</span>
+<span style="color:#777">#ENTRYPOINT [&quot;java&quot;,&quot;-Djava.security.egd=file:/dev/./urandom&quot;,&quot;-jar&quot;,&quot;/usr/src/app/&lt;&lt;your-jar-name&gt;&gt;.jar&quot;]</span>
+
+ <span style="color:#777"># optional if you are build the poc-stater to include java code examples</span>
+<span style="color:#777">#ENTRYPOINT [&quot;java&quot;,&quot;-Dspring.profiles.active=ordering,cors,gui,eventing,integration,email,prod&quot;,&quot;-Djava.security.egd=file:/dev/./urandom&quot;,&quot;-jar&quot;,&quot;/usr/src/app/camunda-poc-starter.jar&quot;]</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-springboot.adoc-75">
+<h4 id="_build_the_spring_boot_image_before_running">Build the Spring-Boot Image before running</h4>
+<div class="literalblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-springboot.adoc-77">
+<div class="content">
+<pre>docker build -t camunda-bpm-project .</pre>
+</div>
+</div>
+</div>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-springboot.adoc-80">
+<h4 id="_run_camunda_spring_boot_docker_image">Run Camunda Spring-Boot Docker Image</h4>
+<div class="literalblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-docker-springboot.adoc-82">
+<div class="content">
+<pre>docker run -p 8080:8080 camunda-bpm-project</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-helm.adoc-1">
+<h3 id="_example_run_camunda_with_helm"><a id="example-camunda-helm"></a> Example: Run Camunda with HELM</h3>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-helm.adoc-3">
+<h4 id="_prerequisites_3">Prerequisites</h4>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-helm.adoc-5">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-helm.adoc-5">
+<p>Install Kubernetties <a href="https://blog.sourcerer.io/a-kubernetes-quick-start-for-people-who-know-just-enough-about-docker-to-get-by-71c5933b4633" class="bare">https://blog.sourcerer.io/a-kubernetes-quick-start-for-people-who-know-just-enough-about-docker-to-get-by-71c5933b4633</a></p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-helm.adoc-6">
+<p>Install Helm <a href="https://helm.sh/docs/intro/quickstart/" class="bare">https://helm.sh/docs/intro/quickstart/</a></p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-helm.adoc-7">
+<p>Test HELM <a href="https://helm.sh/docs/intro/quickstart/" class="bare">https://helm.sh/docs/intro/quickstart/</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-helm.adoc-10">
+<h4 id="_run_postgres_with_helm">Run postgres with HELM</h4>
+<div class="literalblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-helm.adoc-12">
+<div class="content">
+<pre>helm install stable/postgresql --generate-name</pre>
+</div>
+</div>
+<div class="literalblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-helm.adoc-15">
+<div class="content">
+<pre>WARNING: This chart is deprecated
+NAME: postgresql-1598995828
+LAST DEPLOYED: Tue Sep  1 15:30:30 2020
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+This Helm chart is deprecated</pre>
+</div>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-helm.adoc-26">
+<p>PostgreSQL can be accessed via port 5432 on the following DNS name from within your cluster:</p>
+</div>
+<div class="literalblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-helm.adoc-28">
+<div class="content">
+<pre>postgresql-1598995828.default.svc.cluster.local - Read/Write connection</pre>
+</div>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-helm.adoc-30">
+<p>To get the password for "postgres" run:</p>
+</div>
+<div class="literalblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-helm.adoc-32">
+<div class="content">
+<pre>export POSTGRES_PASSWORD=$(kubectl get secret --namespace default postgresql-1598995828 -o jsonpath="{.data.postgresql-password}" | base64 --decode)</pre>
+</div>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-helm.adoc-34">
+<p>To connect to your database run the following command:</p>
+</div>
+<div class="literalblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-helm.adoc-36">
+<div class="content">
+<pre>kubectl port-forward --namespace default svc/postgresql-1598995828 5432:5432 &amp; PGPASSWORD="$POSTGRES_PASSWORD" psql --host 127.0.0.1 -U postgres -d postgres -p 5432</pre>
+</div>
+</div>
+</div>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-helm.adoc-38">
+<h4 id="_run_camunda_with_helm">Run Camunda with HELM</h4>
+<div class="admonitionblock important has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-helm.adoc-40">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Camunda HELM is based on the <a href="https://github.com/camunda/docker-camunda-bpm-platform#build-a-enterprise-version">Official Camunda Docker Image</a> and you may need to extend the image and the HELM chart to accomplish your goals
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-helm.adoc-42">
+<p>See the <a href="https://github.com/plungu/camunda-helm">Camunda HELM</a> to run the chart.</p>
+</div>
+</div>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-helm.adoc-44">
+<h4 id="_more_on_using_helm">More on using HELM</h4>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-camunda-helm.adoc-46">
+<p><a href="https://helm.sh/docs/intro/using_helm/" class="bare">https://helm.sh/docs/intro/using_helm/</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-using-enterprise-camunda.adoc-1">
+<h2 id="_using_enterprise_camunda"><a id="enterprise-camunda"></a>Using Enterprise Camunda</h2>
+<div class="sectionbody">
+<div class="admonitionblock important has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-using-enterprise-camunda.adoc-3">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Using Camunda Enterprise - it&#8217;s necessary to request a <a href="https://camunda.com/download/enterprise/">Camunda Enterprise License</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="exampleblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-using-enterprise-camunda.adoc-5">
+<div class="content">
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-using-enterprise-camunda.adoc-6">
+<p>Update the settings.xml file in the project home with the credentials that you get from Camunda. This will allow you to pull the enterprise artifacts from our nexus repository.</p>
+</div>
+</div>
+</div>
+<div class="admonitionblock note has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-using-enterprise-camunda.adoc-8">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+You may need to configure a proxy to reach our repository. See the example in the settings.xml.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-1">
+<h2 id="_architecture">Architecture</h2>
+<div class="sectionbody">
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-3">
+<h4 id="_architecture_and_engine_basics">Architecture and Engine Basics</h4>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-5">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-5">
+<p>Camunda platform installation options</p>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-6">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-6">
+<p>Spring-boot</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-7">
+<p>Tomcat Servlet and other</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-8">
 <p><a href="https://docs.camunda.org/manual/7.16/installation/" class="bare">https://docs.camunda.org/manual/7.16/installation/</a></p>
 </li>
 </ul>
 </div>
 </li>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-167">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-9">
 <p>Camunda Platform and REST API Architecture</p>
-<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-168">
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-10">
 <ul>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-168">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-10">
 <p><a href="https://camunda.com/wp-content/uploads/2020/09/TB-Camunda_Reference_Architecture-092520.pdf">Camunda architecture</a></p>
 </li>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-169">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-11">
 <p><a href="https://docs.camunda.org/manual/7.16/user-guide/process-engine/multi-tenancy/">Camunda Multitenancy Official Doc</a></p>
 </li>
 </ul>
 </div>
 </li>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-170">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-12">
 <p><a href="https://github.com/camunda/docker-camunda-bpm-platform">Camunda Docker</a> image and docs</p>
 </li>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-171">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-13">
 <p><a href="https://github.com/camunda-community-hub/camunda-helm/tree/main/charts/camunda-bpm-platform">Camunda Kubernetes</a> with HELM</p>
 </li>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-172">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-14">
 <p><a href="https://github.com/camunda/docker-camunda-bpm-platform">Official Camunda Docker Image</a></p>
 </li>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-173">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-15">
 <p><a href="https://github.com/camunda-community-hub/camunda-helm/tree/main/charts/camunda-bpm-platform">Official Camunda HELM Chart</a></p>
 </li>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-174">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-16">
 <p><a href="https://hub.docker.com/r/camunda/camunda-bpm-platform">Docker HUB Camunda Platform</a> see tags for options</p>
 </li>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-175">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-17">
 <p><a href="https://github.com/plungu/camunda-helm">forked opinionated HELM chart</a></p>
 </li>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-176">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-18">
 <p>See <a href="https://docs.camunda.org/manual/7.15/introduction/supported-environments/">Supported Environments</a> to ensure the right infra is chosen</p>
 </li>
-<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-177">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-19">
 <p><a href="https://docs.camunda.org/manual/latest/update/">Upgrade Path and Practice</a></p>
 </li>
 </ul>
 </div>
-</div>
-</div>
-<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-180">
-<h4 id="_workshop_4_development_and_integration_patterns"><a id="workshop-4"></a>Workshop 4 - Development and Integration Patterns</h4>
-<div class="sect4 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-181">
-<h5 id="_agenda_understand_development_and_integration_patterns">Agenda: Understand development and integration patterns</h5>
 <hr>
 </div>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-24">
+<h4 id="_generic_workflow_platform_architecture">Generic Workflow Platform Architecture</h4>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-26">
+<p>The architecture depicted below generically demonstrates the possibilities and patterns interacting with the workflow. It&#8217;s worth noting this is not an exhaustive model for interacting with the workflow, merely possible approaches and patterns that can be generally applied.</p>
 </div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-28">
+<p><span class="image"><img src="./images/architecture/architecture.png" alt="Architecture BPMN"></span></p>
 </div>
-<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-201">
-<h3 id="_use_case_submission_review">Use Case - Submission Review</h3>
-<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-203">
-<h4 id="_workflow">Workflow</h4>
-<div class="exampleblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-204">
+<div class="exampleblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-29">
 <div class="content">
-<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-205">
-<p><strong>In Progress &#8230;&#8203;</strong></p>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-30">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-30">
+<p>The orange box signifies components that present data and ux to clients.</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-32">
+<p>The green bar signifies integration and abstraction technologies that help implement advanced patterns, interactions and glue systems together.</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-34">
+<p>The red box represents workflow and orchestration technology like Camunda.</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-36">
+<p>The blue boxes signify components that do specific work and are potentially interact with different layers of a workflow platform</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-38">
+<p>Purple box underlies the data persistance technology the workflow engine requires to keep the state of the workflow.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-40">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+An important takeaway is that different patterns for interactions with the workflow are possible and often desirable. It can make sense to have a orchestrated approach in some cases and a choreographed approach in other cases within the same workflow or broader use-case.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-42">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+This is a typical pattern for workflow architectures though the level of abstraction between components will vary from use-case to use-case.
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
 </div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-46">
+<h3 id="_architecture_patterns">Architecture Patterns</h3>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-64">
+<h4 id="_orchestration">Orchestration</h4>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-65">
+<p>A human or machine step in a process workflow is directly managed by the workflow.</p>
 </div>
-<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-208">
-<h3 id="_poc_integrations"><a id="poc-integrations"></a> PoC Integrations</h3>
-<div class="exampleblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-209">
+</div>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-67">
+<h4 id="_choreography">Choreography</h4>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-68">
+<p>A human or machine step in a process workflow is indirectly correlated to the workflow.</p>
+</div>
+</div>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-70">
+<h4 id="_external_task">External Task</h4>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-71">
+<p>Camanda has developed a unique pattern to allow ployglot programming with the Camunda engine and decouple work from the engine execution. See <a href="https://camunda.com/best-practices/invoking-services-from-the-process/#_understanding_and_using_strong_external_tasks_strong">External Tasks Doc</a></p>
+</div>
+</div>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-73">
+<h4 id="_saga">SAGA</h4>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-74">
+<p>Orchestration of complex technical activities is a common pattern with BPMN and Camunda engine. It&#8217;s possible to orchestrate SAGA&#8217;s so that compensation and rollback can happen in a distributed transaction.</p>
+</div>
+</div>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-76">
+<h4 id="_request_response">Request Response</h4>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-77">
+<p>Send and receive synchronous requests to and from the workflow is possible and a common approach for integration.</p>
+</div>
+</div>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-79">
+<h4 id="_pubsub">Pub/Sub</h4>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-80">
+<p>Publish and subscribing to messages and events from a queue or topic is natural and useful pattern when working with workflow. Camunda can integrate with any such technology including Kafka, AMQP, JMS and more.</p>
+</div>
+</div>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-82">
+<h4 id="_abstraction_integration">Abstraction Integration</h4>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-83">
+<p>It&#8217;s important to integrate with other systems such as UI, entitlement, authorization and authentication, as well as other legacy systems. To meet this requirement it&#8217;s often desirable to have an abstraction layer around Camunda. This abstraction layer can include several different technologies include custom REST API&#8217;s, Kafka, API aggregation tools like MuleSoft, GraphQL, caching technologies such as Hazelcast and others depending on your use-case. There really is no limitations with Camunda.</p>
+</div>
+</div>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-85">
+<h4 id="_cqrs">CQRS</h4>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-86">
+<p>Applying CQRS is a common practice with workflow technology. Though Camunda doesn&#8217;t necessarily implement CQRS pattern Camunda can participate in an architecture that emphasises CQRS approach.</p>
+</div>
+</div>
+</div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-88">
+<h3 id="_poc_tech_stack_and_infra"><a id="poc-tech-stack-infra"></a>PoC Tech Stack and Infra</h3>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-89">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-89">
+<p>SpringBoot</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-90">
+<p>Java</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-91">
+<p>ReactJS</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-92">
+<p>Camunda Platform</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-93">
+<p>Docker</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-94">
+<p>Kubernetes</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-95">
+<p>Kafka</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-architecture.adoc-96">
+<p>Postgresql
+## <a id="patterns-for-integration"></a>Patterns for Integration
+---
+It&#8217;s important to consider how to implement integrations with a workflow. Two basic patterns exist, integrate within the workflow execution or outside the workflow execution. The sections below provide details about the two patterns.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-patterns-for-integration.adoc-5">
+<h3 id="_access_to_the_workflow_execution_context"><a id="workflow-execution"></a>Access to the workflow execution context</h3>
+<div class="exampleblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-patterns-for-integration.adoc-6">
 <div class="content">
-<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-usecase-fda.adoc-210">
-<p><strong>In Progress &#8230;&#8203;</strong></p>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-patterns-for-integration.adoc-7">
+<p>The workflows in this project utilize the workflow execution to perform actions and interact with other systems and control the flow of custom code execution through the use of Java Delegate and Execution Listeners.</p>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-patterns-for-integration.adoc-9">
+<p><strong>Java Delegates</strong> as shown below are marker interfaces that allow the executing class to be passed the execution context know as the DelegateExecution object. This object contains many functions that allow the Delegate to interact with the engine and data in the process. This is also a natural extension point that can be used to integrate with other systems. An example would be calling an email service to send email based on workflow variables.</p>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-patterns-for-integration.adoc-11">
+<p><span class="image"><img src="./images/patterns/java-delegate.png" alt="Java Delegate"></span></p>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-patterns-for-integration.adoc-13">
+<p><strong>Execution Listeners</strong> function in much the same way as a JavaDelegate and the interfaces can be used interchangeably. Conceptually the execution listener is intended to be placed in the process in a more subtle way. <strong>Execution Listeners</strong> are placed in the execution on events that are part of the workflow execution. See the docs to understand more about <a href="https://docs.camunda.org/manual/latest/user-guide/process-engine/delegation-code/#java-delegate">Delegation Code</a></p>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-patterns-for-integration.adoc-15">
+<p><a href="https://docs.camunda.org/manual/7.12/user-guide/process-engine/transactions-in-processes/#understand-asynchronous-continuations">Read more about placing listeners here</a>. Also, in the <a href="https://docs.camunda.org/manual/7.12/user-guide/process-engine/transactions-in-processes/">same doc</a> read about wait states and transaction bounderies to provide more contect on the operation of the engine.</p>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-patterns-for-integration.adoc-17">
+<p><span class="image"><img src="./images/patterns/execution-listener.png" alt="Execution Listener"></span></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-patterns-for-integration.adoc-22">
+<h3 id="_external_task_pattern_for_polyglot_programming"><a id="external-tasks"></a>External Task Pattern for Polyglot Programming</h3>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-patterns-for-integration.adoc-23">
+<p><span class="image"><img src="./images/architecture/architecture-external-task.png" alt="Use Case"></span></p>
+</div>
+<div class="exampleblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-patterns-for-integration.adoc-24">
+<div class="content">
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-patterns-for-integration.adoc-25">
+<p>The red activity above illustrate the external task pattern configuration. The single task is configured as a topic. The control is inverted and a calling worker will application will ask for work from the engine through the external task API. The external task API is quite powerful allowing the caller to request work in bulk and complete tasks in bulk. Also it allows for creating incidents and errors in the engine.</p>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-patterns-for-integration.adoc-27">
+<p>Additionally, the worker application can be written in any technology as it is independet of the Camunda engine.</p>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-patterns-for-integration.adoc-29">
+<p>See the <a href="https://docs.camunda.org/manual/develop/user-guide/ext-client/">external task docs</a> for more about the API.</p>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-patterns-for-integration.adoc-31">
+<p>See the <a href="https://camunda.com/best-practices/invoking-services-from-the-process/#_understanding_and_using_strong_external_tasks_strong">Best Practices</a> for insights on external tasks.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-patterns-for-integration.adoc-35">
+<h3 id="_send_and_recieve"><a id="send-and-recieve-pattern"></a>Send and Recieve</h3>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-patterns-for-integration.adoc-36">
+<p><span class="image"><img src="./images/architecture/architecture-send-recieve.png" alt="Use Case"></span></p>
+</div>
+<div class="exampleblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-patterns-for-integration.adoc-37">
+<div class="content">
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-patterns-for-integration.adoc-38">
+<p>The <strong>Send and Receive</strong> or bup/sub pattern is used in cases where simplicity in interaction with API&#8217;s is preferred to the power and complexity of the external task api. It also provides some flexibility in the modeling approach as the send activity and receive activity do not need to be in sequence. Other activities can be used in parallel with the send and receive activities.</p>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-patterns-for-integration.adoc-40">
+<p>It&#8217;s often required to use a small amount of Java code, <a href="#workflow-execution">see Java Delegate section</a>, with the <strong>Send</strong> task which provides flexibility in implementation and allows integration with other messaging systems. The publishing Send task code should likely be dumb and only do very specific publishing function.</p>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-patterns-for-integration.adoc-42">
+<p>The <strong>Receive</strong> task can be correlated through the REST API and any technology can be used to implement the subscribing application. The subscriber would likely live outside the engine application context.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-kafka-integration.adoc-1">
+<h3 id="_kafka_integration"><a id="kafka-integration"></a>Kafka Integration</h3>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-kafka-integration.adoc-2">
+<p>The spring-boot app is using spring cloud streams.</p>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-kafka-integration.adoc-4">
+<p><a href="https://spring.io/projects/spring-cloud-stream" class="bare">https://spring.io/projects/spring-cloud-stream</a></p>
+</div>
+<div class="exampleblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-kafka-integration.adoc-6">
+<div class="content">
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-kafka-integration.adoc-7">
+<p>The app uses a publisher and subscriber for a topic.</p>
+</div>
+<div class="listingblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-kafka-integration.adoc-9">
+<div class="content">
+<pre class="CodeRay highlight"><code>spring.cloud.stream.bindings.publishWorkflowEvent.destination=service-request-events
+spring.cloud.stream.bindings.subscribeWorkflowEvent.destination=service-request-events</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="exampleblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-kafka-integration.adoc-15">
+<div class="content">
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-kafka-integration.adoc-16">
+<p>A subscriber is implemented <code>WorkflowEventSubscriber.java</code> it simply gets the message from the topic and serialized into memory. Then an action can be taken such as saving data, updating the workflow state, etc &#8230;&#8203;</p>
+</div>
+</div>
+</div>
+<div class="exampleblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-kafka-integration.adoc-19">
+<div class="content">
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-kafka-integration.adoc-20">
+<p>A publisher is implemented like <code>EventPublishingDelegate.java</code>, other publishers may be needed in your use case. This publisher is also a <a href="#workflow-execution">Cmaunda JavaDelegte</a> wired into the bpmn model and executed during the process execution. This is a powerful pattern as it provides control of the workflow execution and allows handling errors, incidents and more.</p>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-kafka-integration.adoc-22">
+<p>The publisher publishes an Event with event meta-data such as the Name and Type as well as parameters such as workflow state and business data.</p>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/example-kafka-integration.adoc-24">
+<p>The Event meta-data helps other components understand what to do with the event.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-reporting-metircs.adoc-1">
+<h2 id="_best_practices_reporting_and_metrics"><a id="best-practice-reporting-metrics"></a>Best Practices Reporting and Metrics</h2>
+<div class="sectionbody">
+<div class="admonitionblock tip has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-main.adoc-36">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+See the documentation on <a href="https://camunda.com/products/camunda-platform/optimize/reports/">Camunda Optimize Workflow Reporting Tool</a>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-ui-integration.adoc-1">
+<h2 id="_ui_integration"><a id="ui-integration"></a>UI Integration</h2>
+<div class="sectionbody">
+<hr>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-ui-integration.adoc-4">
+<h4 id="_reactjs_integration">ReactJS Integration</h4>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-ui-integration.adoc-6">
+<p><span class="image"><img src="./images/gui/ui.png" alt="User Interface"></span></p>
+</div>
+<div class="exampleblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-ui-integration.adoc-8">
+<div class="content">
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-ui-integration.adoc-9">
+<p>The Maven frontend-maven-plugin configured in pom.xml is used to build the ReactJS app. The plugin creates a bundle.js file which ends up in <code>src/main/resources/static/built/bundle.js</code>. The static directory makes static resources such as JS and HTML available to the java app.</p>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-ui-integration.adoc-11">
+<p>The Java application boot-straps the ReactJS App through Thymeleaf a java/spring frontend framework. The templates directory <code>src/main/resources/templates/app.html</code> has a HTML file app.html which calls the React app through a <code>&lt;script /&gt;</code> tag loading the HTML into the react div <code>&lt;div id="react"&gt;&lt;/div&gt;</code></p>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-ui-integration.adoc-13">
+<p>Thymeleaf ties the Java frontend together using a Spring controller. <code>src/main/java/com/camunda/poc/starter/use-case/service.request/controller/ui/UIServicerequestController.java</code>. Mapping the app context to /sr and calling the app.html.</p>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-ui-integration.adoc-15">
+<p>The React Components are organized under the <code>src\main\js\reactjs</code> folder into a use-case folder then subdivided by component.</p>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-ui-integration.adoc-17">
+<p>Webpack and package.json define the structure and dependencies for the React App that allow and build the app into the bundle.js which is later placed in the static directory as explained previously. Allowing our frontend to load the plain EcmaScript.</p>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-ui-integration.adoc-19">
+<p>Foundation CSS is used for styling <a href="https://get.foundation/sites/docs/index.html" class="bare">https://get.foundation/sites/docs/index.html</a></p>
+</div>
+<div class="admonitionblock note has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-ui-integration.adoc-21">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The react app is built in this manner, wrapped in spring-boot app, for convenience and consistency. This makes dev-ops, demoing and getting started easier and may not be appropriate for other technology stacks and dev-ops scenarios.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-handling-business-data.adoc-1">
+<h2 id="_handling_business_data_and_ui_integration"><a id="best-practice-handling-business-data"></a>Handling Business Data and UI Integration</h2>
+<div class="sectionbody">
+<div class="admonitionblock tip has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-handling-business-data.adoc-2">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+See the pattern described in the Camunda Best Practices <a href="https://camunda.com/best-practices/handling-data-in-processes/">Handling Data In Processes</a> and <a href="https://camunda.com/best-practices/enhancing-tasklists-with-business-data/">Enhancing Tasklist with Business Data</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock important has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-handling-business-data.adoc-4">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Consider when and why to <a href="https://camunda.com/best-practices/handling-data-in-processes/#_storing_just_the_strong_relevant_data_strong">store variables in Camunda</a> and read more about best practices concerning storing variables.
+</td>
+</tr>
+</table>
+</div>
+<div class="exampleblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-handling-business-data.adoc-6">
+<div class="content">
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-handling-business-data.adoc-7">
+<p>Often and for numerous reasons we need to consolidate data from different sources. In this app I use JPA and Spring REST with some of springs features to build a custom API. Primarily for making integration with the UI easier. Here are few reasons why I take this approach.</p>
+</div>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-handling-business-data.adoc-9">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-handling-business-data.adoc-9">
+<p>Reduce queries the UI does to the backend</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-handling-business-data.adoc-10">
+<p>Make it easier to build UI components</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-handling-business-data.adoc-11">
+<p>Create abstraction layer that can be used to integrate other technical and business requirements like reporting and security.</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-handling-business-data.adoc-12">
+<p>Have a source of truth for process meta-data</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-handling-business-data.adoc-14">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Also keep in mind I want to keep every-thing self contained for PoC purposes. Think in logical terms and that these components could be another technology or several other technologies depending on the specific needs.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-handling-business-data.adoc-17">
+<h4 id="_camunda_rest_api"><a id="camunda-rest-api"></a>Camunda REST API</h4>
+<div class="exampleblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-handling-business-data.adoc-18">
+<div class="content">
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-handling-business-data.adoc-19">
+<p>Camunda has a powerful rest API. This code repository has many examples of interacting with the CAMUNDA REST API from the custom UI and using postman. See the <code>postman</code> folder in the project home.</p>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-handling-business-data.adoc-21">
+<p>Import the postman collection and take a look at the queries to start the workflow and correlate messages.</p>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-handling-business-data.adoc-23">
+<p>see more <a href="https://docs.camunda.org/manual/latest/reference/rest/">CAMUNDA REST API</a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect3 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-handling-business-data.adoc-27">
+<h4 id="_jpa_spring_data_repositories">JPA Spring Data Repositories</h4>
+<div class="exampleblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-handling-business-data.adoc-28">
+<div class="content">
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-handling-business-data.adoc-29">
+<p>A separate API and logically separate data-store is used to query order data.</p>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-handling-business-data.adoc-31">
+<p>We can guarantee the data is updated in the data store with the workflow. See the section above on the JavaDelegates that implement the publishing functionality.</p>
+</div>
+<div class="paragraph has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-handling-business-data.adoc-33">
+<p><a href="https://spring.io/blog/2011/02/10/getting-started-with-spring-data-jpa">Spring Data JPA</a> is the technology used for business data. Spring Data allows for an easy way to create API&#8217;s that are easy for a UI to query. Also an easy way to combine data into a useful form for the UI to consume.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-1">
+<h2 id="_important_pre_launch_concepts"><a id="pre-launch-concepts"></a>Important Pre-Launch Concepts</h2>
+<div class="sectionbody">
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-3">
+<h3 id="_history_and_database">History and Database</h3>
+<div class="ulist checklist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-4">
+<ul class="checklist">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-4">
+<p>&#10003; Database Growing Test - Run database growth tests. Base these tests on the amount
+of data that would exist in the Runtime and History</p>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-6">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-6">
+<p>For <strong>runtime</strong> estimate length of time, start to end, of a workflow instance.</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-7">
+<p>For <strong>history</strong> the test should be based on retention policy</p>
+</li>
+</ul>
+</div>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-8">
+<p>&#10003; <strong>History Clean Up</strong> - This must be set before production!!!</p>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-9">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-9">
+<p>See <a href="https://docs.camunda.org/manual/latest/user-guide/process-engine/history/#history-cleanup">History Cleanup Doc</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-10">
+<p>&#10003; <strong>Database Config</strong></p>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-11">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-11">
+<p>(HikariCP) configured - Preferably use HikariCP and configure it’s <a href="https://github.com/brettwooldridge/HikariCP#configuration-knobs-baby">settings</a>
+using spring.datasource.hikari.* properties.</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-13">
+<p><strong>Datasource</strong> pools configured according to baseline formula.</p>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-14">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-14">
+<p>See <a href="https://camunda.com/best-practices/performance-tuning-camunda/#_tuning_the_database_connection_pool">Tuning the connection pool</a></p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-15">
+<p><a href="https://github.com/brettwooldridge/HikariCP/wiki/About-Pool-Sizing">Connection Pool Sizing</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonitionblock important has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-17">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+Database performance is affected by model design. Additionally,
+model design directly influences <a href="https://docs.camunda.org/manual/latest/user-guide/process-engine/transactions-in-processes/">Transactions in Camunda</a>.
+See more about model design in the following section <strong><em>Model Review</em></strong>.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-21">
+<h3 id="_modeling_and_design">Modeling and Design</h3>
+<div class="ulist checklist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-22">
+<ul class="checklist">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-22">
+<p>&#10003; <a href="https://camunda.com/best-practices/creating-readable-process-models/">Create Readable Process Models</a></p>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-23">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-23">
+<p>Model left to right for understanding</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-24">
+<p>Establish Good naming conventions</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-25">
+<p>Establish good governance of process models</p>
+</li>
+</ul>
+</div>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-26">
+<p>&#10003; Look through the <a href="https://camunda.com/best-practices/dealing-with-problems-and-exceptions/#knowing-typical-dos-and-donts-for-save-points">Do&#8217;s and Dont&#8217;s</a>.
+Make sure your models follows best practices.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-29">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+The <a href="https://camunda.com/best-practices/dealing-with-problems-and-exceptions/#knowing-typical-dos-and-donts-for-save-points">Do&#8217;s and Dont&#8217;s</a>
+are related to transactions in Camunda and affect database performance. See more about <a href="https://docs.camunda.org/manual/7.5/user-guide/process-engine/transactions-in-processes/">Transactions in Camunda</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-32">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-32">
+<p>Understand how and when to <a href="#business-data-in-workflow">store process variables</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-35">
+<h3 id="_basic_system_monitoring">Basic System Monitoring</h3>
+<div class="ulist checklist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-36">
+<ul class="checklist">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-36">
+<p>&#10003; Technical visibility into Camunda</p>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-37">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-37">
+<p>Should have visibility to see how the hardware and software environment (not specific to Camunda) reacts in different situations.
+See <a href="https://camunda.com/best-practices/operating-camunda/#__strong_setting_up_strong_monitoring_and_alarming">Monitoring Startegy</a></p>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-39">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-39">
+<p>To integrate Camunda into your monitoring you can add some Camunda indicators. See <a href="https://camunda.com/best-practices/operating-camunda/#_monitoring_strong_performance_strong_indicators">Camunda Indicators</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-40">
+<p>&#10003; Log Drain - Often it&#8217;s useful to add Java logging from Camunda into your log drain system. See <a href="https://docs.camunda.org/manual/latest/user-guide/logging/">Logging</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-42">
+<h3 id="_load_testing">Load testing</h3>
+<div class="ulist checklist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-43">
+<ul class="checklist">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-43">
+<p>&#10003; Test Peak Load</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-44">
+<p>&#10003; Test Average Load</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-45">
+<p>&#10003; Most Used API&#8217;s - This is use case specific</p>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-46">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-46">
+<p>Baseline methodology - no test is absolute - all tests are relative</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-47">
+<p>KPI methodology - you cannot tell what is normal from one test run. You must define KPI&#8217;s and test to meet or exceed KPI&#8217;s.</p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-48">
+<p>QA performance tests for anecdotal info on performance baseline.
+See <a href="https://github.com/camunda/camunda-bpm-platform/tree/master/qa/performance-tests-engine">QA Performance Tests</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonitionblock important has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-51">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+QA performance tests are relative and don&#8217;t provide absolute
+numbers. Additionally they don&#8217;t test end-to-end performance.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-55">
+<h3 id="_job_executor">Job Executor</h3>
+<div class="ulist checklist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-56">
+<ul class="checklist">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-56">
+<p>&#10003; Tune the job executor for baseline performance</p>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-58">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-58">
+<p><a href="https://docs.camunda.org/manual/latest/user-guide/process-engine/the-job-executor/">How the job executor works</a></p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-59">
+<p><a href="https://docs.camunda.org/manual/latest/introduction/architecture/#the-job-executor-in-a-clustered-environment">How job executor works in cluster</a></p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-60">
+<p><a href="https://camunda.com/best-practices/performance-tuning-camunda/#_tuning_the_job_executor">Basic tuning the job executor</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-62">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+Job Executor Tuning Approach
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-64">
+<div class="content">
+<pre class="CodeRay highlight"><code>- Start with the number of threads = CPU cores * 1.5
+
+- Increase queue size stepwise until there is no gain in throughput any more because all threads are &quot;busy&quot; waiting for i/o
+
+- Now increase worker threads and afterward queue size and always check that this improves throughput
+
+- Whenever you reach a limit you found your upper configuration limit, which is typically optimal for production.</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-74">
+<h3 id="_appropriate_test_coverage">Appropriate Test Coverage</h3>
+<div class="ulist checklist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-75">
+<ul class="checklist">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-75">
+<p>&#10003; Ensure you have tested your workflow. See <a href="https://camunda.com/best-practices/testing-process-definitions/">Testing Process Definitions</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-77">
+<h3 id="_securing_camunda">Securing Camunda</h3>
+<div class="ulist checklist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-78">
+<ul class="checklist">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-78">
+<p>&#10003; Be sure to secure the necessary aspects of Camunda. See <a href="https://camunda.com/best-practices/securing-camunda/">Securing Camunda</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-80">
+<h3 id="_failover_and_recovery_plan">Failover and Recovery Plan</h3>
+<div class="ulist checklist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-81">
+<ul class="checklist">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-81">
+<p>&#10003; Ensure the appropriate backup strategy is in place.</p>
+<div class="ulist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-83">
+<ul>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-83">
+<p><a href="https://camunda.com/best-practices/operating-camunda/#__strong_backing_up_strong_camunda">Backing up Camunda</a></p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-84">
+<p><a href="https://camunda.com/best-practices/performance-tuning-camunda/#_clustering">Understand Clustering</a></p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-85">
+<p><a href="https://docs.camunda.org/manual/7.12/introduction/architecture/#clustering-model">More on clustering and Architecture</a></p>
+</li>
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-86">
+<p><a href="https://docs.camunda.org/manual/7.12/introduction/supported-environments/#database-clustering-replication">Database Replication</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2 has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/best-practice-pre-launch-concepts.adoc-88">
+<h3 id="_customer_success_path">Customer Success Path</h3>
+<div class="ulist checklist has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-main.adoc-50">
+<ul class="checklist">
+<li class="has-source-line data-line-/Users/paullungu/projects/camunda-poc-starter-parent/docs/poc-main.adoc-50">
+<p>&#10003; <a href="https://camunda.com/best-practices/following-the-customer-success-path/">Follow the customer success path</a></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -904,7 +2163,7 @@ Preparing for a PoC is important. Please follow the points below to ensure that 
 <div id="footer">
 <div id="footer-text">
 Version 1.0<br>
-Last updated 2021-11-04 16:40:51 -0600
+Last updated 2021-11-10 16:11:58 -0700
 </div>
 </div>
 </body>

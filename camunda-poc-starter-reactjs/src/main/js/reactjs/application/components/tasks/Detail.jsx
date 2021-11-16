@@ -7,17 +7,12 @@
 
 // tag::nodeModules[]
 const React = require('react');
-const ReactDOM = require('react-dom')
-const client = require('../client.jsx');
-const follow = require('../follow.jsx'); // function to hop multiple links by "rel"
 
 // tag::customComponents
-const Form = require('src/main/js/reactjs/application/service-request/components/task/Form.jsx');
-const Info = require('src/main/js/reactjs/application/service-request/components/task/Info.jsx');
+const Form = require('TaskForm');
+const Info = require('TaskInfo');
 
 // tag::vars[]
-const apiHost = process.env.API_HOST != "" ? `${process.env.API_HOST}:${process.env.API_PORT}/` : "/";
-const apiRoot = `${apiHost}${process.env.API_ROOT}`;
 // end::vars[]
 
 class Detail extends React.Component{
@@ -28,14 +23,12 @@ class Detail extends React.Component{
   }
 
   render(){
-
     return (
       <div>
-
         <Info task={this.props.task} />
-        <Form task={this.props.task}
-              handleReject={this.props.handleReject}
-              handleApprove={this.props.handleApprove}/>
+        {/*<Form task={this.props.task}*/}
+        {/*      handleReject={this.props.handleReject}*/}
+        {/*      handleApprove={this.props.handleApprove}/>*/}
       </div>
     )
   }

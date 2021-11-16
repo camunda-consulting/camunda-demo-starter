@@ -7,7 +7,7 @@ module.exports = {
         'babel-polyfill',
 	    'script!jquery/dist/jquery.min.js',
 	    'script!foundation-sites/dist/foundation.min.js',
-	    `./src/main/js/reactjs/application/damage-report-app.jsx`
+	    `./src/main/js/reactjs/application/adhoc.jsx`
 	  ],
 	externals: {
 		jquery: 'jQuery'
@@ -43,30 +43,27 @@ module.exports = {
             // END Generic Reusable Components
 
             //Order App Components
-            Main: 'src/main/js/reactjs/application/usecase/damage-report/components/Main.jsx',
-            MarketingBar: 'src/main/js/reactjs/application/usecase/damage-report/components/MarketingBar.jsx',
-            StatusBar: 'src/main/js/reactjs/application/usecase/damage-report/components/StatusBar.jsx',
-            FooterBar: 'src/main/js/reactjs/application/usecase/damage-report/components/FooterBar.jsx',
+            Main: 'src/main/js/reactjs/application/usecase/adhoc/components/Main.jsx',
+            MarketingBar: 'src/main/js/reactjs/application/usecase/adhoc/components/MarketingBar.jsx',
+            StatusBar: 'src/main/js/reactjs/application/usecase/adhoc/components/StatusBar.jsx',
+            FooterBar: 'src/main/js/reactjs/application/usecase/adhoc/components/FooterBar.jsx',
 
-            Home: 'src/main/js/reactjs/application/usecase/damage-report/components/home/Home.jsx',
-            Detail: 'src/main/js/reactjs/application/usecase/damage-report/components/home/Detail.jsx',
-            StartForm: 'src/main/js/reactjs/application/usecase/damage-report/components/home/StartForm.jsx',
-            DetailForm: 'src/main/js/reactjs/application/usecase/damage-report/components/home/DetailForm.jsx',
-            ConfirmationForm: 'src/main/js/reactjs/application/usecase/damage-report/components/home/ConfirmationForm.jsx',
-            Info: 'src/main/js/reactjs/application/usecase/damage-report/components/home/Info.jsx',
+            Home: 'src/main/js/reactjs/application/usecase/adhoc/components/home/Home.jsx',
+            Detail: 'src/main/js/reactjs/application/usecase/adhoc/components/home/Detail.jsx',
+            StartForm: 'src/main/js/reactjs/application/usecase/adhoc/components/home/StartForm.jsx',
+            DetailForm: 'src/main/js/reactjs/application/usecase/adhoc/components/home/DetailForm.jsx',
+            ConfirmationForm: 'src/main/js/reactjs/application/usecase/adhoc/components/home/ConfirmationForm.jsx',
+            Info: 'src/main/js/reactjs/application/usecase/adhoc/components/home/Info.jsx',
             FilterBar: 'src/main/js/reactjs/application/components/FilterBar.jsx',
-            SaveActionBar: 'src/main/js/reactjs/application/usecase/damage-report/components/home/SaveActionBar.jsx',
-            ConfirmActionBar: 'src/main/js/reactjs/application/usecase/damage-report/components/home/ConfirmActionBar.jsx',
+            SaveActionBar: 'src/main/js/reactjs/application/usecase/adhoc/components/home/SaveActionBar.jsx',
+            ConfirmActionBar: 'src/main/js/reactjs/application/usecase/adhoc/components/home/ConfirmActionBar.jsx',
             // END Use Case Components
 
             //Generic Task Componet
-            TaskHome: 'src/main/js/reactjs/application/components/task/Home.jsx',
-            TaskDetail: 'src/main/js/reactjs/application/components/task/Detail.jsx',
-            TaskForm: 'src/main/js/reactjs/application/components/task/Form.jsx',
-            TaskInfo: 'src/main/js/reactjs/application/components/task/Info.jsx',
-            TaskFilterBar: 'src/main/js/reactjs/application/components/task/FilterBar.jsx',
-            TaskAction: 'src/main/js/reactjs/application/components/task/ActionBar.jsx',
-            TaskConfirmation: 'src/main/js/reactjs/application/components/task/Confirmation.jsx'
+            TaskHome: 'src/main/js/reactjs/application/components/tasks/Home.jsx',
+            TaskDetail: 'src/main/js/reactjs/application/components/tasks/Detail.jsx',
+            TaskForm: 'src/main/js/reactjs/application/components/tasks/Form.jsx',
+            TaskInfo: 'src/main/js/reactjs/application/components/tasks/Info.jsx',
 
         },
         extensions: ['', '.js', '.jsx']

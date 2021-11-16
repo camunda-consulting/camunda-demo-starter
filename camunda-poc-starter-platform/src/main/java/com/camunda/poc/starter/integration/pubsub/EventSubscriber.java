@@ -2,6 +2,9 @@ package com.camunda.poc.starter.integration.pubsub;
 
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.variable.Variables;
+import org.camunda.bpm.engine.variable.value.TypedValue;
+import org.camunda.spin.plugin.variable.SpinValues;
+import org.camunda.spin.plugin.variable.value.JsonValue;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
@@ -36,23 +39,28 @@ public class EventSubscriber {
 
 			Map<String, Object> params = event.getEventParams();
 
-			JSONObject jsData = new JSONObject(params.get("processVariables").toString());
+			JSONObject submission = new JSONObject(params.get("submission").toString());
 
 			if (params != null) {
-				LOGGER.info("\n\n Event Params: " + jsData.toString() + "\n");
+				LOGGER.info("\n\n Event Params: " + submission.toString() + "\n");
+
+				//Use Camunda Value Type API to create a Json Object
+				JsonValue jsonValue = SpinValues.jsonValue(params.get("submission").toString()).create();
+				JsonValue jsonUserValue = SpinValues.jsonValue(params.get("user").toString()).create();
 
 				//Use Camunda Message API to start the workflow
-				runtimeService.correlateMessage(jsData.get("workflowKey").toString(), jsData.get("businessKey").toString(),
-					Variables.createVariables().putValue("approved", true)
-							                   .putValue("responsible", true)
-							                   .putValue("severity", "high")
-							                   .putValue("location", jsData.get("location").toString())
-							                   .putValue("damageType", jsData.get("damageType").toString())
+				runtimeService.correlateMessage(
+						params.get("workflowKey").toString(),
+						submission.get("businessKey").toString(),
+						//Pass the JSON Object to Camunda starting the workflow
+						Variables.createVariables()
+								.putValueTyped("submission", jsonValue)
+								.putValueTyped("user", jsonUserValue)
 				);
 
 			}else {
-			LOGGER.info("\n\n Event Params NULL \n");
-		  }
+				LOGGER.info("\n\n Event Params NULL \n");
+		 	}
 
 		}
 

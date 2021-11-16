@@ -10,10 +10,8 @@ import java.util.List;
 @Profile("poc")
 public interface SubmissionRepository extends PagingAndSortingRepository<Submission, Long>{
 
-	Submission findSubmissionByBusinessKey(@Param("businessKey") String key);
+	Submission findSubmissionByBusinessKey(@Param("businessKey") String businessKey);
 
-	List<Submission> findSubmissionReportByEmailAndStarted(@Param("email") String email, @Param("started") Boolean started);
-
-	List<Submission> findSubmissionReportByStarted(@Param("started") Boolean started);
+	List<Submission> findSubmissionByStarted(@Param("started") Boolean started);
 
 }

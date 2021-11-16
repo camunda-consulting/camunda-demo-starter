@@ -2,7 +2,7 @@ package com.camunda.poc.starter.poc.submission.repo;
 
 import com.camunda.poc.starter.poc.submission.entity.Status;
 import com.camunda.poc.starter.poc.submission.entity.Submission;
-import com.camunda.poc.starter.poc.submission.entity.Contact;
+import com.camunda.poc.starter.poc.submission.entity.User;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -14,7 +14,7 @@ public class RepositoryConfig implements RepositoryRestConfigurer {
 
   @Override
 	public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-    config.exposeIdsFor(Submission.class, Contact.class, Status.class);
+    config.exposeIdsFor(Submission.class, User.class, Status.class);
   }
 
 }

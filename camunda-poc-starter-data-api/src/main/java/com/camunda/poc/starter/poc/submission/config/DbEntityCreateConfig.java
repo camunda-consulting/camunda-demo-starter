@@ -1,10 +1,10 @@
 package com.camunda.poc.starter.poc.submission.config;
 
 import com.camunda.poc.starter.poc.submission.entity.Status;
+import com.camunda.poc.starter.poc.submission.entity.User;
 import com.camunda.poc.starter.poc.submission.repo.ContactRepository;
 import com.camunda.poc.starter.poc.submission.entity.Submission;
 import com.camunda.poc.starter.poc.submission.repo.SubmissionRepository;
-import com.camunda.poc.starter.poc.submission.entity.Contact;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
@@ -70,7 +70,7 @@ public class DbEntityCreateConfig {
 
         MetadataSources metadata = new MetadataSources(serviceRegistry);
         metadata.addAnnotatedClass(Submission.class);
-        metadata.addAnnotatedClass(Contact.class);
+        metadata.addAnnotatedClass(User.class);
         metadata.addAnnotatedClass(Status.class);
 
 
@@ -100,19 +100,19 @@ public class DbEntityCreateConfig {
 
             LOGGER.info("\n\n ********************** Create Contact Post Init Hook *********************** \n\n ");
 
-            Contact contact = new Contact();
-            contact.setCity("Denver");
-            contact.setCountry("USA");
-            contact.setEmail("paul.lungu@camunda.com");
-            contact.setFirst("Paul");
-            contact.setLast("Lungu");
-            contact.setManager("Ragner");
-            contact.setPhone("134-232-2344");
-            contact.setState("Colorado");
-            contact.setStreet("Atlantis");
-            contact.setZip("80026");
+            User user = new User();
+            user.setCity("Denver");
+            user.setCountry("USA");
+            user.setEmail("paul.lungu@camunda.com");
+            user.setFirst("Paul");
+            user.setLast("Lungu");
+            user.setManager("Ragner");
+            user.setPhone("134-232-2344");
+            user.setState("Colorado");
+            user.setStreet("Atlantis");
+            user.setZip("80026");
 
-            contactRepository.save(contact);
+            contactRepository.save(user);
             LOGGER.info("\n\n **** Contact Created ****** \n\n");
         }
     }

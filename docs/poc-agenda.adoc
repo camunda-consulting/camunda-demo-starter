@@ -1,0 +1,81 @@
+=== [[poc-agenda]]Agenda
+
+[cols="1,1,1,1"]
+|===
+|Date | Hours | Description | Responsible
+
+|Nov 8, 2021
+|80 Total Estimated
+|PoC Start
+|FDA and Camunda
+
+|Nov 8, 2021 - 10am EST
+|1
+|<<workshop-1, Workshop 1>>
+
+Present use case, project overview
+
+Provide short intro to the Camunda Platform
+|Customer and Camunda
+
+|Nov 8, 2021 - 11am EST
+|4
+|<<workshop-1, Workshop 1>>
+
+Hands on Modeling BPMN with Cawemo Biz Modeler
+
+|Customer and Camunda
+
+|Nov 8, 2021 - 3pm EST
+|2
+|<<workshop-1, Workshop 1>>
+
+Camunda and FDA Hands on Modeling DMN Business Rules
+|Customer and Camunda
+
+|Nov 9, 2021 - 10am EST
+|3
+|<<workshop-2, Workshop 2>>
+
+Technical modeling and deploying the DMN and BPMN to Camunda.
+
+|Customer and Camunda
+
+|Nov 10, 2021 - 10am EST
+|3
+|<<workshop-3, Workshop 3>>
+
+Hands on technical walk-through
+
+Setting up a process application and deploying locally with Camunda, Docker and Kubernetes.
+
+Understanding Architecture Basics
+
+|Customer and Camunda
+
+|Nov 12, 2021 - 10am EST
+| 3
+|<<workshop-4, Workshop 4>>
+
+Hands on technical walk-through
+
+Understand Development and Integration patterns
+
+|Customer and Camunda
+
+|Oct 15, 2021 - 10am EST
+| 2
+|Demo Preparation Contingency Discussion
+|Camunda and Customer
+
+|Nov 17, 2021 - 10am EST
+|2.5
+|PoC DEMO Dry Run
+|Camunda and Customer
+
+|Nov 19, 2021 - 10am EST
+|2.5
+|PoC DEMO
+|Camunda and Customer
+
+|===

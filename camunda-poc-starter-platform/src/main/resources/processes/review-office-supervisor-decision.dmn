@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="Definitions_c0e7acdc-f1a5-44c4-ba2e-02ef76438256" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.10.0" camunda:diagramRelationId="2ff9bd72-ed4b-4c03-9b62-0e35a7d0e713">
-  <decision id="Decision_0vslh6y" name="Review Office">
+  <decision id="Decision_review-office" name="Review Office">
     <informationRequirement id="InformationRequirement_0dlaa5h">
       <requiredInput href="#InputData_14zclfi" />
     </informationRequirement>
     <informationRequirement id="InformationRequirement_0mpuaaq">
       <requiredInput href="#InputData_04g6sg9" />
     </informationRequirement>
-    <decisionTable id="DecisionTable_0azx1hv">
-      <input id="Input_1" label="Established Name" biodi:width="341">
-        <inputExpression id="InputExpression_1" typeRef="string">
-          <text>establishedName</text>
+    <decisionTable id="DecisionTable_0azx1hv" hitPolicy="FIRST">
+      <input id="Input_1" label="Established Name" biodi:width="341" camunda:inputVariable="establishedName">
+        <inputExpression id="InputExpression_1" typeRef="string" expressionLanguage="feel">
+          <text>submission.establishedName</text>
         </inputExpression>
       </input>
       <input id="InputClause_1i7js39" label="Indication" biodi:width="215">
-        <inputExpression id="LiteralExpression_0zs627p" typeRef="string">
-          <text>indication</text>
+        <inputExpression id="LiteralExpression_0zs627p" typeRef="string" expressionLanguage="feel">
+          <text>submission.indication</text>
         </inputExpression>
       </input>
       <output id="Output_1" label="Office" name="office" typeRef="string" />
@@ -100,10 +100,10 @@
   </decision>
   <decision id="Decision_schedule" name="Schedule">
     <informationRequirement id="InformationRequirement_0maoy14">
-      <requiredDecision href="#Decision_review" />
+      <requiredDecision href="#Decision_review-priority" />
     </informationRequirement>
     <informationRequirement id="InformationRequirement_0mq3c2u">
-      <requiredDecision href="#Decision_0vslh6y" />
+      <requiredDecision href="#Decision_review-office" />
     </informationRequirement>
     <decisionTable id="DecisionTable_007fn9t" hitPolicy="FIRST">
       <input id="InputClause_0fbffit" label="Review Office">
@@ -204,22 +204,22 @@
       </rule>
     </decisionTable>
   </decision>
-  <decision id="Decision_review" name="Review Priority">
+  <decision id="Decision_review-priority" name="Review Priority">
     <informationRequirement id="InformationRequirement_0gwoavs">
       <requiredInput href="#InputData_04g6sg9" />
     </informationRequirement>
     <informationRequirement id="InformationRequirement_1ne86p1">
       <requiredInput href="#InputData_1r0mdyj" />
     </informationRequirement>
-    <decisionTable id="DecisionTable_0lt8p0y">
+    <decisionTable id="DecisionTable_0lt8p0y" hitPolicy="FIRST">
       <input id="InputClause_14ncboc" label="Indication">
-        <inputExpression id="LiteralExpression_1b2e9y5" typeRef="string">
-          <text>indication</text>
+        <inputExpression id="LiteralExpression_1b2e9y5" typeRef="string" expressionLanguage="feel">
+          <text>submission.indication</text>
         </inputExpression>
       </input>
       <input id="InputClause_1anat6v" label="Dosage Form">
-        <inputExpression id="LiteralExpression_1k84hct" typeRef="string">
-          <text>dosageForm</text>
+        <inputExpression id="LiteralExpression_1k84hct" typeRef="string" expressionLanguage="feel">
+          <text>submission.dosageForm</text>
         </inputExpression>
       </input>
       <output id="OutputClause_07jo40l" label="Priority" name="priority" typeRef="string" />
@@ -296,7 +296,7 @@
   <inputData id="InputData_1r0mdyj" name="Dosage Form" />
   <dmndi:DMNDI>
     <dmndi:DMNDiagram>
-      <dmndi:DMNShape dmnElementRef="Decision_0vslh6y">
+      <dmndi:DMNShape dmnElementRef="Decision_review-office">
         <dc:Bounds height="80" width="180" x="270" y="330" />
       </dmndi:DMNShape>
       <dmndi:DMNShape id="DMNShape_1qzw9ar" dmnElementRef="Decision_schedule">
@@ -307,7 +307,7 @@
         <di:waypoint x="530" y="180" />
         <di:waypoint x="530" y="160" />
       </dmndi:DMNEdge>
-      <dmndi:DMNShape id="DMNShape_0vq1wlh" dmnElementRef="Decision_review">
+      <dmndi:DMNShape id="DMNShape_0vq1wlh" dmnElementRef="Decision_review-priority">
         <dc:Bounds height="80" width="180" x="570" y="330" />
       </dmndi:DMNShape>
       <dmndi:DMNShape id="DMNShape_1q38z9n" dmnElementRef="InputData_14zclfi">

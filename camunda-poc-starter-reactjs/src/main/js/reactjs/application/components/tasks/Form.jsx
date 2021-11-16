@@ -7,15 +7,10 @@
 
 // tag::nodeModules[]
 var React = require('react');
-const client = require('../client.jsx');
 
 // tag::customComponents
-const DisplayDate = require('src/main/js/reactjs/application/service-request/components/date/DisplayDate.jsx');
-const follow = require('../follow.jsx'); // function to hop multiple links by "rel"
 
 // tag::vars[]
-const apiHost = process.env.API_HOST != "" ? `${process.env.API_HOST}:${process.env.API_PORT}/` : "/";
-const apiRoot = `${apiHost}${process.env.API_ROOT}`;
 // end::vars[]
 
 class Form extends React.Component {
@@ -30,8 +25,6 @@ class Form extends React.Component {
   render() {
 
     return (
-
-
       <div className="top-bar">
           <div className="top-bar-right columns">
               <ul className="menu my-bar">
@@ -44,7 +37,6 @@ class Form extends React.Component {
               </ul>
           </div>
       </div>
-
     );
   }
 }

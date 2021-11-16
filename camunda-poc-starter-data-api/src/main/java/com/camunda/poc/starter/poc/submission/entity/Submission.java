@@ -1,6 +1,9 @@
 package com.camunda.poc.starter.poc.submission.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.context.annotation.Profile;
 
 import javax.persistence.*;
@@ -8,6 +11,8 @@ import java.util.Date;
 
 @Profile("poc")
 @Entity(name="poc_submission")
+@Getter
+@Setter
 public class Submission {
 
     private static final long serialVersionUID = -209110232715280386L;
@@ -24,10 +29,6 @@ public class Submission {
         return id;
     }
 
-    @Column(name="submission_date", nullable=true)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date submissionDate;
-
     @Column(name="business_key", nullable=true)
     private String businessKey;
 
@@ -43,84 +44,39 @@ public class Submission {
     @Column(name="status", nullable=true)
     private String status;
 
-    @Column(name="email", nullable=true)
-    private String email;
+    @Column(name="creation_date", nullable=true)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date creationDate;
 
-    @Column(name="submission_type", nullable=true)
-    private String submissionType;
+    //====================================================
 
-    @Column(name="location", nullable=true)
-    private String location;
+    @Column(name="review_schedule", nullable=true)
+    private String reviewSchedule;
 
-    public Date getSubmissionDate() {
-        return submissionDate;
-    }
+    @Column(name="product", nullable=true)
+    private String product;
 
-    public void setSubmissionDate(Date submissionDate) {
-        this.submissionDate = submissionDate;
-    }
+    @Column(name="product_type", nullable=true)
+    private String productType;
 
-    public String getBusinessKey() {
-        return businessKey;
-    }
+    @Column(name="review_office", nullable=true)
+    private String reviewOffice;
 
-    public void setBusinessKey(String businessKey) {
-        this.businessKey = businessKey;
-    }
+    @Column(name="submission_status", nullable=true)
+    private String submissionStatus;
 
-    public String getLocation() {
-        return location;
-    }
+    @Column(name="submission_status_date", nullable=true)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date submissionStatusDate;
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
+    @Column(name="indication", nullable=true)
+    private String indication;
 
-    public boolean isStarted() {
-        return started;
-    }
+    @Column(name="established_name", nullable=true)
+    private String establishedName;
 
-    public void setStarted(boolean started) {
-        this.started = started;
-    }
+    @Column(name="dosage_form", nullable=true)
+    private String dosageForm;
 
-    public boolean isApproved() {
-        return approved;
-    }
 
-    public void setApproved(boolean approved) {
-        this.approved = approved;
-    }
-
-    public boolean isRejected() {
-        return rejected;
-    }
-
-    public void setRejected(boolean rejected) {
-        this.rejected = rejected;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getSubmissionType() {
-        return submissionType;
-    }
-
-    public void setSubmissionType(String submissionType) {
-        this.submissionType = submissionType;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 }

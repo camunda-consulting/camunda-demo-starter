@@ -1,4 +1,17 @@
-### [[example-camunda-storing-variables]] Example: Storing Variables
+### [[example-camunda-storing-variables]] Example: Storing Variables and Accessing variables
+
+==== Store a Typed Value
+```Java
+
+  JSONObject jsData = new JSONObject(params.get("processVariables").toString());
+  JsonValue jsonValue = SpinValues.jsonValue(jsData.toString()).create();
+
+  runtimeService.correlateMessage(jsData.get("workflowKey").toString(), jsData.get("businessKey").toString(),
+        Variables.createVariables().putValueTyped("submission", jsonValue)
+  );
+```
+https://docs.camunda.org/manual/latest/user-guide/data-formats/json/#native-json-variable-value[Storing JSON Typed Value]
+https://docs.camunda.org/manual/latest/user-guide/process-engine/variables/#typed-value-api[Storing Typed Value]
 
 ==== Primitives serialized as primitives, persisted as primitive type
 ```JSON

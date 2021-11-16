@@ -1,33 +1,29 @@
 
-## [[running-the-usecase]]Running the use-case
+## [[running-the-usecase]]Running the app
 
 IMPORTANT: if you want to use Camunda Enterprise you will need to download the enterpise license. See the section on <<enterprise-camunda,setting up Camunda Enterprise>>
 
-===== Option 1. Use spring-boot at the command line
-```
-mvn clean spring-boot:run -Dspring-boot.run.profiles=<profiles>
-```
 
-===== Option 2. Use docker-compose
+===== Use docker-compose
 This should allow you to simple run the in a self contained manner. You must have docker installed on the machine.
-```
-docker-compose up
-```
 
-===== Option 3. Build the jar
-Build the .jar with maven
-
-  mvn clean package -DskipTests
-
-Run the .jar with java
+Change into parent directory of the project
 
 ```
-java -Dspring.profiles.active=<profiles> -jar ./target/camunda-poc-starter.jar
+docker-compose -f docker-compose.dev.yml up -d
 ```
 
-===== Option 4. Use Kuberneties and Declaritive Infra
-This is still in progress.
+```
+docker-compose -f docker-compose.dev.yml --build <service-name>
+```
 
+```
+docker-compose -f docker-compose.dev.yml --restart <service-name>
+```
+
+
+===== Use Kuberneties and Declaritive Infra
+See the [HELM Installer]
 
 ### [[using-springboot-profiles]]Using Profiles
 ====

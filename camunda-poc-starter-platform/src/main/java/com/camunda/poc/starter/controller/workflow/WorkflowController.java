@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 import java.util.logging.Logger;
 
-@Profile("servicerequest")
+@Profile("poc")
 @RestController
 public class WorkflowController {
 

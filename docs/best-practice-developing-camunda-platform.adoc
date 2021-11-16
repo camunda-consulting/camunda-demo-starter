@@ -1,0 +1,90 @@
+=== Best Practice - Developing with Camunda Platform
+---
+==== [[development-and-design]]Development and Design Concepts
+- Understand [Modeling Beyound The Happy Path]
+- Understand https://docs.camunda.org/manual/latest/modeler/element-templates/[Element Templates]
+- Understand https://docs.camunda.org/manual/latest/user-guide/process-engine/transactions-in-processes/[Transactions in Workflow]
+- Understand https://docs.camunda.org/manual/latest/user-guide/process-engine/error-handling/[Error Handling]
+- Understand https://docs.camunda.org/manual/latest/user-guide/process-applications/maven-archetypes/#overview-of-available-maven-archetypes[Quick Project Setup with Mavan]
+- Understand https://docs.camunda.org/manual/latest/reference/rest/openapi/[Camunda Open API]
+//- Understand https://pypi.org/project/camunda-external-task-client-python3/[Community Python External Task Client]
+
+---
+
+### Developer Resources
+
+- [Getting Started with Camunda Run Docker, Remote Process Server]
+- https://docs.camunda.org/manual/7.16/user-guide/process-applications/maven-archetypes/[Maven Archetypes for WAR, SpringBoot, JEE, and other]
+- https://camunda.github.io/feel-scala/docs/reference/[Feel Scala Reference for DMN and Expressions]
+
+---
+
+==== Choosing a Stack
+====
+See this example on how to deploy the .war file using the HELM chart. https://github.com/plungu/camunda-helm#step-3-a-install-a-process-application
+
+If you want to deploy spring-boot you have a couple different options.
+- You can use the Camunda Run tag with the HELM chart and supported docker image. But this is not as easily customizable and intended to run as a remote server.
+https://hub.docker.com/layers/camunda/camunda-bpm-platform/run-7.16.0/images/sha256-be4bf6007ba589e0069425365de017f7d5d00df82ae522e1d0f08cff7bce7d57?context=explore
+https://camunda.com/blog/2021/05/what-you-should-know-about-using-camunda-platform-run-in-production/
+https://camunda.com/blog/2020/03/introducing-camunda-bpm-run/
+
+- You can build a custom spring-boot embedded app. You will need to dockerize it and then deploy it to your cluster.
+Example docker file for spring-boot app
+Doc for setting up the app in IDE.
+
+Keep in mind these are two separate deployment options. If you want to use them in conjunction you would likely use separate pods potentially connected to the same database.
+
+====
+
+===== Camunda Docker Images
+====
+*Using tags*
+====
+
+
+===== Spring-Boot -- Embedded App
+====
+
+====
+
+===== Canunda-Run Distro -- Remote Apps
+====
+
+====
+
+===== Other Distros
+====
+
+====
+
+
+
+===== Tomcat and JEE App Server -- Shared Process App
+====
+
+====
+
+
+===== Docker-Compose for Development
+====
+
+Restarting services: do this when you have BPMN, DMN or Code changes
+
+ docker-compose -f docker-compose.dev.yml up --build -d <service>
+
+Do this when ???
+
+ docker-compose -f docker-compose.dev.yml up --force-recreate -d <service>
+
+
+TIP: you may need to delete the container if you make as schema change
+
+docker logs camunda-poc-starter-parent_camunda-platform-n1_1 --follow
+
+====
+
+===== Kubernetes for Development
+====
+
+====

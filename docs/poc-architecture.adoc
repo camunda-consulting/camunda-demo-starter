@@ -1,9 +1,30 @@
 ## Architecture
 
-The architecture depicted below generically demonstrates the possibilities and patterns interacting with the workflow. It's worth noting this is not an exhaustive model for interacting with the workflow, merely possible approaches and patterns that can be generally applied.
+==== Architecture and Engine Basics
 
+- Camunda platform installation options
+** Spring-boot
+** Tomcat Servlet and other
+** https://docs.camunda.org/manual/7.16/installation/
+- Camunda Platform and REST API Architecture
+** https://camunda.com/wp-content/uploads/2020/09/TB-Camunda_Reference_Architecture-092520.pdf[Camunda architecture]
+** https://docs.camunda.org/manual/7.16/user-guide/process-engine/multi-tenancy/[Camunda Multitenancy Official Doc]
+- https://github.com/camunda/docker-camunda-bpm-platform[Camunda Docker] image and docs
+- https://github.com/camunda-community-hub/camunda-helm/tree/main/charts/camunda-bpm-platform[Camunda Kubernetes] with HELM
+- https://github.com/camunda/docker-camunda-bpm-platform[Official Camunda Docker Image]
+- https://github.com/camunda-community-hub/camunda-helm/tree/main/charts/camunda-bpm-platform[Official Camunda HELM Chart]
+- https://hub.docker.com/r/camunda/camunda-bpm-platform[Docker HUB Camunda Platform] see tags for options
+- https://github.com/plungu/camunda-helm[forked opinionated HELM chart]
+- See https://docs.camunda.org/manual/7.15/introduction/supported-environments/[Supported Environments] to ensure the right infra is chosen
+- https://docs.camunda.org/manual/latest/update/[Upgrade Path and Practice]
+//- Blue green deployment with camunda
+
+---
 
 ==== Generic Workflow Platform Architecture
+
+The architecture depicted below generically demonstrates the possibilities and patterns interacting with the workflow. It's worth noting this is not an exhaustive model for interacting with the workflow, merely possible approaches and patterns that can be generally applied.
+
 image:./images/architecture/architecture.png[Architecture BPMN]
 ====
 - The orange box signifies components that present data and ux to clients.
@@ -45,6 +66,9 @@ A human or machine step in a process workflow is directly managed by the workflo
 
 ==== Choreography
 A human or machine step in a process workflow is indirectly correlated to the workflow.
+
+==== External Task
+Camanda has developed a unique pattern to allow ployglot programming with the Camunda engine and decouple work from the engine execution. See https://camunda.com/best-practices/invoking-services-from-the-process/#_understanding_and_using_strong_external_tasks_strong[External Tasks Doc]
 
 ==== SAGA
 Orchestration of complex technical activities is a common pattern with BPMN and Camunda engine. It's possible to orchestrate SAGA's so that compensation and rollback can happen in a distributed transaction.

@@ -70,8 +70,8 @@ under the License.
   <servers>
     <server>
 	<id>camunda-bpm-nexus-ee</id>
-    <username></username>
-    <password></password>
+    <username>paul.lungu</username>
+    <password>poft3mal!tair_CLOG</password>
     </server>
   </servers>
 

@@ -2,16 +2,10 @@
 
 - Understand <<pre-launch-concepts, Pre Lauch Concepts>>
 - Understand https://docs.camunda.org/manual/latest/user-guide/process-engine/history[Camunda History]
-- Understand https://docs.camunda.org/manual/latest/modeler/element-templates/[Element Templates]
-- Understand https://docs.camunda.org/manual/latest/user-guide/process-engine/transactions-in-processes/[Transactions in Workflow]
+- Understand https://docs.camunda.org/manual/latest/user-guide/process-engine/history/#history-cleanup[History Cleanup]
 - Understand https://camunda.com/best-practices/performance-tuning-camunda[Performance Tuning with Camunda]
-- Understand https://docs.camunda.org/manual/latest/user-guide/process-engine/error-handling/[Error Handling]
 - Understand https://camunda.com/services/training/[Training]
-- Understand https://camunda.com/best-practices/building-flexibility-into-bpmn-models/[Modeling Best Practices]
-- Understand https://cawemo.com/[Business Modeling]
-- Understand https://github.com/camunda/camunda-modeler-plugins[Modeler Plugins] & https://github.com/camunda-community-hub[Camunda Community Hub]
+- https://github.com/camunda-community-hub[Camunda Community Hub]
 - Understand https://docs.camunda.org/manual/latest/reference/rest/[REST API]
 - Understand https://docs.camunda.org/enterprise/download[Camunda Downloads]
-- Understand https://docs.camunda.org/manual/latest/user-guide/process-applications/maven-archetypes/#overview-of-available-maven-archetypes[Quick Project Setup with Mavan]
-- Understand https://docs.camunda.org/manual/latest/reference/rest/openapi/[Camunda Open API]
-//- Understand https://pypi.org/project/camunda-external-task-client-python3/[Community Python External Task Client]
+

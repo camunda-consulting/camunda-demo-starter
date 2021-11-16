@@ -1,7 +1,26 @@
-## Developing with this PoC Starter Project
+=== Developing with this PoC Starter Project
 
-#### Setting up React for Dev
+#### Running Camunda Platform for Dev
 
+===== Docker
+
+===== CLI
+NOTE: You can enable spring-dev-tools to build front and back-end component in dev mode providing faster restarts and live-reload.
+
+run the app in dev mode by uncommenting spring-dev-tools in pom.xml
+
+WARNING: spring-dev-tools affects the way Camunda serializes objects into process vars and will cause serialization errors in some cases. So it is commented out in pom.xml by default.
+
+run the following with the appropriate profiles
+
+    mvn spring-boot:run -Dspring.profiles.active=poc,email,cors
+
+---
+
+#### Running ReactJS App for Dev
+===== Docker
+
+===== CLI
 ====
 Configure the api endpoint. This is the backend URI for the spring-boot server where the react app gets data
 
@@ -35,7 +54,11 @@ NOTE: If you are developing only front-end components than you can user docker-c
 
 ====
 
-#### Running the server for Dev
+#### Running the data-api server for Dev
+
+===== Docker
+
+===== CLI
 ====
 For development on the backed run the spring-boot app on command line
 
@@ -47,6 +70,12 @@ WARNING: spring-dev-tools affects the way Camunda serializes objects into proces
 
 run the following with the appropriate profiles
 
-    mvn spring-boot:run mvn spring-boot:run -Dspring.profiles.active=<use-case>,gui,email,cors
+    mvn spring-boot:run -Dspring.profiles.active=poc,email,cors
 
 ====
+
+#### Kafka
+
+===== CLI
+
+===== Docker-Compose

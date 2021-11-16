@@ -56,11 +56,11 @@ module.exports = {
             ImportTenantMain: 'src/main/js/reactjs/application/components/import/ImportTenantMain.jsx',
             ImportCannedMessageMain: 'src/main/js/reactjs/application/components/import/ImportCannedMessageMain.jsx',
 
-            ContactMain: 'src/main/js/reactjs/application/components/contact/Home.jsx',
-            ContactLine: 'src/main/js/reactjs/application/components/contact/Detail.jsx',
-            ContactList: 'src/main/js/reactjs/application/components/contact/DetailForm.jsx',
-            ContactDetail: 'src/main/js/reactjs/application/components/contact/FilterBar.jsx',
-            ContactFilterBar: 'src/main/js/reactjs/application/components/contact/info.jsx',
+            ContactMain: 'src/main/js/reactjs/application/components/user/Home.jsx',
+            ContactLine: 'src/main/js/reactjs/application/components/user/Detail.jsx',
+            ContactList: 'src/main/js/reactjs/application/components/user/DetailForm.jsx',
+            ContactDetail: 'src/main/js/reactjs/application/components/user/FilterBar.jsx',
+            ContactFilterBar: 'src/main/js/reactjs/application/components/user/info.jsx',
 
             uriListConverter: 'src/main/js/api/uriListConverter.js',
             uriTemplateInterceptor: 'src/main/js/api/uriTemplateInterceptor.js',

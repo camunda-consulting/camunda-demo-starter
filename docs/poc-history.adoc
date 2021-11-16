@@ -15,7 +15,12 @@
 
 |Nov 4, 2021
 |0.1
-|Draft - Initial
+|Initial draft
+|Paul Lungu
+
+|Nov 10, 2021
+|0.1
+|Several updates
 |Paul Lungu
 
 
