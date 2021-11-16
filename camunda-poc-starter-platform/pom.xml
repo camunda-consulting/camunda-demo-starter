@@ -149,8 +149,8 @@
     <!-- Used to generate test coverage reports, see https://github.com/camunda/camunda-consulting/tree/master/snippets/camunda-bpm-process-test-coverage -->
      <dependency>
       <groupId>org.camunda.bpm.extension</groupId>
-      <artifactId>camunda-bpm-process-test-coverage</artifactId>
-      <version>0.3.2</version>
+      <artifactId>camunda-bpm-process-test-coverage-junit4</artifactId>
+      <version>1.0.0</version>
       <scope>test</scope>
     </dependency>
 

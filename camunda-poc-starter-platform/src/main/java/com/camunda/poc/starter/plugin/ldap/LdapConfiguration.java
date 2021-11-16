@@ -1,7 +1,6 @@
 package com.camunda.poc.starter.plugin.ldap;
 
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.camunda.bpm.engine.impl.plugin.AdministratorAuthorizationPlugin;
 import org.camunda.bpm.identity.impl.ldap.plugin.LdapIdentityProviderPlugin;
 import org.springframework.beans.factory.annotation.Value;
