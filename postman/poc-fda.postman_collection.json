@@ -1,0 +1,570 @@
+{
+	"info": {
+		"_postman_id": "6f162d22-5bf9-416e-aa74-08d6d2368af8",
+		"name": "poc-fda",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Submissions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/api/submissions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"api",
+						"submissions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Submission by Started",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test response has a Key\", function () {",
+							"",
+							"    var data = JSON.parse(responseBody);",
+							"",
+							"    // console.log(data)",
+							"",
+							"    //set the tasks into PM environment",
+							"    pm.environment.set(\"damageKey\", data._embedded.damageReports[0].damageKey);",
+							"    ",
+							"    console.log( \"Response: DamageKey: \"",
+							"                        +pm.environment.get(\"damageKey\") );",
+							"    ",
+							"    // pm.response.to.have.jsonBody(\"damageKey\"); ",
+							"    ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/api/submissions/search/findSubmissionReportByStarted?started=false",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"api",
+						"submissions",
+						"search",
+						"findSubmissionReportByStarted"
+					],
+					"query": [
+						{
+							"key": "started",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Submission by Key",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Test response has a BusinessKey\", function () {",
+							"",
+							"    var data = JSON.parse(responseBody);",
+							"",
+							"    // console.log(data)",
+							"",
+							"    //set the tasks into PM environment",
+							"    pm.environment.set(\"businessKey\", data.businessKey);",
+							"    ",
+							"    console.log( \"Response: BusinessKey: \"",
+							"                        +pm.environment.get(\"businessKey\") );",
+							"    ",
+							"    ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/api/submissions/search/findSubmissionByBusinessKey?businessKey={{businessKey}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"api",
+						"submissions",
+						"search",
+						"findSubmissionByBusinessKey"
+					],
+					"query": [
+						{
+							"key": "businessKey",
+							"value": "{{businessKey}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Submission",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"A valid response is reuturned\", () => {",
+							"     pm.response.to.have.status(201);",
+							"})",
+							"",
+							"pm.test(\"Test response has a BusinesKey\", function () {",
+							"",
+							"    var data = JSON.parse(responseBody);",
+							"",
+							"    // console.log(data)",
+							"",
+							"    //set the tasks into PM environment",
+							"    pm.environment.set(\"businessKey\", data.businessKey);",
+							"    ",
+							"    console.log( \"Response: BusinessKey: \"",
+							"                        +pm.environment.get(\"businessKey\") );",
+							"    ",
+							"    pm.response.to.have.jsonBody(\"businessKey\"); ",
+							"    ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"businessKey\" : \"{{$guid}}\",\n    \"submissionDate\": \"2021-11-10T00:00:00.000\",\n    \"started\": true,\n    \"approved\": false,\n    \"rejected\": false,\n    \"submissionType\": \"auto\",\n    \"status\": \"clock stopped\",\n    \"indication\": \"covid\",\n    \"dosageForm\": \"injection\",\n    \"establishedName\": \"blood\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/api/submissions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"api",
+						"submissions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH Submission",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"status\": \"Ragnar\"\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/submissions/{{submissionId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"submissions",
+						"{{submissionId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Start Workflow Async",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"A valid response is reuturned\", () => {",
+							"     pm.response.to.have.status(200);",
+							"})",
+							"",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"businessKey\" : \"{{businessKey}}\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/workflow/start/async",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"workflow",
+						"start",
+						"async"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "start-submission-review-workflow",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"",
+							"});",
+							"",
+							"pm.test(\"Test response has a businessKey\", function () {",
+							"",
+							"    var data = JSON.parse(responseBody);",
+							"",
+							"    //set the tasks into PM environment",
+							"    pm.environment.set(\"businessKey\", data[0].processInstance.businessKey);",
+							"    ",
+							"    console.log( \"Response: BusinessKey: \"",
+							"                        +pm.environment.get(\"businessKey\") );",
+							"    ",
+							"    pm.response.to.have.jsonBody(\"businessKey\"); ",
+							"    ",
+							"});",
+							"",
+							"pm.test(\"Test if response has ProcessId\", function () { ",
+							"    ",
+							"    var data = JSON.parse(pm.response.json());",
+							"",
+							"    console.log(` Response: Process Id =  ${data[0].processInstance.id}` );",
+							"    ",
+							"    pm.response.to.have.jsonBody(\"id\"); ",
+							"",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"messageName\" : \"Message_start-cber-process\",\n  \"businessKey\" : \"{{$guid}}\",\n  \"processVariables\": {\n       \"responsible\":{\n\t\t\t\"value\": true,\n            \"type\":\"Boolean\"\n        },\n       \"indication\":{\n\t\t\t\"value\": \"Colorado\",\n            \"type\":\"String\"\n        },\n       \"dosageForm\":{\n\t\t\t\"value\": \"high\",\n            \"type\":\"String\"\n        },\n       \"establishedName\":{\n\t\t\t\"value\": \"auto\",\n            \"type\":\"String\"\n        },\n        \"candidateGroup\":{\n\t\t\t\"value\": \"group-0\",\n            \"type\":\"String\"\n        },\n       \"user\": {\n\t\t\t\"value\": \"{\\\"name\\\": \\\"Paul Lungu\\\",\\\"subject\\\": \\\"Test Email\\\", \\\"emailFrom\\\": \\\"paul.lungu@camunda.com\\\", \\\"emailTo\\\": \\\"paul.lungu@camunda.com\\\",\\\"emailBcc\\\": \\\"paul.lungu@camunda.com,paul.lungu@camunda.com,paul.lungu@camunda.com\\\", \\\"notificationType\\\": \\\"case-completion\\\", \\\"role\\\": \\\"service-owner\\\"}\",\n\t\t\t\"type\": \"Json\"\n        },\n        \"error\": \n        {\n\t\t\t\"value\": true,\n            \"type\":\"Boolean\"\n        }\n        \n    },\n    \"resultEnabled\": true,\n    \"variablesInResultEnabled\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8081/engine-rest/message",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"engine-rest",
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "correlate-workflow-message-wait",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"",
+							"});",
+							"",
+							"pm.test(\"Test response has a businessKey\", function () {",
+							"",
+							"    var data = JSON.parse(responseBody);",
+							"",
+							"    //set the tasks into PM environment",
+							"    pm.environment.set(\"businessKey\", data[0].processInstance.businessKey);",
+							"    ",
+							"    console.log( \"Response: BusinessKey: \"",
+							"                        +pm.environment.get(\"businessKey\") );",
+							"    ",
+							"    pm.response.to.have.jsonBody(\"businessKey\"); ",
+							"    ",
+							"});",
+							"",
+							"pm.test(\"Test if response has ProcessId\", function () { ",
+							"    ",
+							"    var data = JSON.parse(pm.response.json());",
+							"",
+							"    console.log(` Response: Process Id =  ${data[0].processInstance.id}` );",
+							"    ",
+							"    pm.response.to.have.jsonBody(\"id\"); ",
+							"",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"messageName\" : \"Message_start-discipline-review\",\n  \"businessKey\" : \"{{businessKey}}\",\n  \"processVariables\": {\n        \"candidateGroup\":{\n\t\t\t\"value\": \"group-0\",\n            \"type\":\"String\"\n        },\n       \"user\": {\n\t\t\t\"value\": \"{\\\"name\\\": \\\"Paul Lungu\\\",\\\"subject\\\": \\\"Test Email\\\", \\\"emailFrom\\\": \\\"paul.lungu@camunda.com\\\", \\\"emailTo\\\": \\\"paul.lungu@camunda.com\\\",\\\"emailBcc\\\": \\\"paul.lungu@camunda.com,paul.lungu@camunda.com,paul.lungu@camunda.com\\\", \\\"notificationType\\\": \\\"case-completion\\\", \\\"role\\\": \\\"service-owner\\\", \\\"groups\\\": \\\"group-a,group-b\\\"}\",\n\t\t\t\"type\": \"Json\"\n        },\n        \"error\": \n        {\n\t\t\t\"value\": true,\n            \"type\":\"Boolean\"\n        }\n        \n    },\n    \"resultEnabled\": true,\n    \"variablesInResultEnabled\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/message",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Contacts",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Contact",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"first\" : \"Paul\",\n    \"last\" : \"Lungu\",\n    \"email\" : \"paul.lungu@camunda.com\",\n    \"phone\" : \"303-540-9000\",\n    \"street\" : \"1000 Maple Lane\",\n    \"city\" : \"Denver\",\n    \"state\" : \"CO\",\n    \"zip\" : \"80020\",\n    \"country\" : \"US\",\n    \"manager\" : \"Ragnar\",\n    \"groups\": \"group-a,group-b\"\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Contact Search",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/api/contacts/search/findContactByEmail?email=paul.lungu@camunda.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"api",
+						"contacts",
+						"search",
+						"findContactByEmail"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "paul.lungu@camunda.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH Contact",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"first\" : \"Paul\",\n    \"last\" : \"Lungu\",\n    \"email\" : \"paul.lungu@camunda.com\",\n    \"phone\" : \"303-540-9000\",\n    \"street\" : \"1000 Maple Lane\",\n    \"city\" : \"Denver\",\n    \"state\" : \"CO\",\n    \"zip\" : \"80020\",\n    \"country\" : \"US\",\n    \"manager\": \"Ragnar\",\n    \"groups\": \"group-a,group-b\"\n\n }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/api/users/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"api",
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Contacts",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/contacts/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"contacts",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
