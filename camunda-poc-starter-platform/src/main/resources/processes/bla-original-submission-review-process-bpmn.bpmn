@@ -25,7 +25,7 @@ This like a automated mail room</bpmn:text>
   </bpmn:collaboration>
   <bpmn:process id="Process_CBER" name="CBER " isExecutable="true">
     <bpmn:laneSet id="LaneSet_14vm7oc" />
-    <bpmn:userTask id="Activity_assign-rpm" name="Assign RPM to Submission" camunda:formKey="embedded:app:forms/task-form.html" camunda:candidateGroups="${scheduleResult.get(&#34;office&#34;)},${user.prop(&#34;groups&#34;).value()}">
+    <bpmn:userTask id="Activity_assign-rpm" name="Assign RPM to Submission" camunda:formKey="embedded:app:forms/task-assign-rpm-form.html" camunda:candidateGroups="${scheduleResult.get(&#34;office&#34;)},${user.prop(&#34;groups&#34;).value()}">
       <bpmn:incoming>Flow_0ijdzxh</bpmn:incoming>
       <bpmn:outgoing>Flow_1fu9fx0</bpmn:outgoing>
       <bpmn:dataOutputAssociation id="DataOutputAssociation_1n05qqg">
@@ -61,7 +61,7 @@ This like a automated mail room</bpmn:text>
     <bpmn:sequenceFlow id="Flow_0uteezm" sourceRef="Gateway_1n2r8a9" targetRef="Activity_conduct-industry-meeting" />
     <bpmn:sequenceFlow id="Flow_1uh3dim" sourceRef="Activity_determine-advisory-necessity" targetRef="advisory-acceptance-gateway" />
     <bpmn:sequenceFlow id="Flow_1uscccg" sourceRef="Activity_conduct-industry-meeting" targetRef="Activity_conduct-discipline-review" />
-    <bpmn:userTask id="Activity_enter-key-dates" name="Enter Key Dates" camunda:formKey="embedded:app:forms/task-form.html" camunda:candidateGroups="${user.prop(&#34;groups&#34;).value()}">
+    <bpmn:userTask id="Activity_enter-key-dates" name="Enter Key Dates" camunda:formKey="embedded:app:forms/task-enter-key-dates-form.html" camunda:assignee="${rpmRole}">
       <bpmn:incoming>Flow_08x38kz</bpmn:incoming>
       <bpmn:outgoing>Flow_0vwsebc</bpmn:outgoing>
       <bpmn:dataOutputAssociation id="DataOutputAssociation_0ue7obq">
@@ -79,7 +79,7 @@ This like a automated mail room</bpmn:text>
         <bpmn:targetRef>DataObjectReference_09rtckb</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:callActivity>
-    <bpmn:userTask id="Activity_determine-filing-decision" name="Determine Filing Decision" camunda:formKey="embedded:app:forms/task-form.html" camunda:candidateGroups="${user.prop(&#34;groups&#34;).value()}">
+    <bpmn:userTask id="Activity_determine-filing-decision" name="Determine Filing Decision" camunda:formKey="embedded:app:forms/task-form.html" camunda:assignee="${reviewer}">
       <bpmn:incoming>Flow_10ltfdx</bpmn:incoming>
       <bpmn:outgoing>Flow_1c0ywog</bpmn:outgoing>
       <bpmn:multiInstanceLoopCharacteristics>
@@ -93,7 +93,7 @@ This like a automated mail room</bpmn:text>
     <bpmn:boundaryEvent id="Event_15qlfu2" attachedToRef="Activity_determine-filing-decision">
       <bpmn:outgoing>Flow_0ahpl7s</bpmn:outgoing>
       <bpmn:timerEventDefinition id="TimerEventDefinition_090x2qy">
-        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT15S</bpmn:timeDuration>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT60S</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:boundaryEvent>
     <bpmn:exclusiveGateway id="Gateway_042rl9n">
@@ -128,19 +128,7 @@ This like a automated mail room</bpmn:text>
       <bpmn:outgoing>Flow_0me8uq8</bpmn:outgoing>
       <bpmn:outgoing>Flow_19g7naw</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="Activity_issue-approval" name="Issue Approval" camunda:modelerTemplate="com.camunda.example.MailTask" camunda:modelerTemplateVersion="1631657661181" camunda:delegateExpression="${logger}">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="sender">${subject}</camunda:inputParameter>
-          <camunda:inputParameter name="sender">${sender}</camunda:inputParameter>
-          <camunda:inputParameter name="emailTo">${emailTo}</camunda:inputParameter>
-          <camunda:inputParameter name="receivers">${receivers}</camunda:inputParameter>
-          <camunda:inputParameter name="messageBody">
-            <camunda:script scriptFormat="freemarker">emailMessage.ftl</camunda:script>
-          </camunda:inputParameter>
-          <camunda:outputParameter name="mailSendResult">${ resultStatus }</camunda:outputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
+    <bpmn:serviceTask id="Activity_issue-approval" name="Issue Approval" camunda:delegateExpression="${logger}">
       <bpmn:incoming>Flow_19g7naw</bpmn:incoming>
       <bpmn:outgoing>Flow_19cr7c1</bpmn:outgoing>
       <bpmn:dataOutputAssociation id="DataOutputAssociation_14jpvtj">
@@ -154,7 +142,7 @@ This like a automated mail room</bpmn:text>
         <bpmn:targetRef>DataObjectReference_0cdc97o</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:serviceTask>
-    <bpmn:userTask id="Activity_determine-advisory-necessity" name="Determine Necessity of Advisory Committee Meeting" camunda:formKey="embedded:app:forms/task-form.html" camunda:candidateGroups="${user.prop(&#34;groups&#34;).value()}">
+    <bpmn:userTask id="Activity_determine-advisory-necessity" name="Determine Necessity of Advisory Committee Meeting" camunda:formKey="embedded:app:forms/task-advisory-needed-form.html" camunda:candidateGroups="${user.prop(&#34;groups&#34;).value()}">
       <bpmn:incoming>Flow_0k1udgp</bpmn:incoming>
       <bpmn:outgoing>Flow_1uh3dim</bpmn:outgoing>
     </bpmn:userTask>
@@ -191,7 +179,7 @@ This like a automated mail room</bpmn:text>
         <bpmn:incoming>Flow_request-info-end</bpmn:incoming>
         <bpmn:messageEventDefinition id="MessageEventDefinition_1v1ciul" camunda:delegateExpression="${logger}" />
       </bpmn:endEvent>
-      <bpmn:userTask id="Activity_request-info" name="Request Additional Info" camunda:formKey="embedded:app:forms/task-form.html" camunda:candidateGroups="${user.prop(&#34;groups&#34;).value()}">
+      <bpmn:userTask id="Activity_request-info" name="Request Additional Info" camunda:formKey="embedded:app:forms/task-request-info-form.html">
         <bpmn:incoming>Flow_0dmwhu9</bpmn:incoming>
         <bpmn:outgoing>Flow_request-info-end</bpmn:outgoing>
       </bpmn:userTask>
@@ -214,7 +202,7 @@ This like a automated mail room</bpmn:text>
       <bpmn:incoming>Flow_17h01fo</bpmn:incoming>
       <bpmn:outgoing>Flow_13bsf4a</bpmn:outgoing>
     </bpmn:businessRuleTask>
-    <bpmn:userTask id="Activity_conduct-industry-meeting" name="Conduct Industry Meeting" camunda:formKey="embedded:app:forms/task-form.html" camunda:candidateGroups="${user.prop(&#34;groups&#34;).value()}">
+    <bpmn:userTask id="Activity_conduct-industry-meeting" name="Conduct Industry Meeting" camunda:formKey="embedded:app:forms/task-industry-meeting-form.html" camunda:candidateGroups="${user.prop(&#34;groups&#34;).value()}">
       <bpmn:incoming>Flow_0uteezm</bpmn:incoming>
       <bpmn:outgoing>Flow_1uscccg</bpmn:outgoing>
     </bpmn:userTask>
@@ -346,31 +334,32 @@ Chooses RPM</bpmn:text>
   <bpmn:process id="Process_assign-disipline-reviewers" isExecutable="true">
     <bpmn:laneSet id="LaneSet_02g5pa0">
       <bpmn:lane id="Lane_077yhq7" name="RPM">
-        <bpmn:flowNodeRef>Event_assign-disipline-reiviewers</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_request-discipline-assignments</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_assign-disipline-reiviewers</bpmn:flowNodeRef>
       </bpmn:lane>
       <bpmn:lane id="Lane_1bbono1" name="Office Supervisor">
         <bpmn:flowNodeRef>Activity_assign-disipline-reviewers</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Event_assign-disipline-reiviewers-end</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
-    <bpmn:startEvent id="Event_assign-disipline-reiviewers" name="Assign Discipline Reviewers">
-      <bpmn:outgoing>Flow_1j4yfnc</bpmn:outgoing>
-    </bpmn:startEvent>
-    <bpmn:userTask id="Activity_request-discipline-assignments" name="Request Disipline Assignments" camunda:formKey="embedded:app:forms/task-form.html" camunda:candidateGroups="${user.prop(&#34;groups&#34;).value()}">
+    <bpmn:userTask id="Activity_request-discipline-assignments" name="Request Discipline Assignments" camunda:formKey="embedded:app:forms/task-request-assignments-form.html" camunda:assignee="${rpmRole}">
       <bpmn:incoming>Flow_1j4yfnc</bpmn:incoming>
       <bpmn:outgoing>Flow_1hxxh5q</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="Flow_1n469ak" sourceRef="Activity_assign-disipline-reviewers" targetRef="Event_assign-disipline-reiviewers-end" />
     <bpmn:sequenceFlow id="Flow_1hxxh5q" sourceRef="Activity_request-discipline-assignments" targetRef="Activity_assign-disipline-reviewers" />
     <bpmn:sequenceFlow id="Flow_1j4yfnc" sourceRef="Event_assign-disipline-reiviewers" targetRef="Activity_request-discipline-assignments" />
-    <bpmn:userTask id="Activity_assign-disipline-reviewers" name="Assigned Disciplined Reviewers" camunda:formKey="embedded:app:forms/task-form.html" camunda:candidateGroups="${user.prop(&#34;groups&#34;).value()}">
+    <bpmn:userTask id="Activity_assign-disipline-reviewers" name="Assigned Disciplined Reviewers" camunda:formKey="embedded:app:forms/task-assign-reviewers-form.html" camunda:assignee="${supervisor}">
       <bpmn:incoming>Flow_1hxxh5q</bpmn:incoming>
       <bpmn:outgoing>Flow_1n469ak</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:endEvent id="Event_assign-disipline-reiviewers-end" name="assign disipline reiviewers">
       <bpmn:incoming>Flow_1n469ak</bpmn:incoming>
     </bpmn:endEvent>
+    <bpmn:startEvent id="Event_assign-disipline-reiviewers" name="Assign Discipline Reviewers">
+      <bpmn:outgoing>Flow_1j4yfnc</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1giuwp0" messageRef="Message_1yy617k" />
+    </bpmn:startEvent>
     <bpmn:textAnnotation id="TextAnnotation_1d98pud">
       <bpmn:text>This will be the Branch Office Sup that knows the Reviewers Disipline</bpmn:text>
     </bpmn:textAnnotation>
@@ -379,6 +368,12 @@ Chooses RPM</bpmn:text>
       <bpmn:text>Create the list of reviewers</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_1qw2j9t" sourceRef="Activity_assign-disipline-reviewers" targetRef="TextAnnotation_14f472k" />
+    <bpmn:textAnnotation id="TextAnnotation_16x3hhh">
+      <bpmn:text>RPM choose supervisor 
+
+for use in next step</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1hpz2gi" sourceRef="Activity_request-discipline-assignments" targetRef="TextAnnotation_16x3hhh" />
   </bpmn:process>
   <bpmn:process id="Process_conduct-discipline-review" isExecutable="true">
     <bpmn:subProcess id="Activity_1cuw0mi" triggeredByEvent="true">
@@ -546,6 +541,7 @@ Chooses RPM</bpmn:text>
   <bpmn:message id="Message_0jnl93a" name="Message_cancel-support-testing" />
   <bpmn:message id="Message_1dw1uil" name="Message_start-inspection" />
   <bpmn:message id="Message_0evmzwk" name="Message_start-discipline-review" />
+  <bpmn:message id="Message_1yy617k" name="Message_start-assign-discipline-reviewers" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1ad1kcc">
       <bpmndi:BPMNShape id="Participant_01naowi_di" bpmnElement="Participant_CBER" isHorizontal="true">
@@ -1025,6 +1021,9 @@ Chooses RPM</bpmn:text>
       <bpmndi:BPMNShape id="Lane_077yhq7_di" bpmnElement="Lane_077yhq7" isHorizontal="true">
         <dc:Bounds x="170" y="1550" width="1030" height="162" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_16x3hhh_di" bpmnElement="TextAnnotation_16x3hhh">
+        <dc:Bounds x="380" y="1750" width="227.75116144018583" height="53.426248548199766" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1j4yfnc_di" bpmnElement="Flow_1j4yfnc">
         <di:waypoint x="268" y="1647" />
         <di:waypoint x="420" y="1647" />
@@ -1039,12 +1038,6 @@ Chooses RPM</bpmn:text>
         <di:waypoint x="920" y="1777" />
         <di:waypoint x="1112" y="1777" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Event_1c6eqv4_di" bpmnElement="Event_assign-disipline-reiviewers">
-        <dc:Bounds x="232" y="1629" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="209" y="1672" width="84" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0na6tlc_di" bpmnElement="Activity_request-discipline-assignments">
         <dc:Bounds x="420" y="1607" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -1058,10 +1051,16 @@ Chooses RPM</bpmn:text>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1d98pud_di" bpmnElement="TextAnnotation_1d98pud">
-        <dc:Bounds x="802" y="1580" width="100" height="84" />
+        <dc:Bounds x="802" y="1580" width="138" height="84" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_14f472k_di" bpmnElement="TextAnnotation_14f472k" bioc:stroke="#43a047" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#43a047">
         <dc:Bounds x="960" y="1605" width="99.99156545209178" height="39.13630229419703" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1crdmt2_di" bpmnElement="Event_assign-disipline-reiviewers">
+        <dc:Bounds x="232" y="1629" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="209" y="1672" width="84" height="27" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_0yurx2i_di" bpmnElement="Association_0yurx2i">
         <di:waypoint x="870" y="1737" />
@@ -1070,6 +1069,10 @@ Chooses RPM</bpmn:text>
       <bpmndi:BPMNEdge id="Association_1qw2j9t_di" bpmnElement="Association_1qw2j9t">
         <di:waypoint x="906" y="1737" />
         <di:waypoint x="988" y="1644" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1hpz2gi_di" bpmnElement="Association_1hpz2gi">
+        <di:waypoint x="456" y="1687" />
+        <di:waypoint x="435" y="1750" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Participant_12tl6cc_di" bpmnElement="Participant_12tl6cc" isHorizontal="true">
         <dc:Bounds x="140" y="1910" width="1490" height="640" />

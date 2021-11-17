@@ -1,0 +1,42 @@
+<strong>Here you would put the actual form to work on the task</strong>
+
+<p>
+  You can use this form through Camunda Tasklist
+  by setting the formKey of a BPMN User Task to:
+  <code>embedded:app:forms/task-form.html</code>
+</p>
+
+<form class="form-horizontal">
+
+  <div class="control-group">
+    <label class="control-label">Enter Industry Meeting Date</label>
+    <div class="controls">
+      <input type="text"
+             cam-variable-name="industryMeetingDate"
+             cam-variable-type="Date"
+             class="form-control"
+             uib-datepicker-popup="yyyy-MM-dd'T'HH:mm:ss"
+             is-open="industryMeetingDateFieldOpened"
+      />
+
+      <span class="input-group-btn">
+        <button type="button"
+                class="btn btn-default"
+                ng-click="openIndustryMeetingDate($event)">
+          <i class="glyphicon glyphicon-calendar"></i>
+        </button>
+      </span>
+    </div>
+  </div>
+
+
+  <script cam-script type="text/form-script">
+  // custom JavaScript goes here
+    $scope.openIndustryMeetingDate = function($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+
+      $scope.industryMeetingDateFieldOpened = true;
+    };
+</script>
+</form>

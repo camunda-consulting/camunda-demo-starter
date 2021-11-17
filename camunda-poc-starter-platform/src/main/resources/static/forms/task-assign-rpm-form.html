@@ -1,0 +1,80 @@
+<strong>Here you would put the actual form to work on the task</strong>
+
+<p>
+  You can use this form through Camunda Tasklist
+  by setting the formKey of a BPMN User Task to:
+  <code>embedded:app:forms/task-form.html</code>
+</p>
+
+<form class="form-horizontal">
+
+  <div class="control-group">
+    <label class="control-label">Schedule</label>
+    <div class="controls">
+      <input type="text"
+             cam-variable-name="scheduleResult.schedule"
+             readonly="true"
+             class="form-control" />
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">Schedule</label>
+    <div class="controls">
+      <select id="select-rpm-1" required cam-variable-name="rpmRole" cam-variable-type="String">
+        <option value="rpm_1" checked>RPM 1</option>
+        <option value="rpm_2">RPM 2</option>
+      </select>
+    </div>
+  </div>
+
+<!--  <div class="control-group">-->
+<!--    <div class="row">																										&lt;!&ndash; We set the "3rd row" of the HTML Form. &ndash;&gt;-->
+<!--      <div class="col-md-4">																								&lt;!&ndash; We use "md" for medium screen devices of width equal to or greater than 992px and "4" for adding 4 columns. &ndash;&gt;-->
+<!--        <div class="controls">-->
+<!--          <input type="button" ng-click="handleClick()" value="Request More Info" />						&lt;!&ndash; The "ng-show" directive shows the input element ("Add" button) only if the "isAddFormValid()" expression (function) returns "true". The "ng-click" directive is assigned to the "Add" button and calls the function named "addProduct()" when this button is clicked. &ndash;&gt;-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+  <span class="input-group-btn">
+    <button type="button"
+            class="btn btn-default"
+            ng-click="handleClick()">
+<!--      <i class="glyphicon glyphicon-calendar"></i>-->
+    </button>
+  </span>
+
+  <script cam-script type="text/form-script">
+
+    camForm.on('form-loaded', function () {
+      // declare a 'json' variable 'customer'
+      $scope.handleClick = function () {
+          console.log("Button Click")
+
+            inject(['$http', 'Uri', function($http, Uri) {
+
+              $http.get(Uri.appUri('engine://engine/:engine/task/' + camForm.taskId)).then(function(task) {
+                console.log("task: "+task);
+
+                $http.get(Uri.appUri('engine://engine/:engine/process-instance/' + task.data.processInstanceId)).then(function(processInstance) {
+
+                  var businessKey = processInstance.data.businessKey;
+                  console.log("businessKey: "+businessKey);
+
+                    $http.post(Uri.appUri('engine://engine/:engine/message'), {"messageName" : "Message_request-additional-info", "businessKey" : businessKey }, {})
+                      .then(function(response){
+                          console.log("Response: "+response);
+                          if(response.status == 204){
+                            console.log("Process Started: "+response.status);
+                          }
+                      });
+                });
+              });
+          }]);
+      }
+    });
+
+  </script>
+</form>

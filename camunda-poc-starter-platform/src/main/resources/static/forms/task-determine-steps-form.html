@@ -61,16 +61,18 @@
     </div>
   </div>
 
-  <script cam-script type="text/form-script">
+</form>
 
-    camForm.on('form-loaded', function () {
-      // declare a 'json' variable 'customer'
-      camForm.variableManager.createVariable({
-        name: 'taskCount',
-        type: 'integer',
-        value: 1
-      });
-    });
+<script cam-script type="text/form-script">
+
+<!--    camForm.on('form-loaded', function () {-->
+<!--      // declare a 'json' variable 'customer'-->
+<!--      camForm.variableManager.createVariable({-->
+<!--        name: 'taskCount',-->
+<!--        type: 'integer',-->
+<!--        value: 1-->
+<!--      });-->
+<!--    });-->
 
 <!--    camForm.on('variable-fetched', function () {-->
 <!--      // work with the variable (bind it to current angular $scope)-->
@@ -130,12 +132,16 @@
 
           var inspection = $scope.inspection;
           if (inspection) {
-            count = count + 1
+            count = count + 1;
             $http.post(Uri.appUri('engine://engine/:engine/message'), {"messageName" : "Message_start-inspection", "businessKey" : businessKey }, {})
               .then(function(response){
                   console.log("Response: "+response);
                   if(response.status == 204){
-                      camForm.variableManager.variableValue('taskCount', count);
+                    camForm.variableManager.createVariable({
+                      name: 'taskCount',
+                      type: 'integer',
+                      value: count
+                    });
                   }
               });
           }
@@ -147,4 +153,3 @@
   }]);
 
   </script>
-</form>

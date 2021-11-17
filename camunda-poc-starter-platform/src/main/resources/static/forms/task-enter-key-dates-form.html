@@ -1,0 +1,94 @@
+<strong>Here you would put the actual form to work on the task</strong>
+
+<p>
+  You can use this form through Camunda Tasklist
+  by setting the formKey of a BPMN User Task to:
+  <code>embedded:app:forms/task-form.html</code>
+</p>
+
+<form class="form-horizontal">
+
+  <div class="control-group">
+    <label class="control-label">Plan Date</label>
+    <div class="controls">
+      <input type="text"
+             cam-variable-name="planDate"
+             cam-variable-type="Date"
+             class="form-control"
+             uib-datepicker-popup="yyyy-MM-dd'T'HH:mm:ss"
+             is-open="planDateFieldOpened"
+      />
+      <span class="input-group-btn">
+        <button type="button"
+                class="btn btn-default"
+                ng-click="openPlanDate($event)">
+          <i class="glyphicon glyphicon-calendar"></i>
+        </button>
+      </span>
+
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">Filing Meeting</label>
+    <div class="controls">
+      <input type="text"
+             cam-variable-name="filingDate"
+             cam-variable-type="Date"
+             class="form-control"
+             uib-datepicker-popup="yyyy-MM-dd'T'HH:mm:ss"
+             is-open="filingDateFieldOpened"
+      />
+      <span class="input-group-btn">
+        <button type="button"
+                class="btn btn-default"
+                ng-click="openFilingDate($event)">
+          <i class="glyphicon glyphicon-calendar"></i>
+        </button>
+      </span>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">Industry Meeting Milestones</label>
+    <div class="controls">
+      <input type="text"
+             cam-variable-name="milestoneDate"
+             cam-variable-type="Date"
+             class="form-control"
+             uib-datepicker-popup="yyyy-MM-dd'T'HH:mm:ss"
+             is-open="milestoneDateFieldOpened"
+      />
+      <span class="input-group-btn">
+        <button type="button"
+                class="btn btn-default"
+                ng-click="openMilestoneDate($event)">
+          <i class="glyphicon glyphicon-calendar"></i>
+        </button>
+      </span>
+    </div>
+  </div>
+
+
+  <script cam-script type="text/form-script">
+  // custom JavaScript goes here
+    $scope.openFilingDate = function($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+
+      $scope.filingDateFieldOpened = true;
+    };
+    $scope.openPlanDate = function($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+
+      $scope.planDateFieldOpened = true;
+    };
+    $scope.openMilestoneDate = function($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+
+      $scope.milestoneDateFieldOpened = true;
+    };
+</script>
+</form>
