@@ -60,8 +60,8 @@ services:
       MAIL_HOST: mailslurper
       MAIL_PORT: 2500
       RABBITMQ_HOST: rabbitmq-mgmt
-      CAMUNDA_HOST: camunda-platform-n1
-      CAMUNDA_PORT: 8081
+      CAMUNDA_HOST: camunda-platform
+      CAMUNDA_PORT: 8080
     #      ADMIN_CLIENT_URL: http://camunda-node-1:8080
     deploy:
       resources:
@@ -204,6 +204,8 @@ services:
     ports:
       - '9092:9092'
       - '9093:9093'
+    links:
+      - zookeeper
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092

@@ -6,7 +6,7 @@ var FooterBar = React.createClass({
     return (
       <div>
           <div className="columns small-offset-5">
-                <small>@TME PoC.</small>
+                <small>@Camunda PoC.</small>
           </div>
      </div>
     );

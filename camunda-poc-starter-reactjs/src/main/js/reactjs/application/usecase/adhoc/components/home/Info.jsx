@@ -48,7 +48,7 @@ class Info extends React.Component{
                   <div className="small-5 columns" >
                       <div className="card" >
                           <div className="card-divider text-center">
-                              <h4>Personal Info</h4>
+                              <h4>User Info</h4>
                           </div>
                           <div className="card-section" style={{borderTop: "1px dashed #2199e8"}}>
                               <ul>
@@ -69,7 +69,7 @@ class Info extends React.Component{
                   <div className="small-6  columns">
                       <div className="card" >
                           <div className="card-divider text-center">
-                              <h4>Damage Info</h4>
+                              <h4>Case Info</h4>
                           </div>
                           <div className="card-section" style={{borderTop: "1px dashed #2199e8"}}>
                               <ul>

@@ -25,20 +25,37 @@ class Info extends React.Component{
   // }
   
   render(){
+      console.log("Workflow=>Info=>: "+JSON.stringify(this.props.workflow))
+
+      var info = "";
+
+      if (this.props.workflow != null) {
+          console.log("Info Render: "+JSON.stringify(this.props.workflow));
+
+          info =  <div>
+                     <h4>Workflow Info</h4>
+                     <ul>
+                          <li><span className="label">Workflow Id</span><span className="data">{this.props.workflow.id}</span></li>
+                          <li><span className="label">Business Key</span><span className="data">{this.props.workflow.businessKey}</span></li>
+                      </ul>
+                  </div>
+
+      }else {
+          info =  <div>
+                    <h4>No workflow found!</h4>
+                  </div>
+
+      }
+
+
       return (
-          <div className="my-form">
+          <div className="my-form info-form">
             <div className="row">
 
-              <div className="small-5 small-offset-1 columns">
+              <div className="small-8 small-offset-1 columns">
                 <div className="card" >
                   <div className="card-divider text-center">
-                  {/*  <h4>Task Info</h4>*/}
-                  {/*</div>*/}
-                  {/*<div className="card-section" style={{borderTop: "1px dashed #2199e8"}}>*/}
-                  {/*  <ul>*/}
-                  {/*    <li><span className="label">Task name</span><span className="data">{this.props.task.name}</span></li>*/}
-                  {/*    <li><span className="label">Task Id</span><span className="data">{this.props.task.id}</span></li>*/}
-                  {/*  </ul>*/}
+                      {info}
                   </div>
                 </div>
               </div>

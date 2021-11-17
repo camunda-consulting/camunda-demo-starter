@@ -7,7 +7,7 @@
 
 const React = require('react');
 const ActionBar = require('SaveActionBar');
-const Task = require('TaskHome');
+const ConfirmActionBar = require('ConfirmActionBar');
 
 
 class DetailForm extends React.Component {
@@ -35,15 +35,31 @@ class DetailForm extends React.Component {
 
         //console.log("Detail Form: "+ JSON.stringify(this.props.submission));
 
+        var info = "";
+
+        if (this.props.submission != null) {
+            console.log("Info Render: "+JSON.stringify(this.props.submission));
+
+            info =  <div>
+                <h5>Selected tasks will be started for workflow {this.props.submission.businessKey}</h5>
+            </div>
+
+        }else {
+            info =  <div>
+                <h4>No workflow found!</h4>
+                <h5>Select tasks below a *new* workflow will be started</h5>
+            </div>
+
+        }
+
         return (
           <div>
 
-            <Task businessKey={this.props.submission.businessKey}/>
-
             <div className="my-form detail-form">
-
               {/*<div className="small-8 small-offset-2 large-8 large-offset-2 columns">*/}
               <div className="small-12 large-12 small-offset-1 columns" >
+
+                  {info}
 
                 <div className="small-9 large-9">
                     <div className="input-group">
@@ -52,7 +68,7 @@ class DetailForm extends React.Component {
                                name="inspection"
                                ref="inspection"
                                onChange={this.handleChange}
-                               checked={false} />
+                               checked={this.props.submission.inspection} />
                     </div>
                 </div>
 
@@ -60,10 +76,10 @@ class DetailForm extends React.Component {
                       <div className="input-group">
                           <span className="input-group-label">Create Lot Release Task</span>
                           <input className="input-group-field" type="checkbox"
-                                 name="lot_release"
-                                 ref="lot_release"
+                                 name="lotRelease"
+                                 ref="lotRelease"
                                  onChange={this.handleChange}
-                                 checked={false} />
+                                 checked={this.props.submission.lotRelease} />
                       </div>
                   </div>
 
@@ -71,10 +87,10 @@ class DetailForm extends React.Component {
                       <div className="input-group">
                           <span className="input-group-label">Create In-Support Testing Task</span>
                           <input className="input-group-field" type="checkbox"
-                                 name="in_support"
-                                 ref="in_support"
+                                 name="inSupport"
+                                 ref="inSupport"
                                  onChange={this.handleChange}
-                                 checked={false} />
+                                 checked={this.props.submission.inSupport} />
                       </div>
                   </div>
 
@@ -82,10 +98,14 @@ class DetailForm extends React.Component {
 
             </div>
 
-        <ActionBar submission={this.props.submission}
-                   post={this.props.post}
-                   toggleForm={this.props.toggleForm}
-                   onRedirect={this.props.onRedirect}/>
+        {/*<ActionBar submission={this.props.submission}*/}
+        {/*           post={this.props.post}*/}
+        {/*           toggleForm={this.props.toggleForm}*/}
+        {/*           onRedirect={this.props.onRedirect}/>*/}
+
+              <ConfirmActionBar submission={this.props.submission}
+                                post={this.props.post}
+                                toggleForm={this.props.toggleForm} />
 
     </div>
     );

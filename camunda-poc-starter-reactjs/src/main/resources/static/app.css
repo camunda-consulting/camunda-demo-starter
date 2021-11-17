@@ -160,6 +160,12 @@ label.text-center {
 
 }
 
+.my-form.info-form {
+
+    padding-bottom: 1rem;
+
+}
+
 .my-label {
     padding-right: 1rem;
     color: #f1f1f1;

@@ -9,11 +9,6 @@
 const React = require('react');
 
 // tag::customComponents
-const Form = require('TaskForm');
-const Info = require('TaskInfo');
-
-// tag::vars[]
-// end::vars[]
 
 class Detail extends React.Component{
   constructor(props) {
@@ -23,12 +18,12 @@ class Detail extends React.Component{
   }
 
   render(){
+
     return (
-      <div>
-        <Info task={this.props.task} />
-        {/*<Form task={this.props.task}*/}
-        {/*      handleReject={this.props.handleReject}*/}
-        {/*      handleApprove={this.props.handleApprove}/>*/}
+      <div style={{display: this.props.displayComponent}}>
+
+          <p>This is the detail component</p>
+
       </div>
     )
   }

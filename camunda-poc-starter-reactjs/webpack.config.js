@@ -60,10 +60,10 @@ module.exports = {
             // END Use Case Components
 
             //Generic Task Componet
-            TaskHome: 'src/main/js/reactjs/application/components/tasks/Home.jsx',
-            TaskDetail: 'src/main/js/reactjs/application/components/tasks/Detail.jsx',
-            TaskForm: 'src/main/js/reactjs/application/components/tasks/Form.jsx',
-            TaskInfo: 'src/main/js/reactjs/application/components/tasks/Info.jsx',
+            TaskHome: 'src/main/js/reactjs/application/components/workflow/Home.jsx',
+            TaskDetail: 'src/main/js/reactjs/application/components/workflow/Detail.jsx',
+            TaskForm: 'src/main/js/reactjs/application/components/workflow/Form.jsx',
+            TaskInfo: 'src/main/js/reactjs/application/components/workflow/Info.jsx',
 
         },
         extensions: ['', '.js', '.jsx']

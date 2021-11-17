@@ -128,7 +128,19 @@ This like a automated mail room</bpmn:text>
       <bpmn:outgoing>Flow_0me8uq8</bpmn:outgoing>
       <bpmn:outgoing>Flow_19g7naw</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="Activity_issue-approval" name="Issue Approval" camunda:delegateExpression="${logger}">
+    <bpmn:serviceTask id="Activity_issue-approval" name="Issue Approval" camunda:modelerTemplate="com.camunda.example.MailTask" camunda:modelerTemplateVersion="1631657661181" camunda:delegateExpression="${logger}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="sender">${subject}</camunda:inputParameter>
+          <camunda:inputParameter name="sender">${sender}</camunda:inputParameter>
+          <camunda:inputParameter name="emailTo">${emailTo}</camunda:inputParameter>
+          <camunda:inputParameter name="receivers">${receivers}</camunda:inputParameter>
+          <camunda:inputParameter name="messageBody">
+            <camunda:script scriptFormat="freemarker">emailMessage.ftl</camunda:script>
+          </camunda:inputParameter>
+          <camunda:outputParameter name="mailSendResult">${ resultStatus }</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_19g7naw</bpmn:incoming>
       <bpmn:outgoing>Flow_19cr7c1</bpmn:outgoing>
       <bpmn:dataOutputAssociation id="DataOutputAssociation_14jpvtj">
@@ -402,8 +414,6 @@ Chooses RPM</bpmn:text>
     </bpmn:subProcess>
     <bpmn:sequenceFlow id="Flow_0f5f1j0" sourceRef="Activity_enter-approval-decision" targetRef="Event_1ngwf0y" />
     <bpmn:sequenceFlow id="Flow_1vwx295" sourceRef="Activity_01gkdiw" targetRef="Activity_enter-approval-decision" />
-    <bpmn:sequenceFlow id="Flow_13ipr5j" sourceRef="determine-steps" targetRef="Activity_01gkdiw" />
-    <bpmn:sequenceFlow id="Flow_12thkt3" sourceRef="Event_start-conduct-discipline-review" targetRef="determine-steps" />
     <bpmn:subProcess id="Activity_05dxsgw" triggeredByEvent="true">
       <bpmn:userTask id="Activity_in-support" name="In-Support Testing" camunda:formKey="embedded:app:forms/task-form.html" camunda:candidateGroups="${user.prop(&#34;groups&#34;).value()}">
         <bpmn:incoming>Flow_04ejxym</bpmn:incoming>
@@ -435,12 +445,9 @@ Chooses RPM</bpmn:text>
       </bpmn:textAnnotation>
       <bpmn:association id="Association_0p0yxsf" sourceRef="Activity_in-support" targetRef="TextAnnotation_04bqbu2" />
     </bpmn:subProcess>
-    <bpmn:userTask id="determine-steps" name="Determine Steps" camunda:formKey="embedded:app:forms/task-determine-steps-form.html" camunda:candidateGroups="${user.prop(&#34;groups&#34;).value()}">
-      <bpmn:incoming>Flow_12thkt3</bpmn:incoming>
-      <bpmn:outgoing>Flow_13ipr5j</bpmn:outgoing>
-    </bpmn:userTask>
     <bpmn:subProcess id="Activity_01gkdiw">
       <bpmn:incoming>Flow_13ipr5j</bpmn:incoming>
+      <bpmn:incoming>Flow_0hpd7aw</bpmn:incoming>
       <bpmn:outgoing>Flow_1vwx295</bpmn:outgoing>
       <bpmn:startEvent id="Event_start-check" name="Start Check">
         <bpmn:outgoing>Flow_0yoyxs3</bpmn:outgoing>
@@ -449,10 +456,10 @@ Chooses RPM</bpmn:text>
       <bpmn:endEvent id="Event_end-check" name="End Check">
         <bpmn:incoming>Flow_13tb7pr</bpmn:incoming>
       </bpmn:endEvent>
-      <bpmn:intermediateCatchEvent id="Event_status" name="status">
+      <bpmn:intermediateCatchEvent id="Event_status" name="Check Task Status">
         <bpmn:incoming>Flow_0yoyxs3</bpmn:incoming>
         <bpmn:outgoing>Flow_13tb7pr</bpmn:outgoing>
-        <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_0joktho" camunda:variableName="complete" camunda:variableEvents="update">
+        <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_0joktho" camunda:variableName="taskCount" camunda:variableEvents="update">
           <bpmn:condition xsi:type="bpmn:tFormalExpression">${taskCount &lt;= 0}</bpmn:condition>
         </bpmn:conditionalEventDefinition>
       </bpmn:intermediateCatchEvent>
@@ -500,6 +507,19 @@ Chooses RPM</bpmn:text>
       </bpmn:textAnnotation>
       <bpmn:association id="Association_0xe04u3" sourceRef="Activity_lot-release" targetRef="TextAnnotation_18umz3q" />
     </bpmn:subProcess>
+    <bpmn:userTask id="determine-steps" name="Determine Steps" camunda:formKey="embedded:app:forms/task-determine-steps-form.html" camunda:candidateGroups="${user.prop(&#34;groups&#34;).value()}">
+      <bpmn:incoming>Flow_12thkt3</bpmn:incoming>
+      <bpmn:outgoing>Flow_13ipr5j</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_13ipr5j" sourceRef="determine-steps" targetRef="Activity_01gkdiw" />
+    <bpmn:sequenceFlow id="Flow_12thkt3" sourceRef="Event_start-conduct-discipline-review" targetRef="determine-steps" />
+    <bpmn:boundaryEvent id="Event_1vc73c2" name="Bypass" attachedToRef="determine-steps">
+      <bpmn:outgoing>Flow_0hpd7aw</bpmn:outgoing>
+      <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_1mi2bie" camunda:variableName="taskCount" camunda:variableEvents="create">
+        <bpmn:condition xsi:type="bpmn:tFormalExpression">${taskCount &gt; 0}</bpmn:condition>
+      </bpmn:conditionalEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_0hpd7aw" sourceRef="Event_1vc73c2" targetRef="Activity_01gkdiw" />
     <bpmn:textAnnotation id="TextAnnotation_1nivbo8">
       <bpmn:text>Assigned To RPM</bpmn:text>
     </bpmn:textAnnotation>
@@ -507,15 +527,15 @@ Chooses RPM</bpmn:text>
     <bpmn:textAnnotation id="TextAnnotation_190h37w">
       <bpmn:text>Assigned to RPM Reviewer</bpmn:text>
     </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_1ovw0qo">
+      <bpmn:text>create count of steps (taskCount)</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_00myuwm" sourceRef="determine-steps" targetRef="TextAnnotation_1ovw0qo" />
     <bpmn:association id="Association_1jp6q7b" sourceRef="determine-steps" targetRef="TextAnnotation_190h37w" />
     <bpmn:textAnnotation id="TextAnnotation_0y32lsm">
       <bpmn:text>User Selects Steps/Tasks</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_0t1eaje" sourceRef="determine-steps" targetRef="TextAnnotation_0y32lsm" />
-    <bpmn:textAnnotation id="TextAnnotation_1ovw0qo">
-      <bpmn:text>create count of steps (taskCount)</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:association id="Association_00myuwm" sourceRef="determine-steps" targetRef="TextAnnotation_1ovw0qo" />
   </bpmn:process>
   <bpmn:message id="Message_09kyjs5" name="Message_start-cber-process" />
   <bpmn:message id="Message_1carhxp" name="Message_start-lot-release" />
@@ -1057,11 +1077,11 @@ Chooses RPM</bpmn:text>
       <bpmndi:BPMNShape id="TextAnnotation_190h37w_di" bpmnElement="TextAnnotation_190h37w">
         <dc:Bounds x="210" y="2450" width="190" height="30" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0y32lsm_di" bpmnElement="TextAnnotation_0y32lsm">
-        <dc:Bounds x="440" y="2450" width="100" height="40" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1ovw0qo_di" bpmnElement="TextAnnotation_1ovw0qo">
         <dc:Bounds x="420" y="2230" width="100" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0y32lsm_di" bpmnElement="TextAnnotation_0y32lsm">
+        <dc:Bounds x="393" y="2470" width="100" height="40" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_12thkt3_di" bpmnElement="Flow_12thkt3">
         <di:waypoint x="278" y="2360" />
@@ -1078,6 +1098,10 @@ Chooses RPM</bpmn:text>
       <bpmndi:BPMNEdge id="Flow_0f5f1j0_di" bpmnElement="Flow_0f5f1j0">
         <di:waypoint x="1400" y="2340" />
         <di:waypoint x="1492" y="2340" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0hpd7aw_di" bpmnElement="Flow_0hpd7aw">
+        <di:waypoint x="488" y="2400" />
+        <di:waypoint x="570" y="2400" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_1i29kbe_di" bpmnElement="Event_start-conduct-discipline-review">
         <dc:Bounds x="242" y="2342" width="36" height="36" />
@@ -1206,7 +1230,7 @@ Chooses RPM</bpmn:text>
       <bpmndi:BPMNShape id="Event_1fdi2dk_di" bpmnElement="Event_status">
         <dc:Bounds x="862" y="2337" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="865" y="2380" width="30" height="14" />
+          <dc:Bounds x="854" y="2380" width="57" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_0hfw6nr_di" bpmnElement="Event_start-check">
@@ -1240,10 +1264,6 @@ Chooses RPM</bpmn:text>
       <bpmndi:BPMNEdge id="Association_1jp6q7b_di" bpmnElement="Association_1jp6q7b">
         <di:waypoint x="401" y="2400" />
         <di:waypoint x="378" y="2450" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_0t1eaje_di" bpmnElement="Association_0t1eaje">
-        <di:waypoint x="447" y="2400" />
-        <di:waypoint x="480" y="2450" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_00myuwm_di" bpmnElement="Association_00myuwm">
         <di:waypoint x="437" y="2320" />
@@ -1299,6 +1319,16 @@ Chooses RPM</bpmn:text>
         <dc:Bounds x="897" y="2072" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="923" y="2106" width="53" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0t1eaje_di" bpmnElement="Association_0t1eaje">
+        <di:waypoint x="427" y="2400" />
+        <di:waypoint x="440" y="2470" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_0h6sge7_di" bpmnElement="Event_1vc73c2">
+        <dc:Bounds x="452" y="2382" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="452" y="2425" width="37" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1tbuoxi_di" bpmnElement="TextAnnotation_1tbuoxi">

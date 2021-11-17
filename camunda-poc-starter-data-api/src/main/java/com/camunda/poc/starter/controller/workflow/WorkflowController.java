@@ -1,5 +1,7 @@
 package com.camunda.poc.starter.controller.workflow;
 
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import io.netty.handler.codec.json.JsonObjectDecoder;
 import org.apache.http.client.fluent.Request;
 import org.apache.http.client.fluent.Response;
 import org.apache.http.entity.ContentType;
@@ -38,23 +40,35 @@ public class WorkflowController {
 	/**
 	 * Start a workflow sync with REST
 	 * @param data
-	 * @param variables
 	 * @return
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/workflow/start", method = RequestMethod.POST, consumes = {"application/json"})
-	public ResponseEntity<HttpStatus> start(@RequestBody(required = true)String data,
-											@RequestBody(required = false)Map variables) throws IOException {
+	public ResponseEntity<HttpStatus> start(@RequestBody(required = true)String data)
+			throws IOException, InterruptedException {
 
-		LOGGER.info("\n\n Start Workflow: "+ data);
+		LOGGER.info("\n\n Start Workflow with data: "+ data +"\n\n");
 
 		JSONObject jsData = new JSONObject(data);
 
-		Response response = Request.Post("http://"+camundaHost+":"+camundaPort+"/engine-rest/message")
-				.bodyString("{" +
-						"  \"messageName\" : \"" + jsData.get("workflowKey") + "\"," +
-						"  \"businessKey\" : \"" + jsData.get("businessKey") + "\"" +
-						"}", ContentType.APPLICATION_JSON).execute();
+		Response response = null;
+
+
+
+		for (int i=0;jsData.getJSONArray("workflowKey").length()>i; i++)
+		{
+			JSONObject workflowData = new JSONObject();
+			workflowData.put("messageName", jsData.getJSONArray("workflowKey").get(i).toString());
+			workflowData.put("businessKey", jsData.get("businessKey"));
+			workflowData.put("processVariables", new JSONObject(jsData.get("processVariables").toString()) );
+
+			LOGGER.info("\n\n Start Workflow with data: "+ workflowData.toString() +"\n\n");
+
+			response = Request.Post("http://"+camundaHost+":"+camundaPort+"/engine-rest/message")
+				.bodyString(workflowData.toString(), ContentType.APPLICATION_JSON).execute();
+
+			Thread.sleep(100);
+		}
 
 		return (ResponseEntity<HttpStatus>) response.returnResponse().getEntity();
 	}
@@ -62,23 +76,29 @@ public class WorkflowController {
 	/**
 	 * Start a workflow sync with REST
 	 * @param data
-	 * @param variables
 	 * @return
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/workflow/correlate/message", method = RequestMethod.POST, consumes = {"application/json"})
-	public ResponseEntity<HttpStatus> correlate(@RequestBody(required = true)String data,
-											@RequestBody(required = false)Map variables) throws IOException {
+	public ResponseEntity<HttpStatus> correlate(@RequestBody(required = true)String data)
+			throws IOException, InterruptedException {
 
 		LOGGER.info("\n\n Start Workflow: "+ data);
 
 		JSONObject jsData = new JSONObject(data);
 
-		Response response = Request.Post("http://"+camundaHost+":"+camundaPort+"/engine-rest/message")
-				.bodyString("{" +
-						"  \"messageName\" : \"" + jsData.get("workflowKey") + "\"," +
-						"  \"businessKey\" : \"" + jsData.get("businessKey") + "\"" +
-						"}", ContentType.APPLICATION_JSON).execute();
+		Response response = null;
+
+		for (int i=0;jsData.getJSONArray("workflowKey").length()>i; i++)
+		{
+			JSONObject workflowData = new JSONObject();
+			workflowData.put("messageName", jsData.getJSONArray("workflowKey").get(i).toString());
+			workflowData.put("businessKey", jsData.get("businessKey"));
+			response = Request.Post("http://"+camundaHost+":"+camundaPort+"/engine-rest/message")
+					.bodyString(workflowData.toString(), ContentType.APPLICATION_JSON).execute();
+
+			Thread.sleep(100);
+		}
 
 		return (ResponseEntity<HttpStatus>) response.returnResponse().getEntity();
 	}

@@ -23,9 +23,27 @@ class Detail extends React.Component{
   }
 
   render(){
-    return (
+
+      // var info = "";
+      //
+      // if (this.props.workflow != null) {
+      //     console.log("Info Render: "+JSON.stringify(this.props.workflow));
+      //
+      //     info =  <Info workflow={this.props.workflow} />
+      // }else {
+      //     info =  <div className="my-form">
+      //               <div className="row">
+      //                 <div className="small-5 small-offset-1 columns">
+      //                   <h4>No workflow found!</h4>
+      //                   <p>Select tasks a accompanying workflow will be started</p>
+      //                 </div>
+      //               </div>
+      //             </div>
+      // }
+
+      return (
       <div>
-        <Info task={this.props.task} />
+          <Info workflow={this.props.workflow} />
         {/*<Form task={this.props.task}*/}
         {/*      handleReject={this.props.handleReject}*/}
         {/*      handleApprove={this.props.handleApprove}/>*/}

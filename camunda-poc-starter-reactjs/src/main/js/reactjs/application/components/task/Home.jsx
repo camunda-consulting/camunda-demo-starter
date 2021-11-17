@@ -6,24 +6,16 @@
 'use strict';
 
 // tag::nodeModules[]
-import React, { Component } from 'react';
+const React = require('react');
 const client = require('client');
 const follow = require('follow'); // function to hop multiple links by "rel"
 
 // tag::customComponents
 const Detail = require('TaskDetail');
-const Info =  require('TaskInfo');
-const Confirmation =  require('TaskConfirmation');
-const Form =  require('TaskForm');
-const Action = require('TaskAction');
-
 // tag::customComponents
 
 // tag::vars[]
-const dataApiHost = process.env.API_HOST != "" ? `${process.env.API_HOST}` : "/";
-const dataApi = `${dataApiHost}:${process.env.DATA_API_PORT}`;
-const dataApiUri = `${dataApi}/${process.env.DATA_API_ROOT}`;
-
+const apiHost = process.env.API_HOST != "" ? `${process.env.API_HOST}:${process.env.CAMUNDA_API_PORT}/` : "/";
 // end::vars[]
 
 // tag::app[]
@@ -32,175 +24,97 @@ class home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            item: {},
-            attributes: [],
-            pageSize: 10,
-            links: {},
-            displayDetail: "none",
-            displayInfo: "none",
-            displayConfirmation: "none",
-            displayForm: "block"
+            task: null,
+            displayDetail: "block",
+            displayInfo: "block",
+            toggleDetailInfo: "off",
+            callUpdate: function (key, that) {that.loadTaskFromServer(key)}
         };
+        this.handleSelectedItem = this.handleSelectedItem.bind(this);
+        this.handleApprove = this.handleApprove.bind(this);
+        this.handleReject = this.handleReject.bind(this);
         this.post = this.post.bind(this);
-        this.toggleConfirm = this.toggleConfirm.bind(this);
-        this.toggleForm = this.toggleForm.bind(this);
-        this.toggleConfirm = this.toggleConfirm.bind(this);
-        this.toggleInfo = this.toggleInfo.bind(this);
-        this.toggleDetail = this.toggleDetail.bind(this);
-        this.handleUpdateState = this.handleUpdateState.bind(this);
-        this.handleConfirm = this.handleConfirm.bind(this);
+        this.loadTaskFromServer = this.loadTaskFromServer.bind(this);
     }
 
-    // tag::update-page-size[]
-    updatePageSize(pageSize) {
-        if (pageSize !== this.state.pageSize) {
-          this.state.callUpdate(pageSize, this);
-        }
-    }
-    // end::update-page-size[]
 
     // tag::follow-1[]
     componentDidMount() {
-        console.log("Home -> ComponentDidMount -> Param: "+JSON.stringify(this.props.params));
-        this.loadItem(this.props.params.key);
+        console.log("task=>home=>componentDidMount: "+this.props.businessKey)
+        this.state.callUpdate(this.props.businessKey, this)
     }
     // end::follow-1[]
 
-    handleConfirm(){
-        var obj = this.state.item;
-
-        console.log("Home -> handleConfirm: " + JSON.stringify(obj));
-        //post the object to the endpoint
-        this.post('PATCH', {"status" : obj.status}, `${dataApiUri}/damageReports/${obj.id}`);
-
-        this.post('POST', {"workflowKey" : "Message_work-order-validation", "businessKey" : obj.damageKey }, `${dataApi}/workflow/correlate/message`);
-
-        this.toggleConfirm();
-    }
-
-    handleUpdateState(target){
-        console.log("Detail => handleUpdateState: "+ target)
-
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
-
-        var item = this.state.item;
-
-        item[name] = value;
-
-        this.setState({
-            item: item
-        });
-
-        console.log(`Home => handleUpdateState: item => ${JSON.stringify(this.state.item)}`)
-
-    }
-
-    post(method, obj, context) {
-        console.log("HOME -> POST")
+    loadTaskFromServer(businessKey){
         client({
-            method: method,
-            path: context,
-            entity: obj,
-            headers: {'Content-Type': 'application/json', 'Accept':'*/*'}
+            method: 'GET',
+            path: apiHost+"engine-rest/task",
+            params: {processInstanceBusinessKey: businessKey},
+            headers: {'Accept': 'application/json'}
         }).done(response => {
-            console.log("HOME -> POST: "+JSON.stringify(response));
-        });
-    }
-
-    loadItem(id){
-        this.loadItemFromServer([
-            {rel: 'damageReports'},
-            {rel: 'search'},
-            {rel: 'findDamageReportByDamageKey', params: {damageKey: id}}
-        ])
-    }
-
-    // tag::on-loadOrderFromServer[]
-    loadItemFromServer(context) {
-        follow(client, dataApiUri, context
-        ).then(itemCollection => {
-            return client({
-                method: 'GET',
-                path: itemCollection.entity._links.self.href,
-                headers: {'Accept': 'application/json'}
-            }).then(schema => {
-                this.schema = schema.entity;
-                return itemCollection;
-            });
-        }).done(itemCollection => {
-            console.log("Home -> loadItemFromServer: "
-                +JSON.stringify(itemCollection.entity))
+            console.log("task=>home=>loadTaskFromServer: "+JSON.stringify(response))
             this.setState({
-                item: itemCollection.entity,
-                links: itemCollection.entity._links});
+                task: response.entity[0]
+            });
         });
     }
 
-    toggleInfo(){
-        this.setState({
-            displayDetail:"none",
-            displayInfo:"block",
-            displayForm: "none",
-            displayConfirmation:"none"
+    handleApprove(e){
+        e.preventDefault();
+
+        this.props.history.push('/tasks#');
+        this.handleBackClick();
+    }
+
+    handleReject(e){
+        e.preventDefault();
+        this.props.history.push('/rejected');
+    }
+
+    post(obj, context) {
+        console.log("POST Started")
+        client({
+            method: 'POST',
+            path: apiHost+context,
+            entity: obj,
+            headers: {'Content-Type': 'application/json'}
+        }).done(response => {
+            console.log("POST Request Complete");
         });
     }
 
-    toggleDetail(){
-        this.setState({
-            displayDetail:"block",
-            displayInfo:"none",
-            displayForm: "none",
-            displayConfirmation:"none"
-        });
-    }
-
-    toggleConfirm(){
-        this.setState({
-            displayDetail:"none",
-            displayInfo:"none",
-            displayForm: "none",
-            displayConfirmation:"block"
-        });
-    }
-
-
-    toggleForm(){
-        this.setState({
-            displayDetail:"none",
-            displayInfo:"none",
-            displayForm:"block",
-            displayConfirmation:"none"
-        });
+    handleSelectedItem(task) {
+        if (task == null){
+            alert("You don't have a task to complete. Please complete the service request first.");
+        }else {
+            console.log("Megred Task: "+ JSON.stringify(task));
+            this.setState({
+                task: task,
+                displayDetail: "block",
+            });
+        }
     }
 
     render() {
-
-        let action = "";
-        action =  <Action item={this.state.item}
-                          onConfirm={this.handleConfirm}  />
-
       return (
         <div>
-
-            <Info item={this.state.item}
-                  displayComponent={this.state.displayInfo} />
-
-            <Detail item={this.state.item}
-                    displayComponent={this.state.displayDetail} />
-
-            <Form item={this.state.item}
-                  displayComponent={this.state.displayForm}
-                  labal={"Enter Third Party Message."}
-                  message={"Enter Third Party Message."}
-                  title={"Third Party Completion Form"}
-                  action={action}
-                  onUpdateState={this.handleUpdateState} />
-
-            <Confirmation item={this.state.item}
-                          displayComponent={this.state.displayConfirmation}
-                          message="This is the third party confirmation message." />
-
+          <div style={{display: this.state.displayDetail}}>
+            <div className="top-bar show-for-medium small-12 columns">
+              <div className="top-bar-left">
+                <ul className="menu">
+                  <li className="topbar-title">
+                     Task Detail
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div>
+                <Detail task={this.state.task}
+                        displayInfo={this.state.displayInfo}
+                        handleReject={this.handleReject}
+                        handleApprove={this.handleApprove} />
+            </div>
+          </div>
         </div>
       )
     }

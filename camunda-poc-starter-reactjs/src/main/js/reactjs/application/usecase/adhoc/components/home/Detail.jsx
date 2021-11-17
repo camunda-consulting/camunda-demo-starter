@@ -17,6 +17,9 @@ const ConfirmationForm = require('ConfirmationForm');
 const Info = require('Info');
 const FilterBar = require('FilterBar');
 
+const Workflow = require('TaskHome');
+
+
 // tag::vars[]
 const apiHost = process.env.API_HOST != "" ? `${process.env.API_HOST}:${process.env.API_PORT}/` : "/";
 const apiRoot = `${apiHost}${process.env.API_ROOT}`;
@@ -44,7 +47,7 @@ class Detail extends React.Component{
         },
         callUpdateItem: function (key, that) {
             console.log("Detail => callUpdateItem: "+ JSON.stringify(key));
-            that.loadByKeytFromServer(key)
+            that.loadByKeyFromServer(key)
         }
       };
       this.toggleForm = this.toggleForm.bind(this)
@@ -121,16 +124,14 @@ class Detail extends React.Component{
         });
 
         console.log(`Detail => handleUpdateState: submission => ${JSON.stringify(this.state.submission)}`)
-
     }
 
-    handleUpdateStartState(damageKey){
-        console.log("Detail => handleUpdateStartState : "+ JSON.stringify(damageKey));
+    handleUpdateStartState(key){
+        console.log("Detail => handleUpdateStartState : "+ JSON.stringify(key));
 
-        this.state.callUpdateItem(damageKey, this);
+        this.state.callUpdateItem(key, this);
 
         this.toggleForm("detail");
-
     }
 
 
@@ -150,7 +151,6 @@ class Detail extends React.Component{
         this.state.callUpdateAll(this.state.pageSize, this);
 
         this.toggleForm("detail");
-
     }
 
 
@@ -183,8 +183,8 @@ class Detail extends React.Component{
     }
     // end::follow-2[]
 
-    // tag::on-loadByKeytFromServer[]
-    loadByKeytFromServer(businessKey) {
+    // tag::on-loadByKeyFromServer[]
+    loadByKeyFromServer(businessKey) {
         follow(client, apiRoot, [
             {rel: 'submissions'},
             {rel: 'search'},
@@ -200,7 +200,7 @@ class Detail extends React.Component{
                 return itemCollection;
             });
         }).done(itemCollection => {
-            console.log("loadByKeytFromServer: "
+            console.log("loadByKeyFromServer: "
                 +JSON.stringify(itemCollection.entity))
             this.setState({
                 submission: itemCollection.entity,
@@ -238,13 +238,13 @@ class Detail extends React.Component{
     }
 
     // end::on-delete[]
-    post(method, obj, context) {
+    async post(method, obj, context) {
         if(method == null){
             method = "POST"
         }
         console.log(`POST Started - METHOD:${JSON.stringify(method)} OBJECT:${JSON.stringify(obj)} CONTEXT: ${JSON.stringify(context)}`);
 
-        client({
+        await client({
             method: method,
             path: context,
             entity: obj,
@@ -265,6 +265,7 @@ class Detail extends React.Component{
       var displayConfirmationForm = this.state.displayConfirmationForm;
 
       var info = "";
+      var workflow = "";
 
       //console.log("Detail Render: "+JSON.stringify(this.state.submission));
 
@@ -272,10 +273,16 @@ class Detail extends React.Component{
          info =  <Info item={this.state.submission} contact={this.state.contact}/>
       }
 
+      if (this.state.submission.businessKey != null) {
+          console.log("Detail Render: "+JSON.stringify(this.state.submission));
+
+          workflow =  <Workflow businessKey={this.state.submission.businessKey}/>
+      }
+
     return (
       <div>
 
-        <FilterBar toggleForm={this.toggleForm} title="Select Submission Review"/>
+        <FilterBar toggleForm={this.toggleForm} title="Adhoc Submission Review"/>
 
         {info}
 
@@ -287,7 +294,10 @@ class Detail extends React.Component{
         </div>
 
         <div style={{display: displayDetailForm}}>
-           <DetailForm submission={this.state.submission}
+
+            {workflow}
+
+            <DetailForm submission={this.state.submission}
                        contact={this.state.contact}
                        onUpdateState={this.handleUpdateState}
                        post={this.post}
@@ -308,7 +318,7 @@ class Detail extends React.Component{
               <div className="small-8 small-offset-2 large-8 large-offset-2 columns">
                   <div className="form-registration-group">
 
-                      <h3>Your submission is complete. Please check your email for confirmation.</h3>
+                      <h3>Your submission is complete.</h3>
 
                   </div>
               </div>
