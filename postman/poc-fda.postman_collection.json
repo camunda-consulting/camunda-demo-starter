@@ -172,7 +172,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"businessKey\" : \"{{$guid}}\",\n    \"submissionDate\": \"2021-11-10T00:00:00.000\",\n    \"started\": true,\n    \"approved\": false,\n    \"rejected\": false,\n    \"submissionType\": \"auto\",\n    \"status\": \"clock stopped\",\n    \"indication\": \"covid\",\n    \"dosageForm\": \"injection\",\n    \"establishedName\": \"blood\"\n}\n",
+					"raw": "{\n\t\"businessKey\" : \"{{$guid}}\",\n    \"started\": true,\n    \"approved\": false,\n    \"rejected\": false,\n    \"reviewOffice\": \"OVRR\",\n    \"reviewSchedule\": \"S12\",\n    \"product\": \"Vaccine\",\n    \"productType\": \"Adenovirus Vaccine\",\n    \"submissionStatusDate\": \"2021-11-10T00:00:00\",\n    \"submissionStatus\": \"open\",\n    \"status\": \"clock stopped\",\n    \"indication\": \"covid\",\n    \"dosageForm\": \"injection\",\n    \"establishedName\": \"blood\"\n}\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -439,6 +439,327 @@
 			"response": []
 		},
 		{
+			"name": "correlate-workflow-cancel-inspection",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"",
+							"});",
+							"",
+							"pm.test(\"Test response has a businessKey\", function () {",
+							"",
+							"    var data = JSON.parse(responseBody);",
+							"",
+							"    //set the tasks into PM environment",
+							"    pm.environment.set(\"businessKey\", data[0].processInstance.businessKey);",
+							"    ",
+							"    console.log( \"Response: BusinessKey: \"",
+							"                        +pm.environment.get(\"businessKey\") );",
+							"    ",
+							"    pm.response.to.have.jsonBody(\"businessKey\"); ",
+							"    ",
+							"});",
+							"",
+							"pm.test(\"Test if response has ProcessId\", function () { ",
+							"    ",
+							"    var data = JSON.parse(pm.response.json());",
+							"",
+							"    console.log(` Response: Process Id =  ${data[0].processInstance.id}` );",
+							"    ",
+							"    pm.response.to.have.jsonBody(\"id\"); ",
+							"",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"messageName\" : \"Message_cancel-inspection\",\n  \"businessKey\" : \"{{businessKey}}\",\n  \"resultEnabled\": true,\n  \"variablesInResultEnabled\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/message",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "correlate-workflow-cancel-inspection-integration",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"",
+							"});",
+							"",
+							"pm.test(\"Test response has a businessKey\", function () {",
+							"",
+							"    var data = JSON.parse(responseBody);",
+							"",
+							"    //set the tasks into PM environment",
+							"    pm.environment.set(\"businessKey\", data[0].processInstance.businessKey);",
+							"    ",
+							"    console.log( \"Response: BusinessKey: \"",
+							"                        +pm.environment.get(\"businessKey\") );",
+							"    ",
+							"    pm.response.to.have.jsonBody(\"businessKey\"); ",
+							"    ",
+							"});",
+							"",
+							"pm.test(\"Test if response has ProcessId\", function () { ",
+							"    ",
+							"    var data = JSON.parse(pm.response.json());",
+							"",
+							"    console.log(` Response: Process Id =  ${data[0].processInstance.id}` );",
+							"    ",
+							"    pm.response.to.have.jsonBody(\"id\"); ",
+							"",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"workflowKey\" : [\"Message_cancel-inspection\"],\n  \"businessKey\" : \"{{businessKey}}\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:9000/workflow/correlate/message",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"workflow",
+						"correlate",
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "correlate-workflow-start-inspection",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"",
+							"});",
+							"",
+							"pm.test(\"Test response has a businessKey\", function () {",
+							"",
+							"    var data = JSON.parse(responseBody);",
+							"",
+							"    //set the tasks into PM environment",
+							"    pm.environment.set(\"businessKey\", data[0].processInstance.businessKey);",
+							"    ",
+							"    console.log( \"Response: BusinessKey: \"",
+							"                        +pm.environment.get(\"businessKey\") );",
+							"    ",
+							"    pm.response.to.have.jsonBody(\"businessKey\"); ",
+							"    ",
+							"});",
+							"",
+							"pm.test(\"Test if response has ProcessId\", function () { ",
+							"    ",
+							"    var data = JSON.parse(pm.response.json());",
+							"",
+							"    console.log(` Response: Process Id =  ${data[0].processInstance.id}` );",
+							"    ",
+							"    pm.response.to.have.jsonBody(\"id\"); ",
+							"",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"messageName\" : \"Message_start-inspection\",\n  \"businessKey\" : \"{{businessKey}}\",\n  \"processVariables\": {\n        \"taskCount\":{\n\t\t\t\"value\": 1,\n            \"type\":\"Integer\"\n        }    \n    },\n    \"resultEnabled\": true,\n    \"variablesInResultEnabled\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/message",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "correlate-workflow-start-inspection-intrgation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"",
+							"});",
+							"",
+							"pm.test(\"Test response has a businessKey\", function () {",
+							"",
+							"    var data = JSON.parse(responseBody);",
+							"",
+							"    //set the tasks into PM environment",
+							"    pm.environment.set(\"businessKey\", data[0].processInstance.businessKey);",
+							"    ",
+							"    console.log( \"Response: BusinessKey: \"",
+							"                        +pm.environment.get(\"businessKey\") );",
+							"    ",
+							"    pm.response.to.have.jsonBody(\"businessKey\"); ",
+							"    ",
+							"});",
+							"",
+							"pm.test(\"Test if response has ProcessId\", function () { ",
+							"    ",
+							"    var data = JSON.parse(pm.response.json());",
+							"",
+							"    console.log(` Response: Process Id =  ${data[0].processInstance.id}` );",
+							"    ",
+							"    pm.response.to.have.jsonBody(\"id\"); ",
+							"",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"workflowKey\" : [\"Message_start-inspection\"],\n  \"businessKey\" : \"{{businessKey}}\",\n  \"processVariables\": {\n        \"taskCount\":{\n\t\t\t\"value\": 1,\n            \"type\":\"Integer\"\n        }    \n    }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:9000/workflow/start",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"workflow",
+						"start"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get Contacts",
 			"request": {
 				"method": "GET",
@@ -522,7 +843,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"first\" : \"Paul\",\n    \"last\" : \"Lungu\",\n    \"email\" : \"paul.lungu@camunda.com\",\n    \"phone\" : \"303-540-9000\",\n    \"street\" : \"1000 Maple Lane\",\n    \"city\" : \"Denver\",\n    \"state\" : \"CO\",\n    \"zip\" : \"80020\",\n    \"country\" : \"US\",\n    \"manager\": \"Ragnar\",\n    \"groups\": \"group-a,group-b\"\n\n }",
+					"raw": "{\n    \"first\" : \"Paul\",\n    \"last\" : \"Lungu\",\n    \"email\" : \"paul.lungu@camunda.com\",\n    \"phone\" : \"303-540-9000\",\n    \"street\" : \"1000 Maple Lane\",\n    \"city\" : \"Denver\",\n    \"state\" : \"CO\",\n    \"zip\" : \"80020\",\n    \"country\" : \"US\",\n    \"manager\": \"Ragnar\",\n    \"groups\": \"group-a,group-b\"\n }",
 					"options": {
 						"raw": {
 							"language": "json"
