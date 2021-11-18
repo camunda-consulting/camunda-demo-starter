@@ -41,7 +41,7 @@ class DetailForm extends React.Component {
             console.log("Info Render: "+JSON.stringify(this.props.submission));
 
             info =  <div>
-                <h5>Selected tasks will be started for workflow {this.props.submission.businessKey}</h5>
+                <h5>Select tasks to start or cancel</h5>
             </div>
 
         }else {
@@ -63,7 +63,7 @@ class DetailForm extends React.Component {
 
                 <div className="small-9 large-9">
                     <div className="input-group">
-                        <span className="input-group-label">Create Inspection Task</span>
+                        <span className="input-group-label">Inspection Task</span>
                         <input className="input-group-field" type="checkbox"
                                name="inspection"
                                ref="inspection"
@@ -74,7 +74,7 @@ class DetailForm extends React.Component {
 
                   <div className="small-9 large-9">
                       <div className="input-group">
-                          <span className="input-group-label">Create Lot Release Task</span>
+                          <span className="input-group-label">Lot Release Task</span>
                           <input className="input-group-field" type="checkbox"
                                  name="lotRelease"
                                  ref="lotRelease"
@@ -85,7 +85,7 @@ class DetailForm extends React.Component {
 
                   <div className="small-9 large-9">
                       <div className="input-group">
-                          <span className="input-group-label">Create In-Support Testing Task</span>
+                          <span className="input-group-label">In-Support Testing Task</span>
                           <input className="input-group-field" type="checkbox"
                                  name="inSupport"
                                  ref="inSupport"

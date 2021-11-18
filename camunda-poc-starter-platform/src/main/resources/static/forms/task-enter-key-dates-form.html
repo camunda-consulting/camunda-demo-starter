@@ -17,6 +17,7 @@
              class="form-control"
              uib-datepicker-popup="yyyy-MM-dd'T'HH:mm:ss"
              is-open="planDateFieldOpened"
+             ng-value="acMeetingDate"
       />
       <span class="input-group-btn">
         <button type="button"
@@ -38,6 +39,7 @@
              class="form-control"
              uib-datepicker-popup="yyyy-MM-dd'T'HH:mm:ss"
              is-open="filingDateFieldOpened"
+             ng-value="filingMeetingDate"
       />
       <span class="input-group-btn">
         <button type="button"
@@ -50,7 +52,7 @@
   </div>
 
   <div class="control-group">
-    <label class="control-label">Industry Meeting Milestones</label>
+    <label class="control-label">Industry Meeting Date</label>
     <div class="controls">
       <input type="text"
              cam-variable-name="milestoneDate"
@@ -58,6 +60,7 @@
              class="form-control"
              uib-datepicker-popup="yyyy-MM-dd'T'HH:mm:ss"
              is-open="milestoneDateFieldOpened"
+             ng-value="industryMeetingDate"
       />
       <span class="input-group-btn">
         <button type="button"

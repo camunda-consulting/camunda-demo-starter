@@ -9,16 +9,22 @@
 <form class="form-horizontal">
 
   <div class="control-group">
+
     <label class="control-label">Request Assignments</label>
     <div class="controls">
-      <select id="select-rpm-1" required cam-variable-name="supervisor" cam-variable-type="String">
-        <option value="subpervisor_1" checked>Supervisor 1</option>
-        <option value="subpervisor_2">Supervisor 2</option>
+      <select id="select-sup-1"
+              required cam-variable-name="supervisor"
+              cam-variable-type="String"
+              multiple="multiple"
+              cam-choices="customerList"
+              name="customer">
+        <option value="subpervisor_1" checked>CMC Reviewer</option>
+        <option value="subpervisor_2">OCBQ Reviewer</option>
       </select>
     </div>
+
+
   </div>
-
-
 
   <script cam-script type="text/form-script">
 

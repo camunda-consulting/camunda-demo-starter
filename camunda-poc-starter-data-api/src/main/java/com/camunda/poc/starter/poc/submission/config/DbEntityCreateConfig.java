@@ -111,6 +111,7 @@ public class DbEntityCreateConfig {
             user.setState("Colorado");
             user.setStreet("Atlantis");
             user.setZip("80026");
+            user.setGroups("group-a,group-b");
 
             contactRepository.save(user);
             LOGGER.info("\n\n **** Contact Created ****** \n\n");

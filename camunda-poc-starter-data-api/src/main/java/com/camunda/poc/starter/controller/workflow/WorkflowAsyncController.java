@@ -57,6 +57,8 @@ public class WorkflowAsyncController {
         Submission repoObj = repository.findSubmissionByBusinessKey(json.getString("businessKey"));
         User contact = contactRepository.findById(1L).get();
 
+        LOGGER.info("\n\n  Repo Data: "+ repoObj.getSubmissionStatusDate() +"\n");
+
         //Create meta-data about the event
         Event event = new Event();
         event.setEventName(Event.START_WORKFLOW_EVENT);
@@ -67,6 +69,8 @@ public class WorkflowAsyncController {
         String submission = objectMapper.writeValueAsString(repoObj);
         String user = objectMapper.writeValueAsString(contact);
 
+        LOGGER.info("\n\n  Workflow Mapped Data: "+ submission +"\n");
+
         // Put all the variables into top level object
         Map params = new HashMap<String, Object>();
         params.put("submission", submission);
@@ -76,14 +80,13 @@ public class WorkflowAsyncController {
 
         // Publish the message
         Boolean sent = source.publish().send(MessageBuilder.withPayload(event).build());
-        LOGGER.info("\n\n Event Payload Sent: " + data + "\n");
+        LOGGER.info("\n\n Event Payload Sent: " + event + "\n");
 
         //Shouldn't do this here instead create a listener and update based on published event.
         if(sent) {
             repoObj.setStarted(true);
             repository.save(repoObj);
             return new ResponseEntity<HttpStatus>(HttpStatus.OK);
-
         }
 
         return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);

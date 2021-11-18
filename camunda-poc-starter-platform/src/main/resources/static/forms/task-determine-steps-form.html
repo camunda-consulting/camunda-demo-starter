@@ -8,26 +8,6 @@
 
 <form class="form-horizontal">
 
-<!--  <div class="control-group">-->
-<!--    <label class="control-label">Case Id</label>-->
-<!--    <div class="controls">-->
-<!--      <input type="text" -->
-<!--             cam-variable-name="caseId"-->
-<!--             readonly="true" -->
-<!--             class="form-control" />      -->
-<!--    </div>-->
-<!--  </div>-->
-
-<!--  <div class="control-group">-->
-<!--    <label class="control-label">Third Party Comment</label>-->
-<!--    <div class="controls">-->
-<!--      <textarea cam-variable-name="commentToThirdParty"-->
-<!--                cam-variable-type="String"-->
-<!--                class="form-control" >-->
-<!--      </textarea>-->
-<!--    </div>-->
-<!--  </div>-->
-
   <div class="control-group">
     <label class="control-label">Create Inspection Task</label>
     <div class="controls">
@@ -98,37 +78,34 @@
           var count = camForm.variableManager.variable('taskCount').value;
           console.log("count: "+count);
 
+          var in_support = $scope.in_support;
+          if (in_support) {
+            count = count + 1;
+            console.log("taskCount: "+count);
+            // set value in variable manager so that it can be sent to backend
+            camForm.variableManager.variableValue('taskCount', count);
 
-<!--          camForm.variableManager.variable('taskCount').value = 3;-->
+            $http.post(Uri.appUri('engine://engine/:engine/message'), {"messageName" : "Message_start-support-testing", "businessKey" : businessKey }, {})
+              .then(function(response){
+                  debugger;
+                  console.log("Response: "+response);
+                  if(response.status != 204){
 
-<!--          var in_support = $scope.in_support;-->
-<!--          if (in_support) {-->
-<!--            count = count + 1;-->
-<!--            console.log("taskCount: "+count);-->
-<!--            // set value in variable manager so that it can be sent to backend-->
-<!--            camForm.variableManager.variableValue('taskCount', count);-->
+                  }
+              });
+          }
 
-<!--            $http.post(Uri.appUri('engine://engine/:engine/message'), {"messageName" : "Message_start-support-testing", "businessKey" : businessKey }, {})-->
-<!--              .then(function(response){-->
-<!--                  debugger;-->
-<!--                  console.log("Response: "+response);-->
-<!--                  if(response.status != 204){-->
-
-<!--                  }-->
-<!--              });-->
-<!--          }-->
-
-<!--          var lot_release = $scope.lot_release;-->
-<!--          if (lot_release) {-->
-<!--            count = count + 1-->
-<!--              $http.post(Uri.appUri('engine://engine/:engine/message'), {"messageName" : "Message_start-lot-release", "businessKey" : businessKey }, {})-->
-<!--                .then(function(response){-->
-<!--                  debugger;-->
-<!--                  console.log("Response: "+response);-->
-<!--                  if(response.status != 204){-->
-<!--                  }-->
-<!--              });-->
-<!--          }-->
+          var lot_release = $scope.lot_release;
+          if (lot_release) {
+            count = count + 1
+              $http.post(Uri.appUri('engine://engine/:engine/message'), {"messageName" : "Message_start-lot-release", "businessKey" : businessKey }, {})
+                .then(function(response){
+                  debugger;
+                  console.log("Response: "+response);
+                  if(response.status != 204){
+                  }
+              });
+          }
 
           var inspection = $scope.inspection;
           if (inspection) {
@@ -152,4 +129,4 @@
     });
   }]);
 
-  </script>
+</script>
