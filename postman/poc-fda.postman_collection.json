@@ -172,7 +172,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"businessKey\" : \"{{$guid}}\",\n    \"started\": true,\n    \"approved\": false,\n    \"rejected\": false,\n    \"reviewOffice\": \"OVRR\",\n    \"reviewSchedule\": \"S12\",\n    \"product\": \"Vaccine\",\n    \"productType\": \"Adenovirus Vaccine\",\n    \"submissionStatusDate\": \"2021-11-10T00:00:00\",\n    \"submissionStatus\": \"open\",\n    \"status\": \"clock stopped\",\n    \"indication\": \"covid\",\n    \"dosageForm\": \"injection\",\n    \"establishedName\": \"blood\"\n}\n",
+					"raw": "{\n\t\"businessKey\" : \"{{$guid}}\",\n    \"started\": true,\n    \"approved\": false,\n    \"rejected\": false,\n    \"reviewOffice\": \"OVRR\",\n    \"reviewSchedule\": \"S12\",\n    \"product\": \"Vaccine\",\n    \"productType\": \"Adenovirus Vaccine\",\n    \"submissionStatusDate\": \"2021-11-10T00:00:00.000Z\",\n    \"submissionReceiveDate\": \"2021-11-10T00:00:00.000Z\",\n    \"submissionStatus\": \"open\",\n    \"conductAdvisoryMeeting\": false,\n    \"indication\": \"covid\",\n    \"dosageForm\": \"injection\",\n    \"establishedName\": \"blood\"\n}\n",
 					"options": {
 						"raw": {
 							"language": "json"

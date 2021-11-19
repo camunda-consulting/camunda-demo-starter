@@ -63,6 +63,9 @@ public class Submission {
     @Column(name="review_office", nullable=true)
     private String reviewOffice;
 
+    @Column(name="conduct_advisory_meeting", nullable=true)
+    private Boolean conductAdvisoryMeeting;
+
     @Column(name="submission_status", nullable=true)
     private String submissionStatus;
 
@@ -70,6 +73,11 @@ public class Submission {
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private Date submissionStatusDate;
+
+    @Column(name="submission_receive_date", nullable=true)
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    private Date submissionReceiveDate;
 
     @Column(name="indication", nullable=true)
     private String indication;

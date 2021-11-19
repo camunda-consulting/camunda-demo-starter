@@ -55,7 +55,8 @@ public class ClockStoppedDelegate implements JavaDelegate {
       }
 
     }catch(Exception e){
-          LOGGER.info("\n\n  ... "+Class.class.getName()+" just swallow exceptions");
+          LOGGER.info("\n\n  ... "+Class.class.getSimpleName()+" just swallow exceptions");
+          e.printStackTrace();
     }
 
     Boolean error = (Boolean) execution.getVariable("error");

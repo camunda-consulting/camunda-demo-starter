@@ -62,7 +62,7 @@ This like a automated mail room</bpmn:text>
         <bpmn:completionCondition xsi:type="bpmn:tFormalExpression">${accepted == false}</bpmn:completionCondition>
       </bpmn:multiInstanceLoopCharacteristics>
     </bpmn:userTask>
-    <bpmn:userTask id="Activity_escalate-branch-sup" name="Escalate to Branch Supervisor" camunda:formKey="embedded:app:forms/task-form.html" camunda:assignee="${user.prop(&#34;manager&#34;).value()}">
+    <bpmn:userTask id="Activity_escalate-branch-sup" name="Escalate to Branch Supervisor" camunda:formKey="embedded:app:forms/task-approval-decision-form.html" camunda:assignee="${user.prop(&#34;manager&#34;).value()}">
       <bpmn:incoming>Flow_0ahpl7s</bpmn:incoming>
       <bpmn:outgoing>Flow_12ndwcm</bpmn:outgoing>
     </bpmn:userTask>
@@ -355,7 +355,7 @@ Chooses RPM</bpmn:text>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="Flow_1hxxh5q" sourceRef="Activity_request-discipline-assignments" targetRef="Activity_assign-disipline-reviewers" />
     <bpmn:sequenceFlow id="Flow_1j4yfnc" sourceRef="Event_assign-disipline-reiviewers" targetRef="Activity_request-discipline-assignments" />
-    <bpmn:userTask id="Activity_assign-disipline-reviewers" name="Assigned Disciplined Reviewers" camunda:formKey="embedded:app:forms/task-assign-reviewers-form.html" camunda:assignee="${supervisor}">
+    <bpmn:userTask id="Activity_assign-disipline-reviewers" name="Assign Discipline Reviewers" camunda:formKey="embedded:app:forms/task-assign-reviewers-form.html" camunda:assignee="${supervisor}">
       <bpmn:incoming>Flow_1hxxh5q</bpmn:incoming>
       <bpmn:outgoing>Flow_07eti41</bpmn:outgoing>
       <bpmn:multiInstanceLoopCharacteristics>
@@ -376,8 +376,8 @@ Chooses RPM</bpmn:text>
     <bpmn:association id="Association_1qw2j9t" sourceRef="Activity_assign-disipline-reviewers" targetRef="TextAnnotation_14f472k" />
     <bpmn:textAnnotation id="TextAnnotation_16x3hhh">
       <bpmn:text>RPM choose discipline for each discipline
-- CMC Reviewer = Sup group
-- OCBQ Reviewer = Sup group
+- CMC Reviewer = CMC Sup group
+- OCBQ Reviewer = OCBQ Sup group
 for use in next step</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_1hpz2gi" sourceRef="Activity_request-discipline-assignments" targetRef="TextAnnotation_16x3hhh" />
@@ -385,111 +385,31 @@ for use in next step</bpmn:text>
       <bpmn:text>This will be the Branch Office Sup that knows the Reviewers Disipline</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_0yurx2i" sourceRef="Activity_assign-disipline-reviewers" targetRef="TextAnnotation_1d98pud" />
+    <bpmn:textAnnotation id="TextAnnotation_0fgktp3">
+      <bpmn:text>Direct Assign to Sup. Make sure to have 1 group per task.</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0apjvy5" sourceRef="Activity_assign-disipline-reviewers" targetRef="TextAnnotation_0fgktp3" />
     <bpmn:textAnnotation id="TextAnnotation_16s03n4">
       <bpmn:text>Genrate tasks for each discipline</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_0x320f2" sourceRef="Activity_assign-disipline-reviewers" targetRef="TextAnnotation_16s03n4" />
-    <bpmn:textAnnotation id="TextAnnotation_0fgktp3">
-      <bpmn:text>Direct Assign to Sup</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:association id="Association_0apjvy5" sourceRef="Activity_assign-disipline-reviewers" targetRef="TextAnnotation_0fgktp3" />
   </bpmn:process>
   <bpmn:process id="Process_conduct-discipline-review" isExecutable="true">
-    <bpmn:subProcess id="Activity_1cuw0mi" triggeredByEvent="true">
-      <bpmn:sequenceFlow id="Flow_0x3m8v4" sourceRef="Event_start-inspection" targetRef="Activity_inspection" />
-      <bpmn:endEvent id="Event_1y3jv13" name="end-inspection">
-        <bpmn:incoming>Flow_1fnz2x1</bpmn:incoming>
-      </bpmn:endEvent>
-      <bpmn:userTask id="Activity_inspection" name="Inspections" camunda:formKey="embedded:app:forms/task-form.html" camunda:candidateGroups="${user.prop(&#34;groups&#34;).value()}">
-        <bpmn:incoming>Flow_0x3m8v4</bpmn:incoming>
-        <bpmn:outgoing>Flow_0knr6kw</bpmn:outgoing>
-      </bpmn:userTask>
-      <bpmn:startEvent id="Event_start-inspection" name="Start Inspections" isInterrupting="false">
-        <bpmn:outgoing>Flow_0x3m8v4</bpmn:outgoing>
-        <bpmn:messageEventDefinition id="MessageEventDefinition_1qcorgq" messageRef="Message_1dw1uil" />
-      </bpmn:startEvent>
-      <bpmn:boundaryEvent id="Event_cancel-inspection" name="Cancel Inspection" attachedToRef="Activity_inspection">
-        <bpmn:outgoing>Flow_19x6097</bpmn:outgoing>
-        <bpmn:messageEventDefinition id="MessageEventDefinition_0fukoeg" messageRef="Message_1sij8c2" />
-      </bpmn:boundaryEvent>
-      <bpmn:sequenceFlow id="Flow_0knr6kw" sourceRef="Activity_inspection" targetRef="Activity_08fdifo" />
-      <bpmn:scriptTask id="Activity_08fdifo" name="Update Task Count" scriptFormat="Groovy" camunda:resultVariable="taskCount">
-        <bpmn:incoming>Flow_0knr6kw</bpmn:incoming>
-        <bpmn:incoming>Flow_19x6097</bpmn:incoming>
-        <bpmn:outgoing>Flow_1fnz2x1</bpmn:outgoing>
-        <bpmn:script>taskCount = taskCount - 1</bpmn:script>
-      </bpmn:scriptTask>
-      <bpmn:sequenceFlow id="Flow_1fnz2x1" sourceRef="Activity_08fdifo" targetRef="Event_1y3jv13" />
-      <bpmn:sequenceFlow id="Flow_19x6097" sourceRef="Event_cancel-inspection" targetRef="Activity_08fdifo" />
-      <bpmn:textAnnotation id="TextAnnotation_1hsrurt">
-        <bpmn:text>Update Check List to ensure all steps complete</bpmn:text>
-      </bpmn:textAnnotation>
-      <bpmn:association id="Association_02znq6i" sourceRef="Activity_inspection" targetRef="TextAnnotation_1hsrurt" />
-    </bpmn:subProcess>
     <bpmn:sequenceFlow id="Flow_0f5f1j0" sourceRef="Activity_enter-approval-decision" targetRef="Event_1ngwf0y" />
     <bpmn:sequenceFlow id="Flow_1vwx295" sourceRef="Activity_01gkdiw" targetRef="Activity_enter-approval-decision" />
-    <bpmn:subProcess id="Activity_05dxsgw" triggeredByEvent="true">
-      <bpmn:userTask id="Activity_in-support" name="In-Support Testing" camunda:formKey="embedded:app:forms/task-form.html" camunda:candidateGroups="${user.prop(&#34;groups&#34;).value()}">
-        <bpmn:incoming>Flow_04ejxym</bpmn:incoming>
-        <bpmn:outgoing>Flow_0yhzjwi</bpmn:outgoing>
-      </bpmn:userTask>
-      <bpmn:endEvent id="Event_end-support-testing" name="End Support Testing">
-        <bpmn:incoming>Flow_14gjcsv</bpmn:incoming>
-      </bpmn:endEvent>
-      <bpmn:boundaryEvent id="Event_cancel-support-testing" name="cancel-support-testing" attachedToRef="Activity_in-support">
-        <bpmn:outgoing>Flow_19j2mdf</bpmn:outgoing>
-        <bpmn:messageEventDefinition id="MessageEventDefinition_1kno1l2" messageRef="Message_0jnl93a" />
-      </bpmn:boundaryEvent>
-      <bpmn:sequenceFlow id="Flow_04ejxym" sourceRef="Event_start-support-testing" targetRef="Activity_in-support" />
-      <bpmn:startEvent id="Event_start-support-testing" name="Start Support Testing" isInterrupting="false">
-        <bpmn:outgoing>Flow_04ejxym</bpmn:outgoing>
-        <bpmn:messageEventDefinition id="MessageEventDefinition_18ordu4" messageRef="Message_1f6uhsn" />
-      </bpmn:startEvent>
-      <bpmn:scriptTask id="Activity_0vpvgny" name="Update Task Count" scriptFormat="Groovy" camunda:resultVariable="taskCount">
-        <bpmn:incoming>Flow_0yhzjwi</bpmn:incoming>
-        <bpmn:incoming>Flow_19j2mdf</bpmn:incoming>
-        <bpmn:outgoing>Flow_14gjcsv</bpmn:outgoing>
-        <bpmn:script>taskCount = taskCount - 1</bpmn:script>
-      </bpmn:scriptTask>
-      <bpmn:sequenceFlow id="Flow_0yhzjwi" sourceRef="Activity_in-support" targetRef="Activity_0vpvgny" />
-      <bpmn:sequenceFlow id="Flow_14gjcsv" sourceRef="Activity_0vpvgny" targetRef="Event_end-support-testing" />
-      <bpmn:sequenceFlow id="Flow_19j2mdf" sourceRef="Event_cancel-support-testing" targetRef="Activity_0vpvgny" />
-      <bpmn:textAnnotation id="TextAnnotation_04bqbu2">
-        <bpmn:text>Update List</bpmn:text>
-      </bpmn:textAnnotation>
-      <bpmn:association id="Association_0p0yxsf" sourceRef="Activity_in-support" targetRef="TextAnnotation_04bqbu2" />
-    </bpmn:subProcess>
-    <bpmn:subProcess id="Activity_01gkdiw">
-      <bpmn:incoming>Flow_13ipr5j</bpmn:incoming>
-      <bpmn:incoming>Flow_0hpd7aw</bpmn:incoming>
-      <bpmn:outgoing>Flow_1vwx295</bpmn:outgoing>
-      <bpmn:startEvent id="Event_start-check" name="Start Check">
-        <bpmn:outgoing>Flow_0yoyxs3</bpmn:outgoing>
-      </bpmn:startEvent>
-      <bpmn:sequenceFlow id="Flow_0yoyxs3" sourceRef="Event_start-check" targetRef="Event_status" />
-      <bpmn:endEvent id="Event_end-check" name="End Check">
-        <bpmn:incoming>Flow_13tb7pr</bpmn:incoming>
-      </bpmn:endEvent>
-      <bpmn:intermediateCatchEvent id="Event_status" name="Check Task Status">
-        <bpmn:incoming>Flow_0yoyxs3</bpmn:incoming>
-        <bpmn:outgoing>Flow_13tb7pr</bpmn:outgoing>
-        <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_0joktho" camunda:variableName="taskCount" camunda:variableEvents="update">
-          <bpmn:condition xsi:type="bpmn:tFormalExpression">${taskCount &lt;= 0}</bpmn:condition>
-        </bpmn:conditionalEventDefinition>
-      </bpmn:intermediateCatchEvent>
-      <bpmn:sequenceFlow id="Flow_13tb7pr" sourceRef="Event_status" targetRef="Event_end-check" />
-    </bpmn:subProcess>
-    <bpmn:userTask id="Activity_enter-approval-decision" name="Enter Approval Decision" camunda:formKey="embedded:app:forms/task-approval-decision-form.html" camunda:candidateGroups="${user.prop(&#34;groups&#34;).value()}">
-      <bpmn:incoming>Flow_1vwx295</bpmn:incoming>
-      <bpmn:outgoing>Flow_0f5f1j0</bpmn:outgoing>
+    <bpmn:sequenceFlow id="Flow_13ipr5j" sourceRef="determine-steps" targetRef="Activity_01gkdiw" />
+    <bpmn:sequenceFlow id="Flow_12thkt3" sourceRef="Event_start-conduct-discipline-review" targetRef="determine-steps" />
+    <bpmn:sequenceFlow id="Flow_0hpd7aw" sourceRef="Event_1vc73c2" targetRef="Activity_01gkdiw" />
+    <bpmn:boundaryEvent id="Event_1vc73c2" name="Bypass" attachedToRef="determine-steps">
+      <bpmn:outgoing>Flow_0hpd7aw</bpmn:outgoing>
+      <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_1mi2bie" camunda:variableName="taskCount" camunda:variableEvents="create">
+        <bpmn:condition xsi:type="bpmn:tFormalExpression">${taskCount &gt; 0}</bpmn:condition>
+      </bpmn:conditionalEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:userTask id="determine-steps" name="Determine Steps" camunda:formKey="embedded:app:forms/task-determine-steps-form.html" camunda:candidateGroups="${user.prop(&#34;groups&#34;).value()}">
+      <bpmn:incoming>Flow_12thkt3</bpmn:incoming>
+      <bpmn:outgoing>Flow_13ipr5j</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:endEvent id="Event_1ngwf0y" name="End Conduct Discipline Review">
-      <bpmn:incoming>Flow_0f5f1j0</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:startEvent id="Event_start-conduct-discipline-review" name="Start Conduct Discipline Review">
-      <bpmn:outgoing>Flow_12thkt3</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0edaetu" messageRef="Message_0evmzwk" />
-    </bpmn:startEvent>
     <bpmn:subProcess id="Activity_1k3ytfo" triggeredByEvent="true">
       <bpmn:userTask id="Activity_lot-release" name="Lot Release" camunda:formKey="embedded:app:forms/task-form.html" camunda:candidateGroups="${user.prop(&#34;groups&#34;).value()}">
         <bpmn:incoming>Flow_1pwz03o</bpmn:incoming>
@@ -521,35 +441,115 @@ for use in next step</bpmn:text>
       </bpmn:textAnnotation>
       <bpmn:association id="Association_0xe04u3" sourceRef="Activity_lot-release" targetRef="TextAnnotation_18umz3q" />
     </bpmn:subProcess>
-    <bpmn:userTask id="determine-steps" name="Determine Steps" camunda:formKey="embedded:app:forms/task-determine-steps-form.html" camunda:candidateGroups="${user.prop(&#34;groups&#34;).value()}">
-      <bpmn:incoming>Flow_12thkt3</bpmn:incoming>
-      <bpmn:outgoing>Flow_13ipr5j</bpmn:outgoing>
+    <bpmn:startEvent id="Event_start-conduct-discipline-review" name="Start Conduct Discipline Review">
+      <bpmn:outgoing>Flow_12thkt3</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0edaetu" messageRef="Message_0evmzwk" />
+    </bpmn:startEvent>
+    <bpmn:endEvent id="Event_1ngwf0y" name="End Conduct Discipline Review">
+      <bpmn:incoming>Flow_0f5f1j0</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:userTask id="Activity_enter-approval-decision" name="Enter Approval Decision" camunda:formKey="embedded:app:forms/task-approval-decision-form.html" camunda:candidateGroups="${user.prop(&#34;groups&#34;).value()}">
+      <bpmn:incoming>Flow_1vwx295</bpmn:incoming>
+      <bpmn:outgoing>Flow_0f5f1j0</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:sequenceFlow id="Flow_13ipr5j" sourceRef="determine-steps" targetRef="Activity_01gkdiw" />
-    <bpmn:sequenceFlow id="Flow_12thkt3" sourceRef="Event_start-conduct-discipline-review" targetRef="determine-steps" />
-    <bpmn:boundaryEvent id="Event_1vc73c2" name="Bypass" attachedToRef="determine-steps">
-      <bpmn:outgoing>Flow_0hpd7aw</bpmn:outgoing>
-      <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_1mi2bie" camunda:variableName="taskCount" camunda:variableEvents="create">
-        <bpmn:condition xsi:type="bpmn:tFormalExpression">${taskCount &gt; 0}</bpmn:condition>
-      </bpmn:conditionalEventDefinition>
-    </bpmn:boundaryEvent>
-    <bpmn:sequenceFlow id="Flow_0hpd7aw" sourceRef="Event_1vc73c2" targetRef="Activity_01gkdiw" />
-    <bpmn:textAnnotation id="TextAnnotation_1nivbo8">
-      <bpmn:text>Assigned To RPM</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:association id="Association_1bdwriq" sourceRef="Activity_enter-approval-decision" targetRef="TextAnnotation_1nivbo8" />
-    <bpmn:textAnnotation id="TextAnnotation_190h37w">
-      <bpmn:text>Assigned to RPM Reviewer</bpmn:text>
+    <bpmn:subProcess id="Activity_01gkdiw">
+      <bpmn:incoming>Flow_13ipr5j</bpmn:incoming>
+      <bpmn:incoming>Flow_0hpd7aw</bpmn:incoming>
+      <bpmn:outgoing>Flow_1vwx295</bpmn:outgoing>
+      <bpmn:startEvent id="Event_start-check" name="Start Check">
+        <bpmn:outgoing>Flow_0yoyxs3</bpmn:outgoing>
+      </bpmn:startEvent>
+      <bpmn:sequenceFlow id="Flow_0yoyxs3" sourceRef="Event_start-check" targetRef="Event_status" />
+      <bpmn:endEvent id="Event_end-check" name="End Check">
+        <bpmn:incoming>Flow_13tb7pr</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:intermediateCatchEvent id="Event_status" name="Check Task Status">
+        <bpmn:incoming>Flow_0yoyxs3</bpmn:incoming>
+        <bpmn:outgoing>Flow_13tb7pr</bpmn:outgoing>
+        <bpmn:conditionalEventDefinition id="ConditionalEventDefinition_0joktho" camunda:variableName="taskCount" camunda:variableEvents="update">
+          <bpmn:condition xsi:type="bpmn:tFormalExpression">${taskCount &lt;= 0}</bpmn:condition>
+        </bpmn:conditionalEventDefinition>
+      </bpmn:intermediateCatchEvent>
+      <bpmn:sequenceFlow id="Flow_13tb7pr" sourceRef="Event_status" targetRef="Event_end-check" />
+    </bpmn:subProcess>
+    <bpmn:subProcess id="Activity_05dxsgw" triggeredByEvent="true">
+      <bpmn:userTask id="Activity_in-support" name="In-Support Testing" camunda:formKey="embedded:app:forms/task-form.html" camunda:candidateGroups="${user.prop(&#34;groups&#34;).value()}">
+        <bpmn:incoming>Flow_04ejxym</bpmn:incoming>
+        <bpmn:outgoing>Flow_0yhzjwi</bpmn:outgoing>
+      </bpmn:userTask>
+      <bpmn:endEvent id="Event_end-support-testing" name="End Support Testing">
+        <bpmn:incoming>Flow_14gjcsv</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:boundaryEvent id="Event_cancel-support-testing" name="cancel-support-testing" attachedToRef="Activity_in-support">
+        <bpmn:outgoing>Flow_19j2mdf</bpmn:outgoing>
+        <bpmn:messageEventDefinition id="MessageEventDefinition_1kno1l2" messageRef="Message_0jnl93a" />
+      </bpmn:boundaryEvent>
+      <bpmn:sequenceFlow id="Flow_04ejxym" sourceRef="Event_start-support-testing" targetRef="Activity_in-support" />
+      <bpmn:startEvent id="Event_start-support-testing" name="Start Support Testing" isInterrupting="false">
+        <bpmn:outgoing>Flow_04ejxym</bpmn:outgoing>
+        <bpmn:messageEventDefinition id="MessageEventDefinition_18ordu4" messageRef="Message_1f6uhsn" />
+      </bpmn:startEvent>
+      <bpmn:scriptTask id="Activity_0vpvgny" name="Update Task Count" scriptFormat="Groovy" camunda:resultVariable="taskCount">
+        <bpmn:incoming>Flow_0yhzjwi</bpmn:incoming>
+        <bpmn:incoming>Flow_19j2mdf</bpmn:incoming>
+        <bpmn:outgoing>Flow_14gjcsv</bpmn:outgoing>
+        <bpmn:script>taskCount = taskCount - 1</bpmn:script>
+      </bpmn:scriptTask>
+      <bpmn:sequenceFlow id="Flow_0yhzjwi" sourceRef="Activity_in-support" targetRef="Activity_0vpvgny" />
+      <bpmn:sequenceFlow id="Flow_14gjcsv" sourceRef="Activity_0vpvgny" targetRef="Event_end-support-testing" />
+      <bpmn:sequenceFlow id="Flow_19j2mdf" sourceRef="Event_cancel-support-testing" targetRef="Activity_0vpvgny" />
+      <bpmn:textAnnotation id="TextAnnotation_04bqbu2">
+        <bpmn:text>Update List</bpmn:text>
+      </bpmn:textAnnotation>
+      <bpmn:association id="Association_0p0yxsf" sourceRef="Activity_in-support" targetRef="TextAnnotation_04bqbu2" />
+    </bpmn:subProcess>
+    <bpmn:subProcess id="Activity_1cuw0mi" triggeredByEvent="true">
+      <bpmn:sequenceFlow id="Flow_0x3m8v4" sourceRef="Event_start-inspection" targetRef="Activity_inspection" />
+      <bpmn:endEvent id="Event_1y3jv13" name="end-inspection">
+        <bpmn:incoming>Flow_1fnz2x1</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:userTask id="Activity_inspection" name="Inspections" camunda:formKey="embedded:app:forms/task-form.html" camunda:candidateGroups="${user.prop(&#34;groups&#34;).value()}">
+        <bpmn:incoming>Flow_0x3m8v4</bpmn:incoming>
+        <bpmn:outgoing>Flow_0knr6kw</bpmn:outgoing>
+      </bpmn:userTask>
+      <bpmn:startEvent id="Event_start-inspection" name="Start Inspections" isInterrupting="false">
+        <bpmn:outgoing>Flow_0x3m8v4</bpmn:outgoing>
+        <bpmn:messageEventDefinition id="MessageEventDefinition_1qcorgq" messageRef="Message_1dw1uil" />
+      </bpmn:startEvent>
+      <bpmn:boundaryEvent id="Event_cancel-inspection" name="Cancel Inspection" attachedToRef="Activity_inspection">
+        <bpmn:outgoing>Flow_19x6097</bpmn:outgoing>
+        <bpmn:messageEventDefinition id="MessageEventDefinition_0fukoeg" messageRef="Message_1sij8c2" />
+      </bpmn:boundaryEvent>
+      <bpmn:sequenceFlow id="Flow_0knr6kw" sourceRef="Activity_inspection" targetRef="Activity_08fdifo" />
+      <bpmn:scriptTask id="Activity_08fdifo" name="Update Task Count" scriptFormat="Groovy" camunda:resultVariable="taskCount">
+        <bpmn:incoming>Flow_0knr6kw</bpmn:incoming>
+        <bpmn:incoming>Flow_19x6097</bpmn:incoming>
+        <bpmn:outgoing>Flow_1fnz2x1</bpmn:outgoing>
+        <bpmn:script>taskCount = taskCount - 1</bpmn:script>
+      </bpmn:scriptTask>
+      <bpmn:sequenceFlow id="Flow_1fnz2x1" sourceRef="Activity_08fdifo" targetRef="Event_1y3jv13" />
+      <bpmn:sequenceFlow id="Flow_19x6097" sourceRef="Event_cancel-inspection" targetRef="Activity_08fdifo" />
+      <bpmn:textAnnotation id="TextAnnotation_1hsrurt">
+        <bpmn:text>Update Check List to ensure all steps complete</bpmn:text>
+      </bpmn:textAnnotation>
+      <bpmn:association id="Association_02znq6i" sourceRef="Activity_inspection" targetRef="TextAnnotation_1hsrurt" />
+    </bpmn:subProcess>
+    <bpmn:textAnnotation id="TextAnnotation_0y32lsm">
+      <bpmn:text>User Selects Steps/Tasks</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:textAnnotation id="TextAnnotation_1ovw0qo">
       <bpmn:text>create count of steps (taskCount)</bpmn:text>
     </bpmn:textAnnotation>
-    <bpmn:association id="Association_00myuwm" sourceRef="determine-steps" targetRef="TextAnnotation_1ovw0qo" />
-    <bpmn:association id="Association_1jp6q7b" sourceRef="determine-steps" targetRef="TextAnnotation_190h37w" />
-    <bpmn:textAnnotation id="TextAnnotation_0y32lsm">
-      <bpmn:text>User Selects Steps/Tasks</bpmn:text>
+    <bpmn:textAnnotation id="TextAnnotation_190h37w">
+      <bpmn:text>Assigned to RPM Reviewer</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:textAnnotation id="TextAnnotation_1nivbo8">
+      <bpmn:text>Assigned To RPM</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_0t1eaje" sourceRef="determine-steps" targetRef="TextAnnotation_0y32lsm" />
+    <bpmn:association id="Association_1jp6q7b" sourceRef="determine-steps" targetRef="TextAnnotation_190h37w" />
+    <bpmn:association id="Association_00myuwm" sourceRef="determine-steps" targetRef="TextAnnotation_1ovw0qo" />
+    <bpmn:association id="Association_1bdwriq" sourceRef="Activity_enter-approval-decision" targetRef="TextAnnotation_1nivbo8" />
   </bpmn:process>
   <bpmn:message id="Message_09kyjs5" name="Message_start-cber-process" />
   <bpmn:message id="Message_1carhxp" name="Message_start-lot-release" />
@@ -1050,11 +1050,11 @@ for use in next step</bpmn:text>
       <bpmndi:BPMNShape id="TextAnnotation_1d98pud_di" bpmnElement="TextAnnotation_1d98pud">
         <dc:Bounds x="820" y="1560" width="138" height="84" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_16s03n4_di" bpmnElement="TextAnnotation_16s03n4">
-        <dc:Bounds x="700" y="1600" width="100" height="54" />
+      <bpmndi:BPMNShape id="TextAnnotation_0fgktp3_di" bpmnElement="TextAnnotation_0fgktp3" bioc:stroke="#43a047" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#43a047">
+        <dc:Bounds x="1060" y="1593" width="100" height="68" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0fgktp3_di" bpmnElement="TextAnnotation_0fgktp3">
-        <dc:Bounds x="990" y="1670" width="100" height="40" />
+      <bpmndi:BPMNShape id="TextAnnotation_16s03n4_di" bpmnElement="TextAnnotation_16s03n4" bioc:stroke="#43a047" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#43a047">
+        <dc:Bounds x="1080" y="1670" width="100" height="54" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1j4yfnc_di" bpmnElement="Flow_1j4yfnc">
         <di:waypoint x="268" y="1647" />
@@ -1106,13 +1106,13 @@ for use in next step</bpmn:text>
         <di:waypoint x="874" y="1737" />
         <di:waypoint x="884" y="1644" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_0x320f2_di" bpmnElement="Association_0x320f2">
-        <di:waypoint x="840" y="1737" />
-        <di:waypoint x="779" y="1654" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_0apjvy5_di" bpmnElement="Association_0apjvy5">
-        <di:waypoint x="920" y="1750" />
-        <di:waypoint x="994" y="1710" />
+        <di:waypoint x="919" y="1743" />
+        <di:waypoint x="1060" y="1643" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0x320f2_di" bpmnElement="Association_0x320f2">
+        <di:waypoint x="920" y="1759" />
+        <di:waypoint x="1080" y="1703" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Participant_12tl6cc_di" bpmnElement="Participant_12tl6cc" isHorizontal="true">
         <dc:Bounds x="140" y="1910" width="1490" height="640" />
