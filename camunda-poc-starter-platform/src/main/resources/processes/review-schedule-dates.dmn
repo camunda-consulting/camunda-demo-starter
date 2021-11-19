@@ -12,8 +12,8 @@
     </informationRequirement>
     <decisionTable id="DecisionTable_0azx1hv" hitPolicy="FIRST">
       <input id="Input_1" label="CBER Receipt Date" biodi:width="249" camunda:inputVariable="receiptDate">
-        <inputExpression id="InputExpression_1" typeRef="string">
-          <text>submission.submissionStatusDate</text>
+        <inputExpression id="InputExpression_1" typeRef="feel-date">
+          <text>date and time(submission.submissionStatusDate)</text>
         </inputExpression>
       </input>
       <input id="InputClause_1j7mvyl" label="Review Schedule" camunda:inputVariable="reviewSchedule">
@@ -21,118 +21,88 @@
           <text>submission.reviewSchedule</text>
         </inputExpression>
       </input>
-      <input id="InputClause_03o2yu1" label="Advisory Committee Meeting Date" biodi:width="314" camunda:inputVariable="adCommMeetingDate">
-        <inputExpression id="LiteralExpression_0qzy8vk" typeRef="string">
-          <text>submission.submissionStatusDate</text>
-        </inputExpression>
-      </input>
       <output id="Output_1" label="Filing Meeting Date" name="filingMeetingDate" typeRef="date" />
       <output id="OutputClause_1f9krz0" label="Filing Decision Date" name="filingDecisionDate" typeRef="date" />
-      <output id="OutputClause_0z12kay" label="Advisory Committee Meeting Date" name="acMeetingDate" typeRef="date" />
       <output id="OutputClause_1ukwhrf" label="Industry Meeting Date" name="industryMeetingDate" typeRef="date" biodi:width="192" />
       <output id="OutputClause_153s5fz" label="Action Due Date" name="actionDueDate" typeRef="date" />
       <rule id="DecisionRule_03mx8el">
         <inputEntry id="UnaryTests_08q5uk5">
-          <text>&lt; date and time(date(receiptDate))</text>
+          <text>&gt; now()</text>
         </inputEntry>
         <inputEntry id="UnaryTests_17gnw60">
           <text>"S12"</text>
         </inputEntry>
-        <inputEntry id="UnaryTests_0g180x3">
-          <text></text>
-        </inputEntry>
         <outputEntry id="LiteralExpression_042tecv">
-          <text>date(receiptDate) + duration("P45D")</text>
+          <text>date and time(submission.submissionStatusDate) + duration("P45D")</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_0doqwic">
-          <text>date(receiptDate) + duration("P60D")</text>
-        </outputEntry>
-        <outputEntry id="LiteralExpression_1ymrzu0">
-          <text>date(adCommMeetingDate)</text>
+          <text>date and time(submission.submissionStatusDate) + duration("P60D")</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_0pklk9t">
-          <text>date(receiptDate) + duration("P180D")</text>
+          <text>date and time(submission.submissionStatusDate) + duration("P180D")</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_14pfy5l">
-          <text>date(receiptDate) + duration("P365D")</text>
-        </outputEntry>
-      </rule>
-      <rule id="DecisionRule_012ixkm">
-        <inputEntry id="UnaryTests_0sqabjo">
-          <text>&lt; date and time(date(receiptDate))</text>
-        </inputEntry>
-        <inputEntry id="UnaryTests_098ammk">
-          <text>"P08"</text>
-        </inputEntry>
-        <inputEntry id="UnaryTests_1lp82r8">
-          <text></text>
-        </inputEntry>
-        <outputEntry id="LiteralExpression_1oua2wa">
-          <text>date(receiptDate) + duration("P35D")</text>
-        </outputEntry>
-        <outputEntry id="LiteralExpression_0pwftzq">
-          <text>date(receiptDate) + duration("P60D")</text>
-        </outputEntry>
-        <outputEntry id="LiteralExpression_0pk0dsy">
-          <text>date(adCommMeetingDate)</text>
-        </outputEntry>
-        <outputEntry id="LiteralExpression_1hwkrdq">
-          <text>date(receiptDate) + duration("P170D")</text>
-        </outputEntry>
-        <outputEntry id="LiteralExpression_19ctaff">
-          <text>date(receiptDate) + duration("P243D")</text>
+          <text>date and time(submission.submissionStatusDate) + duration("P365D")</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_1cwouwb">
         <inputEntry id="UnaryTests_0a4cjea">
-          <text>&lt; date and time(date(receiptDate))</text>
+          <text>&lt; now()</text>
         </inputEntry>
         <inputEntry id="UnaryTests_0a4vxum">
           <text>"S12"</text>
         </inputEntry>
-        <inputEntry id="UnaryTests_1x2mnmy">
-          <text>&gt; date and time(date(adCommMeetingDate))</text>
-        </inputEntry>
         <outputEntry id="LiteralExpression_00d525r">
-          <text>date(receiptDate) + duration("P45D")</text>
+          <text>date and time(submission.submissionStatusDate) + duration("P45D")</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_1d7orh3">
-          <text>date(receiptDate) + duration("P60D")</text>
-        </outputEntry>
-        <outputEntry id="LiteralExpression_1b22hdn">
-          <text>date(adCommMeetingDate)</text>
+          <text>date and time(submission.submissionStatusDate) + duration("P60D")</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_1691mo7">
-          <text>date(receiptDate) + duration("P20D")</text>
+          <text>date and time(submission.submissionStatusDate) + duration("P20D")</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_0oamgwa">
-          <text>date(receiptDate) + duration("P365D")</text>
+          <text>date and time(submission.submissionStatusDate) + duration("P365D")</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_012ixkm">
+        <inputEntry id="UnaryTests_0sqabjo">
+          <text>&lt; now()</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_098ammk">
+          <text>"P08"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1oua2wa">
+          <text>date and time(submission.submissionStatusDate) + duration("P35D")</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0pwftzq">
+          <text>date and time(submission.submissionStatusDate) + duration("P60D")</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1hwkrdq">
+          <text>date and time(submission.submissionStatusDate) + duration("P170D")</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_19ctaff">
+          <text>date and time(submission.submissionStatusDate) + duration("P243D")</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_01rf4ki">
         <inputEntry id="UnaryTests_1oahnyg">
-          <text>&lt; date and time(date(receiptDate))</text>
+          <text>&lt; now()</text>
         </inputEntry>
         <inputEntry id="UnaryTests_17qzoql">
           <text>"P08"</text>
         </inputEntry>
-        <inputEntry id="UnaryTests_09v3olv">
-          <text>&gt; date and time(date(adCommMeetingDate))</text>
-        </inputEntry>
         <outputEntry id="LiteralExpression_0oqooy1">
-          <text>date(receiptDate) + duration("P35D")</text>
+          <text>date and time(submission.submissionStatusDate) + duration("P35D")</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_1e7nnmc">
-          <text>date(receiptDate) + duration("P50D")</text>
-        </outputEntry>
-        <outputEntry id="LiteralExpression_18hpg28">
-          <text>date(adCommMeetingDate)</text>
+          <text>date and time(submission.submissionStatusDate) + duration("P50D")</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_1tddgen">
-          <text>date(receiptDate) + duration("P20D")</text>
+          <text>date and time(submission.submissionStatusDate) + duration("P20D")</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_1ql32bu">
-          <text>date(receiptDate) + duration("P243D")</text>
+          <text>date and time(submission.submissionStatusDate) + duration("P243D")</text>
         </outputEntry>
       </rule>
     </decisionTable>

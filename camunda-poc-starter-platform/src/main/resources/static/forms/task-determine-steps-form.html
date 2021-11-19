@@ -90,7 +90,11 @@
                   debugger;
                   console.log("Response: "+response);
                   if(response.status != 204){
-
+                    camForm.variableManager.createVariable({
+                      name: 'taskCount',
+                      type: 'integer',
+                      value: count
+                    });
                   }
               });
           }
@@ -103,6 +107,11 @@
                   debugger;
                   console.log("Response: "+response);
                   if(response.status != 204){
+                    camForm.variableManager.createVariable({
+                      name: 'taskCount',
+                      type: 'integer',
+                      value: count
+                    });
                   }
               });
           }

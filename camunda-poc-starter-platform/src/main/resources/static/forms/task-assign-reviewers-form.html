@@ -8,16 +8,6 @@
 
 <form class="form-horizontal">
 
-<!--  <div class="control-group">-->
-<!--    <label class="control-label">Schedule</label>-->
-<!--    <div class="controls">-->
-<!--      <input type="text"-->
-<!--             cam-variable-name="scheduleResult.schedule"-->
-<!--             readonly="true"-->
-<!--             class="form-control" />-->
-<!--    </div>-->
-<!--  </div>-->
-
   <div class="control-group">
     <label class="control-label">Assign Reviewer</label>
     <div class="controls">
@@ -29,46 +19,7 @@
     </div>
   </div>
 
-<!--  <div class="control-group">-->
-<!--    <label class="control-label">Third Party Comment</label>-->
-<!--    <div class="controls">-->
-<!--      <textarea cam-variable-name="commentToThirdParty"-->
-<!--                cam-variable-type="String"-->
-<!--                class="form-control" >-->
-<!--      </textarea>-->
-<!--    </div>-->
-<!--  </div>-->
-
-<!--  <div class="control-group">-->
-<!--    <label class="control-label">Approve?</label>-->
-<!--    <div class="controls">-->
-<!--      <input type="checkbox"-->
-<!--             cam-variable-name="approved"-->
-<!--             cam-variable-type="Boolean"-->
-<!--             name="approved"-->
-<!--             class="form-control" />-->
-<!--    </div>-->
-<!--  </div>-->
-
-  <div class="row">																										<!-- We set the "3rd row" of the HTML Form. -->
-    <div class="col-md-4">																								<!-- We use "md" for medium screen devices of width equal to or greater than 992px and "4" for adding 4 columns. -->
-      <div class="controls">
-        <input type="button" ng-click="handleClick()" value="Request More Info" />						<!-- The "ng-show" directive shows the input element ("Add" button) only if the "isAddFormValid()" expression (function) returns "true". The "ng-click" directive is assigned to the "Add" button and calls the function named "addProduct()" when this button is clicked. -->
-      </div>
-    </div>
-  </div>
-
   <script cam-script type="text/form-script">
-
-    camForm.on('form-loaded', function () {
-      // declare a 'json' variable 'customer'
-      $scope.handleClick = function () {
-          console.log("Button Click")
-
-
-      }
-    });
-
 
   </script>
 </form>

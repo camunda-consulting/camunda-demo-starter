@@ -68,7 +68,7 @@ public class Submission {
 
     @Column(name="submission_status_date", nullable=true)
     @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private Date submissionStatusDate;
 
     @Column(name="indication", nullable=true)

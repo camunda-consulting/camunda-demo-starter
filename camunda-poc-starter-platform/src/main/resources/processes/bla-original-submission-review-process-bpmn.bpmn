@@ -134,7 +134,7 @@ This like a automated mail room</bpmn:text>
       <bpmn:sequenceFlow id="Flow_request-info-end" sourceRef="Activity_request-info" targetRef="Event_request-additional-info-end" />
       <bpmn:endEvent id="Event_request-additional-info-end" name="Request Additional Info End">
         <bpmn:incoming>Flow_request-info-end</bpmn:incoming>
-        <bpmn:messageEventDefinition id="MessageEventDefinition_1v1ciul" camunda:delegateExpression="${logger}" />
+        <bpmn:messageEventDefinition id="MessageEventDefinition_1v1ciul" camunda:delegateExpression="${clockStoppedDelegate}" />
       </bpmn:endEvent>
       <bpmn:userTask id="Activity_request-info" name="Request Additional Info" camunda:formKey="embedded:app:forms/task-request-info-form.html">
         <bpmn:incoming>Flow_0dmwhu9</bpmn:incoming>
