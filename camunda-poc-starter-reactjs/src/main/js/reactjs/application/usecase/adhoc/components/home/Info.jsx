@@ -76,7 +76,7 @@ class Info extends React.Component{
                                   <li><span className="label">Case Id</span>
                                       <span className="data">{this.props.item.businessKey}</span></li>
                                   <li><span className="label">Status</span>
-                                      <span className="data">{this.props.item.status}</span></li>
+                                      <span className="data">{this.props.item.submissionStatus}</span></li>
                                   <li><span className="label">Product</span>
                                       <span className="data">{this.props.item.product}</span></li>
                                   <li><span className="label">Product Type</span>

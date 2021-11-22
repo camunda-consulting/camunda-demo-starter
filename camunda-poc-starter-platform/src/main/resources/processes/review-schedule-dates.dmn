@@ -21,7 +21,7 @@
           <text>submission.reviewSchedule</text>
         </inputExpression>
       </input>
-      <output id="Output_1" label="Filing Meeting Date" name="filingMeetingDate" typeRef="date" biodi:width="326" />
+      <output id="Output_1" label="Filing Meeting Date" name="filingMeetingDate" typeRef="date" biodi:width="240" />
       <output id="OutputClause_1f9krz0" label="Filing Decision Date" name="filingDecisionDate" typeRef="date" />
       <output id="OutputClause_1wkuamk" label="Advisory Commmittee Meeting Date" name="advisoryMeetingDate" typeRef="string" />
       <output id="OutputClause_1ukwhrf" label="Industry Meeting Date" name="industryMeetingDate" typeRef="date" biodi:width="192" />

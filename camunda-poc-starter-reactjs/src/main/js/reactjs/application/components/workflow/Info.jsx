@@ -33,10 +33,10 @@ class Info extends React.Component{
           console.log("Info Render: "+JSON.stringify(this.props.workflow));
 
           info =  <div>
-                     <h4>Workflow Info</h4>
+                     {/*<h4>Workflow Info</h4>*/}
                      <ul>
                           <li><span className="label">Workflow Id</span><span className="data">{this.props.workflow.id}</span></li>
-                          <li><span className="label">Business Key</span><span className="data">{this.props.workflow.businessKey}</span></li>
+                          {/*<li><span className="label">Business Key</span><span className="data">{this.props.workflow.businessKey}</span></li>*/}
                       </ul>
                   </div>
 
@@ -50,11 +50,12 @@ class Info extends React.Component{
 
       return (
           <div className="my-form info-form">
-            <div className="row">
+
+              <div className="row">
 
               <div className="small-8 small-offset-1 columns">
                 <div className="card" >
-                  <div className="card-divider text-center">
+                  <div className="card-divider large-text-left">
                       {info}
                   </div>
                 </div>

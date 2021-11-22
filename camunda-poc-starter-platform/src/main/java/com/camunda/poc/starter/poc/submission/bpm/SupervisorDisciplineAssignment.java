@@ -5,12 +5,14 @@ import org.apache.http.entity.ContentType;
 import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.camunda.spin.impl.json.jackson.JacksonJsonNode;
 import org.camunda.spin.plugin.variable.value.JsonValue;
-import org.json.JSONObject;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 
@@ -19,11 +21,8 @@ import java.util.logging.Logger;
  * illustrating how a Java Delegate can be used 
  * from within a BPMN 2.0 Service Task.
  */
-@Component("clockStoppedDelegate")
-public class ClockStoppedDelegate implements JavaDelegate {
-
-  @Value("${data.api.uri}")
-  String dataApiUri;
+@Component("supervisorDisciplineAssignment")
+public class SupervisorDisciplineAssignment implements JavaDelegate {
 
   private final Logger LOGGER = Logger.getLogger(Class.class.getName());
   
@@ -36,25 +35,26 @@ public class ClockStoppedDelegate implements JavaDelegate {
             + ", processInstanceId=" + execution.getProcessInstanceId()+" \n "
             + ", businessKey=" + execution.getProcessBusinessKey()+" \n "
             + ", executionId=" + execution.getId()+" \n "
-            + ", Data URI= " + dataApiUri
             + " \n\n");
 
 
     try {
-      Boolean clockStopped = (Boolean) execution.getVariable("clockStopped");
-      JacksonJsonNode submission = (JacksonJsonNode) execution.getVariable("submission");
+      String supsStr = (String) execution.getVariable("supervisors");
+      LOGGER.info("\n\n Supervisors String: "+supsStr+"\n");
 
-      Integer id = (Integer) submission.prop("id").numberValue();
+      JSONArray supsJsonArr = new JSONArray(supsStr);
 
-      JSONObject body = new JSONObject().put("submissionStatus", "clock stopped");
+      LOGGER.info("\n\n Supervisors JSON: "+supsStr+"\n");
 
-      if(clockStopped){
+      List<String> supsList = new ArrayList<String>();
+      for (int i=0;i<supsJsonArr.length();i++) {
+          supsList.add(supsJsonArr.getString(i));
+      }
+
+      if(supsList != null && supsList.size() > 0){
         //Use fluent HTTP api to get Damage Report
-        String request = Request.Patch(dataApiUri + "/submissions/"+id)
-                .bodyString(body.toString(), ContentType.APPLICATION_JSON)
-                .execute().returnResponse().toString();
-
-        LOGGER.info(" ====>> Response \n" + request);
+        execution.setVariable("supervisorList", supsList);
+        LOGGER.info("\n\n Supervisors List: "+supsList+"\n");
       }
 
     }catch(Exception e){

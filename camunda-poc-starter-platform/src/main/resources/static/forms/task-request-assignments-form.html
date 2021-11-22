@@ -13,13 +13,14 @@
     <label class="control-label">Request Assignments</label>
     <div class="controls">
       <select id="select-sup-1"
-              required cam-variable-name="supervisor"
+              required
+              cam-variable-name="supervisors"
               cam-variable-type="String"
               multiple="multiple"
-              cam-choices="customerList"
-              name="customer">
-        <option value="subpervisor_1" checked>CMC Reviewer</option>
-        <option value="subpervisor_2">OCBQ Reviewer</option>
+<!--              cam-choices="supervisorList"-->
+              name="sups">
+        <option value="cmc_subpervisor" checked>CMC Reviewer</option>
+        <option value="qcbq_subpervisor">OCBQ Reviewer</option>
       </select>
     </div>
 

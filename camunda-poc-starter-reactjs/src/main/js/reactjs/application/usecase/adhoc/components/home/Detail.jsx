@@ -48,6 +48,7 @@ class Detail extends React.Component{
         callUpdateItem: function (key, that) {
             console.log("Detail => callUpdateItem: "+ JSON.stringify(key));
             that.loadByKeyFromServer(key)
+            that.loadUserFromServer("paul.lungu@camunda.com");
         }
       };
       this.toggleForm = this.toggleForm.bind(this)
@@ -67,6 +68,7 @@ class Detail extends React.Component{
 
     componentDidUpdate() {
       console.log("Detail Component Did Update");
+        // this.state.callUpdateAll(this.state.submission.businessKey, this);
     }
 
     toggleForm(form){
@@ -250,10 +252,9 @@ class Detail extends React.Component{
             entity: obj,
             headers: {'Content-Type': 'application/json'}
         }).done(response => {
-            console.log("POST Request Complete"+ JSON.stringify(response));
-            this.setState({
-                submission: response.entity
-            });
+            if (response.status.code == 200){
+                console.log("POST Request Complete"+ JSON.stringify(response));
+            }
         });
     }
 

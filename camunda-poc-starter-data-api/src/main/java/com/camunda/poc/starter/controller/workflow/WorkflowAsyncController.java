@@ -75,7 +75,7 @@ public class WorkflowAsyncController {
         Map params = new HashMap<String, Object>();
         params.put("submission", submission);
         params.put("user", user);
-        params.put("workflowKey", "Message_start-cber-process");
+        params.put("workflowKey", json.getString("businessKey"));
         event.setEventParams(params);
 
         // Publish the message

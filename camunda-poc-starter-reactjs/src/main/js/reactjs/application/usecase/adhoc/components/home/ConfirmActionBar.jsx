@@ -45,7 +45,7 @@ class ConfirmActionBar extends React.Component{
 
         this.props.post('POST', data, `${dataApi}/workflow/correlate/message`);
 
-        this.props.toggleForm("confirmed");
+        // this.props.toggleForm("confirmed");
 
     }
 
@@ -96,7 +96,7 @@ class ConfirmActionBar extends React.Component{
 
         this.props.post('POST', data, `${dataApi}/workflow/start`);
 
-        this.props.toggleForm("confirmed");
+        // this.props.toggleForm("confirmed");
 
     }
 
