@@ -52,9 +52,13 @@ public class WorkflowAsyncController {
 
         LOGGER.info("\n\n  Workflow Start Async: "+ data +"\n");
 
-        JSONObject json = new JSONObject(data);
+        //get the request parameters out of the request object
+        JSONObject jsonRequestParam = new JSONObject(data);
+        String workflowKey = jsonRequestParam.getString("workflowKey");
+        String businessKey = jsonRequestParam.getString("businessKey");
 
-        Submission repoObj = repository.findSubmissionByBusinessKey(json.getString("businessKey"));
+        //Get the data from our business API's
+        Submission repoObj = repository.findSubmissionByBusinessKey(businessKey);
         User contact = contactRepository.findById(1L).get();
 
         LOGGER.info("\n\n  Repo Data: "+ repoObj.getSubmissionStatusDate() +"\n");
@@ -75,14 +79,14 @@ public class WorkflowAsyncController {
         Map params = new HashMap<String, Object>();
         params.put("submission", submission);
         params.put("user", user);
-        params.put("workflowKey", json.getString("businessKey"));
+        params.put("workflowKey", workflowKey);
         event.setEventParams(params);
 
         // Publish the message
         Boolean sent = source.publish().send(MessageBuilder.withPayload(event).build());
         LOGGER.info("\n\n Event Payload Sent: " + event + "\n");
 
-        //Shouldn't do this here instead create a listener and update based on published event.
+        // *** Shouldn't do this here instead create a listener and update based on published event.
         if(sent) {
             repoObj.setStarted(true);
             repository.save(repoObj);

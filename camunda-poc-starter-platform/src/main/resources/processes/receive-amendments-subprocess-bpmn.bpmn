@@ -36,22 +36,22 @@
       <bpmn:incoming>Flow_07n0hs9</bpmn:incoming>
       <bpmn:outgoing>Flow_019wqbz</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:startEvent id="StartEvent_13q3fht" name="Start amendment">
+    <bpmn:startEvent id="StartEvent_13q3fht" name="Start amendment" camunda:asyncBefore="true">
       <bpmn:outgoing>Flow_025atpu</bpmn:outgoing>
       <bpmn:dataOutputAssociation id="DataOutputAssociation_1fh1g3m">
         <bpmn:targetRef>DataObjectReference_0tq6ofv</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
       <bpmn:messageEventDefinition id="MessageEventDefinition_09rz95o" messageRef="Message_024fzw4" />
     </bpmn:startEvent>
-    <bpmn:exclusiveGateway id="Gateway_0xu7zyy" name="clock stopped ?">
+    <bpmn:exclusiveGateway id="Gateway_0xu7zyy" name="clock stopped ?" default="Flow_07n0hs9">
       <bpmn:incoming>Flow_025atpu</bpmn:incoming>
       <bpmn:outgoing>Flow_07n0hs9</bpmn:outgoing>
       <bpmn:outgoing>Flow_1qp410a</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_07n0hs9" name="No" sourceRef="Gateway_0xu7zyy" targetRef="Activity_036lbau">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${submission.status == "clock stopped"}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="Flow_07n0hs9" name="No" sourceRef="Gateway_0xu7zyy" targetRef="Activity_036lbau" />
+    <bpmn:sequenceFlow id="Flow_1qp410a" name="Yes" sourceRef="Gateway_0xu7zyy" targetRef="Activity_1xrao38">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${submission.prop("submissionStatus").value()== "clock stopped"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_1qp410a" name="Yes" sourceRef="Gateway_0xu7zyy" targetRef="Activity_1xrao38" />
     <bpmn:sequenceFlow id="Flow_0n6nhav" sourceRef="Activity_1xrao38" targetRef="Activity_0v1e43e" />
     <bpmn:sequenceFlow id="Flow_1khz5s4" sourceRef="Activity_0v1e43e" targetRef="Gateway_04pvq86" />
     <bpmn:dataObjectReference id="DataObjectReference_0tq6ofv" name="Submission Object" dataObjectRef="DataObject_0dh0vc1" />
@@ -285,7 +285,7 @@ Resubmission only option if status is complete response</bpmn:text>
       <bpmndi:BPMNShape id="Activity_0fp4rsg_di" bpmnElement="Activity_1xrao38">
         <dc:Bounds x="440" y="520" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1q1ht4f_di" bpmnElement="TextAnnotation_1q1ht4f">
+      <bpmndi:BPMNShape id="TextAnnotation_1q1ht4f_di" bpmnElement="TextAnnotation_1q1ht4f" bioc:stroke="#43a047" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#43a047">
         <dc:Bounds x="290" y="130" width="150" height="67" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1bypggt_di" bpmnElement="TextAnnotation_1bypggt">

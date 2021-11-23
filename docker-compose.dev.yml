@@ -47,6 +47,8 @@ services:
     links:
       - camunda-postgres
       - camunda-platform
+      - kafka
+      - smtp
     ports:
       - "9000:9000"
     volumes:
