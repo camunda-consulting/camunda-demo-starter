@@ -30,10 +30,10 @@ This like a automated mail room</bpmn:text>
     <bpmn:sequenceFlow id="Flow_12ndwcm" sourceRef="Activity_escalate-branch-sup" targetRef="Gateway_042rl9n" />
     <bpmn:sequenceFlow id="Flow_0ahpl7s" sourceRef="Event_15qlfu2" targetRef="Activity_escalate-branch-sup" />
     <bpmn:sequenceFlow id="Flow_0dusjra" sourceRef="Activity_complete-response" targetRef="Event_0sf3zzq" />
-    <bpmn:sequenceFlow id="Flow_19g7naw" name="Yes" sourceRef="Gateway_110ozld" targetRef="Activity_issue-approval">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approve}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="Flow_19g7naw" name="Yes" sourceRef="Gateway_110ozld" targetRef="Activity_1k3adnv">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_0me8uq8" name="No" sourceRef="Gateway_110ozld" targetRef="Activity_complete-response" />
+    <bpmn:sequenceFlow id="Flow_0me8uq8" name="No" sourceRef="Gateway_110ozld" targetRef="Activity_0hpznf4" />
     <bpmn:sequenceFlow id="Flow_161lomo" sourceRef="Activity_conduct-discipline-review" targetRef="Gateway_110ozld" />
     <bpmn:sequenceFlow id="Flow_19cr7c1" sourceRef="Activity_issue-approval" targetRef="Event_end-submission-review-process" />
     <bpmn:sequenceFlow id="Flow_17h01fo" sourceRef="StartEvent_07qlj9m" targetRef="Activity_00w7nwv" />
@@ -44,11 +44,11 @@ This like a automated mail room</bpmn:text>
     <bpmn:sequenceFlow id="Flow_02t17vl" sourceRef="Activity_assign-discipline-reviewers" targetRef="Gateway_1en0vg4" />
     <bpmn:sequenceFlow id="Flow_10ltfdx" sourceRef="Gateway_1en0vg4" targetRef="Activity_determine-filing-decision" />
     <bpmn:sequenceFlow id="Flow_1c0ywog" sourceRef="Activity_determine-filing-decision" targetRef="Gateway_042rl9n" />
-    <bpmn:sequenceFlow id="Flow_1yfmowa" name="No" sourceRef="Gateway_1gdk1kv" targetRef="Activity_05h2q67" />
+    <bpmn:sequenceFlow id="Flow_1yfmowa" name="No" sourceRef="Gateway_1gdk1kv" targetRef="update-status" />
     <bpmn:sequenceFlow id="Flow_0k1udgp" name="Yes" sourceRef="Gateway_1gdk1kv" targetRef="Activity_determine-advisory-necessity">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${accepted}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_0mmyn41" sourceRef="Activity_05h2q67" targetRef="Event_1wewads" />
+    <bpmn:sequenceFlow id="Flow_0mmyn41" sourceRef="update-status" targetRef="Event_1wewads" />
     <bpmn:sequenceFlow id="Flow_1nrhwtc" sourceRef="Activity_01wkywh" targetRef="Gateway_1n2r8a9" />
     <bpmn:sequenceFlow id="Flow_11h3omk" name="No" sourceRef="advisory-acceptance-gateway" targetRef="Gateway_1n2r8a9" />
     <bpmn:sequenceFlow id="Flow_0uteezm" sourceRef="Gateway_1n2r8a9" targetRef="Activity_conduct-industry-meeting" />
@@ -76,76 +76,28 @@ This like a automated mail room</bpmn:text>
       <bpmn:incoming>Flow_12ndwcm</bpmn:incoming>
       <bpmn:outgoing>Flow_16pex3o</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:dataObjectReference id="DataObjectReference_0cdc97o" name="Submission Object&#10;&#10;Review Committe Asignments" dataObjectRef="DataObject_0vf6hck" />
-    <bpmn:dataObject id="DataObject_0vf6hck" />
-    <bpmn:serviceTask id="Activity_05h2q67" name="Update Submission Case Status" camunda:delegateExpression="${logger}">
+    <bpmn:serviceTask id="update-status" name="Update Submission Case Status" camunda:delegateExpression="${patchDelegate}">
+      <bpmn:extensionElements>
+        <camunda:field name="bizObject">
+          <camunda:expression>${S(submission).prop("submissionStatus", "received")}</camunda:expression>
+        </camunda:field>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_1yfmowa</bpmn:incoming>
       <bpmn:outgoing>Flow_0mmyn41</bpmn:outgoing>
       <bpmn:dataOutputAssociation id="DataOutputAssociation_1lajspx">
         <bpmn:targetRef>DataObjectReference_1fdkdaq</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:serviceTask>
-    <bpmn:endEvent id="Event_1wewads" name="end-not-accepted">
-      <bpmn:incoming>Flow_0mmyn41</bpmn:incoming>
-    </bpmn:endEvent>
     <bpmn:exclusiveGateway id="Gateway_1gdk1kv" name="Filing&#10;Accepted?" default="Flow_1yfmowa">
       <bpmn:incoming>Flow_16pex3o</bpmn:incoming>
       <bpmn:outgoing>Flow_1yfmowa</bpmn:outgoing>
       <bpmn:outgoing>Flow_0k1udgp</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:exclusiveGateway id="Gateway_110ozld" name="Approve?" default="Flow_0me8uq8">
+    <bpmn:exclusiveGateway id="Gateway_110ozld" name="Approved?" default="Flow_0me8uq8">
       <bpmn:incoming>Flow_161lomo</bpmn:incoming>
       <bpmn:outgoing>Flow_0me8uq8</bpmn:outgoing>
       <bpmn:outgoing>Flow_19g7naw</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="Activity_issue-approval" name="Issue Approval" camunda:modelerTemplate="26268032-ab52-4049-9b77-7cadc124a204" camunda:modelerTemplateVersion="1635208943455" camunda:delegateExpression="${emailDelegate}">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="subject">Camunda PoC Email</camunda:inputParameter>
-          <camunda:inputParameter name="emailFrom"></camunda:inputParameter>
-          <camunda:inputParameter name="emailTo">me@camunda.com</camunda:inputParameter>
-          <camunda:inputParameter name="emailCc"></camunda:inputParameter>
-          <camunda:inputParameter name="emailBcc"></camunda:inputParameter>
-          <camunda:inputParameter name="messageBody">
-            <camunda:script scriptFormat="freemarker"></camunda:script>
-          </camunda:inputParameter>
-          <camunda:inputParameter name="body">The submission has been approved!</camunda:inputParameter>
-          <camunda:outputParameter name="mailSendStatus">${mailSendStatus}</camunda:outputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_19g7naw</bpmn:incoming>
-      <bpmn:outgoing>Flow_19cr7c1</bpmn:outgoing>
-      <bpmn:dataOutputAssociation id="DataOutputAssociation_14jpvtj">
-        <bpmn:targetRef>DataObjectReference_0cdc97o</bpmn:targetRef>
-      </bpmn:dataOutputAssociation>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="Activity_complete-response" name="Issue Complete Response" camunda:modelerTemplate="26268032-ab52-4049-9b77-7cadc124a204" camunda:modelerTemplateVersion="1635208943455" camunda:delegateExpression="${emailDelegate}">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="subject">Camunda PoC Email</camunda:inputParameter>
-          <camunda:inputParameter name="emailFrom"></camunda:inputParameter>
-          <camunda:inputParameter name="emailTo">me@camunda.com</camunda:inputParameter>
-          <camunda:inputParameter name="emailCc"></camunda:inputParameter>
-          <camunda:inputParameter name="emailBcc"></camunda:inputParameter>
-          <camunda:inputParameter name="messageBody">
-            <camunda:script scriptFormat="freemarker"></camunda:script>
-          </camunda:inputParameter>
-          <camunda:inputParameter name="body">The submission issue is complete!</camunda:inputParameter>
-          <camunda:outputParameter name="mailSendStatus">${mailSendStatus}</camunda:outputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0me8uq8</bpmn:incoming>
-      <bpmn:outgoing>Flow_0dusjra</bpmn:outgoing>
-      <bpmn:dataOutputAssociation id="DataOutputAssociation_01xvly3">
-        <bpmn:targetRef>DataObjectReference_0cdc97o</bpmn:targetRef>
-      </bpmn:dataOutputAssociation>
-    </bpmn:serviceTask>
-    <bpmn:endEvent id="Event_end-submission-review-process" name="end-submission-review-process-accepted">
-      <bpmn:incoming>Flow_19cr7c1</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:endEvent id="Event_0sf3zzq" name="end-submission-review-process-complete-reponse-issue">
-      <bpmn:incoming>Flow_0dusjra</bpmn:incoming>
-    </bpmn:endEvent>
     <bpmn:parallelGateway id="Gateway_09oltnv" camunda:asyncBefore="true">
       <bpmn:incoming>Flow_1fu9fx0</bpmn:incoming>
       <bpmn:outgoing>Flow_09g10qo</bpmn:outgoing>
@@ -161,7 +113,16 @@ This like a automated mail room</bpmn:text>
       <bpmn:sequenceFlow id="Flow_request-info-end" sourceRef="Activity_request-info" targetRef="Event_request-additional-info-end" />
       <bpmn:endEvent id="Event_request-additional-info-end" name="Request Additional Info End">
         <bpmn:incoming>Flow_request-info-end</bpmn:incoming>
-        <bpmn:messageEventDefinition id="MessageEventDefinition_1v1ciul" camunda:delegateExpression="${clockStoppedDelegate}" />
+        <bpmn:messageEventDefinition id="MessageEventDefinition_1v1ciul" camunda:delegateExpression="${patchDelegate}">
+          <bpmn:extensionElements>
+            <camunda:field name="dynamicVar">
+              <camunda:expression>${submissionStatus}</camunda:expression>
+            </camunda:field>
+            <camunda:field name="bizObject">
+              <camunda:expression>${submission}</camunda:expression>
+            </camunda:field>
+          </bpmn:extensionElements>
+        </bpmn:messageEventDefinition>
       </bpmn:endEvent>
       <bpmn:userTask id="Activity_request-info" name="Request Additional Info" camunda:formKey="embedded:app:forms/task-request-info-form.html">
         <bpmn:incoming>Flow_0dmwhu9</bpmn:incoming>
@@ -257,27 +218,88 @@ This like a automated mail room</bpmn:text>
       <bpmn:incoming>Flow_160de3j</bpmn:incoming>
       <bpmn:outgoing>Flow_1nrhwtc</bpmn:outgoing>
     </bpmn:userTask>
+    <bpmn:endEvent id="Event_1wewads" name="end-not-accepted">
+      <bpmn:incoming>Flow_0mmyn41</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_end-submission-review-process" name="end-submission-review-process-accepted">
+      <bpmn:incoming>Flow_19cr7c1</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:endEvent id="Event_0sf3zzq" name="end-submission-review-process-complete-reponse-issue">
+      <bpmn:incoming>Flow_0dusjra</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sendTask id="Activity_issue-approval" name="Issue Approval" camunda:modelerTemplate="26268032-ab52-4049-9b77-7cadc124a204" camunda:modelerTemplateVersion="1635208943455" camunda:delegateExpression="${emailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="subject">Camunda PoC Email</camunda:inputParameter>
+          <camunda:inputParameter name="emailFrom"></camunda:inputParameter>
+          <camunda:inputParameter name="emailTo">me@camunda.com</camunda:inputParameter>
+          <camunda:inputParameter name="emailCc"></camunda:inputParameter>
+          <camunda:inputParameter name="emailBcc"></camunda:inputParameter>
+          <camunda:inputParameter name="messageBody">
+            <camunda:script scriptFormat="freemarker"></camunda:script>
+          </camunda:inputParameter>
+          <camunda:inputParameter name="body">The submission is approved!</camunda:inputParameter>
+          <camunda:outputParameter name="mailSendStatus">${mailSendStatus}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1j5v3y1</bpmn:incoming>
+      <bpmn:outgoing>Flow_19cr7c1</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:sequenceFlow id="Flow_1j5v3y1" sourceRef="Activity_1k3adnv" targetRef="Activity_issue-approval" />
+    <bpmn:sequenceFlow id="Flow_0nevms6" sourceRef="Activity_0hpznf4" targetRef="Activity_complete-response" />
+    <bpmn:serviceTask id="Activity_1k3adnv" name="Update Submission Status" camunda:delegateExpression="${patchDelegate}">
+      <bpmn:extensionElements>
+        <camunda:field name="bizObject">
+          <camunda:expression>${S(submission).prop("submissionStatus", "approved")}</camunda:expression>
+        </camunda:field>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_19g7naw</bpmn:incoming>
+      <bpmn:outgoing>Flow_1j5v3y1</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_14fu08x">
+        <bpmn:targetRef>DataObjectReference_0cdc97o</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_0hpznf4" name="Update Submission Status" camunda:delegateExpression="${patchDelegate}">
+      <bpmn:extensionElements>
+        <camunda:field name="bizObject">
+          <camunda:expression>${S(submission).prop("submissionStatus", "complete")}</camunda:expression>
+        </camunda:field>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0me8uq8</bpmn:incoming>
+      <bpmn:outgoing>Flow_0nevms6</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_1n76fhp">
+        <bpmn:targetRef>DataObjectReference_0cdc97o</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
+    </bpmn:serviceTask>
+    <bpmn:sendTask id="Activity_complete-response" name="Issue Complete Response" camunda:modelerTemplate="26268032-ab52-4049-9b77-7cadc124a204" camunda:modelerTemplateVersion="1635208943455" camunda:delegateExpression="${emailDelegate}">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="subject">Camunda PoC Email</camunda:inputParameter>
+          <camunda:inputParameter name="emailFrom"></camunda:inputParameter>
+          <camunda:inputParameter name="emailTo">me@camunda.com</camunda:inputParameter>
+          <camunda:inputParameter name="emailCc"></camunda:inputParameter>
+          <camunda:inputParameter name="emailBcc"></camunda:inputParameter>
+          <camunda:inputParameter name="messageBody">
+            <camunda:script scriptFormat="freemarker"></camunda:script>
+          </camunda:inputParameter>
+          <camunda:inputParameter name="body">The submission issue is complete!</camunda:inputParameter>
+          <camunda:outputParameter name="mailSendStatus">${mailSendStatus}</camunda:outputParameter>
+        </camunda:inputOutput>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0nevms6</bpmn:incoming>
+      <bpmn:outgoing>Flow_0dusjra</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:dataObjectReference id="DataObjectReference_0cdc97o" name="Submission Object" dataObjectRef="DataObject_0vf6hck" />
+    <bpmn:dataObject id="DataObject_0vf6hck" />
     <bpmn:textAnnotation id="TextAnnotation_1m1peyw">
       <bpmn:text>All reviewers must complete task. 
 
 Assigned disipline reviewers</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_1gbv4kl" sourceRef="Activity_determine-filing-decision" targetRef="TextAnnotation_1m1peyw" />
-    <bpmn:textAnnotation id="TextAnnotation_13n6yt6">
-      <bpmn:text>Filing received, but not accepted</bpmn:text>
-    </bpmn:textAnnotation>
     <bpmn:textAnnotation id="TextAnnotation_1msbtqy">
       <bpmn:text>Generate a .msg file for email to industry</bpmn:text>
     </bpmn:textAnnotation>
-    <bpmn:textAnnotation id="TextAnnotation_0hj1vdg">
-      <bpmn:text>Update Submission Object Status - Submission Approved</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:textAnnotation id="TextAnnotation_10qetzb">
-      <bpmn:text>Update Submission Object Status - Complete Response</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:association id="Association_0jgmdp8" sourceRef="Event_1wewads" targetRef="TextAnnotation_13n6yt6" />
-    <bpmn:association id="Association_1juxroj" sourceRef="Activity_issue-approval" targetRef="TextAnnotation_0hj1vdg" />
-    <bpmn:association id="Association_0f64lo7" sourceRef="TextAnnotation_10qetzb" targetRef="Activity_complete-response" />
     <bpmn:textAnnotation id="TextAnnotation_044q13x">
       <bpmn:text>Form with 
 Clock Stoped Checkbox</bpmn:text>
@@ -289,7 +311,7 @@ Clock Stoped Checkbox</bpmn:text>
     <bpmn:textAnnotation id="TextAnnotation_0t2wir4">
       <bpmn:text>Update Submission Status</bpmn:text>
     </bpmn:textAnnotation>
-    <bpmn:association id="Association_1hjw6v9" sourceRef="Activity_05h2q67" targetRef="TextAnnotation_0t2wir4" />
+    <bpmn:association id="Association_1hjw6v9" sourceRef="update-status" targetRef="TextAnnotation_0t2wir4" />
     <bpmn:textAnnotation id="TextAnnotation_1ui4km2">
       <bpmn:text>This is the RPM
 Choosing the Plan Date for Filing Meeting, Industry Meeting  milestones
@@ -341,8 +363,20 @@ If Advisory Meeting is chosen than change Industry Meet to Advisor + 60 D</bpmn:
     </bpmn:textAnnotation>
     <bpmn:association id="Association_1m9yhho" sourceRef="Activity_enter-key-dates" targetRef="TextAnnotation_089e3xa" />
     <bpmn:association id="Association_1fh2l6b" sourceRef="TextAnnotation_12f3mln" targetRef="Activity_0m19j30" />
+    <bpmn:textAnnotation id="TextAnnotation_13n6yt6">
+      <bpmn:text>Filing received, but not accepted</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0jgmdp8" sourceRef="Event_1wewads" targetRef="TextAnnotation_13n6yt6" />
+    <bpmn:textAnnotation id="TextAnnotation_0hj1vdg">
+      <bpmn:text>Update Submission Object Status - Submission Approved</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1juxroj" sourceRef="Activity_1k3adnv" targetRef="TextAnnotation_0hj1vdg" />
+    <bpmn:textAnnotation id="TextAnnotation_10qetzb">
+      <bpmn:text>Update Submission Object Status - Complete Response</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_0f64lo7" sourceRef="TextAnnotation_10qetzb" targetRef="Activity_0hpznf4" />
   </bpmn:process>
-  <bpmn:process id="Process_assign-disipline-reviewers" isExecutable="true">
+  <bpmn:process id="Process_assign-disipline-reviewers" name="Assign Discipline Review" isExecutable="true">
     <bpmn:laneSet id="LaneSet_02g5pa0">
       <bpmn:lane id="Lane_077yhq7" name="RPM">
         <bpmn:flowNodeRef>Event_assign-disipline-reiviewers</bpmn:flowNodeRef>
@@ -402,7 +436,7 @@ for use in next step</bpmn:text>
     <bpmn:association id="Association_0x320f2" sourceRef="Activity_assign-disipline-reviewers" targetRef="TextAnnotation_16s03n4" />
     <bpmn:association id="Association_1hpz2gi" sourceRef="Activity_request-discipline-assignments" targetRef="TextAnnotation_16x3hhh" />
   </bpmn:process>
-  <bpmn:process id="Process_conduct-discipline-review" isExecutable="true">
+  <bpmn:process id="Process_conduct-discipline-review" name="Conduct Discipline Review" isExecutable="true">
     <bpmn:sequenceFlow id="Flow_0f5f1j0" sourceRef="Activity_enter-approval-decision" targetRef="Event_1ngwf0y" />
     <bpmn:sequenceFlow id="Flow_1vwx295" sourceRef="Activity_01gkdiw" targetRef="Activity_enter-approval-decision" />
     <bpmn:sequenceFlow id="Flow_13ipr5j" sourceRef="determine-steps" targetRef="Activity_01gkdiw" />
@@ -572,7 +606,7 @@ for use in next step</bpmn:text>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1ad1kcc">
       <bpmndi:BPMNShape id="Participant_01naowi_di" bpmnElement="Participant_CBER" isHorizontal="true">
-        <dc:Bounds x="140" y="440" width="2690" height="1080" />
+        <dc:Bounds x="140" y="440" width="2930" height="1080" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_112ejz1_di" bpmnElement="TextAnnotation_112ejz1" bioc:stroke="#1e88e5" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#1e88e5">
         <dc:Bounds x="2130" y="1079" width="100" height="54" />
@@ -594,6 +628,15 @@ for use in next step</bpmn:text>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_089e3xa_di" bpmnElement="TextAnnotation_089e3xa" bioc:stroke="#1e88e5" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#1e88e5">
         <dc:Bounds x="710" y="1160" width="100" height="68" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_13n6yt6_di" bpmnElement="TextAnnotation_13n6yt6">
+        <dc:Bounds x="2770" y="550" width="170" height="34" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0hj1vdg_di" bpmnElement="TextAnnotation_0hj1vdg" bioc:stroke="#1e88e5" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#1e88e5">
+        <dc:Bounds x="2360" y="677" width="100" height="84" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_10qetzb_di" bpmnElement="TextAnnotation_10qetzb" bioc:stroke="#1e88e5" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#1e88e5">
+        <dc:Bounds x="2360" y="1079" width="130" height="84" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_152owsn_di" bpmnElement="Flow_152owsn">
         <di:waypoint x="1665" y="997" />
@@ -636,7 +679,7 @@ for use in next step</bpmn:text>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0mmyn41_di" bpmnElement="Flow_0mmyn41">
         <di:waypoint x="1560" y="653" />
-        <di:waypoint x="2662" y="653" />
+        <di:waypoint x="2902" y="653" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0k1udgp_di" bpmnElement="Flow_0k1udgp">
         <di:waypoint x="1400" y="925" />
@@ -691,8 +734,8 @@ for use in next step</bpmn:text>
         <di:waypoint x="310" y="900" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_19cr7c1_di" bpmnElement="Flow_19cr7c1">
-        <di:waypoint x="2550" y="820" />
-        <di:waypoint x="2662" y="820" />
+        <di:waypoint x="2790" y="820" />
+        <di:waypoint x="2902" y="820" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_161lomo_di" bpmnElement="Flow_161lomo">
         <di:waypoint x="2280" y="900" />
@@ -701,22 +744,22 @@ for use in next step</bpmn:text>
       <bpmndi:BPMNEdge id="Flow_0me8uq8_di" bpmnElement="Flow_0me8uq8">
         <di:waypoint x="2350" y="925" />
         <di:waypoint x="2350" y="987" />
-        <di:waypoint x="2450" y="987" />
+        <di:waypoint x="2480" y="987" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2358" y="953" width="15" height="14" />
+          <dc:Bounds x="2357" y="953" width="15" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_19g7naw_di" bpmnElement="Flow_19g7naw">
         <di:waypoint x="2350" y="875" />
         <di:waypoint x="2350" y="820" />
-        <di:waypoint x="2450" y="820" />
+        <di:waypoint x="2480" y="820" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="2356" y="845" width="18" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0dusjra_di" bpmnElement="Flow_0dusjra">
-        <di:waypoint x="2550" y="987" />
-        <di:waypoint x="2662" y="987" />
+        <di:waypoint x="2790" y="987" />
+        <di:waypoint x="2902" y="987" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="2387" y="969" width="81" height="27" />
         </bpmndi:BPMNLabel>
@@ -738,6 +781,14 @@ for use in next step</bpmn:text>
         <di:waypoint x="410" y="900" />
         <di:waypoint x="470" y="900" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1j5v3y1_di" bpmnElement="Flow_1j5v3y1">
+        <di:waypoint x="2580" y="820" />
+        <di:waypoint x="2690" y="820" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nevms6_di" bpmnElement="Flow_0nevms6">
+        <di:waypoint x="2580" y="987" />
+        <di:waypoint x="2690" y="987" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Activity_1bqv7kd_di" bpmnElement="Activity_determine-filing-decision">
         <dc:Bounds x="1130" y="860" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -747,20 +798,8 @@ for use in next step</bpmn:text>
       <bpmndi:BPMNShape id="Gateway_042rl9n_di" bpmnElement="Gateway_042rl9n" isMarkerVisible="true">
         <dc:Bounds x="1285" y="875" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="DataObjectReference_0cdc97o_di" bpmnElement="DataObjectReference_0cdc97o" bioc:stroke="#e53935" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#e53935">
-        <dc:Bounds x="2592" y="905" width="36" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="2566" y="829" width="87" height="66" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_06i4ykr_di" bpmnElement="Activity_05h2q67">
+      <bpmndi:BPMNShape id="Activity_06i4ykr_di" bpmnElement="update-status">
         <dc:Bounds x="1460" y="613" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1wewads_di" bpmnElement="Event_1wewads">
-        <dc:Bounds x="2662" y="635" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="2639" y="678" width="86" height="14" />
-        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_1gdk1kv_di" bpmnElement="Gateway_1gdk1kv" isMarkerVisible="true">
         <dc:Bounds x="1375" y="875" width="50" height="50" />
@@ -771,25 +810,7 @@ for use in next step</bpmn:text>
       <bpmndi:BPMNShape id="Gateway_110ozld_di" bpmnElement="Gateway_110ozld" isMarkerVisible="true">
         <dc:Bounds x="2325" y="875" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="2386" y="893" width="48" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0dka8t0_di" bpmnElement="Activity_issue-approval">
-        <dc:Bounds x="2450" y="780" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1hs8w5n_di" bpmnElement="Activity_complete-response">
-        <dc:Bounds x="2450" y="947" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1czjg24_di" bpmnElement="Event_end-submission-review-process">
-        <dc:Bounds x="2662" y="802" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="2639" y="842" width="81" height="40" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_0sf3zzq_di" bpmnElement="Event_0sf3zzq">
-        <dc:Bounds x="2662" y="969" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="2640" y="1012" width="81" height="53" />
+          <dc:Bounds x="2383" y="893" width="54" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_1j9gtlb_di" bpmnElement="Gateway_09oltnv">
@@ -800,6 +821,42 @@ for use in next step</bpmn:text>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0ptdtr6_di" bpmnElement="Activity_01wkywh">
         <dc:Bounds x="1870" y="957" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1wewads_di" bpmnElement="Event_1wewads">
+        <dc:Bounds x="2902" y="635" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2879" y="678" width="86" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1czjg24_di" bpmnElement="Event_end-submission-review-process">
+        <dc:Bounds x="2902" y="802" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2879" y="842" width="81" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0sf3zzq_di" bpmnElement="Event_0sf3zzq">
+        <dc:Bounds x="2902" y="969" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2880" y="1012" width="81" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_11tppot_di" bpmnElement="Activity_issue-approval">
+        <dc:Bounds x="2690" y="780" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1rapvwb_di" bpmnElement="Activity_1k3adnv">
+        <dc:Bounds x="2480" y="780" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0hpznf4_di" bpmnElement="Activity_0hpznf4">
+        <dc:Bounds x="2480" y="947" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1mpf09s_di" bpmnElement="Activity_complete-response">
+        <dc:Bounds x="2690" y="947" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataObjectReference_0cdc97o_di" bpmnElement="DataObjectReference_0cdc97o" bioc:stroke="#e53935" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#e53935">
+        <dc:Bounds x="2612" y="905" width="36" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="2601" y="866" width="57" height="27" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0adwu9j_di" bpmnElement="Activity_0m19j30" isExpanded="true">
         <dc:Bounds x="1207" y="1300" width="385" height="200" />
@@ -897,17 +954,8 @@ for use in next step</bpmn:text>
       <bpmndi:BPMNShape id="TextAnnotation_1m1peyw_di" bpmnElement="TextAnnotation_1m1peyw" bioc:stroke="#1e88e5" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#1e88e5">
         <dc:Bounds x="1160" y="980" width="150" height="86" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_13n6yt6_di" bpmnElement="TextAnnotation_13n6yt6">
-        <dc:Bounds x="2530" y="550" width="170" height="34" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1msbtqy_di" bpmnElement="TextAnnotation_1msbtqy" bioc:stroke="#43a047" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#43a047">
         <dc:Bounds x="1970" y="743" width="100" height="69" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0hj1vdg_di" bpmnElement="TextAnnotation_0hj1vdg" bioc:stroke="#43a047" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#43a047">
-        <dc:Bounds x="2330" y="700" width="100" height="84" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_10qetzb_di" bpmnElement="TextAnnotation_10qetzb" bioc:stroke="#43a047" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#43a047">
-        <dc:Bounds x="2300" y="1064" width="130" height="84" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_044q13x_di" bpmnElement="TextAnnotation_044q13x" bioc:stroke="#1e88e5" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#1e88e5">
         <dc:Bounds x="1207" y="1220" width="99.98292349726775" height="51.00182149362477" />
@@ -915,7 +963,7 @@ for use in next step</bpmn:text>
       <bpmndi:BPMNShape id="TextAnnotation_1ac6mcz_di" bpmnElement="TextAnnotation_1ac6mcz" bioc:stroke="#1e88e5" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#1e88e5">
         <dc:Bounds x="1458" y="1214" width="99.98292349726775" height="63.75227686703096" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0t2wir4_di" bpmnElement="TextAnnotation_0t2wir4" bioc:stroke="#43a047" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#43a047">
+      <bpmndi:BPMNShape id="TextAnnotation_0t2wir4_di" bpmnElement="TextAnnotation_0t2wir4" bioc:stroke="#1e88e5" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#1e88e5">
         <dc:Bounds x="1600" y="522" width="100" height="55" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1ui4km2_di" bpmnElement="TextAnnotation_1ui4km2">
@@ -959,24 +1007,24 @@ for use in next step</bpmn:text>
         <di:waypoint x="1109" y="1190" />
         <di:waypoint x="1207" y="1365" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0jgmdp8_di" bpmnElement="Association_0jgmdp8">
+        <di:waypoint x="2911" y="638" />
+        <di:waypoint x="2879" y="584" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1juxroj_di" bpmnElement="Association_1juxroj">
+        <di:waypoint x="2526" y="780" />
+        <di:waypoint x="2460" y="731" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0f64lo7_di" bpmnElement="Association_0f64lo7">
+        <di:waypoint x="2462" y="1079" />
+        <di:waypoint x="2521" y="1027" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_1w55g00_di" bpmnElement="Event_15qlfu2">
         <dc:Bounds x="1162" y="842" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_1gbv4kl_di" bpmnElement="Association_1gbv4kl">
         <di:waypoint x="1193" y="940" />
         <di:waypoint x="1205" y="980" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_0jgmdp8_di" bpmnElement="Association_0jgmdp8">
-        <di:waypoint x="2671" y="638" />
-        <di:waypoint x="2639" y="584" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_1juxroj_di" bpmnElement="Association_1juxroj">
-        <di:waypoint x="2456" y="781" />
-        <di:waypoint x="2430" y="759" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_0f64lo7_di" bpmnElement="Association_0f64lo7">
-        <di:waypoint x="2423" y="1064" />
-        <di:waypoint x="2488" y="1027" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_133o1us_di" bpmnElement="Association_133o1us">
         <di:waypoint x="1419" y="1360" />
@@ -1357,14 +1405,6 @@ for use in next step</bpmn:text>
         <di:waypoint x="1468" y="614" />
         <di:waypoint x="1418" y="565" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_14jpvtj_di" bpmnElement="DataOutputAssociation_14jpvtj">
-        <di:waypoint x="2541" y="860" />
-        <di:waypoint x="2592" y="910" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="DataOutputAssociation_01xvly3_di" bpmnElement="DataOutputAssociation_01xvly3">
-        <di:waypoint x="2550" y="961" />
-        <di:waypoint x="2592" y="939" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="DataOutputAssociation_0euxitw_di" bpmnElement="DataOutputAssociation_0euxitw">
         <di:waypoint x="938" y="799" />
         <di:waypoint x="959" y="845" />
@@ -1403,6 +1443,14 @@ for use in next step</bpmn:text>
       <bpmndi:BPMNEdge id="Flow_1b9p5yg_di" bpmnElement="Flow_1b9p5yg">
         <di:waypoint x="250" y="350" />
         <di:waypoint x="250" y="882" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_14fu08x_di" bpmnElement="DataOutputAssociation_14fu08x">
+        <di:waypoint x="2569" y="860" />
+        <di:waypoint x="2613" y="905" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_1n76fhp_di" bpmnElement="DataOutputAssociation_1n76fhp">
+        <di:waypoint x="2580" y="962" />
+        <di:waypoint x="2612" y="945" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

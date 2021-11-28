@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Profile;
 import java.util.Map;
 import java.util.logging.Logger;
 
-@Profile("pubsub")
+@Profile("fda")
 @EnableBinding(EventChannels.class)
 public class AmendmentStartEventSubscriber {
 

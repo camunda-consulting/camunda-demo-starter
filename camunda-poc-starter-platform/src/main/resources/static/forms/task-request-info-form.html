@@ -8,14 +8,27 @@
 
 <form class="form-horizontal">
 
+<!--  <div class="control-group">-->
+<!--    <label class="control-label">Stop Clock</label>-->
+<!--    <div class="controls">-->
+<!--      <input type="checkbox"-->
+<!--             cam-variable-name="submissionStatus"-->
+<!--             cam-variable-type="Boolean"-->
+<!--             name="clockStopped"-->
+<!--             class="form-control" />-->
+<!--    </div>-->
+<!--  </div>-->
+
   <div class="control-group">
-    <label class="control-label">Stop Clock</label>
+    <label class="control-label">Update Submission Status</label>
     <div class="controls">
-      <input type="checkbox"
-             cam-variable-name="clockStopped"
-             cam-variable-type="Boolean"
-             name="clockStopped"
-             class="form-control" />
+      <select id="select-submission-status-1"
+              required
+              cam-variable-name="submissionStatus"
+              cam-variable-type="String">
+        <option value="clock_stopped" checked>Clock Stopped</option>
+        <option value="open">Open</option>
+      </select>
     </div>
   </div>
 

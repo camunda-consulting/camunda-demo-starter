@@ -4,6 +4,7 @@ import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.ContentType;
 import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.Expression;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.camunda.spin.impl.json.jackson.JacksonJsonNode;
 import org.camunda.spin.plugin.variable.value.JsonValue;
@@ -18,12 +19,16 @@ import java.util.logging.Logger;
  * This is an easy adapter implementation 
  * illustrating how a Java Delegate can be used 
  * from within a BPMN 2.0 Service Task.
+ * Spring-bean can be accessed as a Delegate Expression
  */
-@Component("clockStoppedDelegate")
-public class ClockStoppedDelegate implements JavaDelegate {
+@Component("patchDelegate")
+public class PatchDelegate implements JavaDelegate {
 
   @Value("${data.api.uri}")
   String dataApiUri;
+
+  //get the dynamic object to be updated
+  private Expression bizObject;
 
   private final Logger LOGGER = Logger.getLogger(Class.class.getName());
   
@@ -39,23 +44,20 @@ public class ClockStoppedDelegate implements JavaDelegate {
             + ", Data URI= " + dataApiUri
             + " \n\n");
 
-
     try {
-      Boolean clockStopped = (Boolean) execution.getVariable("clockStopped");
-      JacksonJsonNode submission = (JacksonJsonNode) execution.getVariable("submission");
+      //Get the business object
+      JacksonJsonNode bizObj = (JacksonJsonNode) bizObject.getValue(execution);
+      Integer id = (Integer) bizObj.prop("id").numberValue();
+      bizObj.deleteProp("id");
 
-      Integer id = (Integer) submission.prop("id").numberValue();
+      LOGGER.info(" \n\n ====>> Biz Object: " + bizObj.toString() + "\n");
 
-      JSONObject body = new JSONObject().put("submissionStatus", "clock stopped");
+      //Use fluent HTTP api to execute PATCH request
+      String request = Request.Patch(dataApiUri + "/submissions/"+id)
+              .bodyString(bizObj.toString(), ContentType.APPLICATION_JSON)
+              .execute().returnResponse().toString();
 
-      if(clockStopped){
-        //Use fluent HTTP api to get Damage Report
-        String request = Request.Patch(dataApiUri + "/submissions/"+id)
-                .bodyString(body.toString(), ContentType.APPLICATION_JSON)
-                .execute().returnResponse().toString();
-
-        LOGGER.info(" ====>> Response \n" + request);
-      }
+      LOGGER.info(" ====>> Response \n" + request);
 
     }catch(Exception e){
           LOGGER.info("\n\n  ... "+Class.class.getSimpleName()+" just swallow exceptions");

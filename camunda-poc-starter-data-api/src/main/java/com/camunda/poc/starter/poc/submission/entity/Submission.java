@@ -88,5 +88,8 @@ public class Submission {
     @Column(name="dosage_form", nullable=true)
     private String dosageForm;
 
+    @Column(name="amendment_type", nullable=true)
+    private String amendmentType;
+
 
 }

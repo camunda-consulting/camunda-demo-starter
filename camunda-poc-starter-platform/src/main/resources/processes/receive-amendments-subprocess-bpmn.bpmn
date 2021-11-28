@@ -3,7 +3,7 @@
   <bpmn:collaboration id="Collaboration_13ipue6">
     <bpmn:participant id="Participant_receive-amendment" name="Receive Amendment" processRef="Process_receive-amendment" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_receive-amendment" isExecutable="true">
+  <bpmn:process id="Process_receive-amendment" name="Amendment" isExecutable="true">
     <bpmn:laneSet id="LaneSet_0ktt6ak">
       <bpmn:lane id="Lane_10pzpf8" name="RPM">
         <bpmn:flowNodeRef>Activity_036lbau</bpmn:flowNodeRef>
@@ -16,18 +16,18 @@
         <bpmn:flowNodeRef>Activity_0v1e43e</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_1rbzgg1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_0o0ghc5</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Activity_035nvkd</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Activity_1xrao38</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_035nvkd</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:sequenceFlow id="Flow_025atpu" sourceRef="StartEvent_13q3fht" targetRef="Gateway_0xu7zyy" />
     <bpmn:sequenceFlow id="Flow_17e8uuc" name="Is a Major Amendment" sourceRef="Gateway_103ilru" targetRef="Activity_035nvkd">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${submission.productType == "major"}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${submission.prop("amendmentType").value() == "major"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0lggjkh" sourceRef="Activity_035nvkd" targetRef="Gateway_0pwbdh7" />
     <bpmn:sequenceFlow id="Flow_1cpgdup" name="Resubmission to CR" sourceRef="Gateway_103ilru" targetRef="Activity_1rbzgg1" />
     <bpmn:sequenceFlow id="Flow_15ji152" name="Is Regular Amendment?" sourceRef="Gateway_103ilru" targetRef="Gateway_0pwbdh7">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${submission.productType == "regular"}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${submission.prop("amendmentType").value() == "regular"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_019wqbz" sourceRef="Activity_036lbau" targetRef="Gateway_103ilru" />
     <bpmn:sequenceFlow id="Flow_1agpoxq" sourceRef="Activity_1rbzgg1" targetRef="Activity_0o0ghc5" />
@@ -50,12 +50,10 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_07n0hs9" name="No" sourceRef="Gateway_0xu7zyy" targetRef="Activity_036lbau" />
     <bpmn:sequenceFlow id="Flow_1qp410a" name="Yes" sourceRef="Gateway_0xu7zyy" targetRef="Activity_1xrao38">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${submission.prop("submissionStatus").value()== "clock stopped"}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${submission.prop("submissionStatus").value()== "clock_stopped"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0n6nhav" sourceRef="Activity_1xrao38" targetRef="Activity_0v1e43e" />
     <bpmn:sequenceFlow id="Flow_1khz5s4" sourceRef="Activity_0v1e43e" targetRef="Gateway_04pvq86" />
-    <bpmn:dataObjectReference id="DataObjectReference_0tq6ofv" name="Submission Object" dataObjectRef="DataObject_0dh0vc1" />
-    <bpmn:dataObject id="DataObject_0dh0vc1" />
     <bpmn:sequenceFlow id="Flow_1dyixvj" sourceRef="Gateway_04pvq86" targetRef="Event_1wjmfxz" />
     <bpmn:endEvent id="Event_1wjmfxz">
       <bpmn:incoming>Flow_1dyixvj</bpmn:incoming>
@@ -98,17 +96,24 @@
       </bpmn:dataOutputAssociation>
     </bpmn:task>
     <bpmn:sequenceFlow id="Flow_1szjo5g" sourceRef="Activity_0o0ghc5" targetRef="Gateway_0pwbdh7" />
-    <bpmn:manualTask id="Activity_035nvkd" name="Add 91 days to Review Schedule">
+    <bpmn:serviceTask id="Activity_1xrao38" name="Change Submission Status" camunda:delegateExpression="${patchDelegate}">
+      <bpmn:extensionElements>
+        <camunda:field name="bizObject">
+          <camunda:expression>${S(submission).prop("submissionStatus", "open")}</camunda:expression>
+        </camunda:field>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1qp410a</bpmn:incoming>
+      <bpmn:outgoing>Flow_0n6nhav</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:businessRuleTask id="Activity_035nvkd" name="Add 91 days to Review Schedule" camunda:decisionRef="Decision_review-schedule">
       <bpmn:incoming>Flow_17e8uuc</bpmn:incoming>
       <bpmn:outgoing>Flow_0lggjkh</bpmn:outgoing>
       <bpmn:dataOutputAssociation id="DataOutputAssociation_0wa7f0z">
         <bpmn:targetRef>DataObjectReference_0xckcfk</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
-    </bpmn:manualTask>
-    <bpmn:serviceTask id="Activity_1xrao38" name="Change Submission Status" camunda:delegateExpression="${logger}">
-      <bpmn:incoming>Flow_1qp410a</bpmn:incoming>
-      <bpmn:outgoing>Flow_0n6nhav</bpmn:outgoing>
-    </bpmn:serviceTask>
+    </bpmn:businessRuleTask>
+    <bpmn:dataObjectReference id="DataObjectReference_0tq6ofv" name="Submission Object" dataObjectRef="DataObject_0dh0vc1" />
+    <bpmn:dataObject id="DataObject_0dh0vc1" />
     <bpmn:textAnnotation id="TextAnnotation_1q1ht4f">
       <bpmn:text>Amendment Received. Preferred approach is to consume event from Kafka event stream</bpmn:text>
     </bpmn:textAnnotation>
@@ -133,14 +138,11 @@ Resubmission only option if status is complete response</bpmn:text>
       <bpmn:text>Check Submission Object for Status == Clock Stopped</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_00u710j" sourceRef="Gateway_0xu7zyy" targetRef="TextAnnotation_0rlbja9" />
-    <bpmn:textAnnotation id="TextAnnotation_0t3f2bt">
-      <bpmn:text>Get the submisison status</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:association id="Association_0kgojen" sourceRef="StartEvent_13q3fht" targetRef="TextAnnotation_0t3f2bt" />
     <bpmn:textAnnotation id="TextAnnotation_0u38zbt">
       <bpmn:text>Change to submission Status to open</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_00emjgj" sourceRef="Activity_1xrao38" targetRef="TextAnnotation_0u38zbt" />
+    <bpmn:association id="Association_0oi0zfq" sourceRef="TextAnnotation_0u38zbt" targetRef="DataObjectReference_0tq6ofv" />
   </bpmn:process>
   <bpmn:message id="Message_024fzw4" name="Message_start-amendment" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -150,6 +152,9 @@ Resubmission only option if status is complete response</bpmn:text>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Lane_10pzpf8_di" bpmnElement="Lane_10pzpf8" isHorizontal="true">
         <dc:Bounds x="215" y="80" width="1253" height="570" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0u38zbt_di" bpmnElement="TextAnnotation_0u38zbt">
+        <dc:Bounds x="440" y="436" width="100" height="55" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1szjo5g_di" bpmnElement="Flow_1szjo5g">
         <di:waypoint x="1130" y="400" />
@@ -243,12 +248,6 @@ Resubmission only option if status is complete response</bpmn:text>
           <dc:Bounds x="322" y="233" width="77" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="DataObjectReference_0tq6ofv_di" bpmnElement="DataObjectReference_0tq6ofv" bioc:stroke="#e53935" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#e53935">
-        <dc:Bounds x="292" y="375" width="36" height="50" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="282" y="432" width="57" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1wjmfxz_di" bpmnElement="Event_1wjmfxz">
         <dc:Bounds x="1352" y="262" width="36" height="36" />
       </bpmndi:BPMNShape>
@@ -279,9 +278,6 @@ Resubmission only option if status is complete response</bpmn:text>
       <bpmndi:BPMNShape id="Activity_0o0ghc5_di" bpmnElement="Activity_0o0ghc5">
         <dc:Bounds x="1030" y="360" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0wzle3x_di" bpmnElement="Activity_035nvkd">
-        <dc:Bounds x="790" y="110" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0fp4rsg_di" bpmnElement="Activity_1xrao38">
         <dc:Bounds x="440" y="520" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -300,19 +296,22 @@ Resubmission only option if status is complete response</bpmn:text>
       <bpmndi:BPMNShape id="TextAnnotation_0rlbja9_di" bpmnElement="TextAnnotation_0rlbja9">
         <dc:Bounds x="410" y="340" width="100" height="82" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0t3f2bt_di" bpmnElement="TextAnnotation_0t3f2bt">
-        <dc:Bounds x="229" y="500" width="99.99656781987919" height="54.91488193300385" />
+      <bpmndi:BPMNShape id="Activity_0img5bz_di" bpmnElement="Activity_035nvkd">
+        <dc:Bounds x="790" y="110" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0u38zbt_di" bpmnElement="TextAnnotation_0u38zbt">
-        <dc:Bounds x="450" y="446" width="99.99656781987919" height="54.91488193300385" />
+      <bpmndi:BPMNShape id="DataObjectReference_0tq6ofv_di" bpmnElement="DataObjectReference_0tq6ofv" bioc:stroke="#e53935" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#e53935">
+        <dc:Bounds x="292" y="445" width="36" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="282" y="502" width="57" height="27" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_1xhgyda_di" bpmnElement="Association_1xhgyda">
         <di:waypoint x="285" y="263" />
         <di:waypoint x="310" y="197" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_0tl8gdr_di" bpmnElement="Association_0tl8gdr">
-        <di:waypoint x="890" y="139" />
-        <di:waypoint x="930" y="129" />
+        <di:waypoint x="890" y="140" />
+        <di:waypoint x="930" y="130" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_1ghc9zb_di" bpmnElement="Association_1ghc9zb">
         <di:waypoint x="507" y="240" />
@@ -326,17 +325,17 @@ Resubmission only option if status is complete response</bpmn:text>
         <di:waypoint x="374" y="291" />
         <di:waypoint x="440" y="340" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_0kgojen_di" bpmnElement="Association_0kgojen">
-        <di:waypoint x="279" y="298" />
-        <di:waypoint x="279" y="500" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_00emjgj_di" bpmnElement="Association_00emjgj">
-        <di:waypoint x="494" y="520" />
-        <di:waypoint x="496" y="501" />
+        <di:waypoint x="490" y="520" />
+        <di:waypoint x="489" y="491" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0oi0zfq_di" bpmnElement="Association_0oi0zfq">
+        <di:waypoint x="440" y="467" />
+        <di:waypoint x="328" y="474" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="DataOutputAssociation_1fh1g3m_di" bpmnElement="DataOutputAssociation_1fh1g3m">
-        <di:waypoint x="284" y="297" />
-        <di:waypoint x="307" y="375" />
+        <di:waypoint x="282" y="297" />
+        <di:waypoint x="309" y="445" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="DataOutputAssociation_09dwfs2_di" bpmnElement="DataOutputAssociation_09dwfs2">
         <di:waypoint x="885" y="360" />
