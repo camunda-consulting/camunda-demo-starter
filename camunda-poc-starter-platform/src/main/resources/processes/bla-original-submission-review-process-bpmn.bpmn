@@ -58,7 +58,7 @@ This like a automated mail room</bpmn:text>
       <bpmn:incoming>Flow_10ltfdx</bpmn:incoming>
       <bpmn:outgoing>Flow_1c0ywog</bpmn:outgoing>
       <bpmn:multiInstanceLoopCharacteristics camunda:collection="${reviewerList}" camunda:elementVariable="reviewer">
-        <bpmn:completionCondition xsi:type="bpmn:tFormalExpression">${accepted == false}</bpmn:completionCondition>
+        <bpmn:completionCondition xsi:type="bpmn:tFormalExpression">${approved == false}</bpmn:completionCondition>
       </bpmn:multiInstanceLoopCharacteristics>
     </bpmn:userTask>
     <bpmn:userTask id="Activity_escalate-branch-sup" name="Escalate to Branch Supervisor" camunda:formKey="embedded:app:forms/task-approval-decision-form.html" camunda:assignee="${user.prop(&#34;manager&#34;).value()}">
@@ -98,54 +98,6 @@ This like a automated mail room</bpmn:text>
       <bpmn:outgoing>Flow_0me8uq8</bpmn:outgoing>
       <bpmn:outgoing>Flow_19g7naw</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="Activity_issue-approval" name="Issue Approval" camunda:modelerTemplate="26268032-ab52-4049-9b77-7cadc124a204" camunda:modelerTemplateVersion="1635208943455" camunda:delegateExpression="${emailDelegate}">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="subject">Camunda PoC Email</camunda:inputParameter>
-          <camunda:inputParameter name="emailFrom" />
-          <camunda:inputParameter name="emailTo">me@camunda.com</camunda:inputParameter>
-          <camunda:inputParameter name="emailCc" />
-          <camunda:inputParameter name="emailBcc" />
-          <camunda:inputParameter name="messageBody">
-            <camunda:script scriptFormat="freemarker" />
-          </camunda:inputParameter>
-          <camunda:inputParameter name="body">The submission has been approved!</camunda:inputParameter>
-          <camunda:outputParameter name="mailSendStatus">${mailSendStatus}</camunda:outputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_19g7naw</bpmn:incoming>
-      <bpmn:outgoing>Flow_19cr7c1</bpmn:outgoing>
-      <bpmn:dataOutputAssociation id="DataOutputAssociation_14jpvtj">
-        <bpmn:targetRef>DataObjectReference_0cdc97o</bpmn:targetRef>
-      </bpmn:dataOutputAssociation>
-    </bpmn:serviceTask>
-    <bpmn:serviceTask id="Activity_complete-response" name="Issue Complete Response" camunda:modelerTemplate="26268032-ab52-4049-9b77-7cadc124a204" camunda:modelerTemplateVersion="1635208943455" camunda:delegateExpression="${emailDelegate}">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="subject">Camunda PoC Email</camunda:inputParameter>
-          <camunda:inputParameter name="emailFrom" />
-          <camunda:inputParameter name="emailTo">me@camunda.com</camunda:inputParameter>
-          <camunda:inputParameter name="emailCc" />
-          <camunda:inputParameter name="emailBcc" />
-          <camunda:inputParameter name="messageBody">
-            <camunda:script scriptFormat="freemarker" />
-          </camunda:inputParameter>
-          <camunda:inputParameter name="body">The submission issue is complete!</camunda:inputParameter>
-          <camunda:outputParameter name="mailSendStatus">${mailSendStatus}</camunda:outputParameter>
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0me8uq8</bpmn:incoming>
-      <bpmn:outgoing>Flow_0dusjra</bpmn:outgoing>
-      <bpmn:dataOutputAssociation id="DataOutputAssociation_01xvly3">
-        <bpmn:targetRef>DataObjectReference_0cdc97o</bpmn:targetRef>
-      </bpmn:dataOutputAssociation>
-    </bpmn:serviceTask>
-    <bpmn:endEvent id="Event_end-submission-review-process" name="end-submission-review-process-accepted">
-      <bpmn:incoming>Flow_19cr7c1</bpmn:incoming>
-    </bpmn:endEvent>
-    <bpmn:endEvent id="Event_0sf3zzq" name="end-submission-review-process-complete-reponse-issue">
-      <bpmn:incoming>Flow_0dusjra</bpmn:incoming>
-    </bpmn:endEvent>
     <bpmn:parallelGateway id="Gateway_09oltnv" camunda:asyncBefore="true">
       <bpmn:incoming>Flow_1fu9fx0</bpmn:incoming>
       <bpmn:outgoing>Flow_09g10qo</bpmn:outgoing>
@@ -190,23 +142,6 @@ This like a automated mail room</bpmn:text>
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="Flow_0ijdzxh" sourceRef="Activity_0ge8f0x" targetRef="Activity_assign-rpm" />
     <bpmn:businessRuleTask id="Activity_00w7nwv" name="Office Schedule Decision" camunda:resultVariable="scheduleResult" camunda:decisionRef="Decision_schedule" camunda:mapDecisionResult="singleResult">
-      <bpmn:extensionElements>
-        <camunda:executionListener event="end">
-          <camunda:script scriptFormat="javascript">var map = execution.getVariable('scheduleResult');
-
-if(map.get('schedule') !== null) {
-   execution.setVariable('schedule', map.get('schedule'));
-} else {
-   execution.setVariable('schedule', 'X01');
-}
-
-if(map.get('office') !== null) {
-   execution.setVariable('office', map.get('office'));
-} else {
-   execution.setVariable('office', 'ZTAT');
-}</camunda:script>
-        </camunda:executionListener>
-      </bpmn:extensionElements>
       <bpmn:incoming>Flow_17h01fo</bpmn:incoming>
       <bpmn:outgoing>Flow_13bsf4a</bpmn:outgoing>
     </bpmn:businessRuleTask>
@@ -911,7 +846,6 @@ for use in next step</bpmn:text>
       <bpmndi:BPMNShape id="Activity_1rapvwb_di" bpmnElement="Activity_1k3adnv">
         <dc:Bounds x="2480" y="780" width="100" height="80" />
       </bpmndi:BPMNShape>
-<<<<<<< HEAD
       <bpmndi:BPMNShape id="Activity_0hpznf4_di" bpmnElement="Activity_0hpznf4">
         <dc:Bounds x="2480" y="947" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -924,8 +858,6 @@ for use in next step</bpmn:text>
           <dc:Bounds x="2601" y="866" width="57" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-=======
->>>>>>> 2b10c2d7bae8e72cfc911406d37faef6c2a6e53c
       <bpmndi:BPMNShape id="Activity_0adwu9j_di" bpmnElement="Activity_0m19j30" isExpanded="true">
         <dc:Bounds x="1207" y="1300" width="385" height="200" />
       </bpmndi:BPMNShape>
@@ -1019,9 +951,6 @@ for use in next step</bpmn:text>
       <bpmndi:BPMNShape id="Activity_1af3d17_di" bpmnElement="Activity_0ge8f0x">
         <dc:Bounds x="470" y="860" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0ptdtr6_di" bpmnElement="Activity_01wkywh">
-        <dc:Bounds x="1870" y="957" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1m1peyw_di" bpmnElement="TextAnnotation_1m1peyw" bioc:stroke="#1e88e5" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#1e88e5">
         <dc:Bounds x="1160" y="980" width="150" height="86" />
       </bpmndi:BPMNShape>
@@ -1046,58 +975,6 @@ for use in next step</bpmn:text>
       <bpmndi:BPMNShape id="TextAnnotation_0on5mq0_di" bpmnElement="TextAnnotation_0on5mq0" bioc:stroke="#43a047" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#43a047">
         <dc:Bounds x="560" y="1004" width="120" height="65" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_112ejz1_di" bpmnElement="TextAnnotation_112ejz1" bioc:stroke="#1e88e5" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#1e88e5">
-        <dc:Bounds x="2130" y="1079" width="100" height="54" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1lrofa4_di" bpmnElement="TextAnnotation_1lrofa4" bioc:stroke="#1e88e5" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#1e88e5">
-        <dc:Bounds x="1990" y="1079" width="100" height="54" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1q94ix7_di" bpmnElement="TextAnnotation_1q94ix7">
-        <dc:Bounds x="1682" y="1090" width="175" height="111" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0ndsxu5_di" bpmnElement="TextAnnotation_0ndsxu5">
-        <dc:Bounds x="1458" y="820" width="130" height="40" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_158u7nf_di" bpmnElement="TextAnnotation_158u7nf">
-        <dc:Bounds x="690" y="745" width="120" height="65" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1rn24up_di" bpmnElement="TextAnnotation_1rn24up" bioc:stroke="#43a047" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#43a047">
-        <dc:Bounds x="540" y="723" width="100" height="38" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_089e3xa_di" bpmnElement="TextAnnotation_089e3xa" bioc:stroke="#1e88e5" bioc:fill="#bbdefb" color:background-color="#bbdefb" color:border-color="#1e88e5">
-        <dc:Bounds x="710" y="1160" width="100" height="68" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1w55g00_di" bpmnElement="Event_15qlfu2">
-        <dc:Bounds x="1162" y="842" width="36" height="36" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Association_1gbv4kl_di" bpmnElement="Association_1gbv4kl">
-        <di:waypoint x="1193" y="940" />
-        <di:waypoint x="1205" y="980" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_133o1us_di" bpmnElement="Association_133o1us">
-        <di:waypoint x="1419" y="1360" />
-        <di:waypoint x="1475" y="1278" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_1hjw6v9_di" bpmnElement="Association_1hjw6v9">
-        <di:waypoint x="1557" y="616" />
-        <di:waypoint x="1608" y="577" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_0jtq5eg_di" bpmnElement="Association_0jtq5eg">
-        <di:waypoint x="1030" y="1127" />
-        <di:waypoint x="970" y="1081" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_1uurwo3_di" bpmnElement="Association_1uurwo3">
-        <di:waypoint x="907" y="1090" />
-        <di:waypoint x="886" y="1150" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_0s4ol4c_di" bpmnElement="Association_0s4ol4c">
-        <di:waypoint x="652" y="940" />
-        <di:waypoint x="621" y="1004" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_09tukdq_di" bpmnElement="Association_09tukdq">
-        <di:waypoint x="2051" y="860" />
-        <di:waypoint x="2027" y="812" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_1latju7_di" bpmnElement="Association_1latju7">
         <di:waypoint x="2093" y="940" />
         <di:waypoint x="2175" y="1079" />
@@ -1129,6 +1006,49 @@ for use in next step</bpmn:text>
       <bpmndi:BPMNEdge id="Association_1fh2l6b_di" bpmnElement="Association_1fh2l6b">
         <di:waypoint x="1109" y="1190" />
         <di:waypoint x="1207" y="1365" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0jgmdp8_di" bpmnElement="Association_0jgmdp8">
+        <di:waypoint x="2911" y="638" />
+        <di:waypoint x="2879" y="584" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1juxroj_di" bpmnElement="Association_1juxroj">
+        <di:waypoint x="2526" y="780" />
+        <di:waypoint x="2460" y="731" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0f64lo7_di" bpmnElement="Association_0f64lo7">
+        <di:waypoint x="2462" y="1079" />
+        <di:waypoint x="2521" y="1027" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_1w55g00_di" bpmnElement="Event_15qlfu2">
+        <dc:Bounds x="1162" y="842" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1gbv4kl_di" bpmnElement="Association_1gbv4kl">
+        <di:waypoint x="1193" y="940" />
+        <di:waypoint x="1205" y="980" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_133o1us_di" bpmnElement="Association_133o1us">
+        <di:waypoint x="1419" y="1360" />
+        <di:waypoint x="1475" y="1278" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1hjw6v9_di" bpmnElement="Association_1hjw6v9">
+        <di:waypoint x="1557" y="616" />
+        <di:waypoint x="1608" y="577" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0jtq5eg_di" bpmnElement="Association_0jtq5eg">
+        <di:waypoint x="1030" y="1127" />
+        <di:waypoint x="970" y="1081" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_1uurwo3_di" bpmnElement="Association_1uurwo3">
+        <di:waypoint x="907" y="1090" />
+        <di:waypoint x="886" y="1150" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_0s4ol4c_di" bpmnElement="Association_0s4ol4c">
+        <di:waypoint x="652" y="940" />
+        <di:waypoint x="621" y="1004" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Association_09tukdq_di" bpmnElement="Association_09tukdq">
+        <di:waypoint x="2051" y="860" />
+        <di:waypoint x="2027" y="812" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Participant_17zw3g5_di" bpmnElement="Participant_11gx4t7" isHorizontal="true">
         <dc:Bounds x="160" y="290" width="540" height="60" />
