@@ -42,7 +42,9 @@ public class AuthConfig {
 //        Group rpmGroup = identityService.newGroup("rpm");
 //        identityService.saveGroup(rpmGroup);
 
-        User user = identityService.createUserQuery().userId("rpm1").singleResult();
+        User user = null;
+
+        user = identityService.createUserQuery().userId("rpm1").singleResult();
         if (user == null) {
             User uzr = identityService.newUser("rpm1");
             uzr.setPassword("demo");
