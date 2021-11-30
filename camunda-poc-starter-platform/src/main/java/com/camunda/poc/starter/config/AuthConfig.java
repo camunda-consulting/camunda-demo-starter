@@ -50,6 +50,7 @@ public class AuthConfig {
             uzr.setPassword("demo");
             uzr.setFirstName("Joan");
             identityService.saveUser(uzr);
+            LOGGER.info("\n ********************** Camunda User Created: "+ uzr.getId());
         }
 
         user = identityService.createUserQuery().userId("rpm2").singleResult();
@@ -58,6 +59,7 @@ public class AuthConfig {
             uzr.setPassword("demo");
             uzr.setFirstName("Jim");
             identityService.saveUser(uzr);
+            LOGGER.info("\n ********************** Camunda User Created: "+ uzr.getId());
         }
 
         user = identityService.createUserQuery().userId("reviewer1").singleResult();
@@ -66,6 +68,7 @@ public class AuthConfig {
             uzr.setPassword("demo");
             uzr.setFirstName("Jack");
             identityService.saveUser(uzr);
+            LOGGER.info("\n ********************** Camunda User Created: "+ uzr.getId());
         }
 
         user = identityService.createUserQuery().userId("reviewer2").singleResult();
@@ -82,6 +85,7 @@ public class AuthConfig {
             uzr.setPassword("demo");
             uzr.setFirstName("June");
             identityService.saveUser(uzr);
+            LOGGER.info("\n ********************** Camunda User Created: "+ uzr.getId());
         }
 
         user = identityService.createUserQuery().userId("cmcSubpervisor").singleResult();
@@ -90,6 +94,7 @@ public class AuthConfig {
             uzr.setPassword("demo");
             uzr.setFirstName("Donny");
             identityService.saveUser(uzr);
+            LOGGER.info("\n ********************** Camunda User Created: "+ uzr.getId());
         }
 
         user = identityService.createUserQuery().userId("qcbqSubpervisor").singleResult();
@@ -98,6 +103,7 @@ public class AuthConfig {
             uzr.setPassword("demo");
             uzr.setFirstName("Mary");
             identityService.saveUser(uzr);
+            LOGGER.info("\n ********************** Camunda User Created: "+ uzr.getId());
         }
 
         user = identityService.createUserQuery().userId("ragnar").singleResult();
@@ -106,6 +112,7 @@ public class AuthConfig {
             uzr.setPassword("demo");
             uzr.setFirstName("Rags");
             identityService.saveUser(uzr);
+            LOGGER.info("\n ********************** Camunda User Created: "+ uzr.getId());
         }
 
     }

@@ -1,0 +1,10 @@
+=== Best Practice - Modeling BPMN
+
+==== BPMN Best Practices and Examples
+- Business modeling with https://cawemo.com/[Cawemo]
+- Technical Modeling with https://camunda.com/download/modeler/[Camunda Modeler]
+- Framework to https://bpmn.io/[customize modeling experience]
+- Understand https://github.com/camunda/camunda-modeler/tree/master/docs/element-templates[Element Templates] for configuring modeling experience
+- https://camunda.com/best-practices/building-flexibility-into-bpmn-models/[Modeling best practices]
+- Understand https://github.com/camunda/camunda-modeler-plugins[Modeler Plugins]
+

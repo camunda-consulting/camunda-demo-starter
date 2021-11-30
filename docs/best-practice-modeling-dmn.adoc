@@ -1,0 +1,54 @@
+=== Best Practice - Modeling DMN Business Rules
+
+==== DMN Best Practices and Examples
+- https://camunda.com/dmn/[DMN Basics]
+- https://camunda.com/dmn/[This is a quick primer on DMN]
+- https://docs.camunda.org/manual/7.15/reference/dmn/[DMN reference]
+- https://docs.camunda.org/manual/7.15/reference/dmn/decision-table/[Basics of configuring DMN]
+- https://camunda.github.io/feel-scala/docs/reference[Reference to feel]
+- https://docs.camunda.org/manual/latest/user-guide/dmn-engine/feel/type-handling/[In the weeds on Date types]
+- https://consulting.camunda.com/dmn-simulator/[DMN Simulator]
+
+==== Working with Variables
+====
+*Using the `Expression` input to evaluate an Object (JSON or Java)*
+
+image:./images/modeling/dmn-input-expression-string-compare.png[]
+
+NOTE: The Expression field is evaluated using FEEL and `.` operator is utilized to access the value of `submission.reviewSchedule`. The `submission` object is stored in Camunda process variables as JsonValue type.  DMN knows how to work with this type. See more about the [JsonValue type]
+
+*Passing variables through a DMN*
+```
+
+```
+====
+
+=== Working with Dates
+Working with dates in Camunda can be tricky. There are different date formats to consider and different date types that also come into play.
+
+https://forum.camunda.org/t/org-camunda-bpm-dmn-engine-dmnengineexception-unsupported-type-java-time-localdate-cannot-be-converted-to-java-util-date/26628/4?u=plungu
+
+====
+*Date Formats and Date Types and where they apply*
+
+- java.util.Date
+- LocalDateTimeVal
+- LocalDateVal
+
+====
+
+====
+*Date formats best practice*
+
+* Use DateTime with timezone
+* Camunda process variable format(java.util.Date) vs Feel DateTime Format
+
+====
+
+==== Dates in DMN Business Rule
+====
+- FEEL Dates
+- JUEL Dates
+- Date as input
+- Comparing Dates
+====

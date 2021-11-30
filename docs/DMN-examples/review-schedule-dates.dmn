@@ -74,7 +74,7 @@
       </rule>
       <rule id="DecisionRule_012ixkm">
         <inputEntry id="UnaryTests_0sqabjo">
-          <text>&gt; now()</text>
+          <text>&lt; now()</text>
         </inputEntry>
         <inputEntry id="UnaryTests_098ammk">
           <text>"P08"</text>
