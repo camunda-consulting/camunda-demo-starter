@@ -49,6 +49,29 @@
           <text>date and time(submission.submissionReceiveDate) + duration("P365D")</text>
         </outputEntry>
       </rule>
+      <rule id="DecisionRule_173xoit">
+        <inputEntry id="UnaryTests_0pnsb4z">
+          <text>&gt; now()</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14r410u">
+          <text>"P08"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0mq2uh9">
+          <text>date and time(submission.submissionReceiveDate) + duration("P45D")</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0rsft46">
+          <text>date and time(submission.submissionReceiveDate) + duration("P60D")</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_10fnsua">
+          <text></text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_184930g">
+          <text>date and time(submission.submissionReceiveDate) + duration("P180D")</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_10ttx4t">
+          <text>date and time(submission.submissionReceiveDate) + duration("P365D")</text>
+        </outputEntry>
+      </rule>
       <rule id="DecisionRule_1cwouwb">
         <inputEntry id="UnaryTests_0a4cjea">
           <text>&lt; now()</text>
