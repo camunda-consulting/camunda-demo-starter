@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Profile;
 
 import javax.servlet.Filter;
 
-@Profile("rest-basic-auth")
+@Profile("auth-rest")
 @Configuration
 public class CamundaSecurityFilter {
 
@@ -19,7 +19,7 @@ public class CamundaSecurityFilter {
         registration.setFilter(getProcessEngineAuthenticationFilter());
         registration.addInitParameter("authentication-provider",
                 "org.camunda.bpm.engine.rest.security.auth.impl.HttpBasicAuthenticationProvider");
-        registration.addUrlPatterns("/*");
+        registration.addUrlPatterns("/engine-rest/*");
         return registration;
     }
 

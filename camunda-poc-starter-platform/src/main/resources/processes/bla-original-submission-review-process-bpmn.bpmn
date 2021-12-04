@@ -271,26 +271,26 @@ This like a automated mail room</bpmn:text>
         <bpmn:targetRef>DataObjectReference_0cdc97o</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:serviceTask>
+    <bpmn:dataObjectReference id="DataObjectReference_0cdc97o" name="Submission Object" dataObjectRef="DataObject_0vf6hck" />
+    <bpmn:dataObject id="DataObject_0vf6hck" />
     <bpmn:sendTask id="Activity_complete-response" name="Issue Complete Response" camunda:modelerTemplate="26268032-ab52-4049-9b77-7cadc124a204" camunda:modelerTemplateVersion="1635208943455" camunda:delegateExpression="${emailDelegate}">
       <bpmn:extensionElements>
         <camunda:inputOutput>
           <camunda:inputParameter name="subject">Camunda PoC Email</camunda:inputParameter>
-          <camunda:inputParameter name="emailFrom" />
+          <camunda:inputParameter name="emailFrom"></camunda:inputParameter>
           <camunda:inputParameter name="emailTo">me@camunda.com</camunda:inputParameter>
-          <camunda:inputParameter name="emailCc" />
-          <camunda:inputParameter name="emailBcc" />
+          <camunda:inputParameter name="emailCc"></camunda:inputParameter>
+          <camunda:inputParameter name="emailBcc"></camunda:inputParameter>
           <camunda:inputParameter name="messageBody">
-            <camunda:script scriptFormat="freemarker" />
+            <camunda:script scriptFormat="freemarker"></camunda:script>
           </camunda:inputParameter>
-          <camunda:inputParameter name="body">The submission issue is complete!</camunda:inputParameter>
+          <camunda:inputParameter name="body">The submission review is complete status.</camunda:inputParameter>
           <camunda:outputParameter name="mailSendStatus">${mailSendStatus}</camunda:outputParameter>
         </camunda:inputOutput>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0nevms6</bpmn:incoming>
       <bpmn:outgoing>Flow_0dusjra</bpmn:outgoing>
     </bpmn:sendTask>
-    <bpmn:dataObjectReference id="DataObjectReference_0cdc97o" name="Submission Object" dataObjectRef="DataObject_0vf6hck" />
-    <bpmn:dataObject id="DataObject_0vf6hck" />
     <bpmn:textAnnotation id="TextAnnotation_1m1peyw">
       <bpmn:text>All reviewers must complete task. 
 
@@ -789,6 +789,9 @@ for use in next step</bpmn:text>
       <bpmndi:BPMNShape id="Gateway_10ovhrl_di" bpmnElement="Gateway_1en0vg4">
         <dc:Bounds x="1025" y="875" width="50" height="50" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1qmyxha_di" bpmnElement="Activity_complete-response">
+        <dc:Bounds x="2690" y="947" width="100" height="80" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0adwu9j_di" bpmnElement="Activity_0m19j30" isExpanded="true">
         <dc:Bounds x="1207" y="1300" width="385" height="200" />
       </bpmndi:BPMNShape>
@@ -911,9 +914,6 @@ for use in next step</bpmn:text>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0hpznf4_di" bpmnElement="Activity_0hpznf4">
         <dc:Bounds x="2480" y="947" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1mpf09s_di" bpmnElement="Activity_complete-response">
-        <dc:Bounds x="2690" y="947" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="DataObjectReference_0cdc97o_di" bpmnElement="DataObjectReference_0cdc97o" bioc:stroke="#e53935" bioc:fill="#ffcdd2" color:background-color="#ffcdd2" color:border-color="#e53935">
         <dc:Bounds x="2612" y="905" width="36" height="50" />

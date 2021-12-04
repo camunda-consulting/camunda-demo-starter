@@ -96,10 +96,13 @@
       </bpmn:dataOutputAssociation>
     </bpmn:task>
     <bpmn:sequenceFlow id="Flow_1szjo5g" sourceRef="Activity_0o0ghc5" targetRef="Gateway_0pwbdh7" />
-    <bpmn:serviceTask id="Activity_1xrao38" name="Change Submission Status" camunda:delegateExpression="${patchDelegate}">
+    <bpmn:serviceTask id="Activity_1xrao38" name="Change Submission Status" camunda:asyncBefore="true" camunda:delegateExpression="${patchDelegate}">
       <bpmn:extensionElements>
         <camunda:field name="bizObject">
           <camunda:expression>${S(submission).prop("submissionStatus", "open")}</camunda:expression>
+        </camunda:field>
+        <camunda:field name="objectType">
+          <camunda:string>submissions</camunda:string>
         </camunda:field>
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1qp410a</bpmn:incoming>

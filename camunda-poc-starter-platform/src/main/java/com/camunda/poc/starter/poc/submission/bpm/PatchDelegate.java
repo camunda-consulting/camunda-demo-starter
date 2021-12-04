@@ -52,32 +52,44 @@ public class PatchDelegate implements JavaDelegate {
             + ", Data URI= " + dataApiUri
             + " \n\n");
 
-      //Get the business object
-      JacksonJsonNode bizObj = (JacksonJsonNode) bizObject.getValue(execution);
-      Integer id = (Integer) bizObj.prop("id").numberValue();
+    //Get the business object
+    JacksonJsonNode bizObj = (JacksonJsonNode) bizObject.getValue(execution);
 
+    Boolean error = (Boolean) execution.getVariable("error");
+    Boolean exception = (Boolean) execution.getVariable("exception");
+
+    if (bizObj != null) {
+      LOGGER.info(" \n\n ====>> Biz Object " + bizObj.toString() + "\n");
+
+      Integer id = (Integer) bizObj.prop("id").numberValue();
       String objectTypeStr = objectType.getValue(execution).toString();
 
       //Use fluent HTTP api to execute PATCH request
-      HttpResponse response = Request.Patch(dataApiUri + "/"+objectTypeStr+"/"+id)
+      HttpResponse response = Request.Patch(dataApiUri + "/" + objectTypeStr + "/" + id)
               .bodyString(bizObj.toString(), ContentType.APPLICATION_JSON)
               .execute().returnResponse();
 
-      LOGGER.info(" ====>> Response \n\n" + response.getStatusLine().toString() + "\n");
+      LOGGER.info(" \n\n ====>> Response " + response.getStatusLine().toString() + "\n");
 
       if (response.getStatusLine().getStatusCode() == 200
-          || response.getStatusLine().getStatusCode() == 202
-          || response.getStatusLine().getStatusCode() == 204)
-      {
+              || response.getStatusLine().getStatusCode() == 202
+              || response.getStatusLine().getStatusCode() == 204) {
+
         bizObj.prop("id", id);
         execution.setVariable("submission", bizObj);
-      } else {
-        throw new Exception("Invalid Response");
       }
+//      else {
+//        throw new Error("\n\n ====>> Invalid Response: Biz Database not updated!!!");
+//      }
 
-      Boolean error = (Boolean) execution.getVariable("error");
-      if (error != null && error) {
+      if (error != null && error)
+      {
         throw new BpmnError("Invalid Data Found!");
       }
+      else if (exception != null && exception)
+      {
+        throw new Exception("Unknown Exception Detected. Service may be down!!!");
+      }
+    }
   }
 }
