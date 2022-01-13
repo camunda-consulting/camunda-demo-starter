@@ -1,3 +1,0 @@
-== [[best-practice-reporting-metrics]]Best Practices Reporting and Metrics
-
-TIP: See the documentation on https://camunda.com/products/camunda-platform/optimize/reports/[Camunda Optimize Workflow Reporting Tool]
