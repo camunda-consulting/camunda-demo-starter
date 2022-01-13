@@ -1,4 +1,4 @@
-package com.camunda.poc.starter.repo;
+package com.camunda.poc.starter.reactive.repo;
 
 import com.camunda.poc.starter.entity.data.ServiceRequestEntity;
 import org.springframework.context.annotation.Profile;
@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-@Profile("camunda-custom-entities")
+@Profile("reactive")
 public interface ServiceRequestRepository extends PagingAndSortingRepository<ServiceRequestEntity, Long>{
 
 //	@Query("select l from renewal l where l.end <= ?1 and l.renewalStarted = false and l.renewalCompleted = false")

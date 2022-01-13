@@ -1,17 +1,17 @@
-package com.camunda.poc.starter.poc.submission.entity;
+package com.camunda.poc.starter.poc.interpretation.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.context.annotation.Profile;
 
 import javax.persistence.*;
 
-@Profile("poc")
-@Entity(name="poc_status")
-public class Status {
+@Profile("poc-es")
+@Entity(name="poc_interpretation")
+public class Interpretation {
 
     private static final long serialVersionUID = -209114346985280386L;
 
-    public Status(){}
+    public Interpretation(){}
 
     private @Version
     @JsonIgnore

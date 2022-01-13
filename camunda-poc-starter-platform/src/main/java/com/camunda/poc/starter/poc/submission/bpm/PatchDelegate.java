@@ -55,6 +55,7 @@ public class PatchDelegate implements JavaDelegate {
     //Get the business object
     JacksonJsonNode bizObj = (JacksonJsonNode) bizObject.getValue(execution);
 
+    //poc demo purposes to show things like exception and error handliing in the process
     Boolean error = (Boolean) execution.getVariable("error");
     Boolean exception = (Boolean) execution.getVariable("exception");
 

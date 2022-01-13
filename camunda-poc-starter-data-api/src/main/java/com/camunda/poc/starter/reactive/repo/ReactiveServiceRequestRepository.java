@@ -1,11 +1,11 @@
-package com.camunda.poc.starter.repo;
+package com.camunda.poc.starter.reactive.repo;
 
 import com.camunda.poc.starter.entity.data.ServiceRequestEntity;
 import org.springframework.context.annotation.Profile;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@Profile("camunda-custom-entities")
+@Profile("reactive")
 public interface ReactiveServiceRequestRepository {
 
 	Flux<ServiceRequestEntity> findServiceRequestEntitiesByApprovedAndStarted(Boolean approved, Boolean started);

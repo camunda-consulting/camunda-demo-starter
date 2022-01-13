@@ -43,6 +43,11 @@
     <bpmn:sequenceFlow id="Flow_1bd2ga0" sourceRef="Activity_02ic8ya" targetRef="Activity_1hfla56" />
     <bpmn:dataStoreReference id="DataStoreReference_07h2trs" name="Store Interpretation" />
     <bpmn:serviceTask id="Activity_1hfla56" name="Store Interpretation" camunda:delegateExpression="${logger}">
+      <bpmn:extensionElements>
+        <camunda:field name="bizObject">
+          <camunda:expression>${interpretation}</camunda:expression>
+        </camunda:field>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_1bd2ga0</bpmn:incoming>
       <bpmn:outgoing>Flow_0aszk1f</bpmn:outgoing>
       <bpmn:dataOutputAssociation id="DataOutputAssociation_0qfo2kn">
@@ -202,10 +207,6 @@
   </bpmn:process>
   <bpmn:process id="Process_blood-process-submission" name="Blood Pressure Submission Process" isExecutable="true">
     <bpmn:dataStoreReference id="DataStoreReference_00qw44s" name="Blood Pressure Readings" />
-    <bpmn:startEvent id="Event_1w7qjvz" name="Start Blood Pressure Submission">
-      <bpmn:outgoing>Flow_01jky9y</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_1rgq06e" messageRef="Message_1cqq97x" />
-    </bpmn:startEvent>
     <bpmn:endEvent id="Event_02rpi5s" name="End Submission Process">
       <bpmn:incoming>Flow_07sufcy</bpmn:incoming>
     </bpmn:endEvent>
@@ -233,6 +234,10 @@
         <bpmn:targetRef>DataStoreReference_00qw44s</bpmn:targetRef>
       </bpmn:dataOutputAssociation>
     </bpmn:serviceTask>
+    <bpmn:startEvent id="Event_1w7qjvz" name="Start Blood Pressure Submission">
+      <bpmn:outgoing>Flow_01jky9y</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1rgq06e" messageRef="Message_1cqq97x" />
+    </bpmn:startEvent>
   </bpmn:process>
   <bpmn:process id="Process_blood-pressure-notifcation-trigger" name="Blood Pressure Notification Trigger" isExecutable="true">
     <bpmn:startEvent id="Event_1uvmg8w" name="Start Blood Pressure Notification Cycle">
@@ -279,7 +284,11 @@
     <bpmn:serviceTask id="Activity_02e1ciu" name="Get patients case status" camunda:delegateExpression="${logger}">
       <bpmn:incoming>Flow_11i11d8</bpmn:incoming>
       <bpmn:outgoing>Flow_0geogsr</bpmn:outgoing>
+      <bpmn:dataOutputAssociation id="DataOutputAssociation_0miahcz">
+        <bpmn:targetRef>DataStoreReference_0gu4xgn</bpmn:targetRef>
+      </bpmn:dataOutputAssociation>
     </bpmn:serviceTask>
+    <bpmn:dataStoreReference id="DataStoreReference_0gu4xgn" name="Case" />
     <bpmn:textAnnotation id="TextAnnotation_07a901m">
       <bpmn:text>Trigger Blood Pressure Reading Notification</bpmn:text>
     </bpmn:textAnnotation>
@@ -608,7 +617,9 @@
         <di:waypoint x="710" y="420" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_01jky9y_di" bpmnElement="Flow_01jky9y">
-        <di:waypoint x="338" y="420" />
+        <di:waypoint x="338" y="419" />
+        <di:waypoint x="364" y="419" />
+        <di:waypoint x="364" y="420" />
         <di:waypoint x="390" y="420" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_038n0ab_di" bpmnElement="Flow_038n0ab">
@@ -623,12 +634,6 @@
         <dc:Bounds x="475" y="525" width="50" height="50" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="462" y="586" width="76" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_01z9ka7_di" bpmnElement="Event_1w7qjvz" bioc:stroke="#8e24aa" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#8e24aa">
-        <dc:Bounds x="302" y="402" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="292" y="445" width="57" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_02rpi5s_di" bpmnElement="Event_02rpi5s">
@@ -648,6 +653,12 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_1yr37q6_di" bpmnElement="Activity_161vcbx">
         <dc:Bounds x="560" y="380" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_01z9ka7_di" bpmnElement="Event_1w7qjvz" bioc:stroke="#8e24aa" bioc:fill="#e1bee7" color:background-color="#e1bee7" color:border-color="#8e24aa">
+        <dc:Bounds x="302" y="401" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="292" y="444" width="57" height="40" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Participant_1lkhgv5_di" bpmnElement="Participant_1lkhgv5" isHorizontal="true">
         <dc:Bounds x="1190" y="270" width="1040" height="380" />
@@ -674,6 +685,12 @@
         <dc:Bounds x="2172" y="442" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="2162" y="485" width="56" height="53" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="DataStoreReference_0gu4xgn_di" bpmnElement="DataStoreReference_0gu4xgn" bioc:stroke="#43a047" bioc:fill="#c8e6c9" color:background-color="#c8e6c9" color:border-color="#43a047">
+        <dc:Bounds x="1295" y="555" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1307" y="612" width="26" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0u6v87z_di" bpmnElement="Activity_0u6v87z" isExpanded="true">
@@ -816,7 +833,11 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0khmdmq_di" bpmnElement="Flow_0khmdmq" bioc:stroke="#8e24aa" color:border-color="#8e24aa">
         <di:waypoint x="320" y="140" />
-        <di:waypoint x="320" y="402" />
+        <di:waypoint x="320" y="401" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="DataOutputAssociation_0miahcz_di" bpmnElement="DataOutputAssociation_0miahcz">
+        <di:waypoint x="1397" y="499" />
+        <di:waypoint x="1337" y="555" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

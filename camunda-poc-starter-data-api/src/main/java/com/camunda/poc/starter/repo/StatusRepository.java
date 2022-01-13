@@ -1,6 +1,6 @@
-package com.camunda.poc.starter.poc.submission.repo;
+package com.camunda.poc.starter.repo;
 
-import com.camunda.poc.starter.poc.submission.entity.Status;
+import com.camunda.poc.starter.entity.workflow.Status;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;

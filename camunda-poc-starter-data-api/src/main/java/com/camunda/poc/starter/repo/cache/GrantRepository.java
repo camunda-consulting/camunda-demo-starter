@@ -1,6 +1,6 @@
-package com.camunda.poc.starter.repo;
+package com.camunda.poc.starter.repo.cache;
 
-import com.camunda.poc.starter.entity.Grant;
+import com.camunda.poc.starter.entity.oauth.Grant;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.repository.CrudRepository;

@@ -2,9 +2,9 @@ package com.camunda.poc.starter.controller.workflow;
 
 import com.camunda.poc.starter.integration.pubsub.Event;
 import com.camunda.poc.starter.integration.pubsub.EventChannels;
-import com.camunda.poc.starter.poc.submission.entity.User;
+import com.camunda.poc.starter.entity.workflow.User;
 import com.camunda.poc.starter.poc.submission.entity.Submission;
-import com.camunda.poc.starter.poc.submission.repo.ContactRepository;
+import com.camunda.poc.starter.repo.ContactRepository;
 import com.camunda.poc.starter.poc.submission.repo.SubmissionRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-@Profile("poc")
+@Profile("poc-submission")
 public interface SubmissionRepository extends PagingAndSortingRepository<Submission, Long>{
 
 	Submission findSubmissionByBusinessKey(@Param("businessKey") String businessKey);

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Profile;
 import javax.persistence.*;
 import java.util.Date;
 
-@Profile("poc")
+@Profile("poc-submission")
 @Entity(name="poc_submission")
 @Getter
 @Setter

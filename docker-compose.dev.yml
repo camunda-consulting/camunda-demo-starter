@@ -23,7 +23,7 @@ services:
       MAIL_PORT: 2500
 #      RABBITMQ_HOST: rabbitmq-mgmt
 #      ADMIN_CLIENT_URL: http://camunda-node-1:8080
-      DATA_API_URI: http://integration-data-api:9000/api
+      DATA_API_URI: http://data-api:9000/api
     deploy:
       resources:
         limits:
@@ -41,7 +41,7 @@ services:
   ########################################
   # Business Data Service
   ########################################
-  integration-data-api:
+  data-api:
     build:
       context: ./camunda-poc-starter-data-api
     links:

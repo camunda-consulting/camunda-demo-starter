@@ -1,10 +1,7 @@
-package com.camunda.poc.starter.poc.submission.config;
+package com.camunda.poc.starter.poc.interpretation.config;
 
-import com.camunda.poc.starter.entity.workflow.Status;
-import com.camunda.poc.starter.entity.workflow.User;
-import com.camunda.poc.starter.repo.ContactRepository;
-import com.camunda.poc.starter.poc.submission.entity.Submission;
-import com.camunda.poc.starter.poc.submission.repo.SubmissionRepository;
+import com.camunda.poc.starter.poc.interpretation.entity.Interpretation;
+import com.camunda.poc.starter.poc.interpretation.repo.InterpretationRepository;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
@@ -18,21 +15,20 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 
 import java.sql.SQLException;
-import java.util.*;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
-@Profile("poc-submission")
+@Profile("poc-es")
 @Configuration
 public class DbEntityCreateConfig {
 
-    private ContactRepository contactRepository;
-    private SubmissionRepository damageReportRepository;
+    private InterpretationRepository interpretationRepository;
 
     @Autowired
-    public DbEntityCreateConfig(ContactRepository contactRepository,
-                                SubmissionRepository damageReportRepository){
-        this.contactRepository = contactRepository;
-        this.damageReportRepository = damageReportRepository;
+    public DbEntityCreateConfig(InterpretationRepository interpretationRepository){
+        this.interpretationRepository = interpretationRepository;
     }
 
     private final Logger LOGGER = Logger.getLogger(DbEntityCreateConfig.class.getName());
@@ -69,10 +65,7 @@ public class DbEntityCreateConfig {
                         .applySettings(settings).build();
 
         MetadataSources metadata = new MetadataSources(serviceRegistry);
-        metadata.addAnnotatedClass(Submission.class);
-        metadata.addAnnotatedClass(User.class);
-        metadata.addAnnotatedClass(Status.class);
-
+        metadata.addAnnotatedClass(Interpretation.class);
 
         EnumSet<TargetType> enumSet = EnumSet.of(TargetType.DATABASE);
 
@@ -91,32 +84,32 @@ public class DbEntityCreateConfig {
      * @param event
      * @throws SQLException
      */
-    @EventListener
-    @org.springframework.core.annotation.Order(20)
-    public void onApplicationEventCreateContact(ContextRefreshedEvent event) throws SQLException {
-
-
-        if (contactRepository.count() == 0) {
-
-            LOGGER.info("\n\n ********************** Create Contact Post Init Hook *********************** \n\n ");
-
-            User user = new User();
-            user.setCity("Denver");
-            user.setCountry("USA");
-            user.setEmail("paul.lungu@camunda.com");
-            user.setFirst("Paul");
-            user.setLast("Lungu");
-            user.setManager("Ragner");
-            user.setPhone("134-232-2344");
-            user.setState("Colorado");
-            user.setStreet("Atlantis");
-            user.setZip("80026");
-            user.setGroups("group-a,group-b");
-
-            contactRepository.save(user);
-            LOGGER.info("\n\n **** Contact Created ****** \n\n");
-        }
-    }
+//    @EventListener
+//    @org.springframework.core.annotation.Order(20)
+//    public void onApplicationEventCreateContact(ContextRefreshedEvent event) throws SQLException {
+//
+//
+//        if (contactRepository.count() == 0) {
+//
+//            LOGGER.info("\n\n ********************** Create Contact Post Init Hook *********************** \n\n ");
+//
+//            User user = new User();
+//            user.setCity("Denver");
+//            user.setCountry("USA");
+//            user.setEmail("paul.lungu@camunda.com");
+//            user.setFirst("Paul");
+//            user.setLast("Lungu");
+//            user.setManager("Ragner");
+//            user.setPhone("134-232-2344");
+//            user.setState("Colorado");
+//            user.setStreet("Atlantis");
+//            user.setZip("80026");
+//            user.setGroups("group-a,group-b");
+//
+//            contactRepository.save(user);
+//            LOGGER.info("\n\n **** Contact Created ****** \n\n");
+//        }
+//    }
 
 
 //    /**

@@ -1,7 +1,7 @@
 package com.camunda.poc.starter.reactive;
 
 import com.camunda.poc.starter.entity.data.ServiceRequestEntity;
-import com.camunda.poc.starter.repo.ReactiveServiceRequestRepository;
+import com.camunda.poc.starter.reactive.repo.ReactiveServiceRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;

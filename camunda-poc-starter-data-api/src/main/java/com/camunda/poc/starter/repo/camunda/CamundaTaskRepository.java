@@ -1,4 +1,4 @@
-package com.camunda.poc.starter.repo;
+package com.camunda.poc.starter.repo.camunda;
 
 
 import com.camunda.poc.starter.entity.data.CamundaTask;

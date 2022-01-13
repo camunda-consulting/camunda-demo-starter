@@ -1,4 +1,4 @@
-package com.camunda.poc.starter.repo;
+package com.camunda.poc.starter.reactive.repo;
 
 import com.camunda.poc.starter.entity.data.ServiceRequestEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import java.util.List;
 public class ReactiveServiceRequestRepositoryImpl implements ReactiveServiceRequestRepository{
 
 	@Autowired
-	ServiceRequestRepository serviceRequestRepository;
+    ServiceRequestRepository serviceRequestRepository;
 
 	public Flux<ServiceRequestEntity> findServiceRequestEntitiesByApprovedAndStarted(Boolean approved, Boolean started){
 		List<ServiceRequestEntity> sres = serviceRequestRepository
