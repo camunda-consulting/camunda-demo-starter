@@ -1,7 +1,7 @@
-package com.camunda.poc.starter.poc.interpretation.config;
+package com.camunda.poc.starter.poc.kase.config;
 
-import com.camunda.poc.starter.poc.interpretation.entity.Interpretation;
-import com.camunda.poc.starter.poc.interpretation.repo.InterpretationRepository;
+import com.camunda.poc.starter.poc.kase.entity.Case;
+import com.camunda.poc.starter.poc.kase.repo.KaseRepository;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
@@ -22,16 +22,16 @@ import java.util.logging.Logger;
 
 @Profile("poc-es")
 @Configuration
-public class DbEntityCreateConfig {
+public class CaseEntityCreateConfig {
 
-    private InterpretationRepository interpretationRepository;
+    private KaseRepository caseRepository;
 
     @Autowired
-    public DbEntityCreateConfig(InterpretationRepository interpretationRepository){
-        this.interpretationRepository = interpretationRepository;
+    public CaseEntityCreateConfig(KaseRepository caseRepository){
+        this.caseRepository = caseRepository;
     }
 
-    private final Logger LOGGER = Logger.getLogger(DbEntityCreateConfig.class.getName());
+    private final Logger LOGGER = Logger.getLogger(CaseEntityCreateConfig.class.getName());
 
     @Value("${spring.datasource.url}")
     private String url;
@@ -48,7 +48,7 @@ public class DbEntityCreateConfig {
      * @throws SQLException
      */
     @EventListener
-    @org.springframework.core.annotation.Order(1)
+    @org.springframework.core.annotation.Order(10)
     public void onApplicationEvent(ContextRefreshedEvent event) throws SQLException {
 
         LOGGER.info("\n\n ********************** post app hook *********************** \n\n ");
@@ -65,7 +65,7 @@ public class DbEntityCreateConfig {
                         .applySettings(settings).build();
 
         MetadataSources metadata = new MetadataSources(serviceRegistry);
-        metadata.addAnnotatedClass(Interpretation.class);
+        metadata.addAnnotatedClass(Case.class);
 
         EnumSet<TargetType> enumSet = EnumSet.of(TargetType.DATABASE);
 

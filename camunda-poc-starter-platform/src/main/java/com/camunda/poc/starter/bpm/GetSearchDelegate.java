@@ -1,4 +1,4 @@
-package com.camunda.poc.starter.poc.submission.bpm;
+package com.camunda.poc.starter.bpm;
 
 import org.apache.http.client.fluent.Request;
 import org.camunda.bpm.engine.delegate.BpmnError;
@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * from within a BPMN 2.0 Service Task.
  */
 @Component("validateReport")
-public class ValidateReportDelegate implements JavaDelegate {
+public class GetSearchDelegate implements JavaDelegate {
 
   @Value("${data.api.uri}")
   String dataApiUri;

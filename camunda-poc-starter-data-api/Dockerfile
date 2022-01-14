@@ -21,4 +21,4 @@ WORKDIR /usr/src/app
 # copy the built jar to the new image
 COPY --from=builder /usr/src/app/target/camunda-poc-starter-data.jar ${WORKDIR}
 # run the application
-ENTRYPOINT ["java","-Dspring.profiles.active=data,poc-es,pubsub,kafka,cors,prod","-Djava.security.egd=file:/dev/./urandom","-jar","/usr/src/app/camunda-poc-starter-data.jar"]
+ENTRYPOINT ["java","-Dspring.profiles.active=data,poc-es,cors,prod","-Djava.security.egd=file:/dev/./urandom","-jar","/usr/src/app/camunda-poc-starter-data.jar"]

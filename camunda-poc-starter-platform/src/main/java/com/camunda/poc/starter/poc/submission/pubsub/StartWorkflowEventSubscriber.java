@@ -18,16 +18,16 @@ import java.util.logging.Logger;
 
 @Profile("fda")
 @EnableBinding(EventChannels.class)
-public class AmendmentStartEventSubscriber {
+public class StartWorkflowEventSubscriber {
 
 	private final Logger LOGGER = Logger.getLogger(Class.class.getName());
 
-	public AmendmentStartEventSubscriber(){}
+	public StartWorkflowEventSubscriber(){}
 
 	private RuntimeService runtimeService;
 
 	@Autowired
-	public AmendmentStartEventSubscriber(RuntimeService runtimeService){
+	public StartWorkflowEventSubscriber(RuntimeService runtimeService){
 		this.runtimeService = runtimeService;
 	}
 

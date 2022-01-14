@@ -1,4 +1,4 @@
-package com.camunda.poc.starter.poc.submission.bpm;
+package com.camunda.poc.starter.bpm;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.fluent.Request;
