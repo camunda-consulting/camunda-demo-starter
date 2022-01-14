@@ -84,57 +84,22 @@ public class CaseEntityCreateConfig {
      * @param event
      * @throws SQLException
      */
-//    @EventListener
-//    @org.springframework.core.annotation.Order(20)
-//    public void onApplicationEventCreateContact(ContextRefreshedEvent event) throws SQLException {
-//
-//
-//        if (contactRepository.count() == 0) {
-//
-//            LOGGER.info("\n\n ********************** Create Contact Post Init Hook *********************** \n\n ");
-//
-//            User user = new User();
-//            user.setCity("Denver");
-//            user.setCountry("USA");
-//            user.setEmail("paul.lungu@camunda.com");
-//            user.setFirst("Paul");
-//            user.setLast("Lungu");
-//            user.setManager("Ragner");
-//            user.setPhone("134-232-2344");
-//            user.setState("Colorado");
-//            user.setStreet("Atlantis");
-//            user.setZip("80026");
-//            user.setGroups("group-a,group-b");
-//
-//            contactRepository.save(user);
-//            LOGGER.info("\n\n **** Contact Created ****** \n\n");
-//        }
-//    }
+    @EventListener
+    @org.springframework.core.annotation.Order(20)
+    public void onApplicationEventCreateContact(ContextRefreshedEvent event) throws SQLException {
 
 
-//    /**
-//     *
-//     * @param event
-//     * @throws SQLException
-//     */
-//    @EventListener
-//    @org.springframework.core.annotation.Order(21)
-//    public void onApplicationEventCreateDamageReport(ContextRefreshedEvent event) throws SQLException {
-//
-//        if (damageReportRepository.count() == 0) {
-//
-//            for (int i = 0; i < 5; i++) {
-//                String uuid = UUID.randomUUID().toString();
-//                DamageReport item = new DamageReport();
-//                item.setDamageKey(uuid);
-//                item.setDamageDate(new Date());
-//
-//                damageReportRepository.save(item);
-//            }
-//
-//            LOGGER.info("\n\n **** Damage Reports Created ****** \n\n");
-//        }
-//    }
+        if (caseRepository.count() == 0) {
+
+            LOGGER.info("\n\n ********************** Create Case Post Init Hook *********************** \n\n ");
+
+            Case kase = new Case();
+            caseRepository.save(kase);
+
+            LOGGER.info("\n\n **** Case Created ****** \n\n");
+        }
+    }
+
 
 
 } //END CLASS
