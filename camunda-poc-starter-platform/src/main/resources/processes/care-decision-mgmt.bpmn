@@ -42,7 +42,7 @@
     <bpmn:sequenceFlow id="Flow_1fvpwew" sourceRef="StartEvent_1" targetRef="Activity_181l2ph" />
     <bpmn:sequenceFlow id="Flow_1bd2ga0" sourceRef="Activity_02ic8ya" targetRef="Activity_1hfla56" />
     <bpmn:dataStoreReference id="DataStoreReference_07h2trs" name="Store Interpretation" />
-    <bpmn:serviceTask id="Activity_1hfla56" name="Store Interpretation" camunda:delegateExpression="${logger}">
+    <bpmn:serviceTask id="Activity_1hfla56" name="Store Interpretation" camunda:delegateExpression="${postDelegate}">
       <bpmn:incoming>Flow_1bd2ga0</bpmn:incoming>
       <bpmn:outgoing>Flow_0aszk1f</bpmn:outgoing>
       <bpmn:dataOutputAssociation id="DataOutputAssociation_0qfo2kn">
@@ -178,17 +178,25 @@
     </bpmn:startEvent>
     <bpmn:dataStoreReference id="DataStoreReference_0v2gdqx" name="Store Interpretation" />
     <bpmn:sequenceFlow id="Flow_1ph5vjc" sourceRef="Event_0ih2wtg" targetRef="Activity_0xppjjq" />
-    <bpmn:sequenceFlow id="Flow_0i5fp5b" name="Very High" sourceRef="Gateway_1jtu224" targetRef="Event_0n8msbq">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${interpretation.status}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="Flow_0i5fp5b" name="Escalation" sourceRef="Gateway_1jtu224" targetRef="Event_0n8msbq">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="javascript">var json = S(interpretation);
+json.prop('status').value() == "Escalation"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1g318qn" sourceRef="Activity_0xppjjq" targetRef="Gateway_1jtu224" />
     <bpmn:sequenceFlow id="Flow_01gcoff" name="Normal" sourceRef="Gateway_1jtu224" targetRef="Event_008ln7e">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${interpretation.status}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="javascript">var json = S(interpretation);
+json.prop('status').value() == "Normal"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_15atm2w" name="High" sourceRef="Gateway_1jtu224" targetRef="Event_1ipdsfx">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${interpretation.status}</bpmn:conditionExpression>
+    <bpmn:sequenceFlow id="Flow_15atm2w" name="Intervention" sourceRef="Gateway_1jtu224" targetRef="Event_1ipdsfx">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="javascript">var json = S(interpretation);
+json.prop('status').value() == "Intervention"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:serviceTask id="Activity_0xppjjq" name="Get Interpretation" camunda:asyncBefore="true" camunda:delegateExpression="${logger}">
+    <bpmn:serviceTask id="Activity_0xppjjq" name="Get Interpretation" camunda:asyncBefore="true" camunda:delegateExpression="${getDelegateInterpretation}">
+      <bpmn:extensionElements>
+        <camunda:field name="bizObject">
+          <camunda:expression>${interpretation}</camunda:expression>
+        </camunda:field>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_1ph5vjc</bpmn:incoming>
       <bpmn:outgoing>Flow_1g318qn</bpmn:outgoing>
       <bpmn:dataOutputAssociation id="DataOutputAssociation_1fcalqy">
@@ -527,7 +535,7 @@
         <di:waypoint x="995" y="970" />
         <di:waypoint x="1302" y="970" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1018" y="952" width="23" height="14" />
+          <dc:Bounds x="1001" y="952" width="58" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_01gcoff_di" bpmnElement="Flow_01gcoff">
@@ -547,7 +555,7 @@
         <di:waypoint x="970" y="840" />
         <di:waypoint x="1302" y="840" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1006" y="823" width="48" height="14" />
+          <dc:Bounds x="1005" y="823" width="51" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1ph5vjc_di" bpmnElement="Flow_1ph5vjc">
