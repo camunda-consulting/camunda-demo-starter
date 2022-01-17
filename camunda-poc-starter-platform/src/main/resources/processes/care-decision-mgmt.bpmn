@@ -192,11 +192,6 @@ json.prop('status').value() == "Normal"</bpmn:conditionExpression>
 json.prop('status').value() == "Intervention"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="Activity_0xppjjq" name="Get Interpretation" camunda:asyncBefore="true" camunda:delegateExpression="${getDelegateInterpretation}">
-      <bpmn:extensionElements>
-        <camunda:field name="bizObject">
-          <camunda:expression>${interpretation}</camunda:expression>
-        </camunda:field>
-      </bpmn:extensionElements>
       <bpmn:incoming>Flow_1ph5vjc</bpmn:incoming>
       <bpmn:outgoing>Flow_1g318qn</bpmn:outgoing>
       <bpmn:dataOutputAssociation id="DataOutputAssociation_1fcalqy">

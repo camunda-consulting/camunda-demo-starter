@@ -719,7 +719,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"key\" : \"{{$guid}}\"\n}\n",
+					"raw": "{\n\t\"key\" : \"{{$guid}}\",\n    \"status\": \"Escalation\"\n}\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -821,7 +821,7 @@
 			"response": []
 		},
 		{
-			"name": "Camunda - message-start-Interpretation-Process - BP Escalation",
+			"name": "Camunda - message-start-Clinical Interpretation Process - BP Escalation",
 			"event": [
 				{
 					"listen": "test",
@@ -878,7 +878,7 @@
 			"response": []
 		},
 		{
-			"name": "Camunda - message-start-Interpretation-Process - Sodium intake Intervention",
+			"name": "Camunda - message-start-Clinical Interpretation Process - Sodium intake Intervention",
 			"event": [
 				{
 					"listen": "test",
@@ -917,7 +917,64 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"messageName\" : \"Message_start-blood-pressure-interpretation\",\n  \"businessKey\" : \"{{businessKey}}\",\n  \"processVariables\": {\n        \"case\": {\n\t\t\t\"value\": \"{\\\"id\\\": \\\"1\\\",\\\"status\\\": \\\"Normal\\\", \\\"systolic\\\": \\\"170\\\",\\\"diastolic\\\": \\\"79\\\", \\\"bmi\\\": \\\"20\\\", \\\"ldl\\\": \\\"50\\\", \\\"hdl\\\": \\\"60\\\", \\\"sodium\\\": \\\"2400\\\", \\\"hgbA1C\\\": \\\"5.1\\\", \\\"ecgEkg\\\": \\\"Normal\\\",\\\"smoker\\\": \\\"No\\\"}\",\n\t\t\t\"type\": \"Json\"\n\t\t}\n     },\n   \"withVariablesInReturn\": true\n}"
+					"raw": "{\n  \"messageName\" : \"Message_start-blood-pressure-interpretation\",\n  \"businessKey\" : \"{{businessKey}}\",\n  \"processVariables\": {\n        \"case\": {\n\t\t\t\"value\": \"{\\\"id\\\": \\\"1\\\",\\\"status\\\": \\\"Normal\\\", \\\"systolic\\\": \\\"115\\\",\\\"diastolic\\\": \\\"79\\\", \\\"bmi\\\": \\\"20\\\", \\\"ldl\\\": \\\"50\\\", \\\"hdl\\\": \\\"60\\\", \\\"sodium\\\": \\\"2500\\\", \\\"hgbA1C\\\": \\\"5.1\\\", \\\"ecgEkg\\\": \\\"Normal\\\",\\\"smoker\\\": \\\"No\\\"}\",\n\t\t\t\"type\": \"Json\"\n\t\t}\n     },\n   \"withVariablesInReturn\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/message",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Camunda - message-start-Blood Pressure Notification Process",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"messageName\" : \"Message_start-blood-pressure-notification-determination-process\",\n  \"businessKey\" : \"{{businessKey}}\",\n  \"processVariables\": {\n        \"case\": {\n\t\t\t\"value\": \"{\\\"id\\\": \\\"1\\\",\\\"status\\\": \\\"Normal\\\", \\\"systolic\\\": \\\"170\\\",\\\"diastolic\\\": \\\"79\\\", \\\"bmi\\\": \\\"20\\\", \\\"ldl\\\": \\\"50\\\", \\\"hdl\\\": \\\"60\\\", \\\"sodium\\\": \\\"2400\\\", \\\"hgbA1C\\\": \\\"5.1\\\", \\\"ecgEkg\\\": \\\"Normal\\\",\\\"smoker\\\": \\\"No\\\"}\",\n\t\t\t\"type\": \"Json\"\n\t\t},\n        \"interpretation\": {\n             \"value\": \"{\\\"id\\\": \\\"1\\\",\\\"status\\\": \\\"Normal\\\"}\",\n             \"type\": \"Json\"\n        }\n     },\n   \"withVariablesInReturn\": true\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/engine-rest/message",
