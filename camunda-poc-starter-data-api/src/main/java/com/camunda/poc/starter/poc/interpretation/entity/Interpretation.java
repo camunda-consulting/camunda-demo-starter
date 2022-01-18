@@ -28,11 +28,12 @@ public class Interpretation {
     @Column(nullable=true)
     String key;
 
-    @Column(name="status", nullable=true)
-    String status;
+    @Column(name="task_name", nullable=true)
+    String taskName;
 
-    @Column(name="reason", nullable=true)
-    String reason;
+
+    @Column(nullable=true)
+    String status;
 
     public String getKey() {
         return key;
@@ -40,6 +41,14 @@ public class Interpretation {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
     }
 
     public String getStatus() {
@@ -50,12 +59,6 @@ public class Interpretation {
         this.status = status;
     }
 
-    public String getReason() {
-        return reason;
-    }
 
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
 
 }

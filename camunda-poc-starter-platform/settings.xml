@@ -69,9 +69,9 @@ under the License.
    |-->
   <servers>
     <server>
-	<id>camunda-nexus</id>
-    <username>gustavo.mendoza@camunda.com</username>
-    <password>AKCp8kqMTJ5qmEn8JCWbk9CGnMe9f68RQzuCdDDPRU7XbZUQVzamnGsKHvdwtRgSeJAkoc9Mm</password>
+	<id>camunda-bpm-nexus-ee</id>
+    <username></username>
+    <password></password>
     </server>
   </servers>
 

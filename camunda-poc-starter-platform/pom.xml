@@ -330,9 +330,9 @@
     </repository>
     <!-- enable this for EE dependencies -->
     <repository>
-      <id>camunda-nexus</id>
+      <id>camunda-bpm-nexus-ee</id>
       <name>camunda-bpm-nexus</name>
-      <url>https://camunda.jfrog.io/artifactory/internal</url>
+      <url>https://app.camunda.com/nexus/content/repositories/camunda-bpm-ee</url>
     </repository>
 
   </repositories>

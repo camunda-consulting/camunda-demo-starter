@@ -151,38 +151,38 @@ services:
 #########################################
 # Camunda Optimize
 #########################################
-#  optimize:
-##    image: registry.camunda.cloud/optimize-ee/optimize:3.4.0
-##    environment:
-##      OPTIMIZE_CAMUNDABPM_REST_URL: http://camunda-platform-n1:8081/engine-rest
-##      OPTIMIZE_CAMUNDABPM_WEBAPPS_URL: http://camunda-platform-n1:8081/camunda
-#      OPTIMIZE_ELASTICSEARCH_HOST: optimize-elastic
-#      OPTIMIZE_ELASTICSEARCH_HTTP_PORT: 9200
-#    ports:
-#      - "8090:8090"
-#    volumes:
-#      - ./optimize-config.yaml:/optimize/config/environment-config.yaml
-#      - /Users/paullungu/.camunda/optimize-license.txt:/optimize/config/OptimizeLicense.txt:ro
-#    links:
-#      - camunda-platform
-#      - optimize-elastic
-#    depends_on:
-#      camunda-platform:
-#        condition: service_healthy
-#
-#  optimize-elastic:
-#    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.2
-#    ports:
-#      - "9200:9200"
-#    environment:
-#      - cluster.name=docker-cluster
-#      - bootstrap.memory_lock=true
-#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-#      - discovery.type=single-node
-#    ulimits:
-#      memlock:
-#        soft: -1
-#        hard: -1
+  optimize:
+    image: registry.camunda.cloud/optimize-ee/optimize:3.4.0
+    environment:
+#      OPTIMIZE_CAMUNDABPM_REST_URL: http://camunda-platform-n1:8081/engine-rest
+#      OPTIMIZE_CAMUNDABPM_WEBAPPS_URL: http://camunda-platform-n1:8081/camunda
+      OPTIMIZE_ELASTICSEARCH_HOST: optimize-elastic
+      OPTIMIZE_ELASTICSEARCH_HTTP_PORT: 9200
+    ports:
+      - "8090:8090"
+    volumes:
+      - ./optimize-config.yaml:/optimize/config/environment-config.yaml
+      - /Users/paullungu/.camunda/optimize-license.txt:/optimize/config/OptimizeLicense.txt:ro
+    links:
+      - camunda-platform
+      - optimize-elastic
+    depends_on:
+      camunda-platform:
+        condition: service_healthy
+
+  optimize-elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.2
+    ports:
+      - "9200:9200"
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
 
 #########################################
 # Spring-Boot Admin Server
@@ -323,7 +323,7 @@ services:
   ##########################################
   #      - Redis server
   ##########################################
-#  redis:
-#    image: 'bitnami/redis:latest'
-#    environment:
-#      - ALLOW_EMPTY_PASSWORD=yes
+  redis:
+    image: 'bitnami/redis:latest'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
