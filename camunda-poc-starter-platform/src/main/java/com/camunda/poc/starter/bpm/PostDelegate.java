@@ -59,9 +59,8 @@ public class PostDelegate implements JavaDelegate {
     interpretJo.put("reason", determinedReason);
     LOGGER.info("\n\n  ...JSON PAYLOAD: " + interpretJo.toString());
 
-    String objectTypeStr = "interpretations";
     //Use fluent HTTP api to execute Post request
-    HttpResponse response = Request.Post(dataApiUri + "/" + objectTypeStr + "/")
+    HttpResponse response = Request.Post(dataApiUri + "/" + "interpretations"+ "/")
             .bodyString(interpretJo.toString(), ContentType.APPLICATION_JSON)
             .execute().returnResponse();
 
