@@ -35,7 +35,10 @@ public class Interpretation {
     @Column(name="pathway", nullable=true)
     String pathway;
 
-    @Column(nullable=true)
+    @Column(name="status", nullable=true)
     String status;
+
+    @Column(name="reason", nullable=true)
+    String reason;
 
 }
