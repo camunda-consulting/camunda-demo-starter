@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="Definitions_PreDiagnosed_Pathway_Determination_Tree" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.11.1" camunda:diagramRelationId="48f140e0-e391-41a8-9377-00f4c09c652d">
+  <decision id="Decision_Blood_Pressure_Status" name="Blood Pressure Status">
+    <informationRequirement id="InformationRequirement_0v705hk">
+      <requiredInput href="#InputData_0sqlp51" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0azx1hv" hitPolicy="FIRST">
+      <input id="Input_1" label="Top number (systolic) in mm Hg" biodi:width="308">
+        <inputExpression id="InputExpression_1" typeRef="integer">
+          <text>case.systolic</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1ynxdtw" label="Bottom number (diastolic) in mm Hg" biodi:width="323">
+        <inputExpression id="LiteralExpression_0ng3lqd" typeRef="integer">
+          <text>case.diastolic</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Blood Pressure Status" name="bpStatus" typeRef="string" />
+      <rule id="DecisionRule_1qmba2p">
+        <inputEntry id="UnaryTests_10kdbyg">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0gln9ho">
+          <text>&gt;100</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_11nwf03">
+          <text>"Escalation"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1do0l2p">
+        <inputEntry id="UnaryTests_0whe7a8">
+          <text>&gt;160</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1aedr1r">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1q8snuy">
+          <text>"Escalation"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_05tq8jy">
+        <inputEntry id="UnaryTests_111f8c6">
+          <text>[120..160]</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0vwip6l">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0pcgjzv">
+          <text>"Intervention"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1g7ssnu">
+        <inputEntry id="UnaryTests_0fzwcwk">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0p4ny8m">
+          <text>[80..100]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0z8t4c2">
+          <text>"Intervention"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_05y5w8e">
+        <inputEntry id="UnaryTests_0jrl78h">
+          <text>&lt;120</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_126tedl">
+          <text>&lt;80</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_00mzi0k">
+          <text>"Stable"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0sqlp51" name="Reading (systolic and diastolic values)" />
+  <decision id="Decision_PreDiagnosed_Pathway_Det" name="Pre-Diagnosed Pathway Determination">
+    <informationRequirement id="InformationRequirement_1ljx1u4">
+      <requiredDecision href="#Decision_Blood_Pressure_Status" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0wz0nwt">
+      <requiredDecision href="#Decision_BMI_Status" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0jazfxq">
+      <requiredDecision href="#Decision_Lipid_Profile_Status" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1cxxhsx">
+      <requiredDecision href="#Decision_Sodium_Intake_Status" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_14fj0up">
+      <requiredDecision href="#Decision_Hemogoblin_A1C_Status" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0cjcgms" hitPolicy="FIRST">
+      <input id="InputClause_07syt91" label="Blood Pressure Status" camunda:inputVariable="bpStatus">
+        <inputExpression id="LiteralExpression_10q1b7x" typeRef="string" />
+      </input>
+      <input id="InputClause_1bice67" label="BMI Status" camunda:inputVariable="bmiStatus">
+        <inputExpression id="LiteralExpression_1ltbv0p" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0rzwwtg" label="Lipid Profile Status" camunda:inputVariable="lipidProfileStatus">
+        <inputExpression id="LiteralExpression_1lzwihp" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_17epny9" label="Sodium Intake Status" camunda:inputVariable="sodiumStatus">
+        <inputExpression id="LiteralExpression_0q2jwbf" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1htj90p" label="hgb A1C Status" camunda:inputVariable="hgbA1cStatus">
+        <inputExpression id="LiteralExpression_1otph9m" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1mpld76" label="ECG/EKG">
+        <inputExpression id="LiteralExpression_15mknnb" typeRef="string">
+          <text>case.ecgEkg</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0jekfld" label="Smoker">
+        <inputExpression id="LiteralExpression_09vqsxv" typeRef="string">
+          <text>case.smoker</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0603gfs" label="Pathway" name="pathway" typeRef="string" />
+      <output id="OutputClause_1b6vilm" label="Reason" name="reason" typeRef="string" />
+      <rule id="DecisionRule_1a3926w">
+        <inputEntry id="UnaryTests_16smtcr">
+          <text>"Escalation"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0h81w4h">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0nhf6pg">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_13dlo8h">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1mn7npy">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0gkiikv">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1xar475">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_005nxw4">
+          <text>"Escalation"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1gxjxtu">
+          <text>"Very High Blood Pressure"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1tx8pdm">
+        <inputEntry id="UnaryTests_1qibhoi">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_18af0md">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_15w6n2o">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1d5911n">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0e9p7h1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_19wh5y3">
+          <text>"Irregular"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0e8l6x3">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1yd230a">
+          <text>"Escalation"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0eg8z7l">
+          <text>"ECG/EKG Irregular Heart Beat"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_07txt3a">
+        <inputEntry id="UnaryTests_06api2k">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0rp2fmk">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00wy9rm">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1hy4d3q">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_05m3nek">
+          <text>"Diabetes very high"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1c0v1tk">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ikj0of">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1avd0va">
+          <text>"Escalation"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0yadnja">
+          <text>"hgb A1C"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1bis1u4">
+        <inputEntry id="UnaryTests_0hhxaok">
+          <text>"Intervention"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1bmivyn">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1667g0a">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0vkbrz4">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1tqc336">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0k0bh23">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1w953wu">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0x5upri">
+          <text>"Intervention"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_18excxz">
+          <text>"High Blood Pressure"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_04yr178">
+        <inputEntry id="UnaryTests_0z4b5a3">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1g12ys8">
+          <text>"High"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0zfy0v2">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14d7kiu">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0i458ao">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0cmm3x1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04ry8ia">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1bi2hcj">
+          <text>"Intervention"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0w256hu">
+          <text>"BMI"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1c3vwfl">
+        <inputEntry id="UnaryTests_0i3ybc5">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0r11w34">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08y3c6z">
+          <text>"High"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0dldnhb">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1b9rycl">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_06nshdc">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0qd4mfm">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1g89phi">
+          <text>"Intervention"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0gq3sau">
+          <text>"Lipid Profile"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1h9rb3j">
+        <inputEntry id="UnaryTests_1islmm6">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0kpjd7d">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0j3b4bi">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12mc5ms">
+          <text>"High"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0w7akce">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_02wndib">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ozpsdw">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0i42eir">
+          <text>"Intervention"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1tsktx9">
+          <text>"Sodium Intake"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ph46yu">
+        <inputEntry id="UnaryTests_05f1siu">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0olrn1r">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1j1ogr8">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08eklx7">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0drldt6">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1gj1sdo">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_06tcylr">
+          <text>"Yes"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ivhsbv">
+          <text>"Intervention"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0r8gnxd">
+          <text>"Smoker"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0aamlv5">
+        <inputEntry id="UnaryTests_108dwf7">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0vaiiym">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_03qzyxq">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1njnj7k">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1nmjblq">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0wfidht">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_19840vo">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ztz6io">
+          <text>"Normal"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0s2w1xd">
+          <text>"Normal"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <decision id="Decision_BMI_Status" name="BMI Status">
+    <informationRequirement id="InformationRequirement_0y44dz7">
+      <requiredInput href="#InputData_0g6gjsj" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_1birnb7">
+      <input id="InputClause_0jrmj25" label="BMI">
+        <inputExpression id="LiteralExpression_0ew4kpp" typeRef="double">
+          <text>case.bmi</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0zslt7z" label="BMI Status" name="bmiStatus" typeRef="string" />
+      <rule id="DecisionRule_12oulny">
+        <inputEntry id="UnaryTests_07fw1d9">
+          <text>&lt;25</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1nxqa6b">
+          <text>"Normal"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_025fxgr">
+        <inputEntry id="UnaryTests_17s2ehm">
+          <text>&gt;=25</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1kw9jt2">
+          <text>"High"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0g6gjsj" name="BMI value" />
+  <decision id="Decision_Lipid_Profile_Status" name="Lipid Profile Status">
+    <informationRequirement id="InformationRequirement_1ezu7yf">
+      <requiredInput href="#InputData_1uznten" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_1bo1k76">
+      <input id="InputClause_0py8x1t" label="LDL">
+        <inputExpression id="LiteralExpression_07qnxjo" typeRef="integer">
+          <text>case.ldl</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_13xrt84" label="HDL">
+        <inputExpression id="LiteralExpression_010tjpf" typeRef="integer">
+          <text>case.hdl</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_12iqnv2" label="Lipid Profile Status" name="lipidProfileStatus" typeRef="string" />
+      <rule id="DecisionRule_1bot25w">
+        <inputEntry id="UnaryTests_01u110v">
+          <text>&lt;100</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1l80i6k">
+          <text>&gt;40</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_10x0okm">
+          <text>"Normal"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1cz0e0t">
+        <inputEntry id="UnaryTests_1ipv98t">
+          <text>&gt;100</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1wen1oz">
+          <text>&lt;40</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0zsp445">
+          <text>"High"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1uznten" name="HDL, LDL" />
+  <decision id="Decision_Sodium_Intake_Status" name="Sodium Intake Status">
+    <informationRequirement id="InformationRequirement_089k9xq">
+      <requiredInput href="#InputData_0mfvrgi" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_15zjpj5">
+      <input id="InputClause_15ii3xh" label="Sodium Intake">
+        <inputExpression id="LiteralExpression_1tz28on" typeRef="integer">
+          <text>case.sodium</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_1r435y1" label="Sodium Status" name="sodiumStatus" typeRef="string" />
+      <rule id="DecisionRule_1vndb7e">
+        <inputEntry id="UnaryTests_1lpjpn3">
+          <text>&lt;2300</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1i4hc4n">
+          <text>"Normal"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1pva4oi">
+        <inputEntry id="UnaryTests_0uk1jtf">
+          <text>&gt;=2300</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_18rifuo">
+          <text>"High"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0mfvrgi" name="Sodium value from patient record" />
+  <decision id="Decision_Hemogoblin_A1C_Status" name="Hemoglobin A1C Status">
+    <informationRequirement id="InformationRequirement_05wmng3">
+      <requiredInput href="#InputData_0g6ew9x" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_0ig7xgj">
+      <input id="InputClause_0ogwvsk" label="Hemoglobin A1C">
+        <inputExpression id="LiteralExpression_0vs85d0" typeRef="double">
+          <text>case.hgbA1C</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_19ngv18" label="Hgb A1C Status" name="hgbA1cStatus" typeRef="string" />
+      <rule id="DecisionRule_05kmqxj">
+        <inputEntry id="UnaryTests_064o0k6">
+          <text>&lt;5.6</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_11tt29q">
+          <text>"Normal"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1jveeye">
+        <inputEntry id="UnaryTests_0dq31yu">
+          <text>[5.6..6.5]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0xnvhxr">
+          <text>"Pre-Diabetes"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1e909lb">
+        <inputEntry id="UnaryTests_1mjgpwt">
+          <text>[6.5..9]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1irlp5j">
+          <text>"Diabetes"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1e10nqp">
+        <inputEntry id="UnaryTests_02cwnkh">
+          <text>&gt;9</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0rst1t5">
+          <text>"Diabetes very high"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0g6ew9x" name="Hgb A1C" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="Decision_Blood_Pressure_Status">
+        <dc:Bounds height="80" width="180" x="160" y="240" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0xeq0n6" dmnElementRef="InputData_0sqlp51">
+        <dc:Bounds height="45" width="125" x="177" y="417" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_149doqp" dmnElementRef="InformationRequirement_0v705hk">
+        <di:waypoint x="240" y="417" />
+        <di:waypoint x="250" y="340" />
+        <di:waypoint x="250" y="320" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1l3unqi" dmnElementRef="InformationRequirement_1ljx1u4">
+        <di:waypoint x="250" y="240" />
+        <di:waypoint x="650" y="140" />
+        <di:waypoint x="650" y="120" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1o9nadn" dmnElementRef="Decision_PreDiagnosed_Pathway_Det">
+        <dc:Bounds height="80" width="180" x="620" y="40" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0rg7ip0" dmnElementRef="Decision_BMI_Status">
+        <dc:Bounds height="80" width="180" x="380" y="240" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1p7lw95" dmnElementRef="InformationRequirement_0wz0nwt">
+        <di:waypoint x="470" y="240" />
+        <di:waypoint x="680" y="140" />
+        <di:waypoint x="680" y="120" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1sg04fh" dmnElementRef="InputData_0g6gjsj">
+        <dc:Bounds height="45" width="125" x="407" y="437" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_100mq1j" dmnElementRef="InformationRequirement_0y44dz7">
+        <di:waypoint x="470" y="437" />
+        <di:waypoint x="470" y="340" />
+        <di:waypoint x="470" y="320" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1p0wbih" dmnElementRef="Decision_Lipid_Profile_Status">
+        <dc:Bounds height="80" width="180" x="572" y="240" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_167i0ea" dmnElementRef="InputData_1uznten">
+        <dc:Bounds height="45" width="125" x="599" y="447" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0ia27xk" dmnElementRef="InformationRequirement_0jazfxq">
+        <di:waypoint x="662" y="240" />
+        <di:waypoint x="710" y="140" />
+        <di:waypoint x="710" y="120" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_1f0ibd0" dmnElementRef="Decision_Sodium_Intake_Status">
+        <dc:Bounds height="80" width="180" x="790" y="240" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0qwf70s" dmnElementRef="InformationRequirement_1cxxhsx">
+        <di:waypoint x="880" y="240" />
+        <di:waypoint x="740" y="140" />
+        <di:waypoint x="740" y="120" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_16nb6qw" dmnElementRef="InputData_0mfvrgi">
+        <dc:Bounds height="45" width="125" x="817" y="447" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_0tlqwyc" dmnElementRef="InformationRequirement_089k9xq">
+        <di:waypoint x="880" y="447" />
+        <di:waypoint x="880" y="340" />
+        <di:waypoint x="880" y="320" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0srs4sl" dmnElementRef="Decision_Hemogoblin_A1C_Status">
+        <dc:Bounds height="80" width="180" x="1000" y="240" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1fnzczr" dmnElementRef="InformationRequirement_14fj0up">
+        <di:waypoint x="1090" y="240" />
+        <di:waypoint x="770" y="140" />
+        <di:waypoint x="770" y="120" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1hcx22t" dmnElementRef="InformationRequirement_1ezu7yf">
+        <di:waypoint x="662" y="447" />
+        <di:waypoint x="662" y="340" />
+        <di:waypoint x="662" y="320" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_08w7k4b" dmnElementRef="InputData_0g6ew9x">
+        <dc:Bounds height="45" width="125" x="1057" y="417" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_04ygsno" dmnElementRef="InformationRequirement_05wmng3">
+        <di:waypoint x="1120" y="417" />
+        <di:waypoint x="1090" y="340" />
+        <di:waypoint x="1090" y="320" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
