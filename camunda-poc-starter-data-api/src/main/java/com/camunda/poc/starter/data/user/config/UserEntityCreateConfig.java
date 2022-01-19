@@ -1,10 +1,7 @@
-package com.camunda.poc.starter.poc.submission.config;
+package com.camunda.poc.starter.data.user.config;
 
-import com.camunda.poc.starter.data.status.entity.Status;
 import com.camunda.poc.starter.data.user.entity.User;
 import com.camunda.poc.starter.data.user.repo.UserRepository;
-import com.camunda.poc.starter.poc.submission.entity.Submission;
-import com.camunda.poc.starter.poc.submission.repo.SubmissionRepository;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
@@ -18,24 +15,23 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 
 import java.sql.SQLException;
-import java.util.*;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Logger;
 
-@Profile("poc-submission")
+@Profile("poc-user")
 @Configuration
-public class DbEntityCreateConfig {
+public class UserEntityCreateConfig {
 
-    private UserRepository userRepository;
-    private SubmissionRepository damageReportRepository;
+    private UserRepository repository;
 
     @Autowired
-    public DbEntityCreateConfig(UserRepository userRepository,
-                                SubmissionRepository damageReportRepository){
-        this.userRepository = userRepository;
-        this.damageReportRepository = damageReportRepository;
+    public UserEntityCreateConfig(UserRepository repository){
+        this.repository = repository;
     }
 
-    private final Logger LOGGER = Logger.getLogger(DbEntityCreateConfig.class.getName());
+    private final Logger LOGGER = Logger.getLogger(Class.class.getName());
 
     @Value("${spring.datasource.url}")
     private String url;
@@ -52,7 +48,7 @@ public class DbEntityCreateConfig {
      * @throws SQLException
      */
     @EventListener
-    @org.springframework.core.annotation.Order(1)
+    @org.springframework.core.annotation.Order(10)
     public void onApplicationEvent(ContextRefreshedEvent event) throws SQLException {
 
         LOGGER.info("\n\n ********************** post app hook *********************** \n\n ");
@@ -69,10 +65,7 @@ public class DbEntityCreateConfig {
                         .applySettings(settings).build();
 
         MetadataSources metadata = new MetadataSources(serviceRegistry);
-        metadata.addAnnotatedClass(Submission.class);
         metadata.addAnnotatedClass(User.class);
-        metadata.addAnnotatedClass(Status.class);
-
 
         EnumSet<TargetType> enumSet = EnumSet.of(TargetType.DATABASE);
 
@@ -96,52 +89,22 @@ public class DbEntityCreateConfig {
     public void onApplicationEventCreateContact(ContextRefreshedEvent event) throws SQLException {
 
 
-        if (userRepository.count() == 0) {
-
-            LOGGER.info("\n\n ********************** Create Contact Post Init Hook *********************** \n\n ");
+        if (repository.count() == 0) {
+            LOGGER.info("\n\n **** Create User Post Init Hook ***** \n\n ");
 
             User user = new User();
-            user.setCity("Denver");
-            user.setCountry("USA");
-            user.setEmail("paul.lungu@camunda.com");
             user.setFirst("Paul");
             user.setLast("Lungu");
-            user.setManager("Ragner");
-            user.setPhone("134-232-2344");
+            user.setEmail("paul.lungu@camunda.com");
+            user.setManager("Victor");
+            user.setCity("Lafayette");
+            user.setCountry("USA");
             user.setState("Colorado");
-            user.setStreet("Atlantis");
-            user.setZip("80026");
-            user.setGroups("group-a,group-b");
+            user.setStreet("1234 Atlantis Ave");
+            repository.save(user);
 
-            userRepository.save(user);
-            LOGGER.info("\n\n **** Contact Created ****** \n\n");
+            LOGGER.info("\n\n **** User Created ****** \n\n");
         }
     }
-
-
-//    /**
-//     *
-//     * @param event
-//     * @throws SQLException
-//     */
-//    @EventListener
-//    @org.springframework.core.annotation.Order(21)
-//    public void onApplicationEventCreateDamageReport(ContextRefreshedEvent event) throws SQLException {
-//
-//        if (damageReportRepository.count() == 0) {
-//
-//            for (int i = 0; i < 5; i++) {
-//                String uuid = UUID.randomUUID().toString();
-//                DamageReport item = new DamageReport();
-//                item.setDamageKey(uuid);
-//                item.setDamageDate(new Date());
-//
-//                damageReportRepository.save(item);
-//            }
-//
-//            LOGGER.info("\n\n **** Damage Reports Created ****** \n\n");
-//        }
-//    }
-
 
 } //END CLASS

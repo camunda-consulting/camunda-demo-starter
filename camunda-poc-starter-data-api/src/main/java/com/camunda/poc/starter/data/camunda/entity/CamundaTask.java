@@ -1,4 +1,4 @@
-package com.camunda.poc.starter.entity.data;
+package com.camunda.poc.starter.data.camunda.entity;
 
 import org.springframework.context.annotation.Profile;
 

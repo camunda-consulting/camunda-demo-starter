@@ -1,7 +1,7 @@
-package com.camunda.poc.starter.repo.camunda;
+package com.camunda.poc.starter.data.camunda.repo;
 
 
-import com.camunda.poc.starter.entity.data.CamundaServiceRequestTask;
+import com.camunda.poc.starter.data.camunda.entity.CamundaServiceRequestTask;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.repository.PagingAndSortingRepository;
 

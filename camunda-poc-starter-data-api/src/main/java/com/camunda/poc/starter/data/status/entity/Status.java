@@ -1,11 +1,11 @@
-package com.camunda.poc.starter.entity.workflow;
+package com.camunda.poc.starter.data.status.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.context.annotation.Profile;
 
 import javax.persistence.*;
 
-@Profile("poc")
+@Profile("poc-status")
 @Entity(name="poc_status")
 public class Status {
 

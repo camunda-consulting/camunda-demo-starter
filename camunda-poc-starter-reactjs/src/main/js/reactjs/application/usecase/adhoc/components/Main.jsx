@@ -43,7 +43,7 @@ class Main extends React.Component{
         callUpdateAll: function (pageSize, that) {
             console.log("callUpdateAll");
             that.loadObjectsFromServer(pageSize, 'cases');
-            // that.loadUserFromServer("paul.lungu@camunda.com");
+            that.loadUserFromServer("paul.lungu@camunda.com");
         },
         callUpdateItem: function (key, that) {
             console.log("Detail => callUpdateItem: "+ JSON.stringify(key));
@@ -66,10 +66,10 @@ class Main extends React.Component{
     }
     // end::did-mount[]
 
-    componentDidUpdate() {
-      console.log("Detail Component Did Update");
-        // this.state.callUpdateAll(this.state.submission.businessKey, this);
-    }
+    // componentDidUpdate() {
+    //   console.log("Detail Component Did Update");
+    //   this.state.callUpdateAll(this.state.submission.key, this);
+    // }
 
     toggleForm(form){
         if (form == "detail"){
@@ -186,11 +186,11 @@ class Main extends React.Component{
     // end::follow-2[]
 
     // tag::on-loadByKeyFromServer[]
-    loadByKeyFromServer(businessKey) {
+    loadByKeyFromServer(key) {
         follow(client, apiRoot, [
-            {rel: 'submissions'},
+            {rel: 'cases'},
             {rel: 'search'},
-            {rel: 'findSubmissionByBusinessKey', params: {businessKey: businessKey}}
+            {rel: 'findCaseByKey', params: {key: key}}
           ]
         ).then(itemCollection => {
             return client({
@@ -268,13 +268,13 @@ class Main extends React.Component{
       var info = "";
       var workflow = "";
 
-      //console.log("Detail Render: "+JSON.stringify(this.state.submission));
+      console.log("Main Render Submission: "+JSON.stringify(this.state.submission));
 
       if (this.state.submission.id != null) {
          info =  <Info item={this.state.submission} contact={this.state.contact}/>
       }
 
-      if (this.state.submission.businessKey != null) {
+      if (this.state.submission.key != null) {
           console.log("Detail Render: "+JSON.stringify(this.state.submission));
 
           workflow =  <Workflow businessKey={this.state.submission.businessKey}/>

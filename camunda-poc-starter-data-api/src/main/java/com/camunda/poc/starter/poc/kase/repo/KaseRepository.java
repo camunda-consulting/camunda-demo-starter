@@ -3,6 +3,7 @@ package com.camunda.poc.starter.poc.kase.repo;
 import com.camunda.poc.starter.poc.kase.entity.Case;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 
 @Profile("poc-es")
 public interface KaseRepository extends PagingAndSortingRepository<Case, Long>{
@@ -20,5 +21,7 @@ public interface KaseRepository extends PagingAndSortingRepository<Case, Long>{
 //            @Param("rejected") Boolean rejected, @Param("started") Boolean started);
 //
 //	ServiceRequestEntity findServiceRequestByServiceId(@Param("serviceId") String serviceId);
+
+    Case findCaseByKey(@Param("key") String key);
 
 }

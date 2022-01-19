@@ -1,4 +1,4 @@
-package com.camunda.poc.starter.entity.workflow;
+package com.camunda.poc.starter.data.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Profile;
 
 import javax.persistence.*;
 
-@Profile("poc")
-@Entity(name="poc")
+@Profile("poc-user")
+@Entity(name="poc_user")
 @Getter
 @Setter
 public class User {

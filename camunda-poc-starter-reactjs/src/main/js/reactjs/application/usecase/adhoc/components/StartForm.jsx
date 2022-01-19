@@ -57,7 +57,7 @@ class StartForm extends React.Component {
                         <select className="form-registration-input"
                                 ref="pid"
                                 onChange={this.handleChange}
-                                value={this.props.submission.businessKey} >
+                                value={this.props.submission.key} >
 
                             <option defaultValue>Select Existing Case</option>
                             {options}
