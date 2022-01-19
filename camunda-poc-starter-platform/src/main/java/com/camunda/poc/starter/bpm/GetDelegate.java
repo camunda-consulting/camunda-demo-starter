@@ -1,14 +1,11 @@
 package com.camunda.poc.starter.bpm;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.client.fluent.Request;
-import org.apache.http.entity.ContentType;
-import org.camunda.bpm.engine.delegate.BpmnError;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.Expression;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.camunda.spin.Spin;
-import org.camunda.spin.impl.json.jackson.JacksonJsonNode;
+import org.camunda.spin.json.SpinJsonNode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -31,9 +28,10 @@ public class GetDelegate implements JavaDelegate {
   private Expression bizObject;
 
   //get the value of the type of object to submit
-  private Expression objectType;
+  private Expression bizObjectName;
 
-  private Expression workflowPersistenceName;
+  //Use Camunda field injection to get the value from the workflow config
+  private Expression searchTerm;
 
   private final Logger LOGGER = Logger.getLogger(Class.class.getName());
   
@@ -49,55 +47,32 @@ public class GetDelegate implements JavaDelegate {
             + ", Data URI= " + dataApiUri
             + " \n\n");
 
-    //Get the business object
-    JacksonJsonNode bizObj = (JacksonJsonNode) bizObject.getValue(execution);
+    //Get the Spin Json object from the Camunda field injection expression
+    SpinJsonNode bizObj = BpmUtil.getBizObjectNode(execution, bizObject);
 
-    //poc demo purposes to show things like exception and error handliing in the process
-    Boolean error = (Boolean) execution.getVariable("error");
-    Boolean exception = (Boolean) execution.getVariable("exception");
+    //Get the searchTerm string from the field injection expression
+    String searchTermStr = BpmUtil.getSearchTermString(execution, searchTerm);
 
-    if (bizObj != null) {
-      LOGGER.info(" \n\n ====>> Biz Object " + bizObj.toString() + "\n");
+    //build the dataURI for the api endpoint
+    Integer id = (Integer) bizObj.prop("id").numberValue();
+    String dataURI = dataApiUri + "/" + searchTermStr + "/" + id;
+    LOGGER.info(" \n\n ====>> Data URI " + dataURI + "\n");
 
-      Integer id = (Integer) bizObj.prop("id").numberValue();
-      String objectTypeStr = objectType.getValue(execution).toString();
+    try {
+      //Use fluent HTTP api to execute request
+      String content = Request.Get(dataURI).execute().returnContent().asString();
+      LOGGER.info(" \n\n ====>> Response Body " + content + "\n");
+      //convert the response into SpinJsonNode
+      SpinJsonNode bizObjResponse = Spin.S(content);
 
-      String dataURI = dataApiUri + "/" + objectTypeStr + "/" + id;
-      LOGGER.info(" \n\n ====>> Data URI " + dataURI + "\n");
-      //Use fluent HTTP api to execute PATCH request
+      //set the businessKey into the business object
+      bizObj = BpmUtil.setBusinessKey(execution, bizObjResponse);
 
-      try {
-        String content = Request.Get(dataURI).execute().returnContent().asString();
+      //Set the business object into Camunda execution
+      BpmUtil.setBizObject(execution, bizObjectName, bizObjResponse);
 
-        bizObj = Spin.S(content);
-
-        LOGGER.info(" \n\n ====>> Response Body " + content + "\n");
-
-        if (bizObj != null) {
-
-          LOGGER.info(" \n\n ====>> Biz Object " + bizObj.toString() + "\n");
-
-          String workflowPersistenceNameStr = workflowPersistenceName.getValue(execution).toString();
-
-          if (workflowPersistenceNameStr != null) {
-            execution.setVariable(workflowPersistenceNameStr, bizObj);
-          } else {
-            execution.setVariable(objectTypeStr, bizObj);
-          }
-        }
-
-      } catch (Exception e) {
-        throw new Error("\n\n ====>> Invalid Response: Biz Database not updated!!!");
-      }
-
-      if (error != null && error)
-      {
-        throw new BpmnError("Invalid Data Found!");
-      }
-      else if (exception != null && exception)
-      {
-        throw new Exception("Unknown Exception Detected. Service may be down!!!");
-      }
+    } catch (Exception e) {
+      throw new Error("\n\n ====>> Error: Biz Data Search Failed for term: " +searchTermStr);
     }
   }
 }

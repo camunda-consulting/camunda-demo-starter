@@ -6,8 +6,8 @@
 'use strict';
 
 const React = require('react');
-const ActionBar = require('SaveActionBar');
-const ConfirmActionBar = require('ConfirmActionBar');
+const ActionBar = require('src/main/js/reactjs/application/usecase/adhoc/components/SaveActionBar');
+const ConfirmActionBar = require('src/main/js/reactjs/application/usecase/adhoc/components/ConfirmActionBar');
 
 
 class DetailForm extends React.Component {

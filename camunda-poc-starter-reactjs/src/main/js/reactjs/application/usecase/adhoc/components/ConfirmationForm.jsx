@@ -7,7 +7,7 @@
 
 const React = require('react');
 
-const ConfirmActionBar = require('ConfirmActionBar');
+const ConfirmActionBar = require('src/main/js/reactjs/application/usecase/adhoc/components/ConfirmActionBar');
 
 class ConfirmationForm extends React.Component {
         

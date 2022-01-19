@@ -20,8 +20,8 @@ import java.util.logging.Logger;
  * from within a BPMN 2.0 Service Task.
  * Spring-bean can be accessed as a Delegate Expression
  */
-@Component("patchDelegate")
-public class PatchDelegate implements JavaDelegate {
+@Component("postDelegate")
+public class PostDelegate implements JavaDelegate {
 
   @Value("${data.api.uri}")
   String dataApiUri;
@@ -49,7 +49,6 @@ public class PatchDelegate implements JavaDelegate {
             + ", Data URI= " + dataApiUri
             + " \n\n");
 
-
     //Get the Spin Json object from the Camunda field injection expression
     SpinJsonNode bizObj = BpmUtil.getBizObjectNode(execution, bizObject);
 
@@ -60,17 +59,17 @@ public class PatchDelegate implements JavaDelegate {
     String searchTermStr = BpmUtil.getSearchTermString(execution, searchTerm);
 
     //build the dataURI for the api endpoint
-    Integer id = (Integer) bizObj.prop("id").numberValue();
-    String dataURI = dataApiUri + "/" + searchTermStr + "/" + id;
+    String dataURI = dataApiUri + "/" + searchTermStr + "/";
     LOGGER.info(" \n\n ====>> Data URI " + dataURI + "\n");
 
     try {
-    //Use fluent HTTP api to execute PATCH request
-    HttpResponse response = Request.Patch(dataURI)
+    //Use fluent HTTP api to execute request
+    HttpResponse response = Request.Post(dataURI)
             .bodyString(bizObj.toString(), ContentType.APPLICATION_JSON)
             .execute().returnResponse();
       LOGGER.info(" \n\n ====>> Response Body " + response + "\n");
 
+      //check the response and throw exception if things are not OK
       if (response.getStatusLine().getStatusCode() == 200
         || response.getStatusLine().getStatusCode() == 202
         || response.getStatusLine().getStatusCode() == 204) {
@@ -84,6 +83,5 @@ public class PatchDelegate implements JavaDelegate {
     } catch (Exception e) {
       throw new Error("\n\n ====>> Error: Biz Data Search Failed for term: " +searchTermStr);
     }
-
   }
 }

@@ -6,6 +6,7 @@ import org.camunda.bpm.engine.delegate.Expression;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.camunda.bpm.engine.variable.Variables;
 import org.camunda.spin.impl.json.jackson.JacksonJsonNode;
+import org.camunda.spin.json.SpinJsonNode;
 import org.camunda.spin.plugin.variable.SpinValues;
 import org.camunda.spin.plugin.variable.value.JsonValue;
 import org.json.JSONObject;
@@ -42,6 +43,7 @@ public class StartWorkflowDelegate implements JavaDelegate {
   //Use Camunda field injection to get the value from the workflow config
   private Expression workflowKey;
 
+  //Camunda Overriden marker API
   public void execute(DelegateExecution execution) throws Exception {
 
     LOGGER.info("\n\n  ... "+Class.class.getName()+" invoked by "
@@ -53,41 +55,22 @@ public class StartWorkflowDelegate implements JavaDelegate {
             + ", executionId=" + execution.getId()
             + " \n\n");
 
+    //Get the Spin Json object from the Camunda field injection expression
+    SpinJsonNode bizObj = BpmUtil.getBizObjectNode(execution, bizObject);
+
+    bizObj = BpmUtil.setBusinessKey(execution, bizObj);
+
     //Get the business object
-    JsonValue jsonValue = null;
-    if (bizObject != null) {
-      JacksonJsonNode bizObj = (JacksonJsonNode) bizObject.getValue(execution);
-      LOGGER.info(" \n\n ====>> Biz Object " + bizObj.toString() + "\n");
-      //Use Camunda Value Type API to create a Json Object
-      jsonValue = SpinValues.jsonValue(bizObj).create();
-    } else {
-      throw new Exception("Business Object Doesn't Exist, please set the bizObject Expression");
-    }
+    JsonValue jsonValue = SpinValues.jsonValue(bizObj).create();
 
-    //Get the name of the object to presist in the workflow
-    String bizObjectNameStr = null;
-    if (bizObjectName != null) {
-      bizObjectNameStr = bizObjectName.getValue(execution).toString();
-    }else {
-      throw new Exception("No name defined to persist object in workflow, please set the bizObjectName");
-    }
+    String wfKey = BpmUtil.getWorkflowKey(execution, workflowKey);
 
-    String wfKey = null;
-    if (workflowKey != null) {
-      wfKey = workflowKey.getValue(execution).toString();
-    }else {
-      throw new Exception("No name defined to persist object in workflow, please set the bizObjectName");
-    }
-
-    String businessKey = (String) execution.getBusinessKey();
-    if (businessKey == null) {
-      throw new Exception("No BusinessKey set in workflow, please set the BusinessKey");
-    }
+    String bizObjectNameStr = BpmUtil.getBizObjectNameString(execution, bizObjectName);
 
     //Use Camunda Message API to start the workflow
     runtimeService.correlateMessage(
             wfKey,
-            businessKey,
+            bizObj.prop("key").stringValue(),
             //Pass the JSON Object to Camunda starting the workflow
             Variables.createVariables()
                     .putValueTyped(bizObjectNameStr, jsonValue)

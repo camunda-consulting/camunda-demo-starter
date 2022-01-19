@@ -9,12 +9,12 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 
-const Detail = require('Detail');
+const Detail = require('UseCaseMain');
 
 // end::vars[]
 
 // tag::app[]
-class Home extends React.Component {
+class Parent extends React.Component {
 
     constructor(props) {
         super(props);
@@ -47,4 +47,4 @@ class Home extends React.Component {
 }
 // end::app[]
 
-module.exports = Home;
+module.exports = Parent;

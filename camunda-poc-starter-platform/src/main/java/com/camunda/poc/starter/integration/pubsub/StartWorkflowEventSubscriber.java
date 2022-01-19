@@ -1,4 +1,4 @@
-package com.camunda.poc.starter.poc.submission.pubsub;
+package com.camunda.poc.starter.integration.pubsub;
 
 import com.camunda.poc.starter.integration.pubsub.Event;
 import com.camunda.poc.starter.integration.pubsub.EventChannels;
@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Profile;
 import java.util.Map;
 import java.util.logging.Logger;
 
-@Profile("fda")
+@Profile("pubsub")
 @EnableBinding(EventChannels.class)
 public class StartWorkflowEventSubscriber {
 

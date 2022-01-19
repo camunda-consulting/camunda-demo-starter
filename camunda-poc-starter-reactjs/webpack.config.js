@@ -42,21 +42,20 @@ module.exports = {
             applicaitonStyles: 'src/main/resources/static/app.css',
             // END Generic Reusable Components
 
-            //Order App Components
-            Main: 'src/main/js/reactjs/application/usecase/adhoc/components/Main.jsx',
-            MarketingBar: 'src/main/js/reactjs/application/usecase/adhoc/components/MarketingBar.jsx',
-            StatusBar: 'src/main/js/reactjs/application/usecase/adhoc/components/StatusBar.jsx',
-            FooterBar: 'src/main/js/reactjs/application/usecase/adhoc/components/FooterBar.jsx',
+            //App Components
+            Main: 'src/main/js/reactjs/application/components/main/Main.jsx',
+            Home: 'src/main/js/reactjs/application/components/main/Parent.jsx',
 
-            Home: 'src/main/js/reactjs/application/usecase/adhoc/components/home/Home.jsx',
-            Detail: 'src/main/js/reactjs/application/usecase/adhoc/components/home/Detail.jsx',
-            StartForm: 'src/main/js/reactjs/application/usecase/adhoc/components/home/StartForm.jsx',
-            DetailForm: 'src/main/js/reactjs/application/usecase/adhoc/components/home/DetailForm.jsx',
-            ConfirmationForm: 'src/main/js/reactjs/application/usecase/adhoc/components/home/ConfirmationForm.jsx',
-            Info: 'src/main/js/reactjs/application/usecase/adhoc/components/home/Info.jsx',
-            FilterBar: 'src/main/js/reactjs/application/components/FilterBar.jsx',
-            SaveActionBar: 'src/main/js/reactjs/application/usecase/adhoc/components/home/SaveActionBar.jsx',
-            ConfirmActionBar: 'src/main/js/reactjs/application/usecase/adhoc/components/home/ConfirmActionBar.jsx',
+            //Use case Components
+            UseCaseMain: 'src/main/js/reactjs/application/usecase/adhoc/components/Main.jsx',
+            StartForm: 'src/main/js/reactjs/application/usecase/adhoc/components/StartForm.jsx',
+            DetailForm: 'src/main/js/reactjs/application/usecase/adhoc/components/DetailForm.jsx',
+            ConfirmationForm: 'src/main/js/reactjs/application/usecase/adhoc/components/ConfirmationForm.jsx',
+            Info: 'src/main/js/reactjs/application/usecase/adhoc/components/Info.jsx',
+            SaveActionBar: 'src/main/js/reactjs/application/usecase/adhoc/components/SaveActionBar.jsx',
+            ConfirmActionBar: 'src/main/js/reactjs/application/usecase/adhoc/components/ConfirmActionBar.jsx',
+            MarketingBar: 'src/main/js/reactjs/application/usecase/adhoc/components/MarketingBar.jsx',
+            FooterBar: 'src/main/js/reactjs/application/usecase/adhoc/components/FooterBar.jsx',
             // END Use Case Components
 
             //Generic Task Componet
@@ -64,6 +63,11 @@ module.exports = {
             TaskDetail: 'src/main/js/reactjs/application/components/workflow/Detail.jsx',
             TaskForm: 'src/main/js/reactjs/application/components/workflow/Form.jsx',
             TaskInfo: 'src/main/js/reactjs/application/components/workflow/Info.jsx',
+
+            //Other components
+            StatusBar: 'src/main/js/reactjs/application/components/status/StatusBar.jsx',
+            FilterBar: 'src/main/js/reactjs/application/components/FilterBar.jsx',
+
 
         },
         extensions: ['', '.js', '.jsx']

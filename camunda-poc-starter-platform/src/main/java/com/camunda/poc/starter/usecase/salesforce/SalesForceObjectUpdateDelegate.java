@@ -1,4 +1,4 @@
-package com.camunda.poc.starter.poc.submission.bpm;
+package com.camunda.poc.starter.usecase.salesforce;
 
 import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.ContentType;
@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * from within a BPMN 2.0 Service Task.
  */
 @Component("confirmDamageCase")
-public class ConfirmDamageCaseDelegate implements JavaDelegate {
+public class SalesForceObjectUpdateDelegate implements JavaDelegate {
 
   private String accessToken;
 
