@@ -1,21 +1,22 @@
-package com.camunda.poc.starter.poc.kase.entity;
+package com.camunda.poc.starter.poc.reading.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.context.annotation.Profile;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
-@Entity(name="poc_case")
+@Entity(name="poc_reading")
 @Getter
 @Setter
-public class Case {
+public class Reading {
 
     private static final long serialVersionUID = -209114346985280386L;
 
-    public Case(){}
+    public Reading(){}
 
     private @Version
     @JsonIgnore
@@ -34,5 +35,18 @@ public class Case {
 
     @Column(nullable=true)
     String status;
+
+    @Column(name="reading_time", nullable=true)
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    Date readingTime;
+
+    @Column(nullable=true)
+    String systolic;
+
+    @Column(nullable=true)
+    String diastolic;
+
+
 
 }

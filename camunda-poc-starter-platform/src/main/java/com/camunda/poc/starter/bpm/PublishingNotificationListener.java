@@ -1,4 +1,4 @@
-package com.camunda.poc.starter.poc.submission.bpm;
+package com.camunda.poc.starter.bpm;
 
 import com.camunda.poc.starter.integration.pubsub.Event;
 import com.camunda.poc.starter.integration.pubsub.EventChannels;
@@ -25,7 +25,7 @@ import java.util.logging.Logger;
  * illustrating how a Java Delegate can be used 
  * from within a BPMN 2.0 Service Task.
  */
-@Profile("poc")
+@Profile("pubsub")
 @Component("publishNotification")
 public class PublishingNotificationListener implements ExecutionListener {
 

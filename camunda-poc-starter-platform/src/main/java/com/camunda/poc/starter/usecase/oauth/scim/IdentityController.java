@@ -1,4 +1,4 @@
-package com.camunda.poc.starter.controller.workflow;
+package com.camunda.poc.starter.usecase.oauth.scim;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.camunda.bpm.engine.AuthorizationService;

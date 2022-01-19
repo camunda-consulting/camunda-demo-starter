@@ -41,7 +41,7 @@ class StartForm extends React.Component {
             // console.log("Start FORM SR's: "+ JSON.stringify(this.props.submissions));
             var options = this.props.submissions.map(submission =>
                 // console.log("Start FORM SR's: "+ JSON.stringify(submission) +" :: "+submission._links.self.href)
-                <option key={submission._links.self.href} value={submission.businessKey}>{submission.businessKey}</option>
+                <option key={submission._links.self.href} value={submission.key}>{submission.key}</option>
             );
         }
 
@@ -52,14 +52,14 @@ class StartForm extends React.Component {
                   <div className="form-registration-group">
 
                       <a className="form-registration-social-button" href="#" onClick={this.props.onStart}>
-                          <i className="fa fa-facebook-official" aria-hidden="true"></i>Start Adhoc Discipline Review</a>
+                          <i className="fa fa-facebook-official" aria-hidden="true"></i>Start Blood Pressure Reading Submission</a>
 
                         <select className="form-registration-input"
                                 ref="pid"
                                 onChange={this.handleChange}
                                 value={this.props.submission.businessKey} >
 
-                            <option defaultValue>Select Existing Submission Review</option>
+                            <option defaultValue>Select Existing Case</option>
                             {options}
                         </select>
 

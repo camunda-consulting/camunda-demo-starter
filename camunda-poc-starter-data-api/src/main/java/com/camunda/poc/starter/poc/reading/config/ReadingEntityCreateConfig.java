@@ -1,7 +1,8 @@
-package com.camunda.poc.starter.poc.kase.config;
+package com.camunda.poc.starter.poc.reading.config;
 
 import com.camunda.poc.starter.poc.kase.entity.Case;
 import com.camunda.poc.starter.poc.kase.repo.KaseRepository;
+import com.camunda.poc.starter.poc.reading.entity.Reading;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
@@ -23,16 +24,16 @@ import java.util.logging.Logger;
 
 @Profile("poc-es")
 @Configuration
-public class CaseEntityCreateConfig {
+public class ReadingEntityCreateConfig {
 
     private KaseRepository caseRepository;
 
     @Autowired
-    public CaseEntityCreateConfig(KaseRepository caseRepository){
+    public ReadingEntityCreateConfig(KaseRepository caseRepository){
         this.caseRepository = caseRepository;
     }
 
-    private final Logger LOGGER = Logger.getLogger(CaseEntityCreateConfig.class.getName());
+    private final Logger LOGGER = Logger.getLogger(ReadingEntityCreateConfig.class.getName());
 
     @Value("${spring.datasource.url}")
     private String url;
@@ -49,7 +50,7 @@ public class CaseEntityCreateConfig {
      * @throws SQLException
      */
     @EventListener
-    @org.springframework.core.annotation.Order(10)
+    @org.springframework.core.annotation.Order(101)
     public void onApplicationEvent(ContextRefreshedEvent event) throws SQLException {
 
         LOGGER.info("\n\n ********************** post app hook *********************** \n\n ");
@@ -66,7 +67,7 @@ public class CaseEntityCreateConfig {
                         .applySettings(settings).build();
 
         MetadataSources metadata = new MetadataSources(serviceRegistry);
-        metadata.addAnnotatedClass(Case.class);
+        metadata.addAnnotatedClass(Reading.class);
 
         EnumSet<TargetType> enumSet = EnumSet.of(TargetType.DATABASE);
 
@@ -85,27 +86,27 @@ public class CaseEntityCreateConfig {
      * @param event
      * @throws SQLException
      */
-    @EventListener
-    @org.springframework.core.annotation.Order(20)
-    public void onApplicationEventCreateContact(ContextRefreshedEvent event) throws SQLException {
-
-
-        if (caseRepository.count() == 0) {
-
-            LOGGER.info("\n\n ********************** Create Case Post Init Hook *********************** \n\n ");
-
-            Case kase = new Case();
-            kase.setStatus("hold");
-            kase.setKey(UUID.randomUUID().toString());
-            caseRepository.save(kase);
-
-            Case kase2 = new Case();
-            kase2.setStatus("clear");
-            kase2.setKey(UUID.randomUUID().toString());
-            caseRepository.save(kase2);
-
-            LOGGER.info("\n\n **** Case Created ****** \n\n");
-        }
-    }
+//    @EventListener
+//    @org.springframework.core.annotation.Order(20)
+//    public void onApplicationEventCreateContact(ContextRefreshedEvent event) throws SQLException {
+//
+//
+//        if (caseRepository.count() == 0) {
+//
+//            LOGGER.info("\n\n ********************** Create Case Post Init Hook *********************** \n\n ");
+//
+//            Case kase = new Case();
+//            kase.setStatus("hold");
+//            kase.setKey(UUID.randomUUID().toString());
+//            caseRepository.save(kase);
+//
+//            Case kase2 = new Case();
+//            kase2.setStatus("clear");
+//            kase2.setKey(UUID.randomUUID().toString());
+//            caseRepository.save(kase2);
+//
+//            LOGGER.info("\n\n **** Case Created ****** \n\n");
+//        }
+//    }
 
 } //END CLASS

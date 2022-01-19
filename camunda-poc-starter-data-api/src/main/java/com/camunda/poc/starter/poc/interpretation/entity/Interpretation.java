@@ -1,12 +1,16 @@
 package com.camunda.poc.starter.poc.interpretation.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.context.annotation.Profile;
 
 import javax.persistence.*;
 
 @Profile("poc-es")
 @Entity(name="poc_interpretation")
+@Getter
+@Setter
 public class Interpretation {
 
     private static final long serialVersionUID = -209114346985280386L;
@@ -28,37 +32,10 @@ public class Interpretation {
     @Column(nullable=true)
     String key;
 
-    @Column(name="task_name", nullable=true)
-    String taskName;
-
+    @Column(name="pathway", nullable=true)
+    String pathway;
 
     @Column(nullable=true)
     String status;
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public String getTaskName() {
-        return taskName;
-    }
-
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-
 
 }

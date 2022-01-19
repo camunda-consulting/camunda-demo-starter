@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_last-bp-reading-time-span-determination" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.11.1" camunda:diagramRelationId="46d9df1a-dd4e-4778-95cf-77f2f7d8869b">
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" id="Definitions_last-bp-reading-time-span-determination" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.11.1" camunda:diagramRelationId="46d9df1a-dd4e-4778-95cf-77f2f7d8869b">
   <decision id="Decision_time-span-determination" name="Time Span Determination">
     <decisionTable id="DecisionTable_0azx1hv" hitPolicy="FIRST">
-      <input id="InputClause_1hkgsyr" label="readingTime">
-        <inputExpression id="LiteralExpression_0bq2jh5" typeRef="string">
-          <text></text>
+      <input id="InputClause_1hkgsyr" label="lastReadingTime" biodi:width="822">
+        <inputExpression id="LiteralExpression_0bq2jh5" typeRef="feel-date">
+          <text>date and time(lastReadingTime)</text>
         </inputExpression>
       </input>
       <output id="Output_1" label="readingStatus" typeRef="string" />
@@ -18,7 +18,7 @@
       </rule>
       <rule id="DecisionRule_1a8edho">
         <inputEntry id="UnaryTests_04ixokv">
-          <text>[ date and time(now()) + duration("P1D") &lt; readingTime, date and time(now()) + duration("P2D") &lt; readingTime ]</text>
+          <text>[ date and time(now()) + duration("P1D"), date and time(now()) + duration("P2D") ]</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_0psq3mg">
           <text>"reminder"</text>
