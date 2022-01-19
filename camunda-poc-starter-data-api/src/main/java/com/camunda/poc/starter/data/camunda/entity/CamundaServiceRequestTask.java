@@ -1,4 +1,4 @@
-package com.camunda.poc.starter.entity.data;
+package com.camunda.poc.starter.data.camunda.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -20,14 +20,14 @@ public class CamundaServiceRequestTask {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
-    @JoinColumn(nullable=false)
-    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
-    private ServiceRequestEntity serviceRequest;
-    public ServiceRequestEntity getServiceRequest() { return serviceRequest; }
-    public void setServiceRequest(ServiceRequestEntity serviceRequest){
-        this.serviceRequest = serviceRequest;
-    }
+//    @ManyToOne
+//    @JoinColumn(nullable=false)
+//    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+//    private ServiceRequestEntity serviceRequest;
+//    public ServiceRequestEntity getServiceRequest() { return serviceRequest; }
+//    public void setServiceRequest(ServiceRequestEntity serviceRequest){
+//        this.serviceRequest = serviceRequest;
+//    }
 
     @ManyToOne
     @JoinColumn(nullable=false)

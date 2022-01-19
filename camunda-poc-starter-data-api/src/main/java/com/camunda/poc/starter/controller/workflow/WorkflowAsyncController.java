@@ -2,9 +2,9 @@ package com.camunda.poc.starter.controller.workflow;
 
 import com.camunda.poc.starter.integration.pubsub.Event;
 import com.camunda.poc.starter.integration.pubsub.EventChannels;
-import com.camunda.poc.starter.entity.workflow.User;
+import com.camunda.poc.starter.data.user.entity.User;
 import com.camunda.poc.starter.poc.submission.entity.Submission;
-import com.camunda.poc.starter.repo.ContactRepository;
+import com.camunda.poc.starter.data.user.repo.UserRepository;
 import com.camunda.poc.starter.poc.submission.repo.SubmissionRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,15 +30,15 @@ public class WorkflowAsyncController {
 
     private EventChannels source;
     private SubmissionRepository repository;
-    private ContactRepository contactRepository;
+    private UserRepository userRepository;
 
     @Autowired
     public WorkflowAsyncController(EventChannels source,
                                    SubmissionRepository repository,
-                                   ContactRepository contactRepository){
+                                   UserRepository userRepository){
         this.source = source;
         this.repository = repository;
-        this.contactRepository = contactRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -59,7 +59,7 @@ public class WorkflowAsyncController {
 
         //Get the data from our business API's
         Submission repoObj = repository.findSubmissionByBusinessKey(businessKey);
-        User contact = contactRepository.findById(1L).get();
+        User contact = userRepository.findById(1L).get();
 
         LOGGER.info("\n\n  Repo Data: "+ repoObj.getSubmissionStatusDate() +"\n");
 

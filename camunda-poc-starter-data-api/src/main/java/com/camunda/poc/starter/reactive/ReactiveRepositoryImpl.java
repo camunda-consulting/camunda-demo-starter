@@ -1,7 +1,7 @@
 package com.camunda.poc.starter.reactive;
 
-import com.camunda.poc.starter.entity.workflow.Status;
-import com.camunda.poc.starter.repo.StatusRepository;
+import com.camunda.poc.starter.data.status.entity.Status;
+import com.camunda.poc.starter.data.status.repo.StatusRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;

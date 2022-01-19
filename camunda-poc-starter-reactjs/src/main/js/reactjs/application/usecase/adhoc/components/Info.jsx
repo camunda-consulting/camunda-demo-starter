@@ -74,15 +74,15 @@ class Info extends React.Component{
                           <div className="card-section" style={{borderTop: "1px dashed #2199e8"}}>
                               <ul>
                                   <li><span className="label">Case Id</span>
-                                      <span className="data">{this.props.item.businessKey}</span></li>
-                                  <li><span className="label">Status</span>
-                                      <span className="data">{this.props.item.submissionStatus}</span></li>
-                                  <li><span className="label">Product</span>
-                                      <span className="data">{this.props.item.product}</span></li>
-                                  <li><span className="label">Product Type</span>
-                                      <span className="data">{this.props.item.productType}</span></li>
-                                  <li><span className="label">Review Office</span>
-                                      <span className="data">{this.props.item.reviewOffice}</span></li>
+                                      <span className="data">{this.props.item.key}</span></li>
+                                  {/*<li><span className="label">Status</span>*/}
+                                  {/*    <span className="data">{this.props.item.submissionStatus}</span></li>*/}
+                                  {/*<li><span className="label">Product</span>*/}
+                                  {/*    <span className="data">{this.props.item.product}</span></li>*/}
+                                  {/*<li><span className="label">Product Type</span>*/}
+                                  {/*    <span className="data">{this.props.item.productType}</span></li>*/}
+                                  {/*<li><span className="label">Review Office</span>*/}
+                                  {/*    <span className="data">{this.props.item.reviewOffice}</span></li>*/}
                               </ul>
                           </div>
                       </div>

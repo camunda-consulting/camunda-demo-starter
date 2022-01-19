@@ -1,4 +1,4 @@
-package com.camunda.poc.starter.entity.oauth;
+package com.camunda.poc.starter.data.oauth.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.context.annotation.Profile;
