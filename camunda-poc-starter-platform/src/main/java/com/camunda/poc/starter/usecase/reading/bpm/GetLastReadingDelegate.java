@@ -37,14 +37,17 @@ public class GetLastReadingDelegate implements JavaDelegate {
             + ", executionId=" + execution.getId()
             + " \n\n");
 
-//    List readings = (List) execution.getVariable("readings");
-//    LOGGER.info(" \n\n ====>> Readings:  " + readings.toString() + "\n");
+    List<String> readings = (List<String>) execution.getVariable("readings");
+    LOGGER.info(" \n\n ====>> Readings:  " + readings.toString() + "\n");
 
-//    SpinJsonNode lastReading = (SpinJsonNode) readings.get(0);
-//    while (readings.iterator().hasNext()){
-//      lastReading = compareReading(((SpinJsonNode)readings.iterator().next()), lastReading);
-//    }
-//    execution.setVariable("lastReadingTime", lastReading);
+    SpinJsonNode lastReading = SpinJsonNode.JSON(readings.get(0));
+    for (String reading : readings){
+      lastReading = compareReading(SpinJsonNode.JSON(reading), lastReading);
+    }
+
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
+    Date readingTime = formatter.parse(lastReading.prop("readingTime").stringValue());
+    execution.setVariable("lastReadingTime", readingTime);
   }
 
   private SpinJsonNode compareReading(SpinJsonNode reading ,  SpinJsonNode lastReading) throws ParseException {

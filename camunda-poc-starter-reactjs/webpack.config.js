@@ -53,7 +53,6 @@ module.exports = {
             ConfirmationForm: 'src/main/js/reactjs/application/usecase/adhoc/components/ConfirmationForm.jsx',
             Info: 'src/main/js/reactjs/application/usecase/adhoc/components/Info.jsx',
             SaveActionBar: 'src/main/js/reactjs/application/usecase/adhoc/components/SaveActionBar.jsx',
-            ConfirmActionBar: 'src/main/js/reactjs/application/usecase/adhoc/components/ConfirmActionBar.jsx',
             MarketingBar: 'src/main/js/reactjs/application/usecase/adhoc/components/MarketingBar.jsx',
             FooterBar: 'src/main/js/reactjs/application/usecase/adhoc/components/FooterBar.jsx',
             // END Use Case Components
@@ -67,8 +66,7 @@ module.exports = {
             //Other components
             StatusBar: 'src/main/js/reactjs/application/components/status/StatusBar.jsx',
             FilterBar: 'src/main/js/reactjs/application/components/FilterBar.jsx',
-
-
+            WorkflowActionBar: 'src/main/js/reactjs/application/components/workflow/ActionBar.jsx',
         },
         extensions: ['', '.js', '.jsx']
     },

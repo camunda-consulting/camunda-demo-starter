@@ -4,40 +4,36 @@ import org.apache.http.client.fluent.Request;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.Expression;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.camunda.bpm.engine.variable.Variables;
-import org.camunda.bpm.engine.variable.impl.value.ObjectValueImpl;
 import org.camunda.spin.Spin;
-import org.camunda.spin.SpinList;
 import org.camunda.spin.json.SpinJsonNode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
+
 
 /**
  * This is an easy adapter implementation 
  * illustrating how a Java Delegate can be used 
  * from within a BPMN 2.0 Service Task.
+ * Spring-bean can be accessed as a Delegate Expression
  */
-@Component("getSearchDelegate")
-public class GetSearchDelegate implements JavaDelegate {
+@Component("getByKeyDelegate")
+public class GetByKeyDelegate implements JavaDelegate {
 
   @Value("${data.api.uri}")
   String dataApiUri;
 
-  private final Logger LOGGER = Logger.getLogger(Class.class.getName());
-
-  //Use Camunda field injection to get the value from the workflow config
+  //get the value of the type of object to submit
   private Expression bizObjectName;
 
   //Use Camunda field injection to get the value from the workflow config
   private Expression searchTerm;
 
-  //Camunda Overriden marker API
+  private final Logger LOGGER = Logger.getLogger(Class.class.getName());
+  
   public void execute(DelegateExecution execution) throws Exception {
-
+    
     LOGGER.info("\n\n  ... "+Class.class.getName()+" invoked by "
             + "processDefinitionId=" + execution.getProcessDefinitionId() +" \n "
             + ", activtyId=" + execution.getCurrentActivityId() +" \n "
@@ -48,32 +44,32 @@ public class GetSearchDelegate implements JavaDelegate {
             + ", Data URI= " + dataApiUri
             + " \n\n");
 
+    BpmUtil.simulateError(execution);
+
     //Get the searchTerm string from the field injection expression
     String searchTermStr = BpmUtil.getSearchTermString(execution, searchTerm);
 
-    String dataURI = dataApiUri + "/" + searchTermStr;
-    LOGGER.info(" \n\n Data Search URI " + dataURI + "\n");
+    String businessKey = BpmUtil.getBusinessKey(execution);
+
+    //build the dataURI for the api endpoint
+    String dataURI = dataApiUri + "/" + searchTermStr + businessKey;
+    LOGGER.info(" \n\n ====>> Data URI " + dataURI + "\n");
 
     try {
       //Use fluent HTTP api to execute request
       String content = Request.Get(dataURI).execute().returnContent().asString();
       LOGGER.info(" \n\n ====>> Response Body " + content + "\n");
       //convert the response into SpinJsonNode
-      SpinJsonNode bizObjResponse = Spin.JSON(content);
+      SpinJsonNode bizObjResponse = Spin.S(content);
 
-      if (bizObjResponse != null) {
-        LOGGER.info(" \n\n Biz Object " + bizObjResponse.toString() + "\n");
-        //get the elements out of the object as SpinObjects
-        SpinList<SpinJsonNode> spinList = bizObjResponse.prop("_embedded").prop(searchTermStr).elements();
+      //set the businessKey into the business object
+      SpinJsonNode bizObj = BpmUtil.setBusinessKey(execution, bizObjResponse);
 
-        ObjectValueImpl objList = BpmUtil.createSerializableList(spinList);
-
-        //Set the business object into Camunda execution
-        BpmUtil.setBizObject(execution, bizObjectName, objList);
-      }
+      //Set the business object into Camunda execution
+      BpmUtil.setBizObject(execution, bizObjectName, bizObj);
 
     } catch (Exception e) {
-      throw new Error("\n\n Biz Data Search Failed for term: " +searchTermStr);
+      throw new Error("\n\n ====>> Error: Biz Data Search Failed for: " +dataURI);
     }
   }
 }

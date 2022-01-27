@@ -48,14 +48,14 @@ public class GetInterpretationDelegate implements JavaDelegate {
     String objectTypeStr = "interpretations";
 
     //if interpretation ID is provided as a variable
-    Integer interpretationID = (Integer) execution.getVariable("interpretationID");
+    Integer interpretationId = (Integer) execution.getVariable("interpretationId");
 
 
     //if interpretation ID is provided as part of the object with only that value in it
     //JacksonJsonNode jsonInput = (JacksonJsonNode) execution.getVariable("interpretation");
     //String interpretationID = (String) jsonInput.prop("id").stringValue();
 
-    String dataURI = dataApiUri + "/" +  objectTypeStr + "/" + interpretationID;
+    String dataURI = dataApiUri + "/" +  objectTypeStr + "/" + interpretationId;
     LOGGER.info(" \n\n ====>> Data URI " + dataURI + "\n");
     //Use fluent HTTP api to execute PATCH request
 

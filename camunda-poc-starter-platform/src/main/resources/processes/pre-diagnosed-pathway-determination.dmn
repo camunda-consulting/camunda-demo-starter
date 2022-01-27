@@ -7,12 +7,12 @@
     <decisionTable id="DecisionTable_0azx1hv" hitPolicy="FIRST">
       <input id="Input_1" label="Top number (systolic) in mm Hg" biodi:width="308">
         <inputExpression id="InputExpression_1" typeRef="integer">
-          <text>case.systolic</text>
+          <text>reading.systolic</text>
         </inputExpression>
       </input>
       <input id="InputClause_1ynxdtw" label="Bottom number (diastolic) in mm Hg" biodi:width="323">
         <inputExpression id="LiteralExpression_0ng3lqd" typeRef="integer">
-          <text>case.diastolic</text>
+          <text>reading.diastolic</text>
         </inputExpression>
       </input>
       <output id="Output_1" label="Blood Pressure Status" name="bpStatus" typeRef="string" />

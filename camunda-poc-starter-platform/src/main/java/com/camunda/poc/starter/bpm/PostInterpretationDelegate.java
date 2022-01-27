@@ -76,7 +76,7 @@ public class PostInterpretationDelegate implements JavaDelegate {
       String location = response.getLastHeader("Location").getValue();
       String idStr = location.substring(location.lastIndexOf('/') + 1);
       int id = Integer.parseInt(idStr);
-      execution.setVariable("InterpretationID", id);
+      execution.setVariable("interpretationId", id);
     }
   }
 }

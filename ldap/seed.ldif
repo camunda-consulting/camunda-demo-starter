@@ -1,0 +1,114 @@
+version: 1
+dn: dc=example,dc=com
+objectclass: top
+objectclass: domain
+dc: example
+
+
+
+dn: ou=tenant1-groups,dc=example,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: tenant1-groups
+
+dn: ou=tenant2-groups,dc=example,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: tenant2-groups
+
+
+
+dn: ou=tenant1-people,dc=example,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: tenant1-people
+
+dn: ou=tenant2-people,dc=example,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: tenant2-people
+
+
+
+
+dn: cn=judy,ou=tenant2-people,dc=example,dc=com
+objectClass: organizationalPerson
+objectClass: person
+objectClass: inetOrgPerson
+objectClass: top
+cn: judy
+sn: jones
+mail: judy.jones@camunda.com
+uid: judy
+userPassword: {SSHA}PXt6kJL7dU6eJITovqwlgo5SRM6Ouuq4kHf6Dw==
+
+dn: cn=john,ou=tenant2-people,dc=example,dc=com
+objectClass: organizationalPerson
+objectClass: person
+objectClass: inetOrgPerson
+objectClass: top
+cn: john
+sn: doe
+mail: john.doe@camunda.com
+uid: john
+userPassword: {SSHA}j0RbH7X7Eq3sRO/rWb7/tnVqqGxd8mwwiZgRJA==
+
+
+
+
+
+
+dn: cn=joe,ou=tenant1-people,dc=example,dc=com
+objectClass: organizationalPerson
+objectClass: person
+objectClass: inetOrgPerson
+objectClass: top
+cn: joe
+sn: smith
+mail: joe.smith@camunda.com
+uid: joe
+userPassword: {SSHA}lrkjK/DA8K2SI5LoOpxmwNWHM4xJmrLipo13Vw==
+
+dn: cn=jane,ou=tenant1-people,dc=example,dc=com
+objectClass: organizationalPerson
+objectClass: person
+objectClass: inetOrgPerson
+objectClass: top
+cn: jane
+sn: deer
+mail: jane.deer@camunda.com
+uid: jane
+userPassword: {SSHA}7jRbRtyiSDAaxTnSlh2D2Tv87xgLCs40khQlYg==
+
+
+
+
+dn: cn=all-tenant1-users,ou=tenant1-groups,dc=example,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: all-tenant1-users
+member: cn=joe,ou=tenant1-people,dc=example,dc=com
+member: cn=jane,ou=tenant1-people,dc=example,dc=com
+
+dn: cn=tenant1-camunda-admin,ou=tenant1-groups,dc=example,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: tenant1-camunda-admin
+member: cn=joe,ou=tenant1-people,dc=example,dc=com
+
+
+
+
+
+dn: cn=all-tenant2-users,ou=tenant2-groups,dc=example,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: all-tenant2-users
+member: cn=judy,ou=tenant2-people,dc=example,dc=com
+member: cn=john,ou=tenant2-people,dc=example,dc=com
+
+dn: cn=tenant2-camunda-admin,ou=tenant2-groups,dc=example,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: tenant2-camunda-admin
+member: cn=john,ou=tenant2-people,dc=example,dc=com

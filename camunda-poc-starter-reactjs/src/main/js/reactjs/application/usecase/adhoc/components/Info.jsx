@@ -75,14 +75,20 @@ class Info extends React.Component{
                               <ul>
                                   <li><span className="label">Case Id</span>
                                       <span className="data">{this.props.item.key}</span></li>
-                                  {/*<li><span className="label">Status</span>*/}
-                                  {/*    <span className="data">{this.props.item.submissionStatus}</span></li>*/}
-                                  {/*<li><span className="label">Product</span>*/}
-                                  {/*    <span className="data">{this.props.item.product}</span></li>*/}
-                                  {/*<li><span className="label">Product Type</span>*/}
-                                  {/*    <span className="data">{this.props.item.productType}</span></li>*/}
-                                  {/*<li><span className="label">Review Office</span>*/}
-                                  {/*    <span className="data">{this.props.item.reviewOffice}</span></li>*/}
+                                  <li><span className="label">Status</span>
+                                      <span className="data">{this.props.item.status}</span></li>
+                                  <li><span className="label">systolic</span>
+                                      <span className="data">{this.props.item.systolic}</span></li>
+                                  <li><span className="label">diastolic</span>
+                                      <span className="data">{this.props.item.diastolic}</span></li>
+                                  <li><span className="label">bmi</span>
+                                      <span className="data">{this.props.item.bmi}</span></li>
+                                  <li><span className="label">ldl</span>
+                                      <span className="data">{this.props.item.ldl}</span></li>
+                                  <li><span className="label">hdl</span>
+                                      <span className="data">{this.props.item.hdl}</span></li>
+                                  <li><span className="label">smoker</span>
+                                      <span className="data">{this.props.item.smoker}</span></li>
                               </ul>
                           </div>
                       </div>

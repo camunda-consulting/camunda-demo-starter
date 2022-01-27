@@ -1,4 +1,4 @@
-package com.camunda.poc.starter.poc.kase.repo;
+package com.camunda.poc.starter.poc.kase.config;
 
 import com.camunda.poc.starter.poc.kase.entity.Case;
 import org.springframework.context.annotation.Configuration;
