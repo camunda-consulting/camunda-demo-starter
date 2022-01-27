@@ -7,7 +7,7 @@ const dataApiUri = `${dataApi}/${process.env.DATA_API_ROOT}`;
 
 // end::vars[]
 
-class ConfirmActionBar extends React.Component{
+class ActionBar extends React.Component{
 
     constructor(props) {
         super(props);
@@ -119,4 +119,4 @@ class ConfirmActionBar extends React.Component{
   }
 }
 
-module.exports = ConfirmActionBar;
+module.exports = ActionBar;

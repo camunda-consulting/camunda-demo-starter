@@ -5,17 +5,41 @@ import org.apache.http.client.fluent.Request;
 import org.apache.http.entity.ContentType;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.Expression;
+import org.camunda.bpm.engine.runtime.Execution;
+import org.camunda.bpm.engine.variable.Variables;
 import org.camunda.bpm.engine.variable.impl.value.ObjectValueImpl;
 import org.camunda.spin.Spin;
+import org.camunda.spin.SpinList;
 import org.camunda.spin.impl.json.jackson.JacksonJsonNode;
 import org.camunda.spin.json.SpinJsonNode;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 public final class BpmUtil {
 
     private static final Logger LOGGER = Logger.getLogger(Class.class.getName());
 
+    //simulate a unpredicted error such as network down
+    public static void simulateError(DelegateExecution execution) throws Exception {
+        Boolean error = (Boolean) execution.getVariable("error");
+        if (error != null){
+            if (error) {
+                throw new Exception("Something went wrong! Maybe the network is down.");
+            }
+        }
+    }
+
+    //get the workflow business key
+    public static String getBusinessKey(DelegateExecution execution) {
+        //Get the businessKey from the process
+        String businessKey = execution.getBusinessKey();
+        if (businessKey == null) {
+            throw new Error("\n\n ====>> Error: Business Key Not Found For Process: " +execution.getProcessInstanceId());
+        }
+        return businessKey;
+    }
 
     //set and ensure the business key exists
     public static SpinJsonNode setBusinessKey(DelegateExecution execution, SpinJsonNode bizObj) throws Exception {
@@ -109,5 +133,20 @@ public final class BpmUtil {
         }
     }
 
+    public static ObjectValueImpl createSerializableList(SpinList spinList) {
+        //Convert and Serialize the Spin list as ArrayList so we can use as collection
+        List<String> objs = new ArrayList<String>();
+        for (int i=0; i<spinList.size(); i++) {
+            objs.add(SpinJsonNode.JSON(spinList.get(i)).toString());
+        }
+
+        ObjectValueImpl values = (ObjectValueImpl) Variables.objectValue(objs)
+                .serializationDataFormat(Variables.SerializationDataFormats.JSON)
+                .setTransient(false)
+                .create();
+        values.setObjectTypeName("java.util.ArrayList");
+
+        return values;
+    }
 
 }

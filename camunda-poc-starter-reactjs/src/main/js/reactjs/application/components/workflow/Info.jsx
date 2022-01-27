@@ -42,7 +42,7 @@ class Info extends React.Component{
 
       }else {
           info =  <div>
-                    <h4>No workflow found!</h4>
+                    <h4>Submission not started. Please fill out the form to start submission.</h4>
                   </div>
 
       }

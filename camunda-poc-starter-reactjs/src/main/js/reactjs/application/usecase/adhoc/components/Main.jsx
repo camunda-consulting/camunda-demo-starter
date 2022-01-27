@@ -30,9 +30,12 @@ class Main extends React.Component{
         super(props);
         this.state = {
         submission: {},
-        submissions: null,
-        items: [],
+        submissions: [],
+        reading: {},
         contact: {},
+        workflow: {
+            correlationMessage: "Message_start-blood-pressure-submission-process",
+        },
         displayStartForm: "block",
         displayDetailForm: "none",
         displayConfirmationForm: "none",
@@ -109,23 +112,21 @@ class Main extends React.Component{
         );
     }
 
-    handleUpdateState(target){
+    handleUpdateState(target, obj){
         console.log("Detail => handleUpdateState: "+ target)
 
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
 
-        //console.log("Detail -> handleUpdateState: " + `${name} : ${value}`);
+        console.log("Detail -> handleUpdateState: " + `${name} : ${value}`);
 
-        var submission = this.state.submission;
-
-        submission[name] = value;
+        obj[name] = value;
 
         this.setState({
-            submission: submission
+            reading: obj
         });
 
-        console.log(`Detail => handleUpdateState: submission => ${JSON.stringify(this.state.submission)}`)
+        console.log(`Detail => handleUpdateState: ${JSON.stringify(obj)}`)
     }
 
     handleUpdateStartState(key){
@@ -299,18 +300,20 @@ class Main extends React.Component{
             {workflow}
 
             <DetailForm submission={this.state.submission}
-                       contact={this.state.contact}
-                       onUpdateState={this.handleUpdateState}
-                       post={this.post}
-                       onRedirect={this.props.onRedirect}
-                       toggleForm={this.toggleForm}/>
+                        contact={this.state.contact}
+                        reading={this.state.reading}
+                        workflow={this.state.workflow}
+                        onUpdateState={this.handleUpdateState}
+                        post={this.post}
+                        onRedirect={this.props.onRedirect}
+                        toggleForm={this.toggleForm}/>
         </div>
 
         <div style={{display: displayConfirmationForm}}>
             <ConfirmationForm submission={this.state.submission}
-                        contact={this.state.contact}
-                        post={this.post}
-                        toggleForm={this.toggleForm} />
+                              contact={this.state.contact}
+                              post={this.post}
+                              toggleForm={this.toggleForm} />
         </div>
 
         <div style={{display: displayConfirmation}}>
