@@ -1,0 +1,92 @@
+version: '3.8'
+
+volumes:
+  certs:
+
+services:
+
+  camunda-platform:
+    image: registry.camunda.cloud/cambpm-ee/camunda-bpm-platform-ee:${DISTRO:-7.16.5}
+    environment:
+      - DB_DRIVER=org.postgresql.Driver
+      - DB_URL=jdbc:postgresql://roach-0.crdb.io:26257/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true&sslmode=require&sslrootcert=/opt/certs/node.crt&sslcert=/opt/certs/node.crt
+    ports:
+      - "9090:8080"
+    volumes:
+      - certs:/opt/certs
+      - ./license.txt:/camunda/.camunda/license.txt
+
+  roach-cert:
+    container_name: roach-cert
+    hostname: roach-cert
+    image: timveil/cockroachdb-dynamic-certs:latest
+    volumes:
+      - certs:/.cockroach-certs
+    environment:
+      - NODE_ALTERNATIVE_NAMES=*.crdb.io localhost
+
+  roach-0:
+    container_name: roach-0
+    hostname: roach-0.crdb.io
+    image: cockroachdb/cockroach:latest
+    command: start --cluster-name=example-secure --logtostderr=WARNING --log-file-verbosity=WARNING --certs-dir=/certs --listen-addr=roach-0.crdb.io:26257 --advertise-addr=roach-0.crdb.io:26257 --join=roach-0.crdb.io
+    volumes:
+      - certs:/certs:ro
+    depends_on:
+      - roach-cert
+
+  roach-1:
+    container_name: roach-1
+    hostname: roach-1.crdb.io
+    image: cockroachdb/cockroach:latest
+    command: start --cluster-name=example-secure --logtostderr=WARNING --log-file-verbosity=WARNING --certs-dir=/certs --listen-addr=roach-1.crdb.io:26257 --advertise-addr=roach-1.crdb.io:26257 --join=roach-0.crdb.io
+    volumes:
+      - certs:/certs:ro
+    depends_on:
+      - roach-cert
+      - roach-0
+
+  roach-2:
+    container_name: roach-2
+    hostname: roach-2.crdb.io
+    image: cockroachdb/cockroach:latest
+    command: start --cluster-name=example-secure --logtostderr=WARNING --log-file-verbosity=WARNING --certs-dir=/certs --listen-addr=roach-2.crdb.io:26257 --advertise-addr=roach-2.crdb.io:26257 --join=roach-0.crdb.io
+    volumes:
+      - certs:/certs:ro
+    depends_on:
+      - roach-cert
+      - roach-0
+
+  lb:
+    container_name: lb
+    hostname: lb.crdb.io
+    image: timveil/dynamic-haproxy:latest
+    ports:
+      - "26257:26257"
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      - NODES=roach-0.crdb.io roach-1.crdb.io roach-2.crdb.io
+    depends_on:
+      - roach-0
+      - roach-1
+      - roach-2
+
+  roach-init:
+    container_name: roach-init
+    hostname: roach-init
+    image: timveil/cockroachdb-remote-client:latest
+    environment:
+      - COCKROACH_HOST=roach-0.crdb.io:26257
+      - COCKROACH_INSECURE=false
+      - COCKROACH_INIT=true
+#      - COCKROACH_USER=camunda
+      - COCKROACH_CERTS_DIR=/certs
+      - DATABASE_NAME=camunda
+      - DATABASE_USER=camunda
+      - DATABASE_PASSWORD=camunda
+    volumes:
+      - certs:/certs:ro
+    depends_on:
+      - lb
+      - roach-cert

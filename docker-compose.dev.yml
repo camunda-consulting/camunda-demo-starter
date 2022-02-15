@@ -1,4 +1,10 @@
-version: "3.3"
+########################################
+# Camunda Platform full development setup
+########################################
+version: '3.8'
+
+volumes:
+  certs:
 
 services:
 ########################################
@@ -6,55 +12,57 @@ services:
 ########################################
   camunda-platform:
     build:
-      context: ./camunda-poc-starter-platform
-    links:
-      - camunda-postgres
+      context: ./camunda-platform-spring-boot
     ports:
       - "8080:8080"
     volumes:
       - ./certs:/opt/certs
     environment:
-      #DATABASE_URL: jdbc:postgresql://camunda-postgres:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true&ssl=true&sslrootcert=/opt/certs/root.crt&sslcert=/opt/certs/root.crt&sslmode=verify-full
-      DATABASE_URL: jdbc:postgresql://camunda-postgres:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true
+      DATABASE_URL: jdbc:postgresql://camunda-postgres:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true&ssl=true&sslrootcert=/opt/certs/root.crt&sslcert=/opt/certs/root.crt&sslmode=require
+#      DATABASE_URL: jdbc:postgresql://camunda-postgres:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true
       DATABASE_DRIVER: org.postgresql.Driver
       SERVER_PORT: 8080
       MAX_POOL_SIZE: 3
       MAIL_HOST: smtp
       MAIL_PORT: 2500
-#      RABBITMQ_HOST: rabbitmq-mgmt
-#      ADMIN_CLIENT_URL: http://camunda-node-1:8080
-      DATA_API_URI: http://data-api:9000/api
+      RABBITMQ_HOST: rabbitmq-mgmt
+      ADMIN_CLIENT_URL: http://camunda-node-1:8080
+      DATA_API_URI: http://data-api-demo:9000/api
     deploy:
       resources:
         limits:
           cpus: '2'
           memory: 1000M
         reservations:
-          cpus: '2'
           memory: 1000M
     healthcheck:
       test: ["CMD", "curl", "-f", "http://camunda-platform:8080/engine-rest/engine"]
       interval: 30s
       timeout: 10s
       retries: 5
+    depends_on:
+      - data-api-demo
+      - reactjs-demo
+      - camunda-postgres
+      - smtp
+#      - apacheds
+#      - kafka
+#      - rabbitmq-mgmt
+
 
   ########################################
   # Business Data Service
   ########################################
-  data-api:
+  data-api-demo:
     build:
-      context: ./camunda-poc-starter-data-api
-    links:
-      - camunda-postgres
-      - camunda-platform
-      - smtp
+      context: ./camunda-data-api-demo
     ports:
       - "9000:9000"
     volumes:
       - ./certs:/opt/certs
     environment:
-      #DATABASE_URL: jdbc:postgresql://camunda-postgres:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true&ssl=true&sslrootcert=/opt/certs/root.crt&sslcert=/opt/certs/root.crt&sslmode=verify-full
-      DATABASE_URL: jdbc:postgresql://camunda-postgres:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true
+      DATABASE_URL: jdbc:postgresql://camunda-postgres:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true&ssl=true&sslrootcert=/opt/certs/root.crt&sslcert=/opt/certs/root.crt&sslmode=require
+#      DATABASE_URL: jdbc:postgresql://camunda-postgres:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true
       DATABASE_DRIVER: org.postgresql.Driver
       SERVER_PORT: 9000
       MAX_POOL_SIZE: 3
@@ -70,33 +78,33 @@ services:
           cpus: '1'
           memory: 1000M
         reservations:
-          cpus: '1'
           memory: 1000M
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/api"]
       interval: 30s
       timeout: 10s
       retries: 5
+    depends_on:
+      - camunda-postgres
+
 
   ########################################
   # Camunda ReactJS Service
   ########################################
-  demo-reactjs:
+  reactjs-demo:
     build:
-      context: ./camunda-poc-starter-reactjs
-    links:
-      - camunda-postgres
+      context: ./camunda-reactjs-demo
     ports:
       - "3000:8080"
-    volumes:
-      - ../certs:/opt/certs
+#    volumes:
+#      - ../certs:/opt/certs
     environment:
-      DATABASE_URL: jdbc:postgresql://camunda-postgres:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true
-      DATABASE_DRIVER: org.postgresql.Driver
+#      DATABASE_URL: jdbc:postgresql://camunda-postgres:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true
+#      DATABASE_DRIVER: org.postgresql.Driver
       SERVER_PORT: 8080
-      MAX_POOL_SIZE: 3
-      MAIL_HOST: mailslurper
-      MAIL_PORT: 2500
+#      MAX_POOL_SIZE: 3
+#      MAIL_HOST: mailslurper
+#      MAIL_PORT: 2500
     #      RABBITMQ_HOST: rabbitmq-mgmt
     #      ADMIN_CLIENT_URL: http://camunda-node-1:8080
     deploy:
@@ -105,8 +113,8 @@ services:
           cpus: '1'
           memory: 1000M
         reservations:
-          cpus: '1'
           memory: 1000M
+
 
 ########################################
 # Postgres Service
@@ -125,15 +133,15 @@ services:
 #  removeAbandoned: true
 ########################################
   camunda-postgres:
-    image: bitnami/postgresql:latest
+    image: bitnami/postgresql:11.14.0
     restart: always
     environment:
       POSTGRESQL_USER: camunda
       POSTGRESQL_PASSWORD: camunda
       POSTGRESQL_DATABASE: camunda
-#      POSTGRESQL_ENABLE_TLS: 'yes'
-#      POSTGRESQL_TLS_CERT_FILE: /opt/bitnami/postgresql/certs/postgres.crt
-#      POSTGRESQL_TLS_KEY_FILE: /opt/bitnami/postgresql/certs/postgres.key
+      POSTGRESQL_ENABLE_TLS: 'yes'
+      POSTGRESQL_TLS_CERT_FILE: /opt/bitnami/postgresql/certs/postgres.crt
+      POSTGRESQL_TLS_KEY_FILE: /opt/bitnami/postgresql/certs/postgres.key
     volumes:
       - ./certs:/opt/bitnami/postgresql/certs
     ports:
@@ -144,44 +152,52 @@ services:
           cpus: '3'
           memory: 5000M
         reservations:
-          cpus: '3'
           memory: 2000M
+#    depends_on:
+#      - demo-cert
 
 #########################################
 # Camunda Optimize
 #########################################
-#  optimize:
-#    image: registry.camunda.cloud/optimize-ee/optimize:3.4.0
-#    environment:
-##      OPTIMIZE_CAMUNDABPM_REST_URL: http://camunda-platform-n1:8081/engine-rest
-##      OPTIMIZE_CAMUNDABPM_WEBAPPS_URL: http://camunda-platform-n1:8081/camunda
-#      OPTIMIZE_ELASTICSEARCH_HOST: optimize-elastic
-#      OPTIMIZE_ELASTICSEARCH_HTTP_PORT: 9200
-#    ports:
-#      - "8090:8090"
-#    volumes:
-#      - ./optimize-config.yaml:/optimize/config/environment-config.yaml
-#      - /Users/paullungu/.camunda/optimize-license.txt:/optimize/config/OptimizeLicense.txt:ro
-#    links:
-#      - camunda-platform
-#      - optimize-elastic
-#    depends_on:
-#      camunda-platform:
-#        condition: service_healthy
-#
-#  optimize-elastic:
-#    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.2
-#    ports:
-#      - "9200:9200"
-#    environment:
-#      - cluster.name=docker-cluster
-#      - bootstrap.memory_lock=true
-#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-#      - discovery.type=single-node
-#    ulimits:
-#      memlock:
-#        soft: -1
-#        hard: -1
+  optimize:
+    image: registry.camunda.cloud/optimize-ee/optimize:3.4.0
+    environment:
+#      OPTIMIZE_CAMUNDABPM_REST_URL: http://camunda-platform-n1:8081/engine-rest
+#      OPTIMIZE_CAMUNDABPM_WEBAPPS_URL: http://camunda-platform-n1:8081/camunda
+      OPTIMIZE_ELASTICSEARCH_HOST: optimize-elastic
+      OPTIMIZE_ELASTICSEARCH_HTTP_PORT: 9200
+    ports:
+      - "8090:8090"
+    volumes:
+      - ./optimize-config.yaml:/optimize/config/environment-config.yaml
+      - /Users/paullungu/.camunda/optimize-license.txt:/optimize/config/OptimizeLicense.txt:ro
+    links:
+      - camunda-platform
+      - optimize-elastic
+    depends_on:
+      optimize-elastic:
+        condition: service_healthy
+      camunda-platform:
+         condition: service_healthy
+
+  optimize-elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.2
+    ports:
+      - "9200:9200"
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
 #########################################
 # Spring-Boot Admin Server
@@ -191,95 +207,109 @@ services:
 
 
 #########################################
+# SSL TLS CERT Creation
+#########################################
+  demo-cert:
+    container_name: demo-cert
+    hostname: demo-cert
+    image: timveil/cockroachdb-dynamic-certs:latest
+    volumes:
+      - certs:/.demo-certs
+    environment:
+      - NODE_ALTERNATIVE_NAMES=*.demo.io localhost
+
+
+#########################################
 # Kafaka Service
 #########################################
-#  zookeeper:
-#    image: 'bitnami/zookeeper:latest'
-#    ports:
-#      - '2181:2181'
-#    environment:
-#      - ALLOW_ANONYMOUS_LOGIN=yes
-#
-#  kafka:
-#    image: 'bitnami/kafka:latest'
-#    ports:
-#      - '9092:9092'
-#      - '9093:9093'
-#    links:
-#      - zookeeper
-#    environment:
-#      - KAFKA_BROKER_ID=1
-#      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
-#      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
-#      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
-#      - ALLOW_PLAINTEXT_LISTENER=yes
-#      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
-#      - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
-#      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092,EXTERNAL://localhost:9093
-#      - KAFKA_INTER_BROKER_LISTENER_NAME=CLIENT
-#    depends_on:
-#      - zookeeper
+  zookeeper:
+    image: 'bitnami/zookeeper:latest'
+    ports:
+      - '2181:2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+  kafka:
+    image: 'bitnami/kafka:latest'
+    ports:
+      - '9092:9092'
+      - '9093:9093'
+    links:
+      - zookeeper
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092,EXTERNAL://localhost:9093
+      - KAFKA_INTER_BROKER_LISTENER_NAME=CLIENT
+    depends_on:
+      - zookeeper
 
 #########################################
 # Rabbit MQ Service
 #########################################
-
-#  rabbitmq-mgmt:
-#    image: rabbitmq:3-management
-#    hostname: rabbitmq-mgmt
-#    ports:
-#      - "9500:15672"
-#      - "5672:5672"
-#      - "4369:4369"
-#      - "5671:5671"
+  rabbitmq-mgmt:
+    image: rabbitmq:3-management
+    hostname: rabbitmq-mgmt
+    ports:
+      - "9500:15672"
+      - "5672:5672"
+      - "4369:4369"
+      - "5671:5671"
 
 #########################################
 # LDAP Service
 #########################################
-#  apacheds:
-#    build:
-#      context: https://github.com/plungu/cam-apacheds.git
-#      dockerfile: Dockerfile
-#    image: apacheds
-#    restart: always
-#    environment:
-#      USER: demo
-#    ports:
-#      - 10389:10389
+  apacheds:
+    build:
+      context: https://github.com/plungu/cam-apacheds.git
+      dockerfile: Dockerfile
+    image: apacheds
+    restart: always
+    environment:
+      USER: demo
+    ports:
+      - 10389:10389
 
 ##########################################
 #      - Key Cloak Realted Services
 ##########################################
-#  jboss.keycloak:
-#    build: .
+  jboss.keycloak:
+    build: .
 #    image: jboss/keycloak
-#    image: gunnaraccso/keycloak.server:5.0.0
-#    restart: always
-#    environment:
-#      TZ: Europe/Berlin
-#      KEYCLOAK_USER: keycloak
-#      KEYCLOAK_PASSWORD: keycloak1!
-#    ports:
-#      - "9001:8443"
-#      - "9000:8080"
+    image: gunnaraccso/keycloak.server:5.0.0
+    restart: always
+    environment:
+      TZ: Europe/Berlin
+      KEYCLOAK_USER: keycloak
+      KEYCLOAK_PASSWORD: keycloak1!
+    ports:
+      - "9001:8443"
+      - "9000:8080"
+    depends_on:
+      - sso-postgres
 
-#  Create a service named db.
-#  postgres:
-#   Use the Docker Image postgres. This will pull the newest release.
-#    image: "postgres"
-#   Give the container the name my_postgres. You can changes to something else.
-#    container_name: "postgres"
-#   Setup the username, password, and database name. You can changes these values.
-#    environment:
-#      - POSTGRES_USER=keycloak
-#      - POSTGRES_PASSWORD=password
-#      - POSTGRES_DB=keycloak
-#   Maps port 54320 (localhost) to port 5432 on the container. You can change the ports to fix your needs.
-#    ports:
-#      - "54320:5432"
-#   Set a volume some that database is not lost after shutting down the container.
-#   I used the name postgres-data but you can changed it to something else.
-#    volumes:
+  #  Create a service named db.
+  sso-postgres:
+  #   Use the Docker Image postgres. This will pull the newest release.
+    image: "postgres"
+    #   Give the container the name my_postgres. You can changes to something else.
+    container_name: "postgres"
+    #   Setup the username, password, and database name. You can changes these values.
+    environment:
+      - POSTGRES_USER=keycloak
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=keycloak
+    #   Maps port 54320 (localhost) to port 5432 on the container. You can change the ports to fix your needs.
+    ports:
+      - "54320:5432"
+    #   Set a volume some that database is not lost after shutting down the container.
+    #   I used the name postgres-data but you can changed it to something else.
+    #    volumes:
 
   ##########################################
   #      - Dummy SMTP test server
@@ -296,25 +326,25 @@ services:
   ##########################################
   #      - Memcached server
   ##########################################
-#  memcached:
-#    image: bitnami/memcached:latest
-#    environment:
-#      - MEMCACHED_CACHE_SIZE=64
-##      - MEMCACHED_MAX_CONNECTIONS=20
-#      - MEMCACHED_THREADS=4
-#      - MEMCACHED_USERNAME=demo
-#      - MEMCACHED_PASSWORD=demo
-#    ports:
-#      - "11211:11211"
-#    ulimits:
-#      nofile:
-#        soft: "65536"
-#        hard: "65536"
+  memcached:
+    image: bitnami/memcached:latest
+    environment:
+      - MEMCACHED_CACHE_SIZE=64
+      - MEMCACHED_MAX_CONNECTIONS=20
+      - MEMCACHED_THREADS=4
+      - MEMCACHED_USERNAME=demo
+      - MEMCACHED_PASSWORD=demo
+    ports:
+      - "11211:11211"
+    ulimits:
+      nofile:
+        soft: "65536"
+        hard: "65536"
 
   ##########################################
   #      - Redis server
   ##########################################
-#  redis:
-#    image: 'bitnami/redis:latest'
-#    environment:
-#      - ALLOW_EMPTY_PASSWORD=yes
+  redis:
+    image: 'bitnami/redis:latest'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes

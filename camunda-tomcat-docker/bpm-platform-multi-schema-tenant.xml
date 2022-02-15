@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpm-platform xmlns="http://www.camunda.org/schema/1.0/BpmPlatform"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.camunda.org/schema/1.0/BpmPlatform http://www.camunda.org/schema/1.0/BpmPlatform">
+
+  <job-executor>
+    <job-acquisition name="tenant1" />
+    <job-acquisition name="tenant2" />
+  </job-executor>
+
+  <process-engine name="tenant1">
+    <job-acquisition>tenant1</job-acquisition>
+    <configuration>org.camunda.bpm.engine.impl.cfg.StandaloneProcessEngineConfiguration</configuration>
+   <datasource>java:jdbc/ProcessEngineTenant1</datasource>
+
+    <properties>
+      <property name="history">full</property>
+      <property name="databaseSchemaUpdate">true</property>
+      <property name="authorizationEnabled">true</property>
+      <property name="databaseTablePrefix">tnt_1.</property>
+    </properties>
+
+    <plugins>
+      <plugin>
+        <class>org.camunda.bpm.identity.impl.ldap.plugin.LdapIdentityProviderPlugin</class>
+        <properties>
+          <property name="serverUrl">ldap://apacheds:10389/</property>
+
+          <property name="allowAnonymousLogin">false</property>
+          <property name="authorizationCheckEnabled">true</property>
+          <property name="useSsl">false</property>
+          <property name="acceptUntrustedCertificates">true</property>
+          <property name="securityAuthentication">simple</property>
+
+          <property name="managerDn">uid=admin,ou=system</property>
+          <property name="managerPassword">secret</property>
+
+          <property name="baseDn">dc=example,dc=com</property>
+
+          <property name="userSearchBase">ou=tenant1-people</property>
+          <property name="userSearchFilter">(objectclass=person)</property>
+
+          <property name="userIdAttribute">uid</property>
+          <property name="userFirstnameAttribute">cn</property>
+          <property name="userLastnameAttribute">sn</property>
+          <property name="userEmailAttribute">mail</property>
+          <property name="userPasswordAttribute">userPassword</property>
+
+          <property name="groupSearchBase">ou=tenant1-groups</property>
+          <property name="groupSearchFilter">(objectclass=groupOfNames)</property>
+          <property name="groupIdAttribute">cn</property>
+          <property name="groupNameAttribute">cn</property>
+
+          <property name="groupMemberAttribute">member</property>
+        </properties>
+      </plugin>
+      <plugin>
+        <class>org.camunda.bpm.engine.impl.plugin.AdministratorAuthorizationPlugin</class>
+          <properties>
+            <property name="administratorGroupName">tenant1-camunda-admin</property>
+          </properties>
+      </plugin>
+    </plugins>
+  </process-engine>
+
+  <process-engine name="tenant2">
+    <job-acquisition>tenant2</job-acquisition>
+    <configuration>org.camunda.bpm.engine.impl.cfg.StandaloneProcessEngineConfiguration</configuration>
+    <datasource>java:jdbc/ProcessEngineTenant2</datasource>
+
+    <properties>
+      <property name="history">full</property>
+      <property name="databaseTablePrefix">tnt_2.</property>
+      <property name="databaseSchemaUpdate">true</property>
+      <property name="authorizationEnabled">true</property>
+      <property name="jobExecutorActivate">false</property>
+    </properties>
+
+    <plugins>
+      <plugin>
+        <class>org.camunda.bpm.identity.impl.ldap.plugin.LdapIdentityProviderPlugin</class>
+        <properties>
+          <property name="serverUrl">ldap://apacheds:10389/</property>
+
+          <property name="allowAnonymousLogin">false</property>
+          <property name="authorizationCheckEnabled">true</property>
+          <property name="useSsl">false</property>
+          <property name="acceptUntrustedCertificates">true</property>
+          <property name="securityAuthentication">simple</property>
+
+          <property name="managerDn">uid=admin,ou=system</property>
+          <property name="managerPassword">secret</property>
+
+          <property name="baseDn">dc=example,dc=com</property>
+
+          <property name="userSearchBase">ou=tenant2-people</property>
+          <property name="userSearchFilter">(objectclass=person)</property>
+
+          <property name="userIdAttribute">uid</property>
+          <property name="userFirstnameAttribute">cn</property>
+          <property name="userLastnameAttribute">sn</property>
+          <property name="userEmailAttribute">mail</property>
+          <property name="userPasswordAttribute">userPassword</property>
+
+          <property name="groupSearchBase">ou=tenant2-groups</property>
+          <property name="groupSearchFilter">(objectclass=groupOfNames)</property>
+          <property name="groupIdAttribute">cn</property>
+          <property name="groupNameAttribute">cn</property>
+
+          <property name="groupMemberAttribute">member</property>
+        </properties>
+      </plugin>
+      <plugin>
+        <class>org.camunda.bpm.engine.impl.plugin.AdministratorAuthorizationPlugin</class>
+        <properties>
+          <property name="administratorGroupName">tenant2-camunda-admin</property>
+        </properties>
+      </plugin>
+    </plugins>
+  </process-engine>
+</bpm-platform>

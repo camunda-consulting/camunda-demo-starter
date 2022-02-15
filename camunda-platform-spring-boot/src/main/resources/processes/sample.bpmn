@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" camunda:diagramRelationId="a6933e38-c3a8-46f1-ba56-b2cff5897ab0">
+  <bpmn:collaboration id="Collaboration_0x345xv">
+    <bpmn:documentation>Notta</bpmn:documentation>
+    <bpmn:participant id="Participant_1bmalqz" name="Sample Process" processRef="Process_sample-process" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_sample-process" name="Sample Process" isExecutable="true">
+    <bpmn:endEvent id="Event_02rpi5s" name="End Process">
+      <bpmn:incoming>Flow_033xvw9</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Activity_1ubwszn" name="Get case status" camunda:delegateExpression="${getByKeyDelegate}">
+      <bpmn:extensionElements>
+        <camunda:field name="bizObjectName">
+          <camunda:string>case</camunda:string>
+        </camunda:field>
+        <camunda:field name="searchTerm">
+          <camunda:string>cases/search/findCaseByKey?key=</camunda:string>
+        </camunda:field>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_01jky9y</bpmn:incoming>
+      <bpmn:outgoing>Flow_09sedic</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_161vcbx" name="Store case data" camunda:delegateExpression="${postDelegate}">
+      <bpmn:extensionElements>
+        <camunda:field name="bizObject">
+          <camunda:expression>${reading}</camunda:expression>
+        </camunda:field>
+        <camunda:field name="bizObjectName">
+          <camunda:string>reading</camunda:string>
+        </camunda:field>
+        <camunda:field name="searchTerm">
+          <camunda:string>readings</camunda:string>
+        </camunda:field>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_09sedic</bpmn:incoming>
+      <bpmn:outgoing>Flow_033xvw9</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_09sedic" sourceRef="Activity_1ubwszn" targetRef="Activity_161vcbx" />
+    <bpmn:sequenceFlow id="Flow_01jky9y" sourceRef="Event_1w7qjvz" targetRef="Activity_1ubwszn" />
+    <bpmn:sequenceFlow id="Flow_033xvw9" sourceRef="Activity_161vcbx" targetRef="Event_02rpi5s" />
+    <bpmn:startEvent id="Event_1w7qjvz" name="Start Sample" camunda:asyncBefore="true">
+      <bpmn:outgoing>Flow_01jky9y</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1rgq06e" messageRef="Message_0rabq8f" />
+    </bpmn:startEvent>
+  </bpmn:process>
+  <bpmn:message id="Message_1cqq97x" />
+  <bpmn:message id="Message_1kp89j3" name="Message_start-blood-pressure-notification-determination-process" />
+  <bpmn:message id="Message_0rifso3" name="Message_start-blood-pressure-interpretation" />
+  <bpmn:message id="Message_1g2hwte" name="Message_start-patient-gap-monitoring" />
+  <bpmn:message id="Message_0wxfult" name="Message_start-patient-notification" />
+  <bpmn:message id="Message_0n02ff8" name="Message_start-provider-notification" />
+  <bpmn:message id="Message_02dzx9s" name="Message_complete-escalation" />
+  <bpmn:message id="Message_0wp5ggn" name="Message_trigger-blood-pressure-notification" />
+  <bpmn:message id="Message_0om3086" name="Message_start-blood-pressure-notification-determination-process" />
+  <bpmn:message id="Message_00kjhev" name="Message_start-blood-pressure-interpretation" />
+  <bpmn:message id="Message_0rabq8f" name="Message_sample-process" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0x345xv">
+      <bpmndi:BPMNShape id="Participant_1bmalqz_di" bpmnElement="Participant_1bmalqz" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="900" height="290" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_033xvw9_di" bpmnElement="Flow_033xvw9">
+        <di:waypoint x="780" y="200" />
+        <di:waypoint x="952" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01jky9y_di" bpmnElement="Flow_01jky9y">
+        <di:waypoint x="298" y="200" />
+        <di:waypoint x="420" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09sedic_di" bpmnElement="Flow_09sedic">
+        <di:waypoint x="520" y="200" />
+        <di:waypoint x="680" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_02rpi5s_di" bpmnElement="Event_02rpi5s">
+        <dc:Bounds x="952" y="182" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="939" y="225" width="63" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_17v3q21_di" bpmnElement="Activity_1ubwszn">
+        <dc:Bounds x="420" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1yr37q6_di" bpmnElement="Activity_161vcbx">
+        <dc:Bounds x="680" y="160" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_01z9ka7_di" bpmnElement="Event_1w7qjvz" bioc:stroke="#000000" bioc:fill="#ffffff" color:background-color="#ffffff" color:border-color="#000000">
+        <dc:Bounds x="262" y="182" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="249" y="225" width="64" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
