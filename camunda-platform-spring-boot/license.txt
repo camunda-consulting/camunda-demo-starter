@@ -1,0 +1,19 @@
+--------------- BEGIN CAMUNDA LICENSE KEY ---------------
+mmHjgkezB+jvYPx/F7Ekl9WIKoWJOBZvFtpTlTbWQvMVlOvtXz4zVFDhq
+iz1sCyw7SdOhk6Skh33NrXJXxT2RYwkdg6+ZHUMi4StrHZWsRAk5WkQ9j
+7V52FVDmo0Q1+jPw5acFiV2lzpAHa2KcLT2Fp+BIBd6jJJDEhL0tQqbgW
+AWhw3nlzn6AfpZB5VXJiS0Q7+xi09bVKu0klXAZtvzHf4VDDcTp6duBpA
+d9LXeRGZUddFySXBHLHW0FQdZThpZzdYIMZaMm37tEwrtpQoqNV3t9IuG
+RdOxU7N7I2gfxXsykvQ+sgFzwnbSElaeEd7iqRAQVmUbWw0tk25MRHFKs
+dtP7EZfryusQ3DmmNKZDnXKFgjAppgFCIPAX8rnI/uzQAsYFvxDMqMkVS
+8ul5EBIVfWG7Ag0K1gN1B3535WK2SP1oIfpfAMbGg0YIjUiirUygyDIF3
+GjAsslRtcEElsV7XHh2fHUogr2LWjiXNwdABsgLqVArRsZwWpUOtCPtOp
++ge2gvBRPLeDa4ySANkD+0DS15QMOP7EpYXsbukBhflrpHrXTVzKRSw6Z
+UWzYzeDqCTY6XVxk+BqtYD3+MzH2/WXLisBYKwNAdLap2xziezF6JtkNR
+yqgMagVjMZHB6VrjT1nA2DZ8O+DuSfOQH40smpw1/++F/4dkHo9+3I7k=;
+customer = Testaccount Camunda;
+expiryDate = unlimited;
+camundaBPM = true;
+optimize = true;
+cawemo = true;
+--------------- END CAMUNDA LICENSE KEY ---------------

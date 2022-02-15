@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.camunda.reactjs.starter</groupId>
+  <artifactId>camunda-poc-starter-reactjs</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+
+  <name>Camunda React Starter App</name>
+  <description>Spring Boot Application to deploy reactjs application.</description>
+
+  <properties>
+    <camunda.version>7.16.5-ee</camunda.version>
+    <!--
+    Adjust if you want to use EE:
+    <camunda.version>7.8.0-ee</camunda.version>
+    Make sure you also switch to the ee webapp dependency
+    and EE repository below
+    -->
+
+    <springBoot.version>2.4.2</springBoot.version>
+
+    <springBoot.maven.plugin.version>2.3.0.RELEASE</springBoot.maven.plugin.version>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <version.java>1.8</version.java>
+
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <failOnMissingWebXml>false</failOnMissingWebXml>
+
+<!--    <spring-cloud.version>Horsham.RELEASE</spring-cloud.version>-->
+<!-- <spring-cloud.version>Finchley.SR2</spring-cloud.version> -->
+<!--    <version.springSecurityOauth2>2.1.6.RELEASE</version.springSecurityOauth2>-->
+    
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.camunda.bpm</groupId>
+        <artifactId>camunda-bom</artifactId>
+        <version>${camunda.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+       <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${springBoot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>      
+<!--      <dependency>-->
+<!--        <groupId>org.springframework.cloud</groupId>-->
+<!--        <artifactId>spring-cloud-stream-dependencies</artifactId>-->
+<!--        <version>${spring-cloud.version}</version>-->
+<!--        <type>pom</type>-->
+<!--        <scope>import</scope>-->
+<!--      </dependency>-->
+      
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+
+	<!-- Cmaunda Dependencies -->
+    <dependency>
+      <groupId>org.camunda.bpm.springboot</groupId>
+      <artifactId>camunda-bpm-spring-boot-starter-test</artifactId>
+      <version>${camunda.version}</version>
+    </dependency>
+
+	<!-- DataSource -->
+<!--	<dependency>-->
+<!--		<groupId>com.h2database</groupId>-->
+<!--		<artifactId>h2</artifactId>-->
+<!--	</dependency>-->
+
+    <!-- required to use H2 as a file based database  (Otherwise it's In-Memory) -->
+<!--    <dependency>-->
+<!--      <groupId>org.springframework.boot</groupId>-->
+<!--      <artifactId>spring-boot-starter-jdbc</artifactId>-->
+<!--        <exclusions>-->
+<!--            <exclusion>-->
+<!--                <groupId>com.zaxxer</groupId>-->
+<!--                <artifactId>HikariCP</artifactId>-->
+<!--            </exclusion>-->
+<!--        </exclusions>-->
+<!--    </dependency>-->
+
+	<!-- Testing -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- java util logging => slf4j -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jul-to-slf4j</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Add your own dependencies here, if in compile scope, they are added to the jar -->
+
+	<!-- messaging integration -->
+<!--    <dependency>-->
+<!--      <groupId>org.springframework.boot</groupId>-->
+<!--      <artifactId>spring-boot-starter-amqp</artifactId>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>org.springframework.cloud</groupId>-->
+<!--      <artifactId>spring-cloud-stream</artifactId>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>org.springframework.cloud</groupId>-->
+<!--      <artifactId>spring-cloud-stream-binder-rabbit</artifactId>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>org.springframework.cloud</groupId>-->
+<!--      <artifactId>spring-cloud-stream-test-support</artifactId>-->
+<!--      <scope>test</scope>-->
+<!--    </dependency>-->
+<!--      <dependency>-->
+<!--          <groupId>org.springframework.cloud</groupId>-->
+<!--          <artifactId>spring-cloud-stream-binder-kafka</artifactId>-->
+<!--      </dependency>-->
+      <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-gcp -->
+<!--      <dependency>-->
+<!--          <groupId>org.springframework.cloud</groupId>-->
+<!--          <artifactId>spring-cloud-gcp</artifactId>-->
+<!--          <version>1.2.8.RELEASE</version>-->
+<!--          <type>pom</type>-->
+<!--      </dependency>-->
+
+
+	<!-- Spring Dependencies -->
+<!--	<dependency>-->
+<!--		<groupId>org.springframework.boot</groupId>-->
+<!--		<artifactId>spring-boot-starter-security</artifactId>-->
+<!--	</dependency>-->
+
+<!--	<dependency>-->
+<!--		<groupId>org.springframework.security.oauth.boot</groupId>-->
+<!--		<artifactId>spring-security-oauth2-autoconfigure</artifactId>-->
+<!--		<version>${version.springSecurityOauth2}</version>-->
+<!--	</dependency>-->
+
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-websocket</artifactId>
+      </dependency>
+
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-webflux</artifactId>
+          <version>2.2.6.RELEASE</version>
+      </dependency>
+
+      <!-- Dev tools is disabled due to bug in variable serialization -->
+<!--	<dependency>-->
+<!--		<groupId>org.springframework.boot</groupId>-->
+<!--		<artifactId>spring-boot-devtools</artifactId>-->
+<!--	</dependency>-->
+
+<!--    <dependency>-->
+<!--      <groupId>org.springframework.boot</groupId>-->
+<!--      <artifactId>spring-boot-starter-actuator</artifactId>-->
+<!--    </dependency>-->
+
+<!--    <dependency>-->
+<!--      <groupId>de.codecentric</groupId>-->
+<!--      <artifactId>spring-boot-admin-starter-client</artifactId>-->
+<!--      <version>2.3.0</version>-->
+<!--    </dependency>-->
+
+<!--    <dependency>-->
+<!--      <groupId>de.codecentric</groupId>-->
+<!--      <artifactId>spring-boot-admin-starter-server</artifactId>-->
+<!--      <version>2.3.0</version>-->
+<!--    </dependency>-->
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+	
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-thymeleaf</artifactId>
+    </dependency>
+
+	<!-- HTTP Client Fluent -->
+	<dependency>
+	  <groupId>org.apache.httpcomponents</groupId>
+	  <artifactId>fluent-hc</artifactId>
+	</dependency>
+
+  </dependencies>
+
+  <repositories>
+    <repository>
+      <id>camunda-bpm-nexus</id>
+      <name>Camunda BPM Maven Repository</name>
+      <url>https://app.camunda.com/nexus/content/groups/public</url>
+    </repository>
+    <!-- enable this for EE dependencies -->
+    <repository>
+      <id>camunda-bpm-nexus-ee</id>
+      <name>camunda-bpm-nexus</name>
+      <url>https://app.camunda.com/nexus/content/repositories/camunda-bpm-ee</url>
+    </repository>
+
+  </repositories>
+
+  <build>
+    <finalName>${project.artifactId}</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>${springBoot.maven.plugin.version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.6.0</version>
+        <configuration>
+          <mainClass>com.camunda.na.training.sbstarter.CamundaApplication</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>default</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <dependencies>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.17</version>
+            <configuration>
+            </configuration>
+          </plugin>
+
+          <plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>1.2</version>
+				<configuration>
+					<installDirectory>target</installDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<id>install node and npm</id>
+						<goals>
+							<goal>install-node-and-npm</goal>
+						</goals>
+						<configuration>
+							<nodeVersion>v12.10.0</nodeVersion>
+							<npmVersion>6.11.3</npmVersion>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>npm install</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>install</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>webpack build</id>
+						<goals>
+							<goal>webpack</goal>
+						</goals>
+					</execution>
+
+                </executions>
+			</plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${springBoot.version}</version>
+                <configuration>
+                    <layout>ZIP</layout>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+      </build>
+    </profile>
+
+  </profiles>
+</project>
