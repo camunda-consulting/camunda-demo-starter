@@ -42,7 +42,7 @@ services:
       retries: 5
     depends_on:
       - data-api-demo
-      - reactjs-demo
+#      - reactjs-demo
       - camunda-postgres
       - smtp
 #      - apacheds
