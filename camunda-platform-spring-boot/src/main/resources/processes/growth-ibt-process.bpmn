@@ -62,11 +62,11 @@
     <bpmn:sequenceFlow id="Flow_0qwbxaj" sourceRef="Activity_07nkr9p" targetRef="Activity_17055vx" />
     <bpmn:sequenceFlow id="Flow_154vk94" name="no" sourceRef="Gateway_1khucao" targetRef="Activity_07nkr9p" />
     <bpmn:sequenceFlow id="Flow_11u4yso" name="yes" sourceRef="Gateway_1khucao" targetRef="Activity_1mnwihd">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{S("case").prop("activeInsurance").value == true}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{S(case).prop("activeInsurance").boolValue() == true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0yexhwi" sourceRef="Activity_1l559q1" targetRef="Gateway_1khucao" />
     <bpmn:sequenceFlow id="Flow_156g7vd" name="yes" sourceRef="Gateway_1mliqpc" targetRef="Activity_1l559q1">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{S("case").prop("activeInsurance").value == true}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{S(case).prop("activeInsurance").boolValue() == true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0yedo1n" sourceRef="Activity_1rkbhm2" targetRef="Event_17sxpe7" />
     <bpmn:sequenceFlow id="Flow_16rk18v" sourceRef="Activity_1jburho" targetRef="Activity_1rkbhm2" />
@@ -74,7 +74,7 @@
     <bpmn:sequenceFlow id="Flow_08mssn9" sourceRef="Activity_0bkpiqc" targetRef="Event_0mqcfjv" />
     <bpmn:sequenceFlow id="Flow_1r1dysb" name="No" sourceRef="Gateway_1q2gzl3" targetRef="Activity_0bkpiqc" />
     <bpmn:sequenceFlow id="Flow_0dklh3t" name="yes" sourceRef="Gateway_1q2gzl3" targetRef="Activity_13z4xzd">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{S("case").prop("activeInsurance").value == true}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{S(case).prop("activeInsurance").boolValue() == true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0s3yk1h" sourceRef="Activity_01plo0e" targetRef="Gateway_1q2gzl3" />
     <bpmn:sequenceFlow id="Flow_0p9bohe" sourceRef="StartEvent_1" targetRef="Activity_01plo0e" />
@@ -174,7 +174,7 @@ status = not captured - LTOOS</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_0vm28wg" sourceRef="Activity_046mrlz" targetRef="TextAnnotation_15fp398" />
   </bpmn:process>
-  <bpmn:process id="Process_pharmacy-outreach" name="Pharmacy Outreach" isExecutable="false">
+  <bpmn:process id="Process_pharmacy-outreach" name="Pharmacy Outreach" isExecutable="true">
     <bpmn:sequenceFlow id="Flow_0y80omd" sourceRef="Activity_1xpo9bv" targetRef="Event_1t3mxtd" />
     <bpmn:sequenceFlow id="Flow_043p939" name="yes" sourceRef="Gateway_0qf2mz5" targetRef="Activity_1xpo9bv">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">#{requestSuccesful == true}</bpmn:conditionExpression>
@@ -227,7 +227,7 @@ status = not captured - LTOOS</bpmn:text>
     <bpmn:association id="Association_1tu4mbz" sourceRef="Activity_1xpo9bv" targetRef="TextAnnotation_165dldn" />
     <bpmn:association id="Association_00mj2tg" sourceRef="TextAnnotation_0ntfoe2" targetRef="Activity_0vhv8vg" />
   </bpmn:process>
-  <bpmn:process id="Process_call-member" name="Call Member" isExecutable="false">
+  <bpmn:process id="Process_call-member" name="Call Member" isExecutable="true">
     <bpmn:sequenceFlow id="Flow_04p6vi6" sourceRef="Activity_1t7lzh1" targetRef="Event_0d2e215" />
     <bpmn:sequenceFlow id="Flow_1w6oz0c" sourceRef="Activity_1h05c7z" targetRef="Activity_1t7lzh1" />
     <bpmn:sequenceFlow id="Flow_0945z2j" sourceRef="Event_0ax33y1" targetRef="Activity_1h05c7z" />
@@ -275,13 +275,13 @@ status = not captured - LTOOS</bpmn:text>
         <dc:Bounds x="300" y="308" width="100" height="26" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_1vu47mh_di" bpmnElement="TextAnnotation_1vu47mh">
-        <dc:Bounds x="840" y="334" width="100" height="41" />
+        <dc:Bounds x="840" y="334" width="120" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_178oyej_di" bpmnElement="TextAnnotation_178oyej">
         <dc:Bounds x="710" y="290" width="100" height="98" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_0u61i0x_di" bpmnElement="TextAnnotation_0u61i0x">
-        <dc:Bounds x="650" y="599" width="149" height="83" />
+        <dc:Bounds x="650" y="599" width="148.99925871015566" height="82.98971460340994" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_0ilijk1_di" bpmnElement="TextAnnotation_0ilijk1">
         <dc:Bounds x="1380" y="520" width="140" height="109" />
@@ -469,7 +469,7 @@ status = not captured - LTOOS</bpmn:text>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_0iw510x_di" bpmnElement="Association_0iw510x">
         <di:waypoint x="806" y="422" />
-        <di:waypoint x="862" y="375" />
+        <di:waypoint x="869" y="370" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_1etw0z2_di" bpmnElement="Association_1etw0z2">
         <di:waypoint x="760" y="420" />

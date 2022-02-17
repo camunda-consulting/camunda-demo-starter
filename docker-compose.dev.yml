@@ -159,8 +159,8 @@ services:
 #########################################
 # Camunda Optimize
 #########################################
-  optimize:
-    image: registry.camunda.cloud/optimize-ee/optimize:3.4.0
+  optimize-demo:
+    image: registry.camunda.cloud/optimize-ee/optimize:3.7.2
     environment:
 #      OPTIMIZE_CAMUNDABPM_REST_URL: http://camunda-platform-n1:8081/engine-rest
 #      OPTIMIZE_CAMUNDABPM_WEBAPPS_URL: http://camunda-platform-n1:8081/camunda
