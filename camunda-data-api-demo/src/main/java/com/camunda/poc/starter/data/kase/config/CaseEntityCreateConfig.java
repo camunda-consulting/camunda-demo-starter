@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-@Profile("poc-es")
+@Profile("case")
 @Configuration
 public class CaseEntityCreateConfig {
 
@@ -94,34 +94,27 @@ public class CaseEntityCreateConfig {
 
             LOGGER.info("\n\n ********************** Create Case Post Init Hook *********************** \n\n ");
 
-            Case case1 = new Case();
-            case1.setStatus("normal");
-            case1.setBmi(20);
-            case1.setDiastolic(79);
-            case1.setEcgEkg("normal");
-            case1.setHdl(60);
-            case1.setHgbA1C("5.1");
-            case1.setLdl(50);
-            case1.setSmoker("no");
-            case1.setSodium(2400);
-            case1.setSystolic(170);
-            case1.setKey(UUID.randomUUID().toString());
-            caseRepository.save(case1);
+            Case kase = new Case();
+            kase.setStatus("clear");
+            kase.setActiveInsurance(false);
+            kase.setFax("303-345-3223");
+            kase.setLtoos(false);
+            kase.setNonfillable(false);
+            kase.setPharmacyName("walgreens");
+            kase.setPhone("303-333-2233");
+            kase.setKey(UUID.randomUUID().toString());
+            caseRepository.save(kase);
 
-            Case case2 = new Case();
-            case2.setStatus("normal");
-            case2.setBmi(20);
-            case2.setDiastolic(79);
-            case2.setEcgEkg("normal");
-            case2.setHdl(60);
-            case2.setHgbA1C("5.1");
-            case2.setLdl(50);
-            case2.setSmoker("no");
-            case2.setSodium(2500);
-            case2.setSystolic(115);
-            case2.setKey(UUID.randomUUID().toString());
-            case2.setKey(UUID.randomUUID().toString());
-            caseRepository.save(case2);
+            kase = new Case();
+            kase.setStatus("clear");
+            kase.setActiveInsurance(false);
+            kase.setFax("303-345-3223");
+            kase.setLtoos(false);
+            kase.setNonfillable(false);
+            kase.setPharmacyName("kroger");
+            kase.setPhone("303-333-2233");
+            kase.setKey(UUID.randomUUID().toString());
+            caseRepository.save(kase);
 
             LOGGER.info("\n\n **** Case Created ****** \n\n");
         }

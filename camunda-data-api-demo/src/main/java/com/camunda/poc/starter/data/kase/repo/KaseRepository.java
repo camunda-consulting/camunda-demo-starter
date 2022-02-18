@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
-@Profile("poc-es")
+@Profile("case")
 public interface KaseRepository extends PagingAndSortingRepository<Case, Long>{
 
 //	@Query("select l from renewal l where l.end <= ?1 and l.renewalStarted = false and l.renewalCompleted = false")

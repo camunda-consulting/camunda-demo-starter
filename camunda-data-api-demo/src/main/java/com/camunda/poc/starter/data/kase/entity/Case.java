@@ -3,9 +3,11 @@ package com.camunda.poc.starter.data.kase.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.context.annotation.Profile;
 
 import javax.persistence.*;
 
+@Profile("case")
 @Entity(name="poc_case")
 @Getter
 @Setter
@@ -29,29 +31,27 @@ public class Case {
 
     @Column(nullable=true)
     String key;
+
     @Column(nullable=true)
     String status;
-    @Column(nullable=true)
-    Integer systolic;
-    @Column(nullable=true)
-    Integer diastolic;
-    @Column(nullable=true)
-    Integer bmi;
-    @Column(nullable=true)
-    Integer ldl;
-    @Column(nullable=true)
-    Integer hdl;
-    @Column(nullable=true)
-    Integer sodium;
 
-    @Column(name="hgb_a1c", nullable=true)
-    String hgbA1C;
-
-    @Column(name="ecg_ekg", nullable=true)
-    String ecgEkg;
+    @Column(name="active_insurance", nullable=true)
+    Boolean activeInsurance;
 
     @Column(nullable=true)
-    String smoker;
+    Boolean ltoos;
+
+    @Column(name="non_fillable",nullable=true)
+    Boolean nonfillable;
+
+    @Column(name="pharmacy_name", nullable=true)
+    String pharmacyName;
+
+    @Column(nullable=true)
+    String phone;
+
+    @Column(nullable=true)
+    String fax;
 
 
 }
