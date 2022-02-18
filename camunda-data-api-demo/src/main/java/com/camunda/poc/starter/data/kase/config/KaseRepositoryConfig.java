@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 
-@Profile("poc-es")
+@Profile("case")
 @Configuration
 public class KaseRepositoryConfig implements RepositoryRestConfigurer {
 

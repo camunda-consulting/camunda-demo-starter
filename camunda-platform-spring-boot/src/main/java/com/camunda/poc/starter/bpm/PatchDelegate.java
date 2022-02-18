@@ -32,6 +32,9 @@ public class PatchDelegate implements JavaDelegate {
   //get the value of the type of object to submit
   private Expression bizObjectName;
 
+  //get the value of the type of object to submit
+  private Expression mutation;
+
   //Use Camunda field injection to get the value from the workflow config
   private Expression searchTerm;
 
@@ -51,10 +54,12 @@ public class PatchDelegate implements JavaDelegate {
 
 
     //Get the Spin Json object from the Camunda field injection expression
-    SpinJsonNode bizObj = BpmUtil.getBizObjectNode(execution, bizObject);
+    SpinJsonNode bizObj = BpmUtil.mutateBizObjectNode(execution, bizObject, mutation);
 
     //set the businessKey into the business object
     bizObj = BpmUtil.setBusinessKey(execution, bizObj);
+
+    LOGGER.info(" \n\n ====>> Biz Obj " + bizObj.toString() + "\n");
 
     //Get the searchTerm string from the field injection expression
     String searchTermStr = BpmUtil.getSearchTermString(execution, searchTerm);
@@ -75,10 +80,10 @@ public class PatchDelegate implements JavaDelegate {
         || response.getStatusLine().getStatusCode() == 202
         || response.getStatusLine().getStatusCode() == 204) {
 
-        //convert the response into SpinJsonNode
-        SpinJsonNode bizObjResponse = Spin.S(response);
+        LOGGER.info(" \n\n ====>> Response Body " + response.getStatusLine().getStatusCode() + "\n");
+
         //Set the business object into Camunda execution
-        BpmUtil.setBizObject(execution, bizObjectName, bizObjResponse);
+        BpmUtil.setBizObject(execution, bizObjectName, bizObj);
       }
 
     } catch (Exception e) {

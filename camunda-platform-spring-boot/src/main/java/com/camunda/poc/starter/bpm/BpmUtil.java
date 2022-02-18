@@ -80,6 +80,22 @@ public final class BpmUtil {
     }
 
     //process expression
+    public static SpinJsonNode mutateBizObjectNode(DelegateExecution execution,
+                                                Expression bizObject, Expression mutation) throws Exception {
+        if (bizObject != null && mutation != null) {
+            //Get the business object
+            SpinJsonNode json = (SpinJsonNode) bizObject.getValue(execution);
+            String value = (String) mutation.getValue(execution);
+            String [] values = value.split(":");
+            json.prop(values[0], values[1]);
+            LOGGER.info(" \n\n ====>> Biz Object " + json.toString() + "\n");
+            return json;
+        }else {
+            throw new Exception("bizObject or mutation not defined, please set the bizObject field injection property");
+        }
+    }
+
+    //process expression
     public static String getSearchTermString(DelegateExecution execution,
                                              Expression searchTerm) throws Exception {
 

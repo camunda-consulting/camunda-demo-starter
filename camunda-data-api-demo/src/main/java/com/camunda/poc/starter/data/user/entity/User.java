@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Profile;
 
 import javax.persistence.*;
 
-@Profile("poc-user")
+@Profile("user")
 @Entity(name="poc_user")
 @Getter
 @Setter

@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-@Profile("poc-user")
+@Profile("user")
 @Configuration
 public class UserEntityCreateConfig {
 
