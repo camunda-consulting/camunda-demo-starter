@@ -40,6 +40,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+    restart: always
     depends_on:
       - data-api-demo
 #      - reactjs-demo
@@ -86,6 +87,7 @@ services:
       retries: 5
     depends_on:
       - camunda-postgres
+    restart: always
 
 
   ########################################
