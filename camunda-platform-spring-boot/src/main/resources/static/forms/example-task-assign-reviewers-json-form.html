@@ -13,14 +13,14 @@
     <div class="controls">
       <input type="text"
              cam-variable-name="schedule"
-             ng-model="scheduleResult.schedule"
+             ng-model="case.schedule"
              readonly="true"
              class="form-control" />
     </div>
   </div>
 
   <div class="control-group">
-    <label class="control-label">Choose RPM</label>
+    <label class="control-label">Choose Role</label>
     <div class="controls">
       <select id="select-rpm-1" required cam-variable-name="rpmRole" cam-variable-type="String">
         <option value="rpm1" checked>RPM 1</option>
@@ -33,21 +33,13 @@
 
     camForm.on('form-loaded', function() {
       // tell the form SDK to fetch the variable named 'invoiceData'
-      camForm.variableManager.fetchVariable('scheduleResult');
+      camForm.variableManager.fetchVariable('case');
     });
 
     camForm.on('variables-fetched', function() {
-      // access to all process variables after the form has loaded
-      console.log(camForm.variableManager.variables);
+      // work with the variable (bind it to the current AngularJS $scope)
+      $scope.case = camForm.variableManager.variableValue('case');
     });
-
-<!--    camForm.on('variable-fetched', function () {-->
-<!--      // declare a 'json' variable 'customer'-->
-<!--          console.log("form-loaded")-->
-<!--          debugger;-->
-<!--          $scope.schedule = camForm.variableManager.variableValue('scheduleResult');-->
-<!--          console.log($scope.schedule)-->
-<!--    });-->
 
   </script>
 </form>
