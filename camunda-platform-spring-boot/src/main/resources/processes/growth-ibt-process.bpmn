@@ -294,6 +294,10 @@ status = not captured - LTOOS</bpmn:text>
       <bpmn:outgoing>Flow_0m3mdjd</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:callActivity id="Activity_11oxzpj" name="Call Member (Clerk)" calledElement="Process_call-member">
+      <bpmn:extensionElements>
+        <camunda:in variables="all" />
+        <camunda:out variables="all" />
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_1r39hdr</bpmn:incoming>
       <bpmn:outgoing>Flow_0d8tvet</bpmn:outgoing>
     </bpmn:callActivity>
