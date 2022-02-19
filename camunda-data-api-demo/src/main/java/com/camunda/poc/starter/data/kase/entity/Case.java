@@ -41,17 +41,29 @@ public class Case {
     @Column(nullable=true)
     Boolean ltoos;
 
-    @Column(name="non_fillable",nullable=true)
-    Boolean nonfillable;
+    @Column(name="fillable",nullable=true)
+    Boolean fillable;
 
     @Column(name="pharmacy_name", nullable=true)
     String pharmacyName;
+
+    @Column(name="correct", nullable=true)
+    Boolean isCorrect;
 
     @Column(nullable=true)
     String phone;
 
     @Column(nullable=true)
     String fax;
+
+    @Column(nullable=true)
+    String email;
+
+    @Column(nullable=true)
+    String comment;
+
+    @Column(name="member_name", nullable=true)
+    String memberName;
 
 
 }

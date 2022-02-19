@@ -85,8 +85,8 @@ public class CaseEntityCreateConfig {
      * @param event
      * @throws SQLException
      */
-    @EventListener
-    @org.springframework.core.annotation.Order(20)
+//    @EventListener
+//    @org.springframework.core.annotation.Order(20)
     public void onApplicationEventCreateContact(ContextRefreshedEvent event) throws SQLException {
 
 
@@ -99,7 +99,7 @@ public class CaseEntityCreateConfig {
             kase.setActiveInsurance(false);
             kase.setFax("303-345-3223");
             kase.setLtoos(false);
-            kase.setNonfillable(false);
+            kase.setFillable(false);
             kase.setPharmacyName("walgreens");
             kase.setPhone("303-333-2233");
             kase.setKey(UUID.randomUUID().toString());
@@ -110,7 +110,7 @@ public class CaseEntityCreateConfig {
             kase.setActiveInsurance(false);
             kase.setFax("303-345-3223");
             kase.setLtoos(false);
-            kase.setNonfillable(false);
+            kase.setFillable(false);
             kase.setPharmacyName("kroger");
             kase.setPhone("303-333-2233");
             kase.setKey(UUID.randomUUID().toString());
