@@ -29,7 +29,16 @@ public class BPMNErrorDelegate implements JavaDelegate {
             + ", executionId=" + execution.getId()
             + " \n\n");
 
-    throw new BpmnError("217");
+    Boolean error = (Boolean) execution.getVariable("error");
+    Boolean exception = (Boolean) execution.getVariable("exception");
+
+    if (error != null && error) {
+      throw new BpmnError("217");
+    }
+    if (exception != null && exception) {
+      throw new Exception("Opps!!! something went wrong!");
+    }
+
   }
 
 }
