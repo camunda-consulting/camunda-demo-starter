@@ -32,7 +32,7 @@ public class PatchDelegate implements JavaDelegate {
   //get the value of the type of object to submit
   private Expression bizObjectName;
 
-  //get the value of the type of object to submit
+  //get the value of the mutation
   private Expression mutation;
 
   //Use Camunda field injection to get the value from the workflow config
