@@ -13,8 +13,12 @@ import org.camunda.spin.SpinList;
 import org.camunda.spin.impl.json.jackson.JacksonJsonNode;
 import org.camunda.spin.json.SpinJsonNode;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Logger;
 
 public final class BpmUtil {
@@ -163,6 +167,11 @@ public final class BpmUtil {
         values.setObjectTypeName("java.util.ArrayList");
 
         return values;
+    }
+
+    public static Date formatDate(String date) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
+        return formatter.parse(date);
     }
 
 }
