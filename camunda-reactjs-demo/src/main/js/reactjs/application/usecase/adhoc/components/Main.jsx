@@ -284,7 +284,7 @@ class Main extends React.Component{
     return (
       <div>
 
-        <FilterBar toggleForm={this.toggleForm} title="Blood Pressure Reading Submission"/>
+        <FilterBar toggleForm={this.toggleForm} title="Use Case Submission"/>
 
         {info}
 

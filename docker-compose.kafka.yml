@@ -1,0 +1,63 @@
+########################################
+# Camunda Platform full development setup
+########################################
+version: '3.8'
+
+volumes:
+  certs:
+
+networks:
+  # Note there are two bridge networks. One for Zeebe and one for IAM. Operate, Tasklist, and Optimize use both
+  camunda-cloud: { }
+  camunda-platform: { }
+
+services:
+  #########################################
+  # Kafka Service
+  #########################################
+  zookeeper:
+    image: 'bitnami/zookeeper:latest'
+    ports:
+      - '2181:2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - camunda-cloud
+
+  kafka:
+    image: 'bitnami/kafka:latest'
+    ports:
+      - '9092:9092'
+      - '9093:9093'
+    links:
+      - zookeeper
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092,EXTERNAL://localhost:9093
+      - KAFKA_INTER_BROKER_LISTENER_NAME=CLIENT
+    depends_on:
+      - zookeeper
+    networks:
+      - camunda-cloud
+      - camunda-platform
+
+#########################################
+# Rabbit MQ Service
+#########################################
+  rabbitmq-mgmt:
+    image: rabbitmq:3-management
+    hostname: rabbitmq-mgmt
+    ports:
+      - "9500:15672"
+      - "5672:5672"
+      - "4369:4369"
+      - "5671:5671"
+    networks:
+      - camunda-cloud
+      - camunda-platform

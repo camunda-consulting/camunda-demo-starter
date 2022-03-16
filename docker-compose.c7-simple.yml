@@ -1,4 +1,8 @@
-version: '3.3'
+version: '3.8'
+
+  networks:
+    - camunda-cloud
+    - camunda-platform
 
 services:
   camunda:
@@ -18,3 +22,5 @@ services:
       POSTGRESQL_DATABASE: camunda
     ports:
       - "5432:5432"
+    networks:
+      - camunda-platform

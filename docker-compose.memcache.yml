@@ -1,0 +1,45 @@
+########################################
+# Camunda Platform full development setup
+########################################
+version: '3.8'
+
+volumes:
+  certs:
+
+networks:
+  # Note there are two bridge networks. One for Zeebe and one for IAM. Operate, Tasklist, and Optimize use both
+  camunda-cloud: { }
+  camunda-platform: { }
+
+services:
+  ##########################################
+  #      - Memcached server
+  ##########################################
+  memcached:
+    image: bitnami/memcached:latest
+    environment:
+      - MEMCACHED_CACHE_SIZE=64
+      - MEMCACHED_MAX_CONNECTIONS=20
+      - MEMCACHED_THREADS=4
+      - MEMCACHED_USERNAME=demo
+      - MEMCACHED_PASSWORD=demo
+    ports:
+      - "11211:11211"
+    ulimits:
+      nofile:
+        soft: "65536"
+        hard: "65536"
+    networks:
+      - camunda-cloud
+      - camunda-platform
+
+  ##########################################
+  #      - Redis server
+  ##########################################
+  redis:
+    image: 'bitnami/redis:latest'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - camunda-cloud
+      - camunda-platform

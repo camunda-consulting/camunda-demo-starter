@@ -1,0 +1,28 @@
+########################################
+# Camunda Platform full development setup
+########################################
+version: '3.8'
+
+volumes:
+  certs:
+
+networks:
+  # Note there are two bridge networks. One for Zeebe and one for IAM. Operate, Tasklist, and Optimize use both
+  camunda-cloud: { }
+  camunda-platform: { }
+
+services:
+  #########################################
+  # Rabbit MQ Service
+  #########################################
+  rabbitmq-mgmt:
+    image: rabbitmq:3-management
+    hostname: rabbitmq-mgmt
+    ports:
+      - "9500:15672"
+      - "5672:5672"
+      - "4369:4369"
+      - "5671:5671"
+    networks:
+      - camunda-cloud
+      - camunda-platform

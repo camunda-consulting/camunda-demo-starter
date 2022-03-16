@@ -1,0 +1,55 @@
+########################################
+# Camunda Platform full development setup
+########################################
+version: '3.8'
+
+volumes:
+  certs:
+
+networks:
+  # Note there are two bridge networks. One for Zeebe and one for IAM. Operate, Tasklist, and Optimize use both
+  camunda-cloud: { }
+  camunda-platform: { }
+
+services:
+##########################################
+#      - Key Cloak Realted Services
+##########################################
+  jboss.keycloak:
+    build: .
+#    image: jboss/keycloak
+    image: gunnaraccso/keycloak.server:5.0.0
+    restart: always
+    environment:
+      TZ: Europe/Berlin
+      KEYCLOAK_USER: keycloak
+      KEYCLOAK_PASSWORD: keycloak1!
+    ports:
+      - "9001:8443"
+      - "9000:8080"
+    depends_on:
+      - sso-postgres
+    networks:
+      - camunda-cloud
+      - camunda-platform
+
+  #  Create a service named db.
+  sso-postgres:
+  #   Use the Docker Image postgres. This will pull the newest release.
+    image: "postgres"
+    #   Give the container the name my_postgres. You can changes to something else.
+    container_name: "postgres"
+    #   Setup the username, password, and database name. You can changes these values.
+    environment:
+      - POSTGRES_USER=keycloak
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=keycloak
+    #   Maps port 54320 (localhost) to port 5432 on the container. You can change the ports to fix your needs.
+    ports:
+      - "54320:5432"
+    #   Set a volume some that database is not lost after shutting down the container.
+    #   I used the name postgres-data but you can changed it to something else.
+    #    volumes:
+    networks:
+      - camunda-cloud
+      - camunda-platform

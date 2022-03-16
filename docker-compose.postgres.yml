@@ -1,0 +1,56 @@
+########################################
+# Camunda Platform full development setup
+########################################
+version: '3.8'
+
+volumes:
+  certs:
+
+networks:
+  # Note there are two bridge networks. One for Zeebe and one for IAM. Operate, Tasklist, and Optimize use both
+  camunda-cloud: { }
+  camunda-platform: { }
+
+services:
+########################################
+# Postgres Service
+#
+# Be sure to add the config to application.yml
+# and driver to pom.xml
+#spring.datasource:
+#  url: jdbc:postgresql://127.0.0.1:5432/camunda?&characterEncoding=UTF-8
+#  username: camunda
+#  password: camunda
+#  driverClassName: org.postgresql.Driver
+#  maxActive: 10
+#  maxIdle: 5
+#  minIdle: 2
+#  initialSize: 5
+#  removeAbandoned: true
+########################################
+  camunda-postgres:
+    image: bitnami/postgresql:11.14.0
+    restart: always
+    environment:
+      POSTGRESQL_USER: camunda
+      POSTGRESQL_PASSWORD: camunda
+      POSTGRESQL_DATABASE: camunda
+      POSTGRESQL_ENABLE_TLS: 'yes'
+      POSTGRESQL_TLS_CERT_FILE: /opt/bitnami/postgresql/certs/postgres.crt
+      POSTGRESQL_TLS_KEY_FILE: /opt/bitnami/postgresql/certs/postgres.key
+    volumes:
+      - ./certs:/opt/bitnami/postgresql/certs
+    ports:
+      - "5432:5432"
+    deploy:
+      resources:
+        limits:
+          cpus: '3'
+          memory: 5000M
+        reservations:
+          memory: 2000M
+#    depends_on:
+#      - demo-cert
+    networks:
+      - camunda-cloud
+      - camunda-platform

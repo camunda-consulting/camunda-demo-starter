@@ -85,8 +85,8 @@ public class CaseEntityCreateConfig {
      * @param event
      * @throws SQLException
      */
-//    @EventListener
-//    @org.springframework.core.annotation.Order(20)
+    @EventListener
+    @org.springframework.core.annotation.Order(20)
     public void onApplicationEventCreateContact(ContextRefreshedEvent event) throws SQLException {
 
 
