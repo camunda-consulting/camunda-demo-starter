@@ -3,6 +3,11 @@ version: '3.8'
 volumes:
   certs:
 
+networks:
+  # Note there are two bridge networks. One for Zeebe and one for IAM. Operate, Tasklist, and Optimize use both
+  camunda-cloud: { }
+  camunda-platform: { }
+
 services:
 
   camunda-platform:

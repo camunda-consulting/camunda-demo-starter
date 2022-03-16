@@ -52,7 +52,7 @@ class StartForm extends React.Component {
                   <div className="form-registration-group">
 
                       <a className="form-registration-social-button" href="#" onClick={this.props.onStart}>
-                          <i className="fa fa-facebook-official" aria-hidden="true"></i>Start Blood Pressure Reading Submission</a>
+                          <i className="fa fa-facebook-official" aria-hidden="true"></i>Start Submission</a>
 
                         <select className="form-registration-input"
                                 ref="pid"

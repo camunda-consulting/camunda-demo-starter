@@ -1,5 +1,10 @@
 version: "3.3"
 
+networks:
+  # Note there are two bridge networks. One for Zeebe and one for IAM. Operate, Tasklist, and Optimize use both
+  camunda-cloud: { }
+  camunda-platform: { }
+
 services:
 ########################################
 # Camunda Service
@@ -9,11 +14,11 @@ services:
       context: https://github.com/camunda/docker-camunda-bpm-platform.git#next
       dockerfile: Dockerfile
       args:
-        EE: 'true'
+        EE: 'false'
         DISTRO: tomcat
-        VERSION: 7.16.5
-        USER: paul.lungu@camunda.com
-        PASSWORD: AKCp8kqWosTaHwY9LAerYz8Qa9sceJkQfvRTjmGxGNnGjyPgRVkF6zEwjpEUCmGwGEpmuBcqA
+        VERSION: 7.16.0
+        USER: <<creds>>
+        PASSWORD: <<creds>>
     image: camunda-platform
     links:
       - camunda-postgres
@@ -35,39 +40,8 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
-
-########################################
-# Postgres Service
-########################################
-  camunda-postgres:
-    image: bitnami/postgresql:11.14.0
-    restart: always
-    environment:
-      POSTGRESQL_USER: camunda
-      POSTGRESQL_PASSWORD: camunda
-      POSTGRESQL_DATABASE: camunda
-    ports:
-      - "5432:5432"
-    deploy:
-      resources:
-        limits:
-          cpus: '3'
-          memory: 5000M
-        reservations:
-          memory: 2000M
-
-#########################################
-# LDAP Service
-#########################################
-  apacheds:
-    build:
-        context: https://github.com/plungu/cam-apacheds.git
-        dockerfile: Dockerfile
-    image: apacheds
-    restart: always
-    environment:
-      USER: demo
-    ports:
-    - 10389:10389
-    volumes:
-      - ./ldap/seed.ldif:/ldifs/seed.ldif
+    depends_on:
+      - camunda-postgres
+      - apacheds
+    networks:
+      - camunda-platform

@@ -68,23 +68,6 @@
   <dependencies>
 
 	<!-- Cmaunda Dependencies -->
-<!--    <dependency>-->
-<!--      <groupId>org.camunda.bpm.springboot</groupId>-->
-<!--      <artifactId>camunda-bpm-spring-boot-starter-webapp-ee</artifactId>-->
-<!--      &lt;!&ndash;-->
-<!--      Adjust if you want to use EE:-->
-<!--      <artifactId>camunda-bpm-spring-boot-starter-webapp-ee</artifactId>-->
-<!--      Make sure you also use an EE version of Camunda - see above-->
-<!--      &ndash;&gt;-->
-<!--       <version>${camunda.version}</version>-->
-<!--    </dependency>-->
-
-<!--    <dependency>-->
-<!--      <groupId>org.camunda.bpm.springboot</groupId>-->
-<!--      <artifactId>camunda-bpm-spring-boot-starter-rest</artifactId>-->
-<!--      <version>${camunda.version}</version>-->
-<!--    </dependency>-->
-
     <dependency>
       <groupId>org.camunda.bpm.springboot</groupId>
       <artifactId>camunda-bpm-spring-boot-starter-test</artifactId>
@@ -96,12 +79,6 @@
 		<groupId>com.h2database</groupId>
 		<artifactId>h2</artifactId>
 	</dependency>
-
-<!--    <dependency>-->
-<!--      <groupId>org.apache.tomcat</groupId>-->
-<!--      <artifactId>tomcat-jdbc</artifactId>-->
-<!--      <version>9.0.10</version>-->
-<!--    </dependency>-->
 
     <!-- required to use H2 as a file based database  (Otherwise it's In-Memory) -->
     <dependency>
@@ -116,14 +93,6 @@
     </dependency>
 
     <!-- Required to use Spin dataformat support -->
-<!--    <dependency>-->
-<!--      <groupId>org.camunda.spin</groupId>-->
-<!--      <artifactId>camunda-spin-dataformat-all</artifactId>-->
-<!--    </dependency>-->
-<!--    <dependency>-->
-<!--      <groupId>org.camunda.bpm</groupId>-->
-<!--      <artifactId>camunda-engine-plugin-spin</artifactId>-->
-<!--    </dependency>-->
 
 	<!-- Testing -->
     <dependency>
@@ -146,12 +115,7 @@
 	    <artifactId>postgresql</artifactId>
    		<version>${postgresql.version}</version><!--$NO-MVN-MAN-VER$-->
 	</dependency>
-	
-<!--	<dependency>-->
-<!--	  <groupId>org.camunda.template-engines</groupId>-->
-<!--	  <artifactId>camunda-template-engines-freemarker</artifactId>-->
-<!--	</dependency>-->
-	
+
 	<!-- messaging integration -->
 <!--    <dependency>-->
 <!--      <groupId>org.springframework.boot</groupId>-->

@@ -11,7 +11,7 @@
       <bpmn:outgoing>Flow_01jky9y</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_1rgq06e" messageRef="Message_0rabq8f" />
     </bpmn:startEvent>
-    <bpmn:serviceTask id="Activity_1ubwszn" name="Get Case" camunda:delegateExpression="${getByKeyDelegate}">
+    <bpmn:serviceTask id="Activity_1ubwszn" name="Get Case" camunda:asyncBefore="true" camunda:delegateExpression="${getByKeyDelegate}">
       <bpmn:extensionElements>
         <camunda:field name="bizObjectName">
           <camunda:string>case</camunda:string>
@@ -78,6 +78,14 @@
       <bpmndi:BPMNShape id="Participant_1bmalqz_di" bpmnElement="Participant_1bmalqz" isHorizontal="true">
         <dc:Bounds x="160" y="80" width="1000" height="290" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_18hkc6n_di" bpmnElement="Flow_18hkc6n">
+        <di:waypoint x="730" y="200" />
+        <di:waypoint x="880" y="200" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1aqzeeq_di" bpmnElement="Flow_1aqzeeq">
+        <di:waypoint x="980" y="200" />
+        <di:waypoint x="1052" y="200" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_01jky9y_di" bpmnElement="Flow_01jky9y">
         <di:waypoint x="298" y="200" />
         <di:waypoint x="370" y="200" />
@@ -85,14 +93,6 @@
       <bpmndi:BPMNEdge id="Flow_09sedic_di" bpmnElement="Flow_09sedic">
         <di:waypoint x="470" y="200" />
         <di:waypoint x="630" y="200" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1aqzeeq_di" bpmnElement="Flow_1aqzeeq">
-        <di:waypoint x="980" y="200" />
-        <di:waypoint x="1052" y="200" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_18hkc6n_di" bpmnElement="Flow_18hkc6n">
-        <di:waypoint x="730" y="200" />
-        <di:waypoint x="880" y="200" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_01z9ka7_di" bpmnElement="Event_1w7qjvz" bioc:stroke="#000000" bioc:fill="#ffffff" color:background-color="#ffffff" color:border-color="#000000">
         <dc:Bounds x="262" y="182" width="36" height="36" />

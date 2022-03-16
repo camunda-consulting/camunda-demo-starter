@@ -7,7 +7,7 @@ module.exports = {
         'babel-polyfill',
 	    'script!jquery/dist/jquery.min.js',
 	    'script!foundation-sites/dist/foundation.min.js',
-	    `./src/main/js/reactjs/application/adhoc.jsx`
+	    `./src/main/js/reactjs/application/app.jsx`
 	  ],
 	externals: {
 		jquery: 'jQuery'

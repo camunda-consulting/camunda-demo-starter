@@ -1,10 +1,13 @@
 package com.camunda.poc.starter.plugin.history.event.handler;
 
+import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.camunda.bpm.engine.impl.cfg.TransactionState;
 import org.camunda.bpm.engine.impl.context.Context;
 import org.camunda.bpm.engine.impl.history.event.HistoryEvent;
 import org.camunda.bpm.engine.impl.history.handler.DbHistoryEventHandler;
 import org.camunda.bpm.engine.impl.history.handler.HistoryEventHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 
 import java.util.List;
@@ -25,14 +28,15 @@ public class MyCustomHistoryEventHandler implements HistoryEventHandler {
     @Override
     public void handleEvent(HistoryEvent historyEvent) {
 
-        LOGGER.info(" ***** HISTORY-EVENT REGISTERED: "+ historyEvent.getEventType()+ "\n");
+        LOGGER.info(" ***** HISTORY-EVENT: "+ historyEvent.getEventType()+" "+ historyEvent.getPersistentState() + "\n");
+
 
         // gets the transaction context and adds the custom listener to the transaction
         // on a specific transaction state e.g. committed
-        Context.getCommandContext()
-                .getTransactionContext()
-                .addTransactionListener(TransactionState.COMMITTED,
-                        new MyHistoryEventCommitListener("Do It!", historyEvent));
+//        Context.getCommandContext()
+//                .getTransactionContext()
+//                .addTransactionListener(TransactionState.COMMITTED,
+//                        new MyHistoryEventCommitListener("Do It!", historyEvent));
 
     }
 
