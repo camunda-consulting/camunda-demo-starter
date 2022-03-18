@@ -31,14 +31,16 @@ IMPORTANT: make sure to point to the location where you cloned the camunda-cloud
 docker-compose -f docker-compose.c8.yml  -f docker-compose.postgres.yml  -f docker-compose.data-api.yml  -f docker-compose.reactjs.yml  -f ~/.../camunda-cloud-docker-compose/ccsm-all.yml up -d --build c8-client optimize tasklist operate zeebe data-api reactjs-demo
 ```
 
-- c8-client
-- data-api
-- demo-reactjs
-- camunda-postgres
-- optimize
-- tasklist
-- operate
-- zeebe
+*Access Apps*
+
+- c8-client - localhost:9012
+- data-api - localhost:9000
+- demo-reactjs - localhost:3000
+- camunda-postgres - localhost:5432
+- optimize - see https://github.com/camunda-community-hub/camunda-cloud-docker-compose[Camunda Cloud Docker Compose]
+- tasklist :  see https://github.com/camunda-community-hub/camunda-cloud-docker-compose[Camunda Cloud Docker Compose]
+- operate : see https://github.com/camunda-community-hub/camunda-cloud-docker-compose[Camunda Cloud Docker Compose]
+- zeebe - see https://github.com/camunda-community-hub/camunda-cloud-docker-compose[Camunda Cloud Docker Compose]
 
 
 NOTE: It's possible to build and restart only a specific apps to speed up development.
@@ -61,10 +63,10 @@ IMPORTANT: Each project `camunda-data-api-demo`, `camunda-platform-spring-boot`,
 
 *Build the default apps*
 
-- camunda-platform
-- data-api
-- demo-reactjs
-- camunda-postgres
+- camunda-platform - localhost:8080
+- data-api - localhost:9000
+- demo-reactjs - localhost:3000
+- camunda-postgres - localhost:5432
 
 ```
 docker-compose -f docker-compose.c7.yml  -f docker-compose.postgres.yml -f docker-compose.c7-optimize.yml -f docker-compose.data-api.yml  -f docker-compose.reactjs.yml up -d --build camunda-platform optimize data-api reactjs-demo
