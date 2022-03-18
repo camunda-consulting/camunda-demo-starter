@@ -35,6 +35,8 @@ module.exports = {
             UpdateNoteDialog: 'src/main/js/reactjs/application/components/note/UpdateNoteDialog.jsx',
             DisplayDate: 'src/main/js/reactjs/application/components/date/DisplayDate.jsx',
             DisplayDateTime: 'src/main/js/reactjs/application/components/date/DisplayDateTime.jsx',
+            MarketingBar: 'src/main/js/reactjs/application/components/MarketingBar.jsx',
+            FooterBar: 'src/main/js/reactjs/application/components/FooterBar.jsx',
 
             uriListConverter: 'src/main/js/api/uriListConverter.js',
             uriTemplateInterceptor: 'src/main/js/api/uriTemplateInterceptor.js',
@@ -42,30 +44,31 @@ module.exports = {
             applicaitonStyles: 'src/main/resources/static/app.css',
             // END Generic Reusable Components
 
+            //Form Components
+            StartForm: 'src/main/js/reactjs/application/components/form/StartForm.jsx',
+            ConfirmationForm: 'src/main/js/reactjs/application/components/form/ConfirmationForm.jsx',
+            //Form Actions
+            SaveActionBar: 'src/main/js/reactjs/application/components/form/action/SaveActionBar.jsx',
+            ConfirmActionBar: 'src/main/js/reactjs/application/components/form/action/ConfirmActionBar.jsx',
+
+            //Filters Components
+            StatusBar: 'src/main/js/reactjs/application/components/filter/StatusBar.jsx',
+            FilterBar: 'src/main/js/reactjs/application/components/filter/FilterBar.jsx',
+
             //App Components
             Main: 'src/main/js/reactjs/application/components/main/Main.jsx',
             Home: 'src/main/js/reactjs/application/components/main/Parent.jsx',
 
             //Use case Components
             UseCaseMain: 'src/main/js/reactjs/application/usecase/adhoc/components/Main.jsx',
-            StartForm: 'src/main/js/reactjs/application/usecase/adhoc/components/StartForm.jsx',
             DetailForm: 'src/main/js/reactjs/application/usecase/adhoc/components/DetailForm.jsx',
-            ConfirmationForm: 'src/main/js/reactjs/application/usecase/adhoc/components/ConfirmationForm.jsx',
             Info: 'src/main/js/reactjs/application/usecase/adhoc/components/Info.jsx',
-            SaveActionBar: 'src/main/js/reactjs/application/usecase/adhoc/components/SaveActionBar.jsx',
-            MarketingBar: 'src/main/js/reactjs/application/usecase/adhoc/components/MarketingBar.jsx',
-            FooterBar: 'src/main/js/reactjs/application/usecase/adhoc/components/FooterBar.jsx',
             // END Use Case Components
 
-            //Generic Task Componet
-            TaskHome: 'src/main/js/reactjs/application/components/workflow/Home.jsx',
-            TaskDetail: 'src/main/js/reactjs/application/components/workflow/Detail.jsx',
-            TaskForm: 'src/main/js/reactjs/application/components/workflow/Form.jsx',
-            TaskInfo: 'src/main/js/reactjs/application/components/workflow/Info.jsx',
-
-            //Other components
-            StatusBar: 'src/main/js/reactjs/application/components/status/StatusBar.jsx',
-            FilterBar: 'src/main/js/reactjs/application/components/FilterBar.jsx',
+            //Workflow Components
+            WorkflowMain: 'src/main/js/reactjs/application/components/workflow/Main.jsx',
+            WorkflowForm: 'src/main/js/reactjs/application/components/workflow/Form.jsx',
+            WorkflowInfo: 'src/main/js/reactjs/application/components/workflow/Info.jsx',
             WorkflowActionBar: 'src/main/js/reactjs/application/components/workflow/ActionBar.jsx',
         },
         extensions: ['', '.js', '.jsx']

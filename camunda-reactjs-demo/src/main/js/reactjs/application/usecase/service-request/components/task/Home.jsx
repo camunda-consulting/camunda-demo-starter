@@ -17,7 +17,7 @@ const Detail = require('src/main/js/reactjs/application/service-request/componen
 // tag::customComponents
 
 // tag::vars[]
-const apiHost = process.env.API_HOST != "" ? `${process.env.API_HOST}:${process.env.API_PORT}/` : "/";
+const apiHost = process.env.DATA_API_HOST != "" ? `${process.env.DATA_API_HOST}:${process.env.DATA_API_PORT}/` : "/";
 const apiRoot = `${apiHost}${process.env.API_ROOT}`;
 // end::vars[]
 

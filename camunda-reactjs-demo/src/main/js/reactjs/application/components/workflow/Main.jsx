@@ -11,17 +11,17 @@ const client = require('client');
 const follow = require('follow'); // function to hop multiple links by "rel"
 
 // tag::customComponents
-const Detail = require('TaskDetail');
+
 // tag::customComponents
 
 // tag::vars[]
-const apiHost = process.env.API_HOST != "" ? `${process.env.API_HOST}:${process.env.CAMUNDA_API_PORT}/${process.env.CAMUNDA_API_ROOT}` : "/engine-rest";
+const apiHost = process.env.DATA_API_HOST != "" ? `${process.env.DATA_API_HOST}:${process.env.PALTFORM_API_PORT}/${process.env.PLATFORM_API_ROOT}` : "/engine-rest";
 const workflowContext = process.env.WORKFLOW_CONTEXT_PATH != "" ? `${process.env.WORKFLOW_CONTEXT_PATH}` : "process-instance";
 const uri = apiHost+"/"+workflowContext
 // end::vars[]
 
 // tag::app[]
-class home extends React.Component {
+class main extends React.Component {
 
     constructor(props) {
         super(props);
@@ -112,9 +112,7 @@ class home extends React.Component {
               </div>
             </div>
             <div>
-                <Detail workflow={this.state.workflow}
-                        handleReject={this.handleReject}
-                        handleApprove={this.handleApprove} />
+
             </div>
           </div>
         </div>
@@ -123,4 +121,4 @@ class home extends React.Component {
 }
 // end::app[]
 
-module.exports = home;
+module.exports = main;

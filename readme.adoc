@@ -1,4 +1,4 @@
-== Demoing with this Project
+== Demo with this Project
 
 ---
 
@@ -16,7 +16,35 @@ IMPORTANT: Each project `camunda-data-api-demo`, `camunda-platform-spring-boot`,
 
 NOTE: To get credentials you need to create an API key.
 
+### Use the presentation slide template
+https://docs.google.com/presentation/d/1fI7mdW_Q6yEiM0H01b58aQVa74YkTnYj/[Proof of Technology Google Slides Template]
+
 ===  Get up and running quickly with Docker and Docker Compose
+
+==== Camunda Cloud / C8
+====
+*Build the default apps*
+
+- c8-client
+- data-api
+- demo-reactjs
+- camunda-postgres
+
+```
+docker-compose -f docker-compose.c8.yml  -f docker-compose.postgres.yml  -f docker-compose.data-api.yml  -f docker-compose.reactjs.yml  -f ~/projects/camunda-cloud-docker-compose/ccsm-all.yml up -d --build c8-client optimize tasklist operate zeebe data-api reactjs-demo
+```
+
+NOTE: It's possible to build and restart only a specific apps to speed up development.
+
+```
+ docker-compose -f docker-compose.<<>>.yml up -d --build <service-name>
+```
+
+TIP: Have a look at the docker-compose.<<>>.yml to see the other services you can run and build.
+
+====
+
+==== Camunda Platform
 ====
 *Build the default apps*
 
@@ -26,16 +54,16 @@ NOTE: To get credentials you need to create an API key.
 - camunda-postgres
 
 ```
- docker-compose -f docker-compose.dev.yml up -d --build camunda-platform
+docker-compose -f docker-compose.c7.yml  -f docker-compose.postgres.yml -f docker-compose.c7-optimize.yml -f docker-compose.data-api.yml  -f docker-compose.reactjs.yml up -d --build camunda-platform optimize data-api reactjs-demo
 ```
 
 NOTE: It's possible to build and restart only a specific apps to speed up development.
 
 ```
- docker-compose -f docker-compose.dev.yml up -d --build <service-name>
+ docker-compose -f docker-compose.<<>>.yml up -d --build <service-name>
 ```
 
-TIP: Have a look at the docker-compose.dev.yml to see the other services you can run and build.
+TIP: Have a look at the docker-compose.<<>>.yml to see the other services you can run and build.
 
 ====
 
@@ -145,7 +173,7 @@ NOTE: This process is done to have a consistent build and utilize features of Sp
 #### Running the data-api server for Dev
 ====
 ```
- docker-compose -f docker-compose.dev.yml up -d --build data-api-demo
+ docker-compose -f docker-compose.dev.yml up -d --build data-api
 ```
 ====
 

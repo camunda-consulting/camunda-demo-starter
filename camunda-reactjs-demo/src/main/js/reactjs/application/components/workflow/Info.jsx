@@ -11,19 +11,12 @@ const React = require('react');
 // tag::customComponents
 // tag::vars[]
 
-
 class Info extends React.Component{
   constructor(props) {
       super(props);
       // this.handleDelete = this.handleDelete.bind(this);
   }
 
-  // handleDelete(e){
-  //     e.preventDefault;
-  //     alert("Sure you want to delete this property? Press the [esc] button to cancel this action.");
-  //     this.props.onDelete(this.props.task);
-  // }
-  
   render(){
       console.log("Workflow=>Info=>: "+JSON.stringify(this.props.workflow))
 

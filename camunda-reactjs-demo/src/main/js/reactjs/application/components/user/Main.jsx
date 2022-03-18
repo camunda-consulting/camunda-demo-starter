@@ -19,11 +19,11 @@ const FilterBar = require('FilterBar');
 const Items = require('ItemHome');
 
 // tag::vars[]
-const apiHost = process.env.API_HOST != "" ? `${process.env.API_HOST}:${process.env.API_PORT}/` : "/";
+const apiHost = process.env.DATA_API_HOST != "" ? `${process.env.DATA_API_HOST}:${process.env.DATA_API_PORT}/` : "/";
 const apiRoot = `${apiHost}${process.env.API_ROOT}`;
 // end::vars[]
 
-class Detail extends React.Component{
+class Main extends React.Component{
   constructor(props) {
         super(props);
         this.state = {
@@ -330,4 +330,4 @@ class Detail extends React.Component{
   }
 }
 
-module.exports = Detail;
+module.exports = Main;

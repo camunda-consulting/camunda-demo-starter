@@ -16,6 +16,7 @@ services:
   #      - Dummy SMTP test server
   ##########################################
   smtp:
+    container_name: smpt-mailslurper
     image: datydock/mailslurper
     ports:
       - "2500:2500"

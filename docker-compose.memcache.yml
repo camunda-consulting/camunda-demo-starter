@@ -16,6 +16,7 @@ services:
   #      - Memcached server
   ##########################################
   memcached:
+    container_name: memcache
     image: bitnami/memcached:latest
     environment:
       - MEMCACHED_CACHE_SIZE=64
@@ -37,6 +38,7 @@ services:
   #      - Redis server
   ##########################################
   redis:
+    container_name: redis
     image: 'bitnami/redis:latest'
     environment:
       - ALLOW_EMPTY_PASSWORD=yes

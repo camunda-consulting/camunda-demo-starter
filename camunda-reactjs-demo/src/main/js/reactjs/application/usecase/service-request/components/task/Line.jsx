@@ -15,7 +15,7 @@ const DisplayDate = require('src/main/js/reactjs/application/service-request/com
 const UpdateNoteDialog = require('src/main/js/reactjs/application/components/note/UpdateNoteDialog.jsx');
 
 // tag::vars[]
-const apiHost = process.env.API_HOST != "" ? `${process.env.API_HOST}:${process.env.API_PORT}/` : "/";
+const apiHost = process.env.DATA_API_HOST != "" ? `${process.env.DATA_API_HOST}:${process.env.DATA_API_PORT}/` : "/";
 const apiRoot = `${apiHost}${process.env.API_ROOT}`;
 // end::vars[]
 

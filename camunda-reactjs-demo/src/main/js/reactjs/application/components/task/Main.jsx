@@ -15,11 +15,11 @@ const Detail = require('TaskDetail');
 // tag::customComponents
 
 // tag::vars[]
-const apiHost = process.env.API_HOST != "" ? `${process.env.API_HOST}:${process.env.CAMUNDA_API_PORT}/` : "/";
+const apiHost = process.env.DATA_API_HOST != "" ? `${process.env.DATA_API_HOST}:${process.env.PLATFORM_API_PORT}/` : "/";
 // end::vars[]
 
 // tag::app[]
-class home extends React.Component {
+class main extends React.Component {
 
     constructor(props) {
         super(props);
@@ -121,4 +121,4 @@ class home extends React.Component {
 }
 // end::app[]
 
-module.exports = home;
+module.exports = main;

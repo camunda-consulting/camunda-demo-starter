@@ -1,7 +1,7 @@
 const React = require('react');
 
 // tag::vars[]
-const dataApiHost = process.env.API_HOST != "" ? `${process.env.API_HOST}` : "/";
+const dataApiHost = process.env.DATA_API_HOST != "" ? `${process.env.DATA_API_HOST}` : "/";
 const dataApi = `${dataApiHost}:${process.env.DATA_API_PORT}`;
 const dataApiUri = `${dataApi}/${process.env.DATA_API_ROOT}`;
 

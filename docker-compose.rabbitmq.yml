@@ -16,6 +16,7 @@ services:
   # Rabbit MQ Service
   #########################################
   rabbitmq-mgmt:
+    container_name: rabbit
     image: rabbitmq:3-management
     hostname: rabbitmq-mgmt
     ports:
