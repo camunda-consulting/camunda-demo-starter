@@ -7,12 +7,7 @@
 - Make your changes and work in your fork
 - If you have a contribution that isn't specific to a customer create a pull request
 - Get an enterprise license
-
- Put the license.txt file with your license in the home directory of the project
-
 - Get enterprise credentials for maven/nexus/jfrog and place them in the settings.xml file in each project.
-
-IMPORTANT: Each project `camunda-data-api-demo`, `camunda-platform-spring-boot`, `camunda-reactjs-demo` each must have a settings.xml with the credentials.
 
 NOTE: To get credentials you need to create an API key.
 
@@ -58,6 +53,12 @@ TIP: Have a look at the docker-compose.<<>>.yml to see the other services you ca
 
 ==== Camunda Platform
 ====
+
+ Put the license.txt file with your license in the home directory of the project
+
+IMPORTANT: Each project `camunda-data-api-demo`, `camunda-platform-spring-boot`, `camunda-reactjs-demo` each must have a settings.xml with the credentials.
+
+
 *Build the default apps*
 
 - camunda-platform
