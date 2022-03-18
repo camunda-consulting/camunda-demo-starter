@@ -23,12 +23,19 @@ https://docs.google.com/presentation/d/1fI7mdW_Q6yEiM0H01b58aQVa74YkTnYj/[Proof 
 
 ==== Camunda Cloud / C8
 ====
-*Build the default apps*
+
+*Pull the https://github.com/camunda-community-hub/camunda-cloud-docker-compose[Camunda Cloud Docker Compose] project from github*
+
+*Build the apps*
 
 - c8-client
 - data-api
 - demo-reactjs
 - camunda-postgres
+- optimize
+- tasklist
+- operate
+- zeebe
 
 ```
 docker-compose -f docker-compose.c8.yml  -f docker-compose.postgres.yml  -f docker-compose.data-api.yml  -f docker-compose.reactjs.yml  -f ~/projects/camunda-cloud-docker-compose/ccsm-all.yml up -d --build c8-client optimize tasklist operate zeebe data-api reactjs-demo
