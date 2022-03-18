@@ -16,6 +16,7 @@ services:
   # Kafka Service
   #########################################
   zookeeper:
+    container_name: zookeeper
     image: 'bitnami/zookeeper:latest'
     ports:
       - '2181:2181'
@@ -25,6 +26,7 @@ services:
       - camunda-cloud
 
   kafka:
+    container_name: kafka
     image: 'bitnami/kafka:latest'
     ports:
       - '9092:9092'
@@ -43,21 +45,6 @@ services:
       - KAFKA_INTER_BROKER_LISTENER_NAME=CLIENT
     depends_on:
       - zookeeper
-    networks:
-      - camunda-cloud
-      - camunda-platform
-
-#########################################
-# Rabbit MQ Service
-#########################################
-  rabbitmq-mgmt:
-    image: rabbitmq:3-management
-    hostname: rabbitmq-mgmt
-    ports:
-      - "9500:15672"
-      - "5672:5672"
-      - "4369:4369"
-      - "5671:5671"
     networks:
       - camunda-cloud
       - camunda-platform

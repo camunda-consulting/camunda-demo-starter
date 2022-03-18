@@ -15,6 +15,7 @@ services:
 # Camunda Platform Service
 ########################################
   c8-client:
+    container_name: c8-client
     build:
       context: ./camunda-8-spring-boot-client
     ports:
@@ -31,7 +32,7 @@ services:
       MAIL_PORT: 2500
       RABBITMQ_HOST: rabbitmq-mgmt
       ADMIN_CLIENT_URL: http://camunda-node-1:8080
-      DATA_API_URI: http://data-api-demo:9000/api
+      DATA_API_URI: http://data-api:9000/api
     deploy:
       resources:
         limits:
@@ -48,7 +49,7 @@ services:
     networks:
       - camunda-cloud
     depends_on:
-      - data-api-demo
+      - data-api
       - camunda-postgres
       - reactjs-demo
 #      - smtp

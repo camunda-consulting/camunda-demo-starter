@@ -29,6 +29,7 @@ services:
 #  removeAbandoned: true
 ########################################
   camunda-postgres:
+    container_name: postgres-camunda
     image: bitnami/postgresql:11.14.0
     restart: always
     environment:

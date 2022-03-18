@@ -1,7 +1,7 @@
 package com.camunda.poc.starter.pubsub;
 
-import com.camunda.poc.starter.data.status.entity.Status;
-import com.camunda.poc.starter.data.status.repo.StatusRepository;
+import com.camunda.poc.starter.data.kase.entity.Case;
+import com.camunda.poc.starter.data.kase.repo.KaseRepository;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
@@ -11,18 +11,18 @@ import org.springframework.context.annotation.Profile;
 import java.util.Map;
 import java.util.logging.Logger;
 
-@Profile("damage")
+@Profile("pubsub")
 @EnableBinding(EventChannels.class)
 public class TaskEventSubscriber {
 
 	private final Logger LOGGER = Logger.getLogger(TaskEventSubscriber.class.getName());
 
-	private StatusRepository repository;
+	private KaseRepository repository;
 
 	public TaskEventSubscriber(){}
 
 	@Autowired
-	public TaskEventSubscriber(StatusRepository repository){
+	public TaskEventSubscriber(KaseRepository repository){
 		this.repository = repository;
 	}
 
@@ -40,15 +40,8 @@ public class TaskEventSubscriber {
 			if (params != null) {
 				LOGGER.info("\n\n Event Params: " + jsData.toString() + "\n");
 
-				Status status = new Status();
-				String key = jsData.getString("businessKey");
-				status.setKey(key);
-				String taskName = jsData.getString("taskName");
-				status.setTaskName(taskName);
-				String r_status = jsData.getString("status");
-				status.setTaskName(r_status);
-
-				repository.save(status);
+				Case kase = new Case();
+				repository.save(kase);
 			}
 
 		} else {

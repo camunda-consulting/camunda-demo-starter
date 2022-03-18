@@ -10,6 +10,7 @@ services:
 # Camunda Service
 ########################################
   camunda-platform:
+    container_name: c7-tomcat-multitenant
     build:
       context: https://github.com/camunda/docker-camunda-bpm-platform.git#next
       dockerfile: Dockerfile

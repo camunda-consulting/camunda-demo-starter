@@ -11,6 +11,7 @@ networks:
 services:
 
   camunda-platform:
+    container_name: c7-cockroach
     image: registry.camunda.cloud/cambpm-ee/camunda-bpm-platform-ee:${DISTRO:-7.16.5}
     environment:
       - DB_DRIVER=org.postgresql.Driver

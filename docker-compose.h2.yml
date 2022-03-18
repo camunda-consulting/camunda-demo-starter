@@ -16,6 +16,7 @@ services:
 # In Memory Database
 ########################################
   camunda-platform:
+    container_name: c7-h2
     build:
       context: ./camunda-platform-spring-boot
     ports:
@@ -27,7 +28,7 @@ services:
       MAX_POOL_SIZE: 3
       RABBITMQ_HOST: rabbitmq-mgmt
       ADMIN_CLIENT_URL: http://camunda-node-1:8080
-      DATA_API_URI: http://data-api-demo:9000/api
+      DATA_API_URI: http://data-api:9000/api
     deploy:
       resources:
         limits:
@@ -44,7 +45,7 @@ services:
     networks:
       - camunda-platform
 #    depends_on:
-#      - data-api-demo
+#      - data-api
 #      - reactjs-demo
 #      - camunda-postgres
 #      - smtp

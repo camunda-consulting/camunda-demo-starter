@@ -16,13 +16,15 @@ const DetailForm = require('DetailForm');
 const ConfirmationForm = require('ConfirmationForm');
 const Info = require('Info');
 const FilterBar = require('FilterBar');
-
-const Workflow = require('TaskHome');
-
+const Workflow = require('WorkflowMain');
 
 // tag::vars[]
-const apiHost = process.env.API_HOST != "" ? `${process.env.API_HOST}:${process.env.API_PORT}/` : "/";
-const apiRoot = `${apiHost}${process.env.API_ROOT}`;
+const dataApiHost = process.env.DATA_API_HOST != "" ? `${process.env.DATA_API_HOST}:${process.env.DATA_API_PORT}` : "/";
+const dataApi = `${dataApiHost}${process.env.DATA_API_ROOT}`;
+
+const cloudApiHost = process.env.CLOUD_API_CLIENT_HOST != "" ? `${process.env.CLOUD_API_CLIENT_HOST}:${process.env.CLOUD_API_CLIENT_PORT}` : "/";
+const cloudApi = `${cloudApiHost}${process.env.CLOUD_API_CONTEXT}`;
+
 // end::vars[]
 
 class Main extends React.Component{
@@ -31,10 +33,14 @@ class Main extends React.Component{
         this.state = {
         submission: {},
         submissions: [],
-        reading: {},
-        contact: {},
+        formProps: {
+            message: "",
+            email: "",
+            readingTime: "2021-05-13T00:00:00.000Z"
+        },
+        user: {},
         workflow: {
-            correlationMessage: "Message_start-blood-pressure-submission-process",
+            key: process.env.WORKFLOW_KEY,
         },
         displayStartForm: "block",
         displayDetailForm: "none",
@@ -69,10 +75,9 @@ class Main extends React.Component{
     }
     // end::did-mount[]
 
-    // componentDidUpdate() {
-    //   console.log("Detail Component Did Update");
-    //   this.state.callUpdateAll(this.state.submission.key, this);
-    // }
+    // ********************************************************
+    //  Form Helper Functions
+    // ********************************************************
 
     toggleForm(form){
         if (form == "detail"){
@@ -112,7 +117,11 @@ class Main extends React.Component{
         );
     }
 
-    handleUpdateState(target, obj){
+    // ********************************************************
+    //  State Update Functions
+    // ********************************************************
+
+    handleUpdateState(target, obj) {
         console.log("Detail => handleUpdateState: "+ target)
 
         const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -123,13 +132,13 @@ class Main extends React.Component{
         obj[name] = value;
 
         this.setState({
-            reading: obj
+            formProps: obj,
         });
 
-        console.log(`Detail => handleUpdateState: ${JSON.stringify(obj)}`)
+        console.log(`Detail => handleUpdateState: ${JSON.stringify(this.state.formProps)}`)
     }
 
-    handleUpdateStartState(key){
+    handleUpdateStartState(key) {
         console.log("Detail => handleUpdateStartState : "+ JSON.stringify(key));
 
         this.state.callUpdateItem(key, this);
@@ -137,30 +146,62 @@ class Main extends React.Component{
         this.toggleForm("detail");
     }
 
+    // ********************************************************
+    //  Submit Functions
+    // ********************************************************
 
-    handleStart(e){
-        e.preventDefault();
+    handleStart(){
 
-        var submission = {
-            damageKey: this.uuidv4(),
-            email: this.state.contact.email
-        }
+        let data = {};
+        data.key = this.state.workflow.key;
+        if (data.key == null)
+            data.key = this.uuidv4();
 
-        console.log("Handle Start: " + JSON.stringify(submission));
+        data.variables = {
+                            caseId: this.state.submission.key,
+                            message_content: this.state.formProps.message,
+                            source: this.state.formProps.email,
+                            readingTime: this.state.formProps.readingTime
+                         };
+
+
+        console.log("Handle Start: " + JSON.stringify(data));
 
         //post the object to the endpoint to save the entity
-        this.post("POST", submission, apiRoot+"/submissions");
+        this.post("POST", data, cloudApi);
 
         this.state.callUpdateAll(this.state.pageSize, this);
 
-        this.toggleForm("detail");
+        this.toggleForm("confirmed");
+    }
+
+    // end::on-delete[]
+    async post(method, obj, context) {
+        if(method == null){
+            method = "POST"
+        }
+        console.log(`POST Started - METHOD:${JSON.stringify(method)} OBJECT:${JSON.stringify(obj)} CONTEXT: ${JSON.stringify(context)}`);
+
+        await client({
+            method: method,
+            path: context,
+            entity: obj,
+            headers: {'Content-Type': 'application/json'}
+        }).done(response => {
+            if (response.status.code == 200){
+                console.log("POST Request Complete"+ JSON.stringify(response));
+            }
+        });
     }
 
 
+    // ********************************************************
+    //  Load Functions
+    // ********************************************************
 
     // tag::follow-2[]
     loadObjectsFromServer(pageSize, obj) {
-        follow(client, apiRoot, [
+        follow(client, dataApi, [
                 {rel: obj, params: {size: pageSize}}
                 // {rel: 'search'},
                 // {rel: 'findSubmissionByStarted', params: {started: true}}
@@ -188,7 +229,7 @@ class Main extends React.Component{
 
     // tag::on-loadByKeyFromServer[]
     loadByKeyFromServer(key) {
-        follow(client, apiRoot, [
+        follow(client, dataApi, [
             {rel: 'cases'},
             {rel: 'search'},
             {rel: 'findCaseByKey', params: {key: key}}
@@ -215,7 +256,7 @@ class Main extends React.Component{
 
     // tag::on-loadUserFromServer[]
     loadUserFromServer(email) {
-        follow(client, apiRoot, [
+        follow(client, dataApi, [
                 {rel: 'users'},
                 {rel: 'search'},
                 {rel: 'findContactByEmail', params: {email: email}}
@@ -233,32 +274,16 @@ class Main extends React.Component{
             console.log("loadUserFromServer: "
                 +JSON.stringify(itemCollection.entity))
             this.setState({
-                contact: itemCollection.entity,
+                user: itemCollection.entity,
                 // attributes: Object.keys(this.schema.properties),
                 // pageSize: pageSize,
                 links: itemCollection.entity._links});
         });
     }
 
-    // end::on-delete[]
-    async post(method, obj, context) {
-        if(method == null){
-            method = "POST"
-        }
-        console.log(`POST Started - METHOD:${JSON.stringify(method)} OBJECT:${JSON.stringify(obj)} CONTEXT: ${JSON.stringify(context)}`);
-
-        await client({
-            method: method,
-            path: context,
-            entity: obj,
-            headers: {'Content-Type': 'application/json'}
-        }).done(response => {
-            if (response.status.code == 200){
-                console.log("POST Request Complete"+ JSON.stringify(response));
-            }
-        });
-    }
-
+  // ********************************************************
+  // React Render Function
+  // ********************************************************
   render(){
 
       var displayStartForm = this.state.displayStartForm;
@@ -272,7 +297,7 @@ class Main extends React.Component{
       console.log("Main Render Submission: "+JSON.stringify(this.state.submission));
 
       if (this.state.submission.id != null) {
-         info =  <Info item={this.state.submission} contact={this.state.contact}/>
+         info =  <Info item={this.state.submission} formProps={this.state.formProps} user={this.state.user}/>
       }
 
       if (this.state.submission.key != null) {
@@ -300,19 +325,19 @@ class Main extends React.Component{
             {workflow}
 
             <DetailForm submission={this.state.submission}
-                        contact={this.state.contact}
-                        reading={this.state.reading}
+                        user={this.state.user}
+                        formProps={this.state.formProps}
                         workflow={this.state.workflow}
                         onUpdateState={this.handleUpdateState}
-                        post={this.post}
-                        onRedirect={this.props.onRedirect}
+                        onStart={this.handleStart}
                         toggleForm={this.toggleForm}/>
         </div>
 
         <div style={{display: displayConfirmationForm}}>
             <ConfirmationForm submission={this.state.submission}
-                              contact={this.state.contact}
-                              post={this.post}
+                              formProps-={this.state.formProps}
+                              user={this.state.user}
+                              onStart={this.props.onStart}
                               toggleForm={this.toggleForm} />
         </div>
 
@@ -332,7 +357,8 @@ class Main extends React.Component{
 
       </div>
     )
-  }
+  }//End Render
+
 }
 
 module.exports = Main;

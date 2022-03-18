@@ -1,11 +1,11 @@
 package com.camunda.poc.starter.controller.workflow;
 
+import com.camunda.poc.starter.data.kase.entity.Case;
+import com.camunda.poc.starter.data.kase.repo.KaseRepository;
 import com.camunda.poc.starter.pubsub.Event;
 import com.camunda.poc.starter.pubsub.EventChannels;
 import com.camunda.poc.starter.data.user.entity.User;
-import com.camunda.poc.starter.data.submission.entity.Submission;
 import com.camunda.poc.starter.data.user.repo.UserRepository;
-import com.camunda.poc.starter.data.submission.repo.SubmissionRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
@@ -29,12 +29,12 @@ public class WorkflowAsyncController {
     private final Logger LOGGER = Logger.getLogger(Class.class.getName());
 
     private EventChannels source;
-    private SubmissionRepository repository;
+    private KaseRepository repository;
     private UserRepository userRepository;
 
     @Autowired
     public WorkflowAsyncController(EventChannels source,
-                                   SubmissionRepository repository,
+                                   KaseRepository repository,
                                    UserRepository userRepository){
         this.source = source;
         this.repository = repository;
@@ -58,10 +58,10 @@ public class WorkflowAsyncController {
         String businessKey = jsonRequestParam.getString("businessKey");
 
         //Get the data from our business API's
-        Submission repoObj = repository.findSubmissionByBusinessKey(businessKey);
+        Case repoObj = repository.findCaseByKey(businessKey);
         User contact = userRepository.findById(1L).get();
 
-        LOGGER.info("\n\n  Repo Data: "+ repoObj.getSubmissionStatusDate() +"\n");
+        LOGGER.info("\n\n  Repo Data: "+ repoObj.getId() +"\n");
 
         //Create meta-data about the event
         Event event = new Event();
@@ -88,7 +88,7 @@ public class WorkflowAsyncController {
 
         // *** Shouldn't do this here instead create a listener and update based on published event.
         if(sent) {
-            repoObj.setStarted(true);
+            repoObj.setStatus("Sent");
             repository.save(repoObj);
             return new ResponseEntity<HttpStatus>(HttpStatus.OK);
         }

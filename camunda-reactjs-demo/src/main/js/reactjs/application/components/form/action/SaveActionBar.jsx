@@ -1,11 +1,11 @@
 const React = require('react');
 
 // tag::vars[]
-const apiHost = process.env.API_HOST != "" ? `${process.env.API_HOST}:${process.env.API_PORT}/` : "/";
+const apiHost = process.env.DATA_API_HOST != "" ? `${process.env.DATA_API_HOST}:${process.env.DATA_API_PORT}/` : "/";
 const apiRoot = `${apiHost}${process.env.API_ROOT}`;
 // end::vars[]
 
-class ActionBar extends React.Component{
+class SaveActionBar extends React.Component{
 
     constructor(props) {
         super(props);
@@ -16,11 +16,10 @@ class ActionBar extends React.Component{
 
     handleSave(e){
         e.preventDefault();
-        console.log("HOME -> ActionBar -> HandleSave: " + JSON.stringify(this.props.order));
+        console.log("SaveActionBar -> HandleSave: " + JSON.stringify(this.props.submission));
         //post the object to the endpoint
-        this.props.post("PATCH", this.props.order, apiRoot+`/orders/${this.props.order.id}`);
-
-        this.props.toggleForm("items");
+        this.props.post("PATCH", this.props.submission, apiRoot+`/cases/${this.props.submission.id}`);
+        this.props.toggleForm("confirm");
     }
 
   render(){
@@ -39,4 +38,4 @@ class ActionBar extends React.Component{
   }
 }
 
-module.exports = ActionBar;
+module.exports = SaveActionBar;

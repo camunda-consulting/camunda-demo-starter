@@ -1,7 +1,6 @@
 package com.camunda.poc.starter.reactive;
 
-//import com.camunda.poc.starter.entity.data.ServiceRequestEntity;
-import com.camunda.poc.starter.reactive.repo.ReactiveServiceRequestRepository;
+import com.camunda.poc.starter.data.kase.entity.Case;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,18 +15,18 @@ import reactor.core.publisher.Mono;
 @RequestMapping
 public class ReactiveStatusHandler {
 
-//    @Autowired
-//    ReactiveServiceRequestRepository repository;
-//
-//    @GetMapping("/servicerequest/{id}")
-//    public Mono<ServiceRequestEntity> getPolicy(@PathVariable String id)  {
-//
-//        return repository.findServiceRequestByServiceId(id);
-//    }
-//
-//    @GetMapping("/servicerequest/started")
-//    public Flux<ServiceRequestEntity> getSerivceRequestStarted()  {
-//        return repository.findServiceRequestEntitiesByApprovedAndStarted(true, true);
-//    }
+    @Autowired
+    ReactiveRepository repository;
+
+    @GetMapping("/cases/{id}")
+    public Mono<Case> getPolicy(@PathVariable String id)  {
+
+        return (Mono<Case>) repository.findByKey(id);
+    }
+
+    @GetMapping("/servicerequest/started")
+    public Flux<Case> getAll()  {
+        return (Flux<Case>) repository.getAll();
+    }
 
 }

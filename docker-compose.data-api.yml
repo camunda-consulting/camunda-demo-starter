@@ -15,7 +15,8 @@ services:
   ########################################
   # Business Data Service
   ########################################
-  data-api-demo:
+  data-api:
+    container_name: data-api
     build:
       context: ./camunda-data-api-demo
     ports:

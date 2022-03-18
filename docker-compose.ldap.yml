@@ -16,6 +16,7 @@ services:
   # LDAP Service
   #########################################
   apacheds:
+    container_name: apacheds
     build:
       context: https://github.com/plungu/cam-apacheds.git
       dockerfile: Dockerfile
