@@ -23,9 +23,11 @@ https://docs.google.com/presentation/d/1fI7mdW_Q6yEiM0H01b58aQVa74YkTnYj/[Proof 
 
 *Build the apps*
 
+IMPORTANT: Copy the zeebe-application.yml from the Camunda Cloud Docker Compose to the home directory of the Demo Stater
+
 IMPORTANT: make sure to point to the location where you cloned the camunda-cloud-docker-compose
 
- -f ~/.../camunda-cloud-docker-compose/ccsm-all.yml
+ -f ~/<<your_project_dir>>/camunda-cloud-docker-compose/ccsm-all.yml
 
 ```
 docker-compose -f docker-compose.c8.yml  -f docker-compose.postgres.yml  -f docker-compose.data-api.yml  -f docker-compose.reactjs.yml  -f ~/.../camunda-cloud-docker-compose/ccsm-all.yml up -d --build c8-client optimize tasklist operate zeebe data-api reactjs-demo

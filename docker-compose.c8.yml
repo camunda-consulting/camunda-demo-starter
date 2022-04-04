@@ -48,10 +48,10 @@ services:
     restart: always
     networks:
       - camunda-cloud
-    depends_on:
-      - data-api
-      - camunda-postgres
-      - reactjs-demo
+#    depends_on:
+#      - data-api
+#      - camunda-postgres
+#      - reactjs-demo
 #      - smtp
 #      - apacheds
 #      - kafka
