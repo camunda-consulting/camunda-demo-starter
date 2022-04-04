@@ -32,6 +32,7 @@ module.exports = {
             client: 'src/main/js/reactjs/application/components/client.jsx',
             follow: 'src/main/js/reactjs/application/components/follow.jsx',
             IFrame: 'src/main/js/reactjs/application/components/IFrame.jsx',
+            DataApi: 'src/main/js/reactjs/application/components/DataApi.jsx',
             UpdateNoteDialog: 'src/main/js/reactjs/application/components/note/UpdateNoteDialog.jsx',
             DisplayDate: 'src/main/js/reactjs/application/components/date/DisplayDate.jsx',
             DisplayDateTime: 'src/main/js/reactjs/application/components/date/DisplayDateTime.jsx',
@@ -70,6 +71,17 @@ module.exports = {
             WorkflowForm: 'src/main/js/reactjs/application/components/workflow/Form.jsx',
             WorkflowInfo: 'src/main/js/reactjs/application/components/workflow/Info.jsx',
             WorkflowActionBar: 'src/main/js/reactjs/application/components/workflow/ActionBar.jsx',
+
+            //Task Components
+            TaskMain: 'src/main/js/reactjs/application/components/task/Main.jsx',
+            TaskList: 'src/main/js/reactjs/application/components/task/List.jsx',
+            TaskLine: 'src/main/js/reactjs/application/components/task/Line.jsx',
+            TaskDetail: 'src/main/js/reactjs/application/components/task/Detail.jsx',
+            TaskInfo: 'src/main/js/reactjs/application/components/task/Info.jsx',
+            TaskFilterBar: 'src/main/js/reactjs/application/components/task/FilterBar.jsx',
+            TaskSearchForm: 'src/main/js/reactjs/application/components/task/SearchForm.jsx',
+            TaskActionForm: 'src/main/js/reactjs/application/components/task/ActionForm.jsx',
+
         },
         extensions: ['', '.js', '.jsx']
     },

@@ -9,6 +9,7 @@
 const React = require('react');
 const client = require('client');
 const follow = require('follow'); // function to hop multiple links by "rel"
+const DataApi = require('DataApi')
 
 // tag::customComponents
 const StartForm = require('StartForm');
@@ -176,22 +177,8 @@ class Main extends React.Component{
     }
 
     // end::on-delete[]
-    async post(method, obj, context) {
-        if(method == null){
-            method = "POST"
-        }
-        console.log(`POST Started - METHOD:${JSON.stringify(method)} OBJECT:${JSON.stringify(obj)} CONTEXT: ${JSON.stringify(context)}`);
-
-        await client({
-            method: method,
-            path: context,
-            entity: obj,
-            headers: {'Content-Type': 'application/json'}
-        }).done(response => {
-            if (response.status.code == 200){
-                console.log("POST Request Complete"+ JSON.stringify(response));
-            }
-        });
+    post(method, obj, context) {
+      DataApi.post(method, obj, context);
     }
 
 
