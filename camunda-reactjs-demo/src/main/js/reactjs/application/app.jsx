@@ -7,6 +7,7 @@ const {Route, Router, IndexRoute, hashHistory, b} = require('react-router');
 const Main = require('Main');
 const Home = require('Home');
 const Workflow = require('WorkflowMain');
+const TaskMain = require('TaskMain')
 
 // tag::styles[]
 require('style!css!foundation-sites/dist/foundation.css');
@@ -18,6 +19,7 @@ ReactDOM.render(
       <Router history={hashHistory}>
         <Route path="/" component={Main}>
           <IndexRoute component={Home}/>
+          <Route path="tasks" component={TaskMain}/>
           <Route path="task/:key" component={Workflow}/>
         </Route>
       </Router>,

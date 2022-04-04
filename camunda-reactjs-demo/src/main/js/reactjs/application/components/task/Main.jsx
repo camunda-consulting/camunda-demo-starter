@@ -12,6 +12,7 @@ const follow = require('follow'); // function to hop multiple links by "rel"
 
 // tag::customComponents
 const Detail = require('TaskDetail');
+const List = require('TaskList');
 // tag::customComponents
 
 // tag::vars[]
@@ -24,41 +25,74 @@ class main extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            task: null,
-            displayDetail: "block",
-            displayInfo: "block",
+            task: {},
+            tasks: null,
+            displayDetail: "none",
+            displayInfo: "none",
+            displayList: "block",
             toggleDetailInfo: "off",
-            callUpdate: function (key, that) {that.loadTaskFromServer(key)}
+            callUpdate: function (filters, that) {
+                that.loadTasksFromServer(filters)
+            }
         };
         this.handleSelectedItem = this.handleSelectedItem.bind(this);
         this.handleApprove = this.handleApprove.bind(this);
         this.handleReject = this.handleReject.bind(this);
         this.post = this.post.bind(this);
-        this.loadTaskFromServer = this.loadTaskFromServer.bind(this);
+        this.loadTaskByBizKey = this.loadTaskByBizKey.bind(this);
+        this.loadTaskById = this.loadTaskById.bind(this);
+        this.loadTasksFromServer = this.loadTasksFromServer.bind(this);
     }
 
 
     // tag::follow-1[]
     componentDidMount() {
-        console.log("task=>home=>componentDidMount: "+this.props.businessKey)
-        this.state.callUpdate(this.props.businessKey, this)
+        console.log("task=>home=>componentDidMount: "+this.props.businessKey);
+        this.state.callUpdate("", this);
     }
     // end::follow-1[]
 
-    loadTaskFromServer(businessKey){
+    loadTaskByBizKey(businessKey){
         client({
             method: 'GET',
             path: apiHost+"engine-rest/task",
             params: {processInstanceBusinessKey: businessKey},
             headers: {'Accept': 'application/json'}
         }).done(response => {
-            console.log("task=>home=>loadTaskFromServer: "+JSON.stringify(response))
+            console.log("task=>home=>loadTaskByBizKey: "+JSON.stringify(response))
             this.setState({
                 task: response.entity[0]
             });
         });
     }
 
+    loadTaskById(id){
+        client({
+            method: 'GET',
+            path: apiHost+"engine-rest/task",
+            params: {id: id},
+            headers: {'Accept': 'application/json'}
+        }).done(response => {
+            console.log("task=>home=>loadTaskById: "+JSON.stringify(response))
+            this.setState({
+                task: response.entity[0]
+            });
+        });
+    }
+
+    loadTasksFromServer(filters){
+        client({
+            method: 'GET',
+            path: apiHost+"engine-rest/task",
+            params: {filters: filters},
+            headers: {'Accept': 'application/json'}
+        }).done(response => {
+            console.log("task=>home=>loadTask(s)FromServer: "+JSON.stringify(response))
+            this.setState({
+                tasks: response.entity
+            });
+        });
+    }
     handleApprove(e){
         e.preventDefault();
 
@@ -87,10 +121,12 @@ class main extends React.Component {
         if (task == null){
             alert("You don't have a task to complete. Please complete the service request first.");
         }else {
-            console.log("Megred Task: "+ JSON.stringify(task));
+            task = this.loadTaskById(task.id);
+            console.log("Merged Task: "+ JSON.stringify(task));
             this.setState({
                 task: task,
                 displayDetail: "block",
+                displayList: "none"
             });
         }
     }
@@ -98,6 +134,25 @@ class main extends React.Component {
     render() {
       return (
         <div>
+
+            {/*Display Task List*/}
+            <div style={{display: this.state.displayList}}>
+                <div className="top-bar show-for-medium small-12 columns">
+                    <div className="top-bar-left">
+                        <ul className="menu">
+                            <li className="topbar-title">
+                                Task List
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div>
+                    <List tasks={this.state.tasks}
+                          onSelectedItem={this.handleSelectedItem}/>
+                </div>
+            </div>
+
+          {/*  Display Task Details*/}
           <div style={{display: this.state.displayDetail}}>
             <div className="top-bar show-for-medium small-12 columns">
               <div className="top-bar-left">

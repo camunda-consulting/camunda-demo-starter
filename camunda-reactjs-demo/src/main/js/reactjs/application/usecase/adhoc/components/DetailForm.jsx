@@ -28,13 +28,13 @@ class DetailForm extends React.Component {
         //console.log("Detail Form: "+ JSON.stringify(this.props.submission));
         return (
           <div>
-            <div className="my-form detail-form">
-              <div className="small-12 large-12 small-offset-1 columns" >
+            <div className="my-form">
+              <div className="small-12 large-12 small-offset-1 columns form-registration-group" >
 
                   <div className="small-9 large-9">
                       <div className="input-group">
                           <span className="input-group-label">Message</span>
-                          <textarea className="input-group-field"
+                          <textarea className="input-group-field form-registration-input"
                                  type="text"
                                  name="message"
                                  ref="message"
@@ -47,7 +47,7 @@ class DetailForm extends React.Component {
                   <div className="small-9 large-9">
                       <div className="input-group">
                           <span className="input-group-label">E-Mail</span>
-                          <input className="input-group-field"
+                          <input className="input-group-field form-registration-input"
                                  type="text"
                                  name="email"
                                  ref="email"
