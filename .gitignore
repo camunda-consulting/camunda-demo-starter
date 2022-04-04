@@ -29,3 +29,5 @@ application-dev.properties
 **/.DS_Store
 /.DS_Store
 settings.xml
+zeebe-application.yml
+license.txt
