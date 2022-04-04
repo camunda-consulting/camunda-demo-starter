@@ -7,20 +7,12 @@ const React = require('react');
 // tag::vars[]
 // end::vars[]
 
-class ActionBar extends React.Component{
+class Start extends React.Component{
 
     constructor(props) {
         super(props);
         this.state = {
         };
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleSubmit(e){
-        e.preventDefault();
-        console.log("Workflow -> ActionBar -> handleSubmit: Submission Obj" + JSON.stringify(this.props.submission));
-        console.log("WorkflowActionBar -> handleConfirm: Workflow Obj: " + JSON.stringify(this.props.workflow));
-        this.props.onStart()
     }
 
   render(){
@@ -30,7 +22,7 @@ class ActionBar extends React.Component{
             <div className="top-bar-right columns">
                 <ul className="menu my-bar">
                     <li>
-                        <a className="button small my-button" key="confirm" onClick={this.handleSubmit}>Start</a>
+                        <a className="button small my-button" key="confirm" onClick={this.props.onSubmit}>Start</a>
                     </li>
                 </ul>
             </div>
@@ -39,4 +31,4 @@ class ActionBar extends React.Component{
   }
 }
 
-module.exports = ActionBar;
+module.exports = Start;

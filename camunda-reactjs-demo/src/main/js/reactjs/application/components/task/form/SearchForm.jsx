@@ -25,18 +25,16 @@ class SearchForm extends React.Component {
 
     handleChange(e){
         e.preventDefault();
-        var policy = this.props.policy;
-
-        policy.coPolicyNo = this.refs.policyId.value;
-
-        this.props.handleUpdatePolicy(policy);
+        var item = this.props.item;
+        item.id = this.refs.itemId.value;
+        this.props.handleUpdate(item);
     }
 
   render() {
 
-      var policyId = "";
-      if (this.props.policy != null){
-          policyId = this.props.policy.coPolicyNo;
+      var itemId = "";
+      if (this.props.item != null){
+          itemId = this.props.item.id;
       }
 
     return (
@@ -46,10 +44,10 @@ class SearchForm extends React.Component {
 
                 <div className="small-9 large-9">
                     <div className="input-group">
-                        <span className="input-group-label">Search Policy</span>
+                        <span className="input-group-label">Search</span>
                         <input className="input-group-field" type="text"
-                               ref="policyId" onChange={this.handleChange}
-                               value={policyId} />
+                               ref="itemId" onChange={this.handleChange}
+                               value={itemId} />
                     </div>
                 </div>
 

@@ -11,11 +11,9 @@ var React = require('react');
 // tag::customComponents
 
 // tag::vars[]
-const apiHost = process.env.DATA_API_HOST != "" ? `${process.env.DATA_API_HOST}:${process.env.DATA_API_PORT}/` : "/";
-const apiRoot = `${apiHost}${process.env.API_ROOT}`;
 // end::vars[]
 
-class ActionForm extends React.Component {
+class Approve extends React.Component {
         
   constructor(props) {
     super(props);
@@ -27,26 +25,20 @@ class ActionForm extends React.Component {
   render() {
 
     return (
-
-
       <div className="top-bar">
           <div className="top-bar-right columns">
               <ul className="menu my-bar">
                   <li>
-                      <a className="button small my-button" key="service" onClick={this.props.handleStart}>Start Credit Check</a>
+                      <a className="button small my-button" key="service" onClick={this.props.onReject}>Reject</a>
                   </li>
-                  {/*<li>*/}
-                  {/*    <a className="button small my-button" key="service" onClick={this.props.handleReject}>Reject</a>*/}
-                  {/*</li>*/}
                   <li>
-                      <a className="button small my-button" key="service" onClick={this.props.handleApprove}>Submit</a>
+                      <a className="button small my-button" key="service" onClick={this.props.handleApprove}>Approve</a>
                   </li>
               </ul>
           </div>
       </div>
-
     );
   }
 }
 
-module.exports = ActionForm;
+module.exports = Approve;

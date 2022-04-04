@@ -32,10 +32,8 @@ class main extends React.Component {
             toggleDetailInfo: "off",
             callUpdate: function (key, that) {that.loadOneFromServer(key)}
         };
-        this.handleSelectedItem = this.handleSelectedItem.bind(this);
-        this.handleApprove = this.handleApprove.bind(this);
-        this.handleReject = this.handleReject.bind(this);
         this.post = this.post.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
         this.loadOneFromServer = this.loadOneFromServer.bind(this);
     }
 
@@ -62,18 +60,6 @@ class main extends React.Component {
         });
     }
 
-    handleApprove(e){
-        e.preventDefault();
-
-        this.props.history.push('/workflows#');
-        this.handleBackClick();
-    }
-
-    handleReject(e){
-        e.preventDefault();
-        this.props.history.push('/rejected');
-    }
-
     post(obj, context) {
         console.log("POST Started")
         client({
@@ -84,6 +70,10 @@ class main extends React.Component {
         }).done(response => {
             console.log("POST Request Complete");
         });
+    }
+
+    onSubmit(){
+
     }
 
     handleSelectedItem(workflow) {

@@ -33,11 +33,16 @@ module.exports = {
             follow: 'src/main/js/reactjs/application/components/follow.jsx',
             IFrame: 'src/main/js/reactjs/application/components/IFrame.jsx',
             DataApi: 'src/main/js/reactjs/application/components/DataApi.jsx',
-            UpdateNoteDialog: 'src/main/js/reactjs/application/components/note/UpdateNoteDialog.jsx',
+            NoteDialog: 'src/main/js/reactjs/application/components/note/NoteDialog.jsx',
             DisplayDate: 'src/main/js/reactjs/application/components/date/DisplayDate.jsx',
             DisplayDateTime: 'src/main/js/reactjs/application/components/date/DisplayDateTime.jsx',
-            MarketingBar: 'src/main/js/reactjs/application/components/MarketingBar.jsx',
-            FooterBar: 'src/main/js/reactjs/application/components/FooterBar.jsx',
+
+            //App Main Components
+            Main: 'src/main/js/reactjs/application/components/main/Main.jsx',
+            Home: 'src/main/js/reactjs/application/components/main/Parent.jsx',
+            MarketingBar: 'src/main/js/reactjs/application/components/main/MarketingBar.jsx',
+            NavigationBar: 'src/main/js/reactjs/application/components/main/NavigationBar.jsx',
+            FooterBar: 'src/main/js/reactjs/application/components/main/FooterBar.jsx',
 
             uriListConverter: 'src/main/js/api/uriListConverter.js',
             uriTemplateInterceptor: 'src/main/js/api/uriTemplateInterceptor.js',
@@ -49,16 +54,13 @@ module.exports = {
             StartForm: 'src/main/js/reactjs/application/components/form/StartForm.jsx',
             ConfirmationForm: 'src/main/js/reactjs/application/components/form/ConfirmationForm.jsx',
             //Form Actions
-            SaveActionBar: 'src/main/js/reactjs/application/components/form/action/SaveActionBar.jsx',
-            ConfirmActionBar: 'src/main/js/reactjs/application/components/form/action/ConfirmActionBar.jsx',
+            SaveAction: 'src/main/js/reactjs/application/components/form/action/Save.jsx',
+            ConfirmAction: 'src/main/js/reactjs/application/components/form/action/Confirm.jsx',
+            SubmitAction: 'src/main/js/reactjs/application/components/form/action/Submit.jsx',
 
             //Filters Components
             StatusBar: 'src/main/js/reactjs/application/components/filter/StatusBar.jsx',
             FilterBar: 'src/main/js/reactjs/application/components/filter/FilterBar.jsx',
-
-            //App Components
-            Main: 'src/main/js/reactjs/application/components/main/Main.jsx',
-            Home: 'src/main/js/reactjs/application/components/main/Parent.jsx',
 
             //Use case Components
             UseCaseMain: 'src/main/js/reactjs/application/usecase/adhoc/components/Main.jsx',
@@ -68,9 +70,8 @@ module.exports = {
 
             //Workflow Components
             WorkflowMain: 'src/main/js/reactjs/application/components/workflow/Main.jsx',
-            WorkflowForm: 'src/main/js/reactjs/application/components/workflow/Form.jsx',
             WorkflowInfo: 'src/main/js/reactjs/application/components/workflow/Info.jsx',
-            WorkflowActionBar: 'src/main/js/reactjs/application/components/workflow/ActionBar.jsx',
+            WorkflowStartAction: 'src/main/js/reactjs/application/components/workflow/action/Start.jsx',
 
             //Task Components
             TaskMain: 'src/main/js/reactjs/application/components/task/Main.jsx',
@@ -79,8 +80,8 @@ module.exports = {
             TaskDetail: 'src/main/js/reactjs/application/components/task/Detail.jsx',
             TaskInfo: 'src/main/js/reactjs/application/components/task/Info.jsx',
             TaskFilterBar: 'src/main/js/reactjs/application/components/task/FilterBar.jsx',
-            TaskSearchForm: 'src/main/js/reactjs/application/components/task/SearchForm.jsx',
-            TaskActionForm: 'src/main/js/reactjs/application/components/task/ActionForm.jsx',
+            TaskSearchForm: 'src/main/js/reactjs/application/components/task/form/SearchForm.jsx',
+            TaskActionApprove: 'src/main/js/reactjs/application/components/task/action/Approve.jsx',
 
         },
         extensions: ['', '.js', '.jsx']

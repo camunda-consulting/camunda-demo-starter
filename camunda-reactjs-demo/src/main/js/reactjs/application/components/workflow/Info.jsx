@@ -35,7 +35,7 @@ class Info extends React.Component{
 
       }else {
           info =  <div>
-                    <h4>Submission not started. Please fill out the form to start submission.</h4>
+                    <h4>Workflow not started. Please fill out the form to start Workflow.</h4>
                   </div>
 
       }

@@ -5,7 +5,7 @@
 'use strict';
 
 const React = require('react');
-const WorkflowActionBar = require('WorkflowActionBar');
+const WorkflowStartAction = require('WorkflowStartAction');
 
 class DetailForm extends React.Component {
         
@@ -59,7 +59,7 @@ class DetailForm extends React.Component {
               </div>
             </div>
 
-            <WorkflowActionBar submission={this.props.submission}
+            <WorkflowStartAction submission={this.props.submission}
                              formProps={this.props.formProps}
                              workflow={this.props.workflow}
                              onStart={this.props.onStart}
