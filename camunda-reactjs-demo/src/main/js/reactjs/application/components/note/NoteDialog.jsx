@@ -2,7 +2,7 @@ const ReactDOM = require('react-dom');
 const React = require('react');
 const {Link, IndexLink} = require('react-router');
 
-class UpdateNoteDialog extends React.Component {
+class NoteDialog extends React.Component {
 
     constructor(props) {
         super(props);
@@ -42,4 +42,4 @@ class UpdateNoteDialog extends React.Component {
 
 };
 
-module.exports = UpdateNoteDialog;
+module.exports = NoteDialog;

@@ -7,7 +7,7 @@
 
 const React = require('react');
 
-const ConfirmActionBar = require('ConfirmActionBar');
+const ConfirmAction = require('ConfirmAction');
 
 class ConfirmationForm extends React.Component {
         
@@ -151,7 +151,7 @@ class ConfirmationForm extends React.Component {
 
             </div>
 
-        <ConfirmActionBar submission={this.props.submission}
+        <ConfirmAction submission={this.props.submission}
                    post={this.props.post}
                    toggleForm={this.props.toggleForm} />
 

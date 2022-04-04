@@ -11,7 +11,7 @@ const ReactDOM = require('react-dom')
  // function to hop multiple links by "rel"
 
 // tag::customComponents
-const ActionForm = require('TaskActionForm');
+const TaskActionApprove = require('TaskActionApprove');
 const Info = require('TaskInfo');
 const SearchForm = require('TaskSearchForm');
 
@@ -33,10 +33,9 @@ class Detail extends React.Component{
           <Info task={this.props.task} />
 
 
-          <ActionForm task={this.props.task}
+          <TaskActionApprove task={this.props.task}
               handleReject={this.props.handleReject}
-              handleApprove={this.props.handleApprove}
-                  handleStart={this.props.handleStart} />
+              handleApprove={this.props.handleApprove} />
       </div>
     )
   }
