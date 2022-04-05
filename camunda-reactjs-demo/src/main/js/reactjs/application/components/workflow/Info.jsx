@@ -35,30 +35,18 @@ class Info extends React.Component{
 
       }else {
           info =  <div>
-                    <h4>Workflow not started. Please fill out the form to start Workflow.</h4>
+                    <h4>Workflow not started. Please fill out the form to start the workflow.</h4>
                   </div>
 
       }
 
-
       return (
-          <div className="my-form info-form">
-
-              <div className="row">
-
-              <div className="small-8 small-offset-1 columns">
-                <div className="card" >
-                  <div className="card-divider large-text-left">
-                      {info}
-                  </div>
-                </div>
-              </div>
-
-            </div>
+        <div className="card" >
+          <div className="card-divider large-text-left">
+              {info}
           </div>
-      )                 
+        </div>
+      )
   }
-  
 }
-  
 module.exports = Info;

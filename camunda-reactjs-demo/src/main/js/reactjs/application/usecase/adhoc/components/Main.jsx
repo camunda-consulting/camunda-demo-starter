@@ -9,15 +9,17 @@
 const React = require('react');
 const client = require('client');
 const follow = require('follow'); // function to hop multiple links by "rel"
-const DataApi = require('DataApi')
 
 // tag::customComponents
 const StartForm = require('StartForm');
 const DetailForm = require('DetailForm');
 const ConfirmationForm = require('ConfirmationForm');
-const Info = require('Info');
+const CaseInfo = require('CaseInfo');
+const FormInfo = require('FormInfo');
+const UserInfo = require('UserInfo');
 const FilterBar = require('FilterBar');
 const Workflow = require('WorkflowMain');
+const WorkflowStartAction = require('WorkflowStartAction');
 
 // tag::vars[]
 const dataApiHost = process.env.DATA_API_HOST != "" ? `${process.env.DATA_API_HOST}:${process.env.DATA_API_PORT}` : "/";
@@ -178,7 +180,21 @@ class Main extends React.Component{
 
     // end::on-delete[]
     post(method, obj, context) {
-      DataApi.post(method, obj, context);
+        if(method == null){
+            method = "POST"
+        }
+        console.log(`POST Started - METHOD:${JSON.stringify(method)} OBJECT:${JSON.stringify(obj)} CONTEXT: ${JSON.stringify(context)}`);
+
+        client({
+            method: method,
+            path: context,
+            entity: obj,
+            headers: {'Content-Type': 'application/json'}
+        }).done(response => {
+            if (response.status.code == 200){
+                console.log("POST Request Complete"+ JSON.stringify(response));
+            }
+        });
     }
 
 
@@ -283,10 +299,6 @@ class Main extends React.Component{
 
       console.log("Main Render Submission: "+JSON.stringify(this.state.submission));
 
-      if (this.state.submission.id != null) {
-         info =  <Info item={this.state.submission} formProps={this.state.formProps} user={this.state.user}/>
-      }
-
       if (this.state.submission.key != null) {
           console.log("Detail Render: "+JSON.stringify(this.state.submission));
 
@@ -298,50 +310,55 @@ class Main extends React.Component{
 
         <FilterBar toggleForm={this.toggleForm} title="Use Case Submission"/>
 
-        {info}
-
         <div style={{display: displayStartForm}}>
-            <StartForm onUpdateStartState={this.handleUpdateStartState}
+            <div className="my-form start-form">
+                <div className="small-8 small-offset-2 large-8 large-offset-2 columns">
+                   <StartForm onUpdateStartState={this.handleUpdateStartState}
                               onStart={this.handleStart}
                               submissions={this.state.submissions}
                               submission={this.state.submission} />
+                </div>
+            </div>
         </div>
 
         <div style={{display: displayDetailForm}}>
 
-            {workflow}
+            <div className="small-9 small-offset-1 columns">
+                <CaseInfo item={this.state.submission} />
+            </div>
+            <div className="small-6  columns">
+                <UserInfo user={this.state.user} />
+            </div>
+            <div className="small-6  columns">
+                <FormInfo formProps={this.state.formProps} />
+            </div>
 
-            <DetailForm submission={this.state.submission}
-                        user={this.state.user}
-                        formProps={this.state.formProps}
+            <div className="workflow-info">
+                {workflow}
+            </div>
+
+            <div className="my-form detail-form">
+                <div className="small-12 large-12 small-offset-1 columns form-registration-group" >
+                    <DetailForm formProps={this.state.formProps}
                         workflow={this.state.workflow}
-                        onUpdateState={this.handleUpdateState}
-                        onStart={this.handleStart}
-                        toggleForm={this.toggleForm}/>
+                        onUpdateState={this.handleUpdateState} />
+                </div>
+            </div>
+
+            <WorkflowStartAction onStart={this.handleStart} />
         </div>
 
         <div style={{display: displayConfirmationForm}}>
-            <ConfirmationForm submission={this.state.submission}
-                              formProps-={this.state.formProps}
-                              user={this.state.user}
-                              onStart={this.props.onStart}
+            <ConfirmationForm formProps-={this.state.formProps}
+                              onStart={this.handleStart}
                               toggleForm={this.toggleForm} />
         </div>
 
         <div style={{display: displayConfirmation}}>
-          <div className="my-form">
-
-              <div className="small-8 small-offset-2 large-8 large-offset-2 columns">
-                  <div className="form-registration-group">
-
-                      <h3>Your submission is complete.</h3>
-
-                  </div>
-              </div>
-
+          <div className="my-form confirmation">
+              <h3>Your submission is complete.</h3>
           </div>
         </div>
-
       </div>
     )
   }//End Render

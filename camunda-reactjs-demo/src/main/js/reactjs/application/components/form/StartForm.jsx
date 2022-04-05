@@ -46,31 +46,23 @@ class StartForm extends React.Component {
         }
 
         return (
-            <div className="my-form">
+              <div className="form-registration-group">
+                  <a className="form-registration-social-button" href="#" onClick={this.props.onStart}>
+                      <i className="fa fa-facebook-official" aria-hidden="true"></i>Start Submission</a>
 
-              <div className="small-8 small-offset-2 large-8 large-offset-2 columns">
-                  <div className="form-registration-group">
+                    <select className="form-registration-input"
+                            ref="pid"
+                            onChange={this.handleChange}
+                            value={this.props.submission.key} >
 
-                      <a className="form-registration-social-button" href="#" onClick={this.props.onStart}>
-                          <i className="fa fa-facebook-official" aria-hidden="true"></i>Start Submission</a>
+                        <option defaultValue>Select Existing Case</option>
+                        {options}
+                    </select>
 
-                        <select className="form-registration-input"
-                                ref="pid"
-                                onChange={this.handleChange}
-                                value={this.props.submission.key} >
-
-                            <option defaultValue>Select Existing Case</option>
-                            {options}
-                        </select>
-
-                      <p className="form-registration-member-signin">Already a member? <a href="#">Sign in</a></p>
-                      <p className="form-registration-terms"><a href="#">Terms &amp; Conditions</a>|<a
-                          href="#">Privacy</a></p>
-                    </div>
+                  <p className="form-registration-member-signin">Already a member? <a href="#">Sign in</a></p>
+                  <p className="form-registration-terms"><a href="#">Terms &amp; Conditions</a>|<a
+                      href="#">Privacy</a></p>
                 </div>
-
-            </div>
-
         );
   }
 }

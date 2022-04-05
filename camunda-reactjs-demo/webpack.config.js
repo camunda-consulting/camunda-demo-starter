@@ -32,14 +32,13 @@ module.exports = {
             client: 'src/main/js/reactjs/application/components/client.jsx',
             follow: 'src/main/js/reactjs/application/components/follow.jsx',
             IFrame: 'src/main/js/reactjs/application/components/IFrame.jsx',
-            DataApi: 'src/main/js/reactjs/application/components/DataApi.jsx',
             NoteDialog: 'src/main/js/reactjs/application/components/note/NoteDialog.jsx',
             DisplayDate: 'src/main/js/reactjs/application/components/date/DisplayDate.jsx',
             DisplayDateTime: 'src/main/js/reactjs/application/components/date/DisplayDateTime.jsx',
 
             //App Main Components
             Main: 'src/main/js/reactjs/application/components/main/Main.jsx',
-            Home: 'src/main/js/reactjs/application/components/main/Parent.jsx',
+            Parent: 'src/main/js/reactjs/application/components/main/Parent.jsx',
             MarketingBar: 'src/main/js/reactjs/application/components/main/MarketingBar.jsx',
             NavigationBar: 'src/main/js/reactjs/application/components/main/NavigationBar.jsx',
             FooterBar: 'src/main/js/reactjs/application/components/main/FooterBar.jsx',
@@ -58,15 +57,12 @@ module.exports = {
             ConfirmAction: 'src/main/js/reactjs/application/components/form/action/Confirm.jsx',
             SubmitAction: 'src/main/js/reactjs/application/components/form/action/Submit.jsx',
 
+            //Form Info
+            FormInfo: 'src/main/js/reactjs/application/components/form/Info.jsx',
+
             //Filters Components
             StatusBar: 'src/main/js/reactjs/application/components/filter/StatusBar.jsx',
             FilterBar: 'src/main/js/reactjs/application/components/filter/FilterBar.jsx',
-
-            //Use case Components
-            UseCaseMain: 'src/main/js/reactjs/application/usecase/adhoc/components/Main.jsx',
-            DetailForm: 'src/main/js/reactjs/application/usecase/adhoc/components/DetailForm.jsx',
-            Info: 'src/main/js/reactjs/application/usecase/adhoc/components/Info.jsx',
-            // END Use Case Components
 
             //Workflow Components
             WorkflowMain: 'src/main/js/reactjs/application/components/workflow/Main.jsx',
@@ -82,6 +78,15 @@ module.exports = {
             TaskFilterBar: 'src/main/js/reactjs/application/components/task/FilterBar.jsx',
             TaskSearchForm: 'src/main/js/reactjs/application/components/task/form/SearchForm.jsx',
             TaskActionApprove: 'src/main/js/reactjs/application/components/task/action/Approve.jsx',
+
+            //Use-case Components
+            UseCaseMain: 'src/main/js/reactjs/application/usecase/adhoc/components/Main.jsx',
+            DetailForm: 'src/main/js/reactjs/application/usecase/adhoc/components/DetailForm.jsx',
+
+            CaseInfo: 'src/main/js/reactjs/application/usecase/case/components/Info.jsx',
+
+            UserInfo: 'src/main/js/reactjs/application/components/user/Info.jsx',
+            // END Use Case Components
 
         },
         extensions: ['', '.js', '.jsx']
