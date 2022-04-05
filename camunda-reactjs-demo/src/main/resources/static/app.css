@@ -143,28 +143,32 @@ label.text-center {
 }
 
 .my-form {
-    padding-top: 5rem;
-    padding-bottom: 27rem;
+    padding-top: 0rem;
+    padding-bottom: 30rem;
     background-color: #fefefe
 }
 
+.my-form.start-form {
+    padding-top: 5rem;
+    padding-bottom: 30rem;
+}
+
+
 .my-form.detail-form {
-
-    padding-top: 0rem;
-    padding-bottom: 16rem;
-
+    padding-bottom: 50rem;
 }
 
 .my-form.item-form {
-
     padding-bottom: 1rem;
-
 }
 
-.my-form.info-form {
+.my-form.confirmation h3 {
+    padding-top: 20rem;
+    padding-left: 20rem;
+}
 
-    padding-bottom: 1rem;
-
+.workflow-info h4{
+    padding-top: 1rem;
 }
 
 .my-label {

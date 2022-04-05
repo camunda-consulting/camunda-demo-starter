@@ -11,7 +11,7 @@ const client = require('client');
 const follow = require('follow'); // function to hop multiple links by "rel"
 
 // tag::customComponents
-
+const WorkflowInfo = require('WorkflowInfo');
 // tag::customComponents
 
 // tag::vars[]
@@ -102,7 +102,9 @@ class main extends React.Component {
               </div>
             </div>
             <div>
-
+                <div className="small-8 small-offset-2 columns">
+                   <WorkflowInfo workflow={this.state.workflow}/>
+                </div>
             </div>
           </div>
         </div>

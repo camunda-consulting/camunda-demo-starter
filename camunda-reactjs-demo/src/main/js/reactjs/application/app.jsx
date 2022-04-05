@@ -4,8 +4,8 @@
 const React = require('react');
 const ReactDOM = require('react-dom')
 const {Route, Router, IndexRoute, hashHistory, b} = require('react-router');
+const Parent = require('Parent');
 const Main = require('Main');
-const Home = require('Home');
 const Workflow = require('WorkflowMain');
 const TaskMain = require('TaskMain')
 
@@ -18,7 +18,7 @@ $(document).foundation();
 ReactDOM.render(
       <Router history={hashHistory}>
         <Route path="/" component={Main}>
-          <IndexRoute component={Home}/>
+          <IndexRoute component={Parent}/>
           <Route path="tasks" component={TaskMain}/>
           <Route path="task/:key" component={Workflow}/>
         </Route>

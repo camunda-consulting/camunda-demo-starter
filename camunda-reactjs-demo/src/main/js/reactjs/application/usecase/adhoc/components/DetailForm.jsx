@@ -5,7 +5,6 @@
 'use strict';
 
 const React = require('react');
-const WorkflowStartAction = require('WorkflowStartAction');
 
 class DetailForm extends React.Component {
         
@@ -27,10 +26,7 @@ class DetailForm extends React.Component {
     render() {
         //console.log("Detail Form: "+ JSON.stringify(this.props.submission));
         return (
-          <div>
-            <div className="my-form">
-              <div className="small-12 large-12 small-offset-1 columns form-registration-group" >
-
+            <div className="form-registration-group">
                   <div className="small-9 large-9">
                       <div className="input-group">
                           <span className="input-group-label">Message</span>
@@ -43,7 +39,6 @@ class DetailForm extends React.Component {
                           />
                       </div>
                   </div>
-
                   <div className="small-9 large-9">
                       <div className="input-group">
                           <span className="input-group-label">E-Mail</span>
@@ -55,16 +50,7 @@ class DetailForm extends React.Component {
                                  value={this.props.formProps.email} />
                       </div>
                   </div>
-
-              </div>
             </div>
-
-            <WorkflowStartAction submission={this.props.submission}
-                             formProps={this.props.formProps}
-                             workflow={this.props.workflow}
-                             onStart={this.props.onStart}
-                             toggleForm={this.props.toggleForm} />
-        </div>
     );
   }
 }
