@@ -9,7 +9,7 @@
     <remote-repository>
       <option name="id" value="camunda-bpm-nexus" />
       <option name="name" value="Camunda Maven Repository" />
-      <option name="url" value="https://app.camunda.com/nexus/content/groups/public" />
+      <option name="url" value="https://artifacts.camunda.com/artifactory/public/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="central" />
