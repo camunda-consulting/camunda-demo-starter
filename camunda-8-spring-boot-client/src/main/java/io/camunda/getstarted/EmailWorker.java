@@ -6,10 +6,12 @@ import io.camunda.zeebe.client.api.response.ActivatedJob;
 import io.camunda.zeebe.client.api.worker.JobClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
 @EnableZeebeClient
+@Profile("email")
 public class EmailWorker {
 
   private final static Logger LOG = LoggerFactory.getLogger(EmailWorker.class);
@@ -29,7 +31,7 @@ public class EmailWorker {
         } else {
           LOG.error("Failed to complete job", exception);
         }
-      });    
+      });
   }
 
 }
