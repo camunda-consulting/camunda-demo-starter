@@ -13,8 +13,8 @@ import java.util.logging.Logger;
 
 
 /**
- * This is an easy adapter implementation 
- * illustrating how a Java Delegate can be used 
+ * This is an easy adapter implementation
+ * illustrating how a Java Delegate can be used
  * from within a BPMN 2.0 Service Task.
  */
 @Component("confirmDamageCase")
@@ -23,9 +23,9 @@ public class SalesForceObjectUpdateDelegate implements JavaDelegate {
   private String accessToken;
 
   private final Logger LOGGER = Logger.getLogger(Class.class.getName());
-  
+
   public void execute(DelegateExecution execution) throws Exception {
-    
+
     LOGGER.info("\n\n  ... "+Class.class.getName()+" invoked by "
             + "processDefinitionId=" + execution.getProcessDefinitionId() +" \n "
             + ", activtyId=" + execution.getCurrentActivityId() +" \n "
@@ -66,8 +66,8 @@ public class SalesForceObjectUpdateDelegate implements JavaDelegate {
   }
 
   private String requestSfOathGrant() throws IOException {
-    return Request.Post("https://login.salesforce.com/services/oauth2/token?grant_type=password&client_id=3MVG9p1Q1BCe9GmA2i4VM2yUSqOZwtXNI7EjJpLAE6YVLn5UCrtU5XOk0FPz6CzDAUMZuuLLwjaV.hYtyGTHp&client_secret=C54081258696E282D2646A3AB276E793ADA3B73915C82B0B352FDCA0C8123049" +
-            "&username=paullungu@camunda.com&password=Budwe1ser0MJWiTaYkeotUS9jiP1pHY39")
+    return Request.Post("https://login.salesforce.com/services/oauth2/token?grant_type=password&client_id=<client_id>&client_secret=<client_secret>" +
+            "&username=<username>&password=<password>")
             .execute().returnContent().asString();
   }
 
