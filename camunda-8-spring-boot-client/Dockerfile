@@ -22,4 +22,4 @@ WORKDIR /usr/src/app
 # copy the built jar to the new image
 COPY --from=builder /usr/src/app/target/camunda-c8-client-1.0.0-SNAPSHOT.jar ${WORKDIR}
 # run the application
-ENTRYPOINT ["java","-Dspring.profiles.active=test","-Djava.security.egd=file:/dev/./urandom","-jar","/usr/src/app/camunda-c8-client-1.0.0-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-Dspring.profiles.active=${PROFILES}","-Djava.security.egd=file:/dev/./urandom","-jar","/usr/src/app/camunda-c8-client-1.0.0-SNAPSHOT.jar"]

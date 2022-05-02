@@ -162,13 +162,13 @@ class Main extends React.Component{
 
         data.variables = {
                             caseId: this.state.submission.key,
-                            message_content: this.state.formProps.message,
-                            source: this.state.formProps.email,
+                            message: this.state.formProps.message,
+                            email: this.state.formProps.email,
                             readingTime: this.state.formProps.readingTime
                          };
 
 
-        console.log("Handle Start: " + JSON.stringify(data));
+        console.log("Adhoc -> Main -> Handle Start: " + JSON.stringify(data));
 
         //post the object to the endpoint to save the entity
         this.post("POST", data, cloudApi);

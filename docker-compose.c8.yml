@@ -9,6 +9,7 @@ volumes:
 networks:
   # Note there are two bridge networks. One for Zeebe and one for IAM. Operate, Tasklist, and Optimize use both
   camunda-cloud: { }
+  camunda-platform: { }
 
 services:
 ########################################
@@ -23,8 +24,9 @@ services:
     volumes:
       - ./certs:/opt/certs
     environment:
-      DATABASE_URL: jdbc:postgresql://camunda-postgres:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true&ssl=true&sslrootcert=/opt/certs/root.crt&sslcert=/opt/certs/root.crt&sslmode=require
-#      DATABASE_URL: jdbc:postgresql://camunda-postgres:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true
+      PROFILES: test,email,user-data
+#      DATABASE_URL: jdbc:postgresql://camunda-postgres:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true&ssl=true&sslrootcert=/opt/certs/root.crt&sslcert=/opt/certs/root.crt&sslmode=require
+      DATABASE_URL: jdbc:postgresql://camunda-postgres:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true
       DATABASE_DRIVER: org.postgresql.Driver
       SERVER_PORT: 8080
       MAX_POOL_SIZE: 3
@@ -47,12 +49,12 @@ services:
       retries: 5
     restart: always
     networks:
-      - camunda-cloud
-#    depends_on:
-#      - data-api
-#      - camunda-postgres
-#      - reactjs-demo
-#      - smtp
+      - camunda-platform
+    depends_on:
+      - data-api
+      - camunda-postgres
+      - reactjs
+      - smtp
 #      - apacheds
 #      - kafka
 #      - rabbitmq-mgmt
