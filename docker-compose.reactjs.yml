@@ -15,7 +15,7 @@ services:
   ########################################
   # Camunda ReactJS Service
   ########################################
-  reactjs-demo:
+  reactjs:
     container_name: reactjs
     build:
       context: ./camunda-reactjs-demo
