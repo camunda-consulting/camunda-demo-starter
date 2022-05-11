@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1qug73q" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.0.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.0.0">
+  <decision id="Decision_determine-blood-pressure-level" name="Determine Region">
+    <decisionTable id="DecisionTable_1g5z32h">
+      <input id="Input_1" label="State">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text>state</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_07essdg" label="Country">
+        <inputExpression id="LiteralExpression_1mgl1c5" typeRef="string">
+          <text>country</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Result" name="decisionResult" typeRef="string" />
+      <rule id="DecisionRule_171qh59">
+        <inputEntry id="UnaryTests_01fetgs">
+          <text>"CO","co","Colorado"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1nrz6mh">
+          <text>"USA","usa"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0pp3pxj">
+          <text>"UTC-6"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_11um9ir">
+        <inputEntry id="UnaryTests_1nnpcqk">
+          <text>"NY","ny","New York"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0wf0mwa">
+          <text>"USA","usa"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1v8eqr3">
+          <text>"UTC-4"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="Decision_determine-blood-pressure-level">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
