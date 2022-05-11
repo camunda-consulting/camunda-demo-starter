@@ -1,5 +1,7 @@
 package io.camunda.getstarted.controller;
 
+import io.camunda.zeebe.client.api.response.ProcessInstanceResult;
+import io.camunda.zeebe.client.api.response.PublishMessageResponse;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.JSONValue;
@@ -18,6 +20,7 @@ import io.camunda.zeebe.spring.client.ZeebeClientLifecycle;
 import io.camunda.zeebe.client.api.response.ProcessInstanceEvent;
 
 import java.io.IOException;
+import java.util.concurrent.CompletionStage;
 import java.util.logging.Logger;
 
 @EnableZeebeClient
@@ -65,4 +68,42 @@ public class CloudWorkflowController {
 		return new ResponseEntity<>(HttpStatus.OK);
 
 	}
+
+
+	/**
+	 * Start a workflow sync with REST
+	 * @param data
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/workflow/correlate/message", method = RequestMethod.POST, consumes = {"application/json"})
+	public ResponseEntity<?> correlate(@RequestBody(required = true)String data)
+			throws IOException, InterruptedException {
+
+		LOGGER.info("\n\n Start Workflow with data: "+ data +"\n\n");
+
+		JSONObject obj = (JSONObject) JSONValue.parse(data);
+		String key = obj.getAsString("key");
+		String name = obj.getAsString("name");
+
+		JSONObject variables = (JSONObject) obj.get("variables");
+
+		final CompletionStage<PublishMessageResponse> response =
+				client
+				.newPublishMessageCommand()
+				  .messageName(name)
+				  .correlationKey(key)
+				  .variables(variables.toJSONString())
+				  .send()
+				  .exceptionally( throwable -> {
+							throw new RuntimeException("Could not publish message " + name, throwable);
+						});
+
+//		LOGGER.info("Message correlated for processDefinitionKey='{}', bpmnProcessId='{}', version='{}' with processInstanceKey='{}'"+
+//				response.getProcessDefinitionKey()+ event.getBpmnProcessId() + event.getVersion() +  event.getProcessInstanceKey());
+
+		return new ResponseEntity<>(HttpStatus.OK);
+
+	}
+
 }

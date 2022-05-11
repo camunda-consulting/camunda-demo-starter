@@ -32,11 +32,11 @@
           <zeebe:output source="= message" target="message" />
         </zeebe:ioMapping>
       </bpmn:extensionElements>
-      <bpmn:incoming>Flow_0lmbpf1</bpmn:incoming>
+      <bpmn:incoming>Flow_1vbwje2</bpmn:incoming>
       <bpmn:outgoing>Flow_0xoo3ml</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="Flow_156f3q7" sourceRef="sendEmailTask" targetRef="EndEvent" />
-    <bpmn:sequenceFlow id="Flow_0lmbpf1" sourceRef="Activity_049gr45" targetRef="enterMessageTask" />
+    <bpmn:sequenceFlow id="Flow_0lmbpf1" sourceRef="Activity_049gr45" targetRef="Activity_120wu15" />
     <bpmn:serviceTask id="Activity_049gr45" name="Get User">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="get-user" />
@@ -47,24 +47,44 @@
       <bpmn:incoming>Flow_19f2xg6</bpmn:incoming>
       <bpmn:outgoing>Flow_0lmbpf1</bpmn:outgoing>
     </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_1vbwje2" sourceRef="Activity_120wu15" targetRef="enterMessageTask" />
+    <bpmn:businessRuleTask id="Activity_120wu15" name="Determine Region">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="DMN" />
+        <zeebe:taskHeaders>
+          <zeebe:header key="decisionRef" value="Decision_determine-region" />
+        </zeebe:taskHeaders>
+        <zeebe:ioMapping>
+          <zeebe:input source="= user.state" target="state" />
+          <zeebe:input source="= user.country" target="country" />
+          <zeebe:output source="=result" target="decisionResult" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0lmbpf1</bpmn:incoming>
+      <bpmn:outgoing>Flow_1vbwje2</bpmn:outgoing>
+    </bpmn:businessRuleTask>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="send-email">
+      <bpmndi:BPMNEdge id="Flow_0lmbpf1_di" bpmnElement="Flow_0lmbpf1">
+        <di:waypoint x="340" y="160" />
+        <di:waypoint x="380" y="160" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_156f3q7_di" bpmnElement="Flow_156f3q7">
-        <di:waypoint x="660" y="160" />
-        <di:waypoint x="742" y="160" />
+        <di:waypoint x="770" y="160" />
+        <di:waypoint x="832" y="160" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0xoo3ml_di" bpmnElement="Flow_0xoo3ml">
-        <di:waypoint x="510" y="160" />
-        <di:waypoint x="560" y="160" />
+        <di:waypoint x="630" y="160" />
+        <di:waypoint x="670" y="160" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_19f2xg6_di" bpmnElement="Flow_19f2xg6">
         <di:waypoint x="195" y="160" />
         <di:waypoint x="240" y="160" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0lmbpf1_di" bpmnElement="Flow_0lmbpf1">
-        <di:waypoint x="340" y="160" />
-        <di:waypoint x="410" y="160" />
+      <bpmndi:BPMNEdge id="Flow_1vbwje2_di" bpmnElement="Flow_1vbwje2">
+        <di:waypoint x="480" y="160" />
+        <di:waypoint x="530" y="160" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent">
         <dc:Bounds x="159" y="142" width="36" height="36" />
@@ -72,20 +92,24 @@
           <dc:Bounds x="165" y="185" width="24" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_06u1rs5_di" bpmnElement="sendEmailTask">
-        <dc:Bounds x="560" y="120" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1oy8ygp_di" bpmnElement="EndEvent">
-        <dc:Bounds x="742" y="142" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="750" y="185" width="20" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0s2tnku_di" bpmnElement="enterMessageTask">
-        <dc:Bounds x="410" y="120" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0sjzpdy_di" bpmnElement="Activity_049gr45">
         <dc:Bounds x="240" y="120" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1oy8ygp_di" bpmnElement="EndEvent">
+        <dc:Bounds x="832" y="142" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="840" y="185" width="20" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_06u1rs5_di" bpmnElement="sendEmailTask">
+        <dc:Bounds x="670" y="120" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0s2tnku_di" bpmnElement="enterMessageTask">
+        <dc:Bounds x="530" y="120" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0u9gkdh_di" bpmnElement="Activity_120wu15">
+        <dc:Bounds x="380" y="120" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>

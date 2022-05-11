@@ -8,10 +8,10 @@
   <version>0.0.1-SNAPSHOT</version>
 
   <name>Camunda Biz Data Starter App</name>
-  <description>Spring Boot Application using [Camunda](http://docs.camunda.org).</description>
+  <description>Spring Boot Application for business data</description>
 
   <properties>
-    <camunda.version>7.16.0-ee</camunda.version>
+<!--    <camunda.version>7.16.0-ee</camunda.version>-->
     <!--
     Adjust if you want to use EE:
     <camunda.version>7.8.0-ee</camunda.version>
@@ -68,11 +68,11 @@
   <dependencies>
 
 	<!-- Cmaunda Dependencies -->
-    <dependency>
-      <groupId>org.camunda.bpm.springboot</groupId>
-      <artifactId>camunda-bpm-spring-boot-starter-test</artifactId>
-      <version>${camunda.version}</version>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.camunda.bpm.springboot</groupId>-->
+<!--      <artifactId>camunda-bpm-spring-boot-starter-test</artifactId>-->
+<!--      <version>${camunda.version}</version>-->
+<!--    </dependency>-->
 
 	<!-- DataSource -->
 	<dependency>
@@ -275,17 +275,17 @@
   </dependencies>
 
   <repositories>
-    <repository>
-      <id>camunda-bpm-nexus</id>
-      <name>Camunda BPM Maven Repository</name>
-      <url>https://artifacts.camunda.com/artifactory/public/</url>
-    </repository>
-    <!-- enable this for EE dependencies -->
-    <repository>
-      <id>camunda-bpm-nexus-ee</id>
-      <name>camunda-bpm-nexus</name>
-      <url>https://artifacts.camunda.com/artifactory/camunda-bpm-ee/</url>
-    </repository>
+<!--    <repository>-->
+<!--      <id>camunda-bpm-nexus</id>-->
+<!--      <name>Camunda BPM Maven Repository</name>-->
+<!--      <url>https://artifacts.camunda.com/artifactory/public/</url>-->
+<!--    </repository>-->
+<!--    &lt;!&ndash; enable this for EE dependencies &ndash;&gt;-->
+<!--    <repository>-->
+<!--      <id>camunda-bpm-nexus-ee</id>-->
+<!--      <name>camunda-bpm-nexus</name>-->
+<!--      <url>https://artifacts.camunda.com/artifactory/camunda-bpm-ee/</url>-->
+<!--    </repository>-->
 
   </repositories>
 

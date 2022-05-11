@@ -28,8 +28,8 @@ public class UserDataWorker {
 
     LOG.info("\n\n Get business data from business API");
 
-      final String searchTerm = (String) job.getVariablesAsMap().get("searchTerm");
-      final String emailAddress = (String) job.getVariablesAsMap().get("email");
+    final String searchTerm = (String) job.getVariablesAsMap().get("searchTerm");
+    final String emailAddress = (String) job.getVariablesAsMap().get("email");
 
     String dataURI = dataApiUri + "/" + searchTerm + emailAddress;
     LOG.info(" \n\n ====>> Data URI " + dataURI + "\n");
