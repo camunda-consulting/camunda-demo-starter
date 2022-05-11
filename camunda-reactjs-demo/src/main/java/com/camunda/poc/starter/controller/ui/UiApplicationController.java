@@ -13,9 +13,17 @@ public class UiApplicationController {
 	public UiApplicationController() {
 	}
 
-	@RequestMapping("/app.html")
-	public String index() {
+	private String homePage() {
 		return "app";
+	}
+	@RequestMapping("/")
+	public String index() {
+		return homePage();
+	}
+
+	@RequestMapping("/app.html")
+	public String app() {
+		return homePage();
 	}
 
 }
