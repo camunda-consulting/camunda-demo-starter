@@ -31,3 +31,4 @@ application-dev.properties
 settings.xml
 zeebe-application.yml
 license.txt
+built/
