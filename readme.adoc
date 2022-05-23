@@ -1,31 +1,32 @@
 = Camunda Demo Starter
 
-The goal of this project is to provide a a method for quickly starting Camunda Demo Environments. Our
-
 == Quick Start
 
-Follow the steps below to use Docker Compose to quickly start a fully functioning Camunda environment
+Follow the steps below to use Docker Compose to quickly start a fully functioning Camunda environment (either version 7 or version 8).
 
-- Create a new directory named `camunda-demo`
+* Create a new directory named `camunda-demo`
 
  mkdir camunda-demo
 
-- Change into this new directory. (All steps below assume you are in this new `camunda-demo` directory)
+* Change into this new directory. (All steps below assume you are in this new `camunda-demo` directory)
 
  cd camunda-demo
 
-=== For Camunda 8 ...
+* Now jump to either <<_camunda_8>> or <<_camunda_7>> sections below.
 
-- Clone the camunda platform project
+=== Camunda 8
+
+* Clone the `Camunda Platform` project into your local `camunda-demo` directory.
 
  git clone https://github.com/camunda/camunda-platform.git
 
-- Clone this project (the `camunda-demo-starter` project)
+* Clone this project (the `camunda-demo-starter` project) into your local `camunda-demo` directory.
 
  git clone https://github.com/camunda-consulting/camunda-demo-starter.git
 
-- Start a Camunda 8 environment
+* Start a Camunda 8 environment from your `camunda-demo` directory
 
+ cd camunda-demo
  docker-compose -f ./camunda-demo-starter/docker-compose.postgres.yml \
                 -f ./camunda-demo-starter/docker-compose.data-api.yml \
                 -f ./camunda-demo-starter/docker-compose.reactjs.yml \
@@ -34,13 +35,25 @@ Follow the steps below to use Docker Compose to quickly start a fully functionin
                 -f ./camunda-demo-starter/docker-compose.c8.yml \
                 up -d
 
-=== For Camunda 7 ...
+* After the environment starts up, access each of the components like so:
+** camunda-react: http://localhost:3000
+** operate: http://localhost:8082 (TODO: verify this)
+*** username/password: demo/demo
+** tasklist: http://localhost:8081 (TODO: verify this)
+** optimize: http://localhost:8082 (TODO: verify this)
+** c8-client: http://localhost:9012 (TODO: verify this)
+** data-api: http://localhost:9000 (TODO: verify this)
+** camunda-postgres: localhost:5432 (TODO: verify this)
+*** username/password: camunda/camunda
+** zeebe: localhost: 26500
 
-- Clone this project (the `camunda-demo-starter` project)
+=== Camunda 7
+
+* Clone this project (the `camunda-demo-starter` project) into your local `camunda-demo` directory
 
  git clone https://github.com/camunda-consulting/camunda-demo-starter.git
 
-- Start a Camunda 7 environment
+* Start a Camunda 7 environment
 
  docker-compose  -f ./camunda-demo-starter/docker-compose.postgres.yml
                  -f ./camunda-demo-starter/docker-compose.data-api.yml
@@ -48,69 +61,93 @@ Follow the steps below to use Docker Compose to quickly start a fully functionin
                  -f ./camunda-demo-starter/docker-compose.c7.yml
                  up -d
 
-== Default Environment
+* After the environment starts up, access each of the components like so:
+** camunda-react: http://localhost:3000
+** operate: http://localhost:8082 (TODO: verify this)
+*** username/password: demo/demo
+** data-api: http://localhost:9000 (TODO: verify this)
+** optimize: http://localhost:8082 (TODO: verify this)
+** tasklist: http://localhost:8081 (TODO: verify this)
+** camunda-postgres: localhost:5432
+*** username/password: camunda/camunda
 
-The "Quick Start" steps described above will start an environment with the following features enabled by default:
+== Presentation Slide Template
 
-- A postgresql server available on port 5432. Username and password is `camunda`
--
-
-
-environment. This should be all you need for most demos. If you need (or want!) to customize any of the functionality in the "baseline", please see below. Here's a list of the baseline
-- Fork the project from github into a new repository
-- Make your changes and work in your fork
-- If you have a contribution that isn't specific to a customer create a pull request
-- Get an enterprise license
-- Get enterprise credentials for maven/nexus/jfrog and place them in the settings.xml file in each project.
-
-NOTE: To get credentials you need to create an API key.
-
-### Use the presentation slide template
 https://docs.google.com/presentation/d/1fI7mdW_Q6yEiM0H01b58aQVa74YkTnYj/[Proof of Technology Google Slides Template]
 
-===  Get up and running quickly with Docker and Docker Compose
+== Components
 
-==== Camunda Cloud / C8
-====
+The Quick Start steps above include the most commonly needed components for demos.
 
-*Clone the https://github.com/camunda-community-hub/camunda-cloud-docker-compose[Camunda Cloud Docker Compose] project from github*
+In addition to the default services shown in the "Quick Start" steps above, there are also additional components, such as `camunda-kafka` and/or `camunda-ldap`.
 
-*Build the apps*
+All available components are described in more detail below.
 
-IMPORTANT: Copy the zeebe-application.yml from the Camunda Cloud Docker Compose to the home directory of the Demo Stater
+Each component is managed in its own GitHub repository. Here are some suggestions when customizing components:
 
-IMPORTANT: make sure to point to the location where you cloned the camunda-cloud-docker-compose
+* Read the documentation on each project below. Fork the project from github into a new repository and checkout into a local project directory.
+* Place an enterprise `license.txt` file into the local directory.
+* Get enterprise credentials for maven/nexus/jfrog and place them in the `settings.xml`. Copy the `settings.xml` file into your local directory
+* TODO: more details on how to create settings.xml file? NOTE: To get credentials you need to create an API key.
+* Make your changes and work in your fork.
+* TODO: more details on how to start the projects in "development" mode using spring boot profiles
+* If you have a contribution that isn't specific to a customer create a pull request.
 
- -f ~/<<your_project_dir>>/camunda-cloud-docker-compose/ccsm-all.yml
+=== camunda-data-api
 
-```
-docker-compose -f docker-compose.c8.yml  -f docker-compose.postgres.yml  -f docker-compose.data-api.yml  -f docker-compose.reactjs.yml  -f ~/.../camunda-cloud-docker-compose/ccsm-all.yml up -d --build c8-client optimize tasklist operate zeebe data-api reactjs-demo
-```
+TODO: link to github and short description
 
-*Access Apps*
+=== camunda-platform-7-spring-boot
 
-- c8-client - localhost:9012
-- data-api - localhost:9000
-- demo-reactjs - localhost:3000
-- camunda-postgres - localhost:5432
-- optimize - see https://github.com/camunda-community-hub/camunda-cloud-docker-compose[Camunda Cloud Docker Compose]
-- tasklist :  see https://github.com/camunda-community-hub/camunda-cloud-docker-compose[Camunda Cloud Docker Compose]
-- operate : see https://github.com/camunda-community-hub/camunda-cloud-docker-compose[Camunda Cloud Docker Compose]
-- zeebe - see https://github.com/camunda-community-hub/camunda-cloud-docker-compose[Camunda Cloud Docker Compose]
+TODO: link to github and short description
 
+=== camunda-7-spring-boot-client
 
-NOTE: It's possible to build and restart only a specific apps to speed up development.
+TODO: link to github and short description
 
-```
- docker-compose -f docker-compose.<<>>.yml up -d --build <service-name>
-```
+=== camunda-8-spring-boot-client
+
+TODO: link to github and short description
+
+=== camunda-react
+
+TODO: link to github and short description
+
+=== camunda-servlet-project
+
+TODO: link to github and short description
+
+=== camunda-tomcat-docker
+
+TODO: link to github and short description
+
+=== camunda-kafka
+
+TODO: link to github and short description
+
+=== camunda-ldap
+
+TODO: link to github and short description
+
+=== camunda-postman
+
+TODO: link to github and short description
+
+=== camunda-dmn-worker
+
+TODO: link to github and short description
+
+=== Authentication and Authorization
+
+TODO: describe using identity for securing the data api and rest apis?
+
+== Documentation IN PROGRESS
+
+TODO: MOVE all the following documentation into appropriate, individual project README's
 
 TIP: Have a look at the docker-compose.<<>>.yml to see the other services you can run and build.
 
-====
-
 ==== Camunda Platform
-====
 
  Put the license.txt file with your license in the home directory of the project
 
