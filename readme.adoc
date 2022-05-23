@@ -75,7 +75,11 @@ Follow the steps below to use Docker Compose to quickly start a fully functionin
 
 https://docs.google.com/presentation/d/1fI7mdW_Q6yEiM0H01b58aQVa74YkTnYj/[Proof of Technology Google Slides Template]
 
-== Components
+== Typical Usage
+
+TODO: finish this section. Describe how to add new data and process diagrams
+
+== Advanced Usage
 
 The Quick Start steps above include the most commonly used components for demos.
 
@@ -83,15 +87,15 @@ In addition to the default services shown in the "Quick Start" steps above, ther
 
 All available components are described in more detail below.
 
+=== How to contribute to this project
+
 Each component is managed in its own GitHub repository. Here are some suggestions when customizing components:
 
 * Read the documentation on each project below. Fork the project from github into a new repository and checkout into a local project directory.
-* Place an enterprise `license.txt` file into the local directory.
-* Get enterprise credentials for maven/nexus/jfrog and place them in the `settings.xml`. Copy the `settings.xml` file into your local directory
-* TODO: more details on how to create settings.xml file? NOTE: To get credentials you need to create an API key.
+* Each project contains a README describing how to setup a development environment and make code changes.
 * Make your changes and work in your fork.
-* TODO: more details on how to start the projects in "development" mode using spring boot profiles
-* If you have a contribution that isn't specific to a customer create a pull request.
+*  If you have a contribution that isn't specific to a customer create a pull request
+More Complex Customizations
 
 === camunda-data-api
 
@@ -141,7 +145,7 @@ TODO: link to github and short description
 
 TODO: describe using identity for securing the data api and rest apis?
 
-== Documentation IN PROGRESS
+= Everything below here is IN PROGRESS
 
 TODO: MOVE all the following documentation into appropriate, individual project README's
 
@@ -152,18 +156,6 @@ TIP: Have a look at the docker-compose.<<>>.yml to see the other services you ca
  Put the license.txt file with your license in the home directory of the project
 
 IMPORTANT: Each project `camunda-data-api-demo`, `camunda-platform-spring-boot`, `camunda-reactjs-demo` each must have a settings.xml with the credentials.
-
-
-*Build the default apps*
-
-- camunda-platform - localhost:8080
-- data-api - localhost:9000
-- demo-reactjs - localhost:3000
-- camunda-postgres - localhost:5432
-
-```
-docker-compose -f docker-compose.c7.yml  -f docker-compose.postgres.yml -f docker-compose.c7-optimize.yml -f docker-compose.data-api.yml  -f docker-compose.reactjs.yml up -d --build camunda-platform optimize data-api reactjs-demo
-```
 
 NOTE: It's possible to build and restart only a specific apps to speed up development.
 
@@ -453,3 +445,9 @@ In the heroku configuration panel we can feed in the parameters to our startup c
 - **Improve the style of the UI**
 
 ////
+
+TODO - more info about settings.xml and license
+
+* Place an enterprise `license.txt` file into the local directory.
+* Get enterprise credentials for maven/nexus/jfrog and place them in the `settings.xml`. Copy the `settings.xml` file into your local directory
+* TODO: more details on how to create settings.xml file? NOTE: To get credentials you need to create an API key.
