@@ -12,9 +12,9 @@ Follow the steps below to use Docker Compose to quickly start a fully functionin
 
  cd camunda-demo
 
-* Now jump to either <<_camunda_8>> or <<_camunda_7>> sections below.
+* Now jump to either <<camunda_8_quick_start, Camunda 8>> or <<camunda_7_quick_start, Camunda 7>> sections below.
 
-=== Camunda 8
+=== Camunda 8 [[camunda_8_quick_start]]
 
 * Clone the `Camunda Platform` project into your local `camunda-demo` directory.
 
@@ -47,7 +47,7 @@ Follow the steps below to use Docker Compose to quickly start a fully functionin
 *** username/password: camunda/camunda
 ** zeebe: localhost: 26500
 
-=== Camunda 7
+=== Camunda 7 [[camunda_7_quick_start]]
 
 * Clone this project (the `camunda-demo-starter` project) into your local `camunda-demo` directory
 
@@ -77,7 +77,7 @@ https://docs.google.com/presentation/d/1fI7mdW_Q6yEiM0H01b58aQVa74YkTnYj/[Proof 
 
 == Components
 
-The Quick Start steps above include the most commonly needed components for demos.
+The Quick Start steps above include the most commonly used components for demos.
 
 In addition to the default services shown in the "Quick Start" steps above, there are also additional components, such as `camunda-kafka` and/or `camunda-ldap`.
 
