@@ -1,215 +1,165 @@
-# Camunda PoC Starter
+# Camunda Data API
 
-The purpose of this project
+The goal of this project is to provide an easy, consistent framework for creating CRUD rest api's for interacting with custom business data objects.
 
+## Quick Start
 
+See the https://github.com/camunda-consulting/camunda-demo-starter[`camunda-demo-starter`] project to quickly start a fully functional Camunda 7 or 8 demo environment that includes this project.
 
-### Project Structure
+Once the default demo is started, browse here to see the data api's available:
 
-The project has an opinionated project structure.
+http://localhost:9000/api
 
-#### **Conventions for reusable or general usecase JAVA code**
+## Development
 
-such as auth or securtity or email etc... belong in the appropriate package under the **_starter_** package.
+This project is a Spring Boot Java Application and uses Spring, JPA, HATEOS, Lombok are used to quickly build
+CRUD API's that are standardized and reusable.
 
-For example for keycloak authentication
+Clone this project (the `camunda-demo-starter` project) to your local machine
 
-```java
-src/main/java/com.camunda.poc.starter.auth.keycloak
+ git clone https://github.com/camunda-consulting/camunda-demo-starter
+
+The `camunda-data-api-demo` directory contains all the relevant source code.
+
+Build the project using maven
+
+ cd camunda-data-api-demo
+ mvn clean install
+
+Run the data api.
+
+NOTE: Remember to stop the data-api container that is started by default as part of the `camunda-demo-starter` project
+
+ cd camunda-data-api-demo
+ mvn clean spring-boot:run -Dspring-boot.run.profiles=data,user,case,cors
+
+## Adding new business data
+
+Two entities exist and work with the prebuilt demo (User and Case). They are preloaded with data. See the `User` and `Case` examples in the `src/main/java/com/camunda/poc/starter/data`.
+
+See the `User` data api here: http://localhost:9000/api/users
+
+See the `Case` data api here: http://localhost:9000/api/cases
+
+NOTE: The ReactJS Demo is configured to use the exposed Data API relatively easily
+
+In many cases you may need to add some customer data.
+
+In order to add a new entity, it's necessary to create a `config`, `entity` and `Repository` to expose a new API.
+
+For example, let's say the customer would like to include an entity called `TodoItem`.
+
+### Adding Entity Class
+
+Entities are simple java objects that represent the new business data. For example, create a new class named `TodoItem` inside a new package named `com.camunda.poc.starter.data.todo.entity`.
+
+For example:
+
+```
+package com.camunda.poc.starter.data.todo.entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.context.annotation.Profile;
+
+import javax.persistence.*;
+@Profile("todo")
+@Entity(name="poc_todo")
+@Getter
+@Setter
+public class TodoItem {
+
+    private static final long serialVersionUID = -209114353715280555L;
+
+    private @Version
+    @JsonIgnore
+    Long version;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(nullable=true)
+    private String title;
+
+    @Column(nullable=true)
+    private String details;
+
+}
 ```
 
-#### **Conventions for JAVA code specific to a use case**
+### Add a Repository Class
 
-there is **_usecase_** package. Create a new package under this package.
+By default, entities will be saved to a postgresql database. If you followed the `Quick Start` steps in the `camunda-demo-starter` project, the `postgres-camunda` container should be running.
 
-```java
- src/main/java/com.camunda.poc.starter.usecase.your-use-case
+Add a Spring Data JPA Repository like so:
 
 ```
+package com.camunda.poc.starter.data.todo.repo;
 
-See the project for examples
+import com.camunda.poc.starter.data.todo.entity.TodoItem;
+import org.springframework.context.annotation.Profile;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-#### **Conventions for non-code artifacts**
+@Profile("todo")
+public interface TodoItemRepository extends PagingAndSortingRepository<TodoItem, Long>{
 
-BPMN files live in ```src/main/resources/processes``` and use a prefix for general and specific use-case `` usecase-usecase-example.bpmn ``
-
-Example general use -case `` event-integration-example.bpmn ``
-
-Example specific use-case `` renewal-process-example.bpmn ``
-
-
-## Setting up the App for your use-case
-
-### Profiles
-
-The application can have many different configurations depending on where it is deployed and what the goal of the deployment may be. Profiles can be set standalone or in conjunction with other profiles to create the configuration needed for the app. Each profile will enable specific functionality. Profiles are set and enabled by postfix on a .properties file and/or a @Profile annotation on the specific code.
-
-The application utilizes Spring profiles to manage configurations and environments. See more here <https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html>
-
-The configurations are related to the profiles specified in the Profile Examples section. Additionally there is a default configuration that is not specific to an environment. The application uses properties to specify a configuration.
-
-These configurations are grouped into files with the following naming pattern. `application-{profile}.properties` or just `application.properties` for the default configuration.
-
-Profiles can be specified at the command line when the application starts. The notation is as follows. `-Dspring.profiles.active=dev,renewals`
-
-Or you can use the application.properties file to specify the profile.
-
-`spring.profiles.active: dev,renewals`
-
-**Note:** Properties specified at the command line override properties in the .properties files.
-
-**Note:** the global configurations are in the application.yml file in the resources directory.
-
-**Profile Examples**
-
-- Development `application-dev.properties` `-Dspring.profiles.active=dev`
-
-- Authentication and Authorization `applicaiton-auth.yaml`
-
-- Email `application-email.properites`
-
-- Integration `application-integration.properties`
-
-- Security `applicaiton-secutrity.properits`
-
-- Renewals Use Case `application-renewals.properties`
-- Production `application-prod.properties`
-
-#### Custom Application Configuration through code
-
-The ****AppConfigProperties.java**** class makes the configs code-able
-
-Adding configs to this class allows you to customize the configurations. This class will pickup properties from a .properties/yaml and allow you to inject this class into other classes as needed.
-
-**_more to come ..._**
-
-
-### Externalizing Configuration
-
-All the properties in the .properties files can be externalized.
-
-Look at the **_application-prod.properties_** files for examples of utilizing environment variables with the app. This is particularly useful if your running in serverless environment and you cannot store property values in your code repo.
-
-
-
-## Running the App
-
-The application can be packaged as a jar for easy deployment to serverless environment. Example of starting with profiles also externalizing the Sendgrid api key.
-
-[source,bash]
-----
-mvn clean install -DskipTests
-java -Dspring.profiles.active=prod,renewals,email -DSENDGRID_API_KEY=<someapikey> -jar target/camunda-poc-starter.jar
-----
-
-or for development run
-
-[source,bash]
-----
-mvn clean spring-boot:run -Dspring-boot.run.profiles=dev,<other profile>
-----
-
-**Profiles** can be specified at the command line when the application starts. The notation is as follows.
-
-[source,bash]
-----
--Dspring.profiles.active=<profile>,<profile>
-----
-
-Or you can use the application.properties file to specify the profile.
-
-[source,yaml]
-----
-spring.profiles.active: <profile>,<profile>
-----
-
-
-## Deploying the app
-
-### Docker and Docker-Compose
-
-Services are configure in the docker-compose.yaml to run the app in docker with a default network.
-
-1. Uncomment the appropriate services for your application and profiles in the docker-compose.yaml located in the docker-compose directory.
-2. Make sure to build the spring-boot app
-3. run docker-compose up from the docker-compose directory
-
-### Heroku
-
-Deploying to heroku requires the use of GIT and the Heroku CLI. See following for more on deploying spring applications.
-
-- <https://devcenter.heroku.com/articles/deploying-spring-boot-apps-to-heroku>
-- <https://devcenter.heroku.com/articles/procfile>
-- <https://devcenter.heroku.com/articles/connecting-to-relational-databases-on-heroku-with-java#using-the-jdbc_database_url>
-
-Sometimes it's necessary to reset the DB. See following.
-
-- <https://devcenter.heroku.com/articles/heroku-postgresql#pg-reset>
-
-#### Environment configs
-
-There are a few configurations you must add to Heroku for the app to work correctly
-
-- JDBC_DATABASE_URL - This config is added for you. You wont see it in the Heroku dashboard. Run the following command to confirm this is set.
-
-----
-heroku run echo \$JDBC_DATABASE_URL
-----
-
-- Externalize environment specific configurations that should not be stored in .properties files. E.g. mail server password
-
-- Use environment configurations the app will use based off the profiles application-
-----
-<profile>.properties </profile>
-----
-
-
-TIP: **Procfile Example** This file is used to configure the HEROKU service to run the app. Spring profiles can be used along with the Procfile to configure the app. See profiles above for details on what each profile does. Keep in mind this is based on the Procfile and will only take affect in an environment that uses the procfile like Heroku.
-
-----
-web: java -Dserver.port=$PORT -Dspring.profiles.active=$PROFILE,$ENVIRONMENT -jar target/camunda-poc-starter-app.jar
-----
-
-In the heroku configuration panel we can feed in the parameters to our startup command and the app configs in the .properties files.
-
-​
-////
-## TODO
-
-- Use the Camunda REST api's from the React app
-- **Add middle-ware layer to aggregate calls to the REST API e.g. GraphQL**
-
-  - Implementation is to just add new spring controllers that call the camunda rest API's
-
-- Add keycloak and route API calls through security
-
-- **Create architecture diagrams to exemplify architecture usecases based on biz usecases**
-
-- Externalize email template
-
-- **Improve the style of the UI**
-
-////
-
-
-#### Running the data-api server for Dev
-====
+}
 ```
- docker-compose -f docker-compose.dev.yml up -d --build data-api
+
+### Adding Config Class
+
+The Config class is used to automatically create table objects in the database. Config class also controls the data that is pre-populated inside the postgresql db. When the `camunda-data-api` project is run, listeners in the config class creates the db schema and refreshes data in the database.
+
+For the `TodoItem` example, copy the `UserEntityCreateConfig.java`.
+
+Remember to change this line to match the new Entity:
+
+ metadata.addAnnotatedClass(TodoItem.class);
+
+and change the `onApplicationEventCreateContact` method like so:
+
 ```
-====
+    @EventListener
+    @org.springframework.core.annotation.Order(20)
+    public void onApplicationEventCreateContact(ContextRefreshedEvent event) throws SQLException {
 
-#### Modifying and developing the data-api server
 
-====
-You need to change this project when you want a new data api to access from your UI or Camunda Worflow. It is a quick way to mock and spin up an api to show a prospect how we can integrate with data and potentially their data model.
+        if (repository.count() == 0) {
+            LOGGER.info("\n\n **** Create Todo Item Post Init Hook ***** \n\n ");
 
-Spring, JPA, HATEOS, Lombok are used to quickly build API's that are standardized and reusable.
+            TodoItem todoItem = new TodoItem();
+            todoItem.setTitle("Add TodoItem Business Data Object");
+            todoItem.setDetails("... this will make the demo awesome!");
+            repository.save(todoItem);
 
-See the examples in the `src/main/java/com/camunda/poc/starter/data`
+            LOGGER.info("\n\n **** TodoItem Created ****** \n\n");
+        }
+    }
+```
 
-You need to create a `config`, `entity` and `Repository` to expose a new API.
+### Access new Data Object
 
-NOTE: The ReactJS Demo is configured to use the exposed Data API relatively easily and Camunda project has some Delegate examples.
+Remember to include the new "todo" profile and restart the data-todo api like so:
 
-====
+ mvn clean spring-boot:run -Dspring-boot.run.profiles=data,user,case,cors,todo
+
+The new todo item api should be available here:
+
+ http://localhost:9000/api/todoItems
+
+## Docker Compose
+
+When demoing or distributing it makes sense to build this project with docker-compose. When you follow the "Quick Start" steps in the camunda-demo-starter project, the docker image is already built and deployed as a GitHub Package. But, if you are customizing this project, you can also run the docker-compose command like so:
+
+```
+ docker-compose -f docker-compose.data-api.yml up -d --build data-api
+```
+
+## More documentation coming soon ...
+
+TODO: describe how to use pubsub features
+TODO: describe how to use reactive features
+TODO: describe how to use redis as a cache
+TODO: describe how to use kafka
