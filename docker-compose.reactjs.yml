@@ -17,8 +17,7 @@ services:
   ########################################
   reactjs:
     container_name: reactjs
-    build:
-      context: ./camunda-reactjs-demo
+    image: ghcr.io/upgradingdave/camunda-react:0.0.1
     ports:
       - "3000:8080"
     environment:
