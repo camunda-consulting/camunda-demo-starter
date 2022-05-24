@@ -1,34 +1,8 @@
 # Camunda PoC Starter
 
-The purpose of this application is to have a starter for PoC and other less structured engagements. This enables the consultant to easily discuss and demonstrate common concepts and patterns without customizing the application. Additionally it can be used as a starter project in many cases.
+The purpose of this project
 
-### Use Case Examples
-|===
-| **Use Case** | **Feature Examples**
-| link:./docs/business-case-renewals.adoc[Business Case - Renewals]  | ReactJS UI Example
-| link:./docs/business-case-registrations.adoc[Business Case - Registration] | Bulk Complete Tasks UI Example, Thymeleaf, SpringMVC, data-tables
-| link:./docs/technical-case-email-notifications.adoc[Technical Case - Email Notifications] | Email Integration, Freemarker Templates
-| link:./docs/technical-case-events-and-messaging.adoc[Technical Case - Events and Messaging] | Integration with RabbitMQ, Global Execution Listener
-| link:./docs/technical-case-sso.adoc[Technical Case - SSO] | Keycloak Authentication
-| link:./docs/technical-case-camunda-variables.adoc[Technical Case - Camunda Variables] | REST, Objects, JSON, Entity Manager
-| link:./docs/technical-case-task-sot.adoc[Technical Case - Camunda as Task SoT] | Persistence and Retrieve task meta-data
-| link:/docs/technical-case-open-api.adoc[Technical Case - Open API] | Swagger
-| link:/docs/technical-case-ldap.adoc[Technical Case - LDAP] | LDAP Plugin Configuration
-| link:/docs/technical-case-history-engine-plugin.adoc[Technical Case - History Engine Plugin] | History Configuration, History Event Handler, History Transaction Listener, Custom History Level
-| link:/docs/technical-case-camunda-generic-pros-hisrtory-config.adoc[Technical Case - Generic Properties] | History Configuration with Generic Properties
-| link:/docs/technical-case-performance-tuning.adoc[Technical Case - Particle Performance Tuning] | Particle Guide to Performance Tuning
-| link:/docs/technical-case-task-sot.adoc[Technical Case - Camunda as Task Source of Truth] | Example using Camunda as source of truth for task meta-data
-|===
 
-### Get started in a PoC or other engagement
-
-1. Fork the project on github
-2. It's a simple spring-boot project at it's core. Simply run the app and you will have a working instance of Camunda.
-3. Bells and whistles can be added to the project by adding a profile when starting the project. See **Profiles** sections for more.
-
-### How to contribute
-
-To contribute please fork the project and then make your changes in a branch and create a pull request. The maintainer will merge your changes into the project. Please be sure to remove any customer information from the code or artifacts.
 
 ### Project Structure
 
@@ -62,11 +36,6 @@ BPMN files live in ```src/main/resources/processes``` and use a prefix for gener
 Example general use -case `` event-integration-example.bpmn ``
 
 Example specific use-case `` renewal-process-example.bpmn ``
-
-#### **Conventions for JS code**
-
-JS code for custom ReactJS UI lives in
-`` src/main/js/reactjs/<use-case> ``
 
 
 ## Setting up the App for your use-case
@@ -221,3 +190,26 @@ In the heroku configuration panel we can feed in the parameters to our startup c
 - **Improve the style of the UI**
 
 ////
+
+
+#### Running the data-api server for Dev
+====
+```
+ docker-compose -f docker-compose.dev.yml up -d --build data-api
+```
+====
+
+#### Modifying and developing the data-api server
+
+====
+You need to change this project when you want a new data api to access from your UI or Camunda Worflow. It is a quick way to mock and spin up an api to show a prospect how we can integrate with data and potentially their data model.
+
+Spring, JPA, HATEOS, Lombok are used to quickly build API's that are standardized and reusable.
+
+See the examples in the `src/main/java/com/camunda/poc/starter/data`
+
+You need to create a `config`, `entity` and `Repository` to expose a new API.
+
+NOTE: The ReactJS Demo is configured to use the exposed Data API relatively easily and Camunda project has some Delegate examples.
+
+====

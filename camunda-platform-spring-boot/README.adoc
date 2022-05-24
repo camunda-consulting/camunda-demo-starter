@@ -1,34 +1,7 @@
 # Camunda PoC Starter
 
-The purpose of this application is to have a starter for PoC and other less structured engagements. This enables the consultant to easily discuss and demonstrate common concepts and patterns without customizing the application. Additionally it can be used as a starter project in many cases.
+### The purpose of this project
 
-### Use Case Examples
-|===
-| **Use Case** | **Feature Examples**
-| link:./docs/business-case-renewals.adoc[Business Case - Renewals]  | ReactJS UI Example
-| link:./docs/business-case-registrations.adoc[Business Case - Registration] | Bulk Complete Tasks UI Example, Thymeleaf, SpringMVC, data-tables
-| link:./docs/technical-case-email-notifications.adoc[Technical Case - Email Notifications] | Email Integration, Freemarker Templates
-| link:./docs/technical-case-events-and-messaging.adoc[Technical Case - Events and Messaging] | Integration with RabbitMQ, Global Execution Listener
-| link:./docs/technical-case-sso.adoc[Technical Case - SSO] | Keycloak Authentication
-| link:./docs/technical-case-camunda-variables.adoc[Technical Case - Camunda Variables] | REST, Objects, JSON, Entity Manager
-| link:./docs/technical-case-task-sot.adoc[Technical Case - Camunda as Task SoT] | Persistence and Retrieve task meta-data
-| link:/docs/technical-case-open-api.adoc[Technical Case - Open API] | Swagger
-| link:/docs/technical-case-ldap.adoc[Technical Case - LDAP] | LDAP Plugin Configuration
-| link:/docs/technical-case-history-engine-plugin.adoc[Technical Case - History Engine Plugin] | History Configuration, History Event Handler, History Transaction Listener, Custom History Level
-| link:/docs/technical-case-camunda-generic-pros-hisrtory-config.adoc[Technical Case - Generic Properties] | History Configuration with Generic Properties
-| link:/docs/technical-case-performance-tuning.adoc[Technical Case - Particle Performance Tuning] | Particle Guide to Performance Tuning
-| link:/docs/technical-case-task-sot.adoc[Technical Case - Camunda as Task Source of Truth] | Example using Camunda as source of truth for task meta-data
-|===
-
-### Get started in a PoC or other engagement
-
-1. Fork the project on github
-2. It's a simple spring-boot project at it's core. Simply run the app and you will have a working instance of Camunda.
-3. Bells and whistles can be added to the project by adding a profile when starting the project. See **Profiles** sections for more.
-
-### How to contribute
-
-To contribute please fork the project and then make your changes in a branch and create a pull request. The maintainer will merge your changes into the project. Please be sure to remove any customer information from the code or artifacts.
 
 ### Project Structure
 
@@ -155,28 +128,6 @@ spring.profiles.active: <profile>,<profile>
 ----
 
 
-## Deploying the app
-
-### Docker and Docker-Compose
-
-Services are configure in the docker-compose.yaml to run the app in docker with a default network.
-
-1. Uncomment the appropriate services for your application and profiles in the docker-compose.yaml located in the docker-compose directory.
-2. Make sure to build the spring-boot app
-3. run docker-compose up from the docker-compose directory
-
-### Heroku
-
-Deploying to heroku requires the use of GIT and the Heroku CLI. See following for more on deploying spring applications.
-
-- <https://devcenter.heroku.com/articles/deploying-spring-boot-apps-to-heroku>
-- <https://devcenter.heroku.com/articles/procfile>
-- <https://devcenter.heroku.com/articles/connecting-to-relational-databases-on-heroku-with-java#using-the-jdbc_database_url>
-
-Sometimes it's necessary to reset the DB. See following.
-
-- <https://devcenter.heroku.com/articles/heroku-postgresql#pg-reset>
-
 #### Environment configs
 
 There are a few configurations you must add to Heroku for the app to work correctly
@@ -221,3 +172,51 @@ In the heroku configuration panel we can feed in the parameters to our startup c
 - **Improve the style of the UI**
 
 ////
+
+==== Camunda 7
+
+ Put the license.txt file with your license in the home directory of the project
+
+IMPORTANT: Each project `camunda-data-api-demo`, `camunda-platform-spring-boot`, `camunda-reactjs-demo` each must have a settings.xml with the credentials.
+
+NOTE: It's possible to build and restart only a specific apps to speed up development.
+
+```
+ docker-compose -f docker-compose.<<>>.yml up -d --build <service-name>
+```
+
+TIP: Have a look at the docker-compose.<<>>.yml to see the other services you can run and build.
+
+Camunda Platform in the context of this project is the Camunda Platform as custom embedded Spring-Boot app.
+
+NOTE: Camunda Platform can be run independently of the the other apps. It can also be run in different flavors such as Tomcat with servlet-project. See the docker-compose files in project home.
+
+For convenience there are several prebuilt or preconfigured components to make the poc's and custom demos easier and faster to do. Additionally a standardized file structure is utilized.
+
+- BPMN Workflow Models are in `camunda-platform-spring-boot/src/main/resources/processes/sample.bpmn`
+
+- Reusable delegates are in `camunda-platform-spring-boot/src/main/java/com/camunda/poc/starter/bpm`
+
+- Integrations are in `camunda-platform-spring-boot/src/main/java/com/camunda/poc/starter/integration`
+
+- Engine plugins `camunda-platform-spring-boot/src/main/java/com/camunda/poc/starter/plugin`
+
+- Eventing and messaging `camunda-platform-spring-boot/src/main/java/com/camunda/poc/starter/pubsub`
+
+- Specific technical use cases and integrations  `camunda-platform-spring-boot/src/main/java/com/camunda/poc/starter/usecase`
+
+====
+
+//===== CLI
+//NOTE: You can enable spring-dev-tools to build front and back-end component in dev mode providing faster restarts and live-reload.
+//
+//run the app in dev mode by uncommenting spring-dev-tools in pom.xml
+//
+//WARNING: spring-dev-tools affects the way Camunda serializes objects into process vars and will cause serialization errors in some cases. So it is commented out in pom.xml by default.
+//
+//run the following with the appropriate profiles
+//
+//    mvn spring-boot:run -Dspring.profiles.active=poc,email,cors
+//
+//---
+
