@@ -102,7 +102,7 @@ Each component is managed in its own GitHub repository. Here are some suggestion
 
 The diagram generically depicts the components and how they interact.
 
-image::./images/pot-architecture.png[PoT Architecture]
+![PoT Architecture](./images/pot-architecture.png "PoT Architecture")
 
 - orange signifies component that present and display data
 - green signifies integration and abstraction technologies that help implement advanced patterns
@@ -160,19 +160,15 @@ TODO: link to github and short description
 //TODO: describe using identity for securing the data api and rest apis?
 
 
-
 ## Project Structure
 
 The project has an opinionated project structure.
 
-
 ## How to create an issue
 
-https://github.com/camunda-consulting/camunda-demo-starter/issues/new/choose[Create an issue] on the project for feature requests and bugs.
-
+[Create an issue](https://github.com/camunda-consulting/camunda-demo-starter/issues/new/choose) in the project for feature requests and bugs.
 
 ---
-
 
 ![Compatible with: Camunda Platform 7](https://img.shields.io/badge/Compatible%20with-Camunda%20Platform%207-26d07c)
 
