@@ -38,17 +38,17 @@ Follow the steps below to use Docker Compose to quickly start a fully functionin
                 -f ./camunda-demo-starter/docker-compose.c8.yml \
                 up -d
 
-* After the environment starts up, access each of the components like so:
-** camunda-react: http://localhost:3000
-** operate: http://localhost:8081
-*** username/password: demo/demo
-** tasklist: http://localhost:8082
-** TODO: optimize isn't currently included .. should we include it as part of default? optimize: http://localhost:808?
-** c8-client: http://localhost:9012 (TODO: verify this)
-** data-api: http://localhost:9000 (TODO: verify this)
-** camunda-postgres: localhost:5432 (TODO: verify this)
-*** username/password: camunda/camunda
-** zeebe: localhost: 26500
+- After the environment starts up, access each of the components like so:
+..* camunda-react: http://localhost:3000
+..* operate: http://localhost:8081
+..** username/password: demo/demo
+..* tasklist: http://localhost:8082
+..* TODO: optimize isn't currently included .. should we include it as part of default? optimize: http://localhost:808?
+..* c8-client: http://localhost:9012 (TODO: verify this)
+..* data-api: http://localhost:9000 (TODO: verify this)
+..* camunda-postgres: localhost:5432 (TODO: verify this)
+..* username/password: camunda/camunda
+..* zeebe: localhost: 26500
 
 ### Camunda 7 [[camunda_7_quick_start]]
 
