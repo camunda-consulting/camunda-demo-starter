@@ -88,7 +88,7 @@ The Quick Start steps above include the most commonly used components for demos.
 
 In addition to the default services shown in the "Quick Start" steps above, there are also additional components, such as `camunda-kafka` and/or `camunda-ldap`.
 
-=== How to contribute to this project
+== How to contribute to this project
 
 Each component is managed in its own GitHub repository. Here are some suggestions when customizing components:
 
