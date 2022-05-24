@@ -14,10 +14,12 @@ Follow the steps below to use Docker Compose to quickly start a fully functionin
 * Change into this new directory. (All steps below assume you are in this new `camunda-demo` directory)
 
  cd camunda-demo
+ 
+ * [Authenticate to the Github container registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-to-the-container-registry)
 
-* Now jump to either <<camunda_8_quick_start, Camunda 8>> or <<camunda_7_quick_start, Camunda 7>> sections below.
+* Now jump to either [Camunda 8][camunda_8_quick_start] or [Camunda 7][camunda_7_quick_start] sections below.
 
-### Camunda 8 [[camunda_8_quick_start]]
+### Camunda 8
 
 * Clone the `Camunda Platform` project into your local `camunda-demo` directory.
 
@@ -30,6 +32,8 @@ Follow the steps below to use Docker Compose to quickly start a fully functionin
 * Start a Camunda 8 environment from your `camunda-demo` directory
 
  cd camunda-demo
+ 
+ ```
  docker-compose -f ./camunda-demo-starter/docker-compose.postgres.yml \
                 -f ./camunda-demo-starter/docker-compose.data-api.yml \
                 -f ./camunda-demo-starter/docker-compose.reactjs.yml \
@@ -37,20 +41,21 @@ Follow the steps below to use Docker Compose to quickly start a fully functionin
                 -f ./camunda-platform/docker-compose-core.yaml \
                 -f ./camunda-demo-starter/docker-compose.c8.yml \
                 up -d
+```
 
-- After the environment starts up, access each of the components like so:
-..* camunda-react: http://localhost:3000
-..* operate: http://localhost:8081
-..** username/password: demo/demo
-..* tasklist: http://localhost:8082
-..* TODO: optimize isn't currently included .. should we include it as part of default? optimize: http://localhost:808?
-..* c8-client: http://localhost:9012 (TODO: verify this)
-..* data-api: http://localhost:9000 (TODO: verify this)
-..* camunda-postgres: localhost:5432 (TODO: verify this)
-..* username/password: camunda/camunda
-..* zeebe: localhost: 26500
+#### After the environment starts up, access each of the components like so:
+- camunda-react: http://localhost:3000
+- operate: http://localhost:8081
+    - username/password: demo/demo
+- tasklist: http://localhost:8082
+- TODO: optimize isn't currently included .. should we include it as part of default? optimize: http://localhost:808?
+- c8-client: http://localhost:9012 (TODO: verify this)
+- data-api: http://localhost:9000 (TODO: verify this)
+- camunda-postgres: localhost:5432 (TODO: verify this)
+- username/password: camunda/camunda
+- zeebe: localhost: 26500
 
-### Camunda 7 [[camunda_7_quick_start]]
+### Camunda 7
 
 * Clone this project (the `camunda-demo-starter` project) into your local `camunda-demo` directory
 
@@ -58,25 +63,28 @@ Follow the steps below to use Docker Compose to quickly start a fully functionin
 
 * Start a Camunda 7 environment
 
+```
  docker-compose  -f ./camunda-demo-starter/docker-compose.postgres.yml
                  -f ./camunda-demo-starter/docker-compose.data-api.yml
                  -f ./camunda-demo-starter/docker-compose.smtp.yml
                  -f ./camunda-demo-starter/docker-compose.c7.yml
                  up -d
+```
 
-* After the environment starts up, access each of the components like so:
-** camunda-react: http://localhost:3000
-** operate: http://localhost:8082 (TODO: verify this)
-*** username/password: demo/demo
-** data-api: http://localhost:9000 (TODO: verify this)
-** optimize: http://localhost:8082 (TODO: verify this)
-** tasklist: http://localhost:8081 (TODO: verify this)
-** camunda-postgres: localhost:5432
-*** username/password: camunda/camunda
+#### After the environment starts up, access each of the components like so:
+
+- camunda-react: http://localhost:3000
+- operate: http://localhost:8082 (TODO: verify this)
+    - username/password: demo/demo
+- data-api: http://localhost:9000 (TODO: verify this)
+- optimize: http://localhost:8082 (TODO: verify this)
+- tasklist: http://localhost:8081 (TODO: verify this)
+- camunda-postgres: localhost:5432
+    - username/password: camunda/camunda
 
 ## Presentation Slide Template
 
-https://docs.google.com/presentation/d/1fI7mdW_Q6yEiM0H01b58aQVa74YkTnYj/[Proof of Technology Google Slides Template]
+[Proof of Technology Google Slides Template](https://docs.google.com/presentation/d/1fI7mdW_Q6yEiM0H01b58aQVa74YkTnYj/)
 
 ## Typical Usage - How to customize for typical PoT
 
@@ -104,11 +112,6 @@ The diagram generically depicts the components and how they interact.
 
 ![PoT Architecture](./images/pot-architecture.png "PoT Architecture")
 
-- orange signifies component that present and display data
-- green signifies integration and abstraction technologies that help implement advanced patterns
-- red represents workflow orchestration technology
-- blue boxes signify components that do specific work and interact with different layers of a workflow platform
-
 ## Components
 
 ### camunda-8-spring-boot-client
@@ -131,6 +134,7 @@ TODO: link to github and short description
 
 TODO: link to github and short description
 
+<!--
 //### camunda-servlet-project
 //
 //TODO: link to github and short description
@@ -158,7 +162,7 @@ TODO: link to github and short description
 //### Authentication and Authorization
 //
 //TODO: describe using identity for securing the data api and rest apis?
-
+-->
 
 ## Project Structure
 
@@ -176,4 +180,4 @@ The project has an opinionated project structure.
 
 [![](https://img.shields.io/badge/Lifecycle-Proof%20of%20Concept-blueviolet)](https://github.com/Camunda-Community-Hub/community/blob/main/extension-lifecycle.md#proof-of-concept-)
 
-[![](https://img.shields.io/badge/Lifecycle-Incubating-blue)](https://github.com/Camunda-Community-Hub/community/blob/main/extension-lifecycle.md#incubating-)
+<!-- [![](https://img.shields.io/badge/Lifecycle-Incubating-blue)](https://github.com/Camunda-Community-Hub/community/blob/main/extension-lifecycle.md#incubating-) -->
