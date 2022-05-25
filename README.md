@@ -19,7 +19,7 @@ Follow the steps below to use Docker Compose to quickly start a fully functionin
  
     `Example> docker login ghcr.io -u username -p PAT`
 
-* Now jump to either [Camunda 8](Camunda-8) or [Camunda 7](Camunda-7) sections below.
+* Now jump to either [Camunda 8](#Camunda-8) or [Camunda 7](#Camunda-7) sections below.
 
 ### Camunda 8
 
