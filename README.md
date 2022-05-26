@@ -1,102 +1,200 @@
 # Camunda Demo Starter
 
-The purpose of this project is to have a starter for PoC and other less structured engagements. This enables the consultant to easily discuss and demonstrate common concepts and patterns without customizing the application. Additionally it can be used as a starter project in many cases.
+The purpose of this project is to have a starter for a custom demo. This enables a developer to quickly spin up a partially customized demo or go deeper and create highly customized demo. Additionally it provides a framework that maintains best practices for development and architecture and demonstrates common concepts and patterns.
 
+## Project Goals
+
+- Support quick startup of OOTB components for advanced demo of custom BPMN
+- Maintain development and architecture best practices for reference
+- Support development modes for each project for quick modification
+- Support integration with common technologies K8s, Kafka, SMTP, LDAP … 
+- Support adding new components in a structured and flexible pattern
 
 ## Quick Start
 
 Follow the steps below to use Docker Compose to quickly start a fully functioning Camunda environment (either version 7 or version 8).
 
-* Create a new directory named `camunda-demo`
+- Create a new directory named `camunda-demo`
 
- mkdir camunda-demo
+  ```bash
+  mkdir camunda-demo
+  ```
 
 * Change into this new directory. (All steps below assume you are in this new `camunda-demo` directory)
 
- cd camunda-demo
+  ```bash
+  cd camunda-demo
+  ```
+ 
+* [Authenticate to the Github container registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-to-the-container-registry)
+ 
+  ```bash
+  docker login ghcr.io -u username -p PAT
+  ```
 
-* Now jump to either <<camunda_8_quick_start, Camunda 8>> or <<camunda_7_quick_start, Camunda 7>> sections below.
+* Now jump to either [Camunda 8](#Camunda-8) or [Camunda 7](#Camunda-7) sections below.
 
-### Camunda 8 [[camunda_8_quick_start]]
+---
+
+## Camunda 8
 
 * Clone the `Camunda Platform` project into your local `camunda-demo` directory.
 
- git clone https://github.com/camunda/camunda-platform.git
-
+  ```bash
+  git clone https://github.com/camunda/camunda-platform.git
+  ```
+  
 * Clone this project (the `camunda-demo-starter` project) into your local `camunda-demo` directory.
-
- git clone https://github.com/camunda-consulting/camunda-demo-starter.git
+   
+  ```bash
+  git clone https://github.com/camunda-consulting/camunda-demo-starter.git
+  ```
 
 * Start a Camunda 8 environment from your `camunda-demo` directory
 
- cd camunda-demo
- docker-compose -f ./camunda-demo-starter/docker-compose.postgres.yml \
+  ```bash
+  cd camunda-demo
+  ```
+
+  ```bash
+  docker-compose -f ./camunda-demo-starter/docker-compose.postgres.yml \
                 -f ./camunda-demo-starter/docker-compose.data-api.yml \
                 -f ./camunda-demo-starter/docker-compose.reactjs.yml \
                 -f ./camunda-demo-starter/docker-compose.smtp.yml \
                 -f ./camunda-platform/docker-compose-core.yaml \
                 -f ./camunda-demo-starter/docker-compose.c8.yml \
                 up -d
+  ```
 
-- After the environment starts up, access each of the components like so:
-..* camunda-react: http://localhost:3000
-..* operate: http://localhost:8081
-..** username/password: demo/demo
-..* tasklist: http://localhost:8082
-..* TODO: optimize isn't currently included .. should we include it as part of default? optimize: http://localhost:808?
-..* c8-client: http://localhost:9012 (TODO: verify this)
-..* data-api: http://localhost:9000 (TODO: verify this)
-..* camunda-postgres: localhost:5432 (TODO: verify this)
-..* username/password: camunda/camunda
-..* zeebe: localhost: 26500
+#### After the environment starts up, access each of the components like so:
+- camunda-react: http://localhost:3000
+- operate: http://localhost:8081
+    - username/password: demo/demo
+- tasklist: http://localhost:8082
+- TODO: optimize isn't currently included .. should we include it as part of default? optimize: http://localhost:808?
+- c8-client: http://localhost:9012 
+- data-api: http://localhost:9000 
+- camunda-postgres: localhost:5432 
+  - username/password: camunda/camunda
+- zeebe: localhost: 26500
 
-### Camunda 7 [[camunda_7_quick_start]]
+### C8 - How to customize
+
+#### Deploy Process Diagrams
+
+Process diagrams are deployed through Camunda desktop modeler or web modeler
+
+[Start and view a workflow in C8 SaaS](https://docs.camunda.io/docs/guides/orchestrate-human-tasks/#start-and-view-your-process-instance)
+
+For Self-Managed use Camund Desktop Modeler to deploy the process. Simply click the radio button and target Self Managed. The endpoint is already configured to the default. 
+
+#### How to use the C8 Client
+
+- Start a workflow
+
+- Connect to mock services
+
+  - E-Mail
+  - Business Data
+
+- Correlate Message
+
+- Connect to real services
+
+  Connecting to real services such as Salesforce or a your real data will require use of a C8 client. See below for more on C8 Clients and the external worker pattern.
+
+  [Build your own C8 Client](https://docs.camunda.io/docs/apis-clients/overview/) 
+
+  [Extend the existing spring-boot C8 client](camunda-8-spring-boot-client/README.md)
+
+---
+
+### Camunda 7
 
 * Clone this project (the `camunda-demo-starter` project) into your local `camunda-demo` directory
 
- git clone https://github.com/camunda-consulting/camunda-demo-starter.git
-
+  ```
+  git clone https://github.com/camunda-consulting/camunda-demo-starter.git
+  ```
+  
 * Start a Camunda 7 environment
 
- docker-compose  -f ./camunda-demo-starter/docker-compose.postgres.yml
+  ```
+  docker-compose  -f ./camunda-demo-starter/docker-compose.postgres.yml
                  -f ./camunda-demo-starter/docker-compose.data-api.yml
                  -f ./camunda-demo-starter/docker-compose.smtp.yml
                  -f ./camunda-demo-starter/docker-compose.c7.yml
                  up -d
+  ```
 
-* After the environment starts up, access each of the components like so:
-** camunda-react: http://localhost:3000
-** operate: http://localhost:8082 (TODO: verify this)
-*** username/password: demo/demo
-** data-api: http://localhost:9000 (TODO: verify this)
-** optimize: http://localhost:8082 (TODO: verify this)
-** tasklist: http://localhost:8081 (TODO: verify this)
-** camunda-postgres: localhost:5432
-*** username/password: camunda/camunda
+#### After the environment starts up, access each of the components like so:
 
-## Presentation Slide Template
+- camunda-react: http://localhost:3000
+- operate: http://localhost:8082 (TODO: verify this)
+    - username/password: demo/demo
+- data-api: http://localhost:9000 (TODO: verify this)
+- optimize: http://localhost:8082 (TODO: verify this)
+- tasklist: http://localhost:8081 (TODO: verify this)
+- camunda-postgres: localhost:5432
+    - username/password: camunda/camunda
 
-https://docs.google.com/presentation/d/1fI7mdW_Q6yEiM0H01b58aQVa74YkTnYj/[Proof of Technology Google Slides Template]
+## C7 - How to customize 
 
-## Typical Usage - How to customize for typical PoT
+#### Deploy Process Diagrams
 
-TODO: finish this section. Describe how to add new data and process diagrams
+Process diagrams are deployed through Camunda desktop modeler or with the Spring Boot app
 
-## Advanced Usage - How to customize for advanced PoC
+- See [Camunda Modeler]() to deploy process through the REST api.
 
-The Quick Start steps above include the most commonly used components for demos.
+- Spring Boot place the process in the `camunda-7-spring-boot/src/main/resources/processes` directory
 
-In addition to the default services shown in the "Quick Start" steps above, there are also additional components, such as `camunda-kafka` and/or `camunda-ldap`.
+- Run the [C7 environment](#Camunda-7)
 
-## How to contribute to this project
+#### See more on [Customizing C7 Spring-Boot Project](camunda-7-spring-boot/README.md)
 
-Each component is managed in its own GitHub repository. Here are some suggestions when customizing components:
+---
 
-* Read the documentation on each project below. Fork the project from github into a new repository and checkout into a local project directory.
-* Each project contains a README describing how to setup a development environment and make code changes.
-* Make your changes and work in your fork.
-*  If you have a contribution that isn't specific to a customer create a pull request
+## How to customize other components
 
+### Add Custom Data
+
+Two entities exist and work with the prebuilt demo (User and Case). They are pre loaded with data. In many cases you need to add some custom data. See following link for more ...
+
+[Adding Data Model to Data API](camunda-data-api-demo/README.adoc)
+
+### Prebuilt Custom UI 
+
+The custom UI is using ReactJS. The UI serves the purpose of demonstrating the capability to integrate a Custom UI into a workflow. It is not an exhaustive example of what it possible. 
+
+The Custom UI is dependent on the [Data API Project](camunda-data-api-demo)
+
+See the docs on the [ReactJS Demo Project](camunda-reactjs-demo/README.adoc) for more on modifying the UI
+
+[See React JS Project](camunda-reactjs-demo/README.adoc)
+
+### Modify a component (Like the ReactJS UI)
+
+Typically every component has a docker-compose.<component-name>.yaml. It is configured to build and run a docker image.
+
+Also each component can be run on the CLI or through the IDE. When modifying a component this option will be the easiest strategy and will allow you to work quickly in development mode supported by the project. 
+
+[See more about modifying specific projects in the project README](#components)
+
+### Add a new component
+
+You can build your component and integrate it with docker and docker-compose or you can just run your app on your local machine and utilize the other components / apps through the local network bridge by simply starting the existing apps you require with docker-compose. 
+
+For more advanced integration you can publish your app to docker hub or github packages and then add a docker-compose.<component-name>.yaml to the project. An example would be creating a new app for UI presentation.
+
+- Decide which existing components you want to leverage like the Data API
+- Create your app in your preferred technology 
+- Publish the package 
+- Create a docker-compose.<component-name>.yaml to integrate your app into the demo-starter
+
+See the docker-compose.reactjs.yaml as an example.
+
+
+---
 
 ## Architecture
 
@@ -104,33 +202,51 @@ The diagram generically depicts the components and how they interact.
 
 ![PoT Architecture](./images/pot-architecture.png "PoT Architecture")
 
-- orange signifies component that present and display data
-- green signifies integration and abstraction technologies that help implement advanced patterns
-- red represents workflow orchestration technology
-- blue boxes signify components that do specific work and interact with different layers of a workflow platform
-
 ## Components
+
+### camunda-demo-starter
+
+This camunda-demo-starter project contains reusable code for mimicking business data services, integration services, and front end UI’s. This reduces the time it takes to build demos. It also provides examples of proven, consistent, reusable system design patterns.
+
 
 ### camunda-8-spring-boot-client
 
-TODO: link to github and short description
+[C8 Spring Boot Cleint](camunda-8-spring-boot-client/)
+
+C8 Spring Boot client has some basic workers built in the can be used OOTB within BPMN service tasks.
+
+- email
+- mock
+- get-user
+
+See more here on [workers](camunda-8-spring-boot-client/src/main/java/io/camunda/getstarted/)
+
 
 ### camunda-platform-7-spring-boot
 
-TODO: link to github and short description
+C7 Spring-Boot is the Spring-Boot framework with an embedded Camunda engine. This project has a many extensions and customizations that can be leveraged.
+
+[C7 Spring Boot Project](camunda-7-spring-boot/)
 
 ### camunda-7-spring-boot-client
 
-TODO: link to github and short description
+Abstraction layer for C7 external task worker and REST controller
+
+[C7 Spring Boot Cleint](camunda-7-spring-boot-client/)
 
 ### camunda-data-api
 
-TODO: link to github and short description
+Multipurpose Mock API used for UI Data, Business Data and other
+
+[Mock Data Api](camunda-data-api-demo/)
 
 ### camunda-react
 
-TODO: link to github and short description
+Demo ReactJS app to start process and complete tasks.
 
+[camunda-reactjs-demo](camunda-reactjs-demo/)
+
+<!--
 //### camunda-servlet-project
 //
 //TODO: link to github and short description
@@ -158,11 +274,23 @@ TODO: link to github and short description
 //### Authentication and Authorization
 //
 //TODO: describe using identity for securing the data api and rest apis?
+-->
+---
 
+## Presentation Slide Template
 
-## Project Structure
+[Proof of Technology Google Slides Template](https://docs.google.com/presentation/d/1fI7mdW_Q6yEiM0H01b58aQVa74YkTnYj/)
 
-The project has an opinionated project structure.
+---
+## How to contribute to this project
+
+- Read the documentation on each project below. 
+- Fork the project from github into a new repository and checkout into a local project directory.
+- Each project contains a README describing how to setup a development environment and make code changes.
+- Make your changes and work in your fork.
+- If you have a contribution that isn't specific to a customer create a pull request on the project
+
+---
 
 ## How to create an issue
 
@@ -176,4 +304,4 @@ The project has an opinionated project structure.
 
 [![](https://img.shields.io/badge/Lifecycle-Proof%20of%20Concept-blueviolet)](https://github.com/Camunda-Community-Hub/community/blob/main/extension-lifecycle.md#proof-of-concept-)
 
-[![](https://img.shields.io/badge/Lifecycle-Incubating-blue)](https://github.com/Camunda-Community-Hub/community/blob/main/extension-lifecycle.md#incubating-)
+<!-- [![](https://img.shields.io/badge/Lifecycle-Incubating-blue)](https://github.com/Camunda-Community-Hub/community/blob/main/extension-lifecycle.md#incubating-) -->
