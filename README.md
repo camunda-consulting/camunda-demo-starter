@@ -1,12 +1,20 @@
 # Camunda Demo Starter
 
-The purpose of this project is to have a starter for PoC and other less structured engagements. This enables the consultant to easily discuss and demonstrate common concepts and patterns without customizing the application. Additionally it can be used as a starter project in many cases.
+The purpose of this project is to have a starter for a custom demo. This enables a developer to quickly spin up a partially customized demo or go deeper and create highly customized demo. Additionally it provides a framework that maintains best practices for development and architecture and demonstrates common concepts and patterns.
+
+## Project Goals
+
+- Support quick startup of OOTB components for advanced demo of custom BPMN
+- Maintain development and architecture best practices for reference
+- Support development modes for each project for quick modification
+- Support integration with common technologies K8s, Kafka, SMTP, LDAP … 
+- Support adding new components in a structured and flexible pattern
 
 ## Quick Start
 
 Follow the steps below to use Docker Compose to quickly start a fully functioning Camunda environment (either version 7 or version 8).
 
-* Create a new directory named `camunda-demo`
+- Create a new directory named `camunda-demo`
 
   ```bash
   mkdir camunda-demo
@@ -18,7 +26,7 @@ Follow the steps below to use Docker Compose to quickly start a fully functionin
   cd camunda-demo
   ```
  
- * [Authenticate to the Github container registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-to-the-container-registry)
+* [Authenticate to the Github container registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-to-the-container-registry)
  
   ```bash
   docker login ghcr.io -u username -p PAT
@@ -70,34 +78,34 @@ Follow the steps below to use Docker Compose to quickly start a fully functionin
   - username/password: camunda/camunda
 - zeebe: localhost: 26500
 
-### C8 - How to customize for typical PoT
+### C8 - How to customize
 
-TODO: finish this section. Describe how to add new data and process diagrams
 #### Deploy Process Diagrams
 
-#### Add Custom Data
+Process diagrams are deployed through Camunda desktop modeler or web modeler
 
-[Adding Data Model to Data API](Link to DataApi Docs)
+[Start and view a workflow in C8 SaaS](https://docs.camunda.io/docs/guides/orchestrate-human-tasks/#start-and-view-your-process-instance)
 
+For Self-Managed use Camund Desktop Modeler to deploy the process. Simply click the radio button and target Self Managed. The endpoint is already configured to the default. 
 
 #### How to use the C8 Client
+
+- Start a workflow
+
 - Connect to mock services
 
+  - E-Mail
+  - Business Data
 
-### C8 - How to customize for advanced PoC
+- Correlate Message
 
-TODO: finish this section. Describe how to add new data and process diagrams
-### Deploy Process Diagrams
-- Sames as described in the PoT section
+- Connect to real services
 
-### Add Custom Data
-- Sames as described in the PoT section
+  Connecting to real services such as Salesforce or a your real data will require use of a C8 client. See below for more on C8 Clients and the external worker pattern.
 
-### Connect to real services
+  [Build your own C8 Client](https://docs.camunda.io/docs/apis-clients/overview/) 
 
-### Modify a component (Like the ReactJS UI)
-
-### Add a new component
+  [Extend the existing spring-boot C8 client](camunda-8-spring-boot-client/README.md)
 
 ---
 
@@ -130,31 +138,61 @@ TODO: finish this section. Describe how to add new data and process diagrams
 - camunda-postgres: localhost:5432
     - username/password: camunda/camunda
 
-## C7 - How to customize for typical PoT
+## C7 - How to customize 
 
-TODO: finish this section. Describe how to add new data and process diagrams
-### Deploy Process Diagrams
+#### Deploy Process Diagrams
+
+Process diagrams are deployed through Camunda desktop modeler or with the Spring Boot app
+
+- See [Camunda Modeler]() to deploy process through the REST api.
+
+- Spring Boot place the process in the `camunda-7-spring-boot/src/main/resources/processes` directory
+
+- Run the [C7 environment](#Camunda-7)
+
+#### See more on [Customizing C7 Spring-Boot Project](camunda-7-spring-boot/README.md)
+
+---
+
+## How to customize other components
 
 ### Add Custom Data
 
+Two entities exist and work with the prebuilt demo (User and Case). They are pre loaded with data. In many cases you need to add some custom data. See following link for more ...
 
-#### How to use the C8 Client
-- Connect to mock services
+[Adding Data Model to Data API](camunda-data-api-demo/README.adoc)
 
-## C7 - How to customize for advanced PoC
+### Prebuilt Custom UI 
 
-TODO: finish this section. Describe how to add new data and process diagrams
-### Deploy Process Diagrams
-- Sames as described in the PoT section
+The custom UI is using ReactJS. The UI serves the purpose of demonstrating the capability to integrate a Custom UI into a workflow. It is not an exhaustive example of what it possible. 
 
-### Add Custom Data
-- Sames as described in the PoT section
+The Custom UI is dependent on the [Data API Project](camunda-data-api-demo)
 
-### Connect to real services
+See the docs on the [ReactJS Demo Project](camunda-reactjs-demo/README.adoc) for more on modifying the UI
+
+[See React JS Project](camunda-reactjs-demo/README.adoc)
 
 ### Modify a component (Like the ReactJS UI)
 
+Typically every component has a docker-compose.<component-name>.yaml. It is configured to build and run a docker image.
+
+Also each component can be run on the CLI or through the IDE. When modifying a component this option will be the easiest strategy and will allow you to work quickly in development mode supported by the project. 
+
+[See more about modifying specific projects in the project README](#components)
+
 ### Add a new component
+
+You can build your component and integrate it with docker and docker-compose or you can just run your app on your local machine and utilize the other components / apps through the local network bridge by simply starting the existing apps you require with docker-compose. 
+
+For more advanced integration you can publish your app to docker hub or github packages and then add a docker-compose.<component-name>.yaml to the project. An example would be creating a new app for UI presentation.
+
+- Decide which existing components you want to leverage like the Data API
+- Create your app in your preferred technology 
+- Publish the package 
+- Create a docker-compose.<component-name>.yaml to integrate your app into the demo-starter
+
+See the docker-compose.reactjs.yaml as an example.
+
 
 ---
 
@@ -168,30 +206,45 @@ The diagram generically depicts the components and how they interact.
 
 ### camunda-demo-starter
 
-TODO: link to github and short description
-
 This camunda-demo-starter project contains reusable code for mimicking business data services, integration services, and front end UI’s. This reduces the time it takes to build demos. It also provides examples of proven, consistent, reusable system design patterns.
 
 
 ### camunda-8-spring-boot-client
 
-TODO: link to github and short description
+[C8 Spring Boot Cleint](camunda-8-spring-boot-client/)
+
+C8 Spring Boot client has some basic workers built in the can be used OOTB within BPMN service tasks.
+
+- email
+- mock
+- get-user
+
+See more here on [workers](camunda-8-spring-boot-client/src/main/java/io/camunda/getstarted/)
+
 
 ### camunda-platform-7-spring-boot
 
-TODO: link to github and short description
+C7 Spring-Boot is the Spring-Boot framework with an embedded Camunda engine. This project has a many extensions and customizations that can be leveraged.
+
+[C7 Spring Boot Project](camunda-7-spring-boot/)
 
 ### camunda-7-spring-boot-client
 
-TODO: link to github and short description
+Abstraction layer for C7 external task worker and REST controller
+
+[C7 Spring Boot Cleint](camunda-7-spring-boot-client/)
 
 ### camunda-data-api
 
-TODO: link to github and short description
+Multipurpose Mock API used for UI Data, Business Data and other
+
+[Mock Data Api](camunda-data-api-demo/)
 
 ### camunda-react
 
-TODO: link to github and short description
+Demo ReactJS app to start process and complete tasks.
+
+[camunda-reactjs-demo](camunda-reactjs-demo/)
 
 <!--
 //### camunda-servlet-project
