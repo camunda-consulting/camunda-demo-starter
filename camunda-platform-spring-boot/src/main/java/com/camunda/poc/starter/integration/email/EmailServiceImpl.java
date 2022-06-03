@@ -1,4 +1,4 @@
-package com.camunda.poc.starter.service.email;
+package com.camunda.poc.starter.integration.email;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;

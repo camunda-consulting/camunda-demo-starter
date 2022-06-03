@@ -24,10 +24,7 @@ services:
       - ./certs:/opt/certs
     environment:
       PROFILES: test,email,user-data
-#      DATABASE_URL: jdbc:postgresql://camunda-postgres:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true&ssl=true&sslrootcert=/opt/certs/root.crt&sslcert=/opt/certs/root.crt&sslmode=require
-      DATABASE_URL: jdbc:postgresql://camunda-postgres:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true
-      DATABASE_DRIVER: org.postgresql.Driver
-      SERVER_PORT: 8080
+      PORT: 8080
       MAX_POOL_SIZE: 3
       MAIL_HOST: smtp
       MAIL_PORT: 2500
@@ -50,13 +47,10 @@ services:
     networks:
       - camunda-platform
     depends_on:
-      - data-api
-      - camunda-postgres
-      - reactjs
-      - smtp
-#      - apacheds
-#      - kafka
-#      - rabbitmq-mgmt
+      - zeebe
+#      - data-api
+#      - reactjs
+#      - smtp
 
   c8-dmn:
     container_name: zeebe-dmn-worker

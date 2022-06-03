@@ -34,7 +34,7 @@ public class WorkflowController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/workflow/message/start", method = RequestMethod.POST, consumes = {"application/json"})
+	@RequestMapping(value = "/workflow/start", method = RequestMethod.POST, consumes = {"application/json"})
 	public HttpResponse start(@RequestBody(required = true)String data)
 			throws IOException, InterruptedException {
 

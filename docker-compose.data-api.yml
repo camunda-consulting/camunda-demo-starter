@@ -24,8 +24,8 @@ services:
     volumes:
       - ./certs:/opt/certs
     environment:
-      DATABASE_URL: jdbc:postgresql://camunda-postgres:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true&ssl=true&sslrootcert=/opt/certs/root.crt&sslcert=/opt/certs/root.crt&sslmode=require
-#      DATABASE_URL: jdbc:postgresql://camunda-postgres:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true
+#      DATABASE_URL: jdbc:postgresql://postgres:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true&ssl=true&sslrootcert=/opt/certs/root.crt&sslcert=/opt/certs/root.crt&sslmode=require
+      DATABASE_URL: jdbc:postgresql://postgres:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true
       DATABASE_DRIVER: org.postgresql.Driver
       SERVER_PORT: 9000
       MAX_POOL_SIZE: 3
@@ -48,8 +48,7 @@ services:
       timeout: 10s
       retries: 5
     depends_on:
-      - camunda-postgres
+      - postgres
     restart: always
     networks:
-      - camunda-cloud
       - camunda-platform

@@ -25,14 +25,14 @@ import java.util.logging.Logger;
 
 @EnableZeebeClient
 @Controller
-public class CloudWorkflowController {
+public class WorkflowController {
 
 	private final Logger LOGGER = Logger.getLogger(Class.class.getName());
 
 	private ZeebeClientLifecycle client;
 
 	@Autowired
-	public CloudWorkflowController( ZeebeClientLifecycle client ) {
+	public WorkflowController(ZeebeClientLifecycle client ) {
 		this.client = client;
 	}
 
@@ -42,7 +42,7 @@ public class CloudWorkflowController {
 	 * @return
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/workflow/cloud/start", method = RequestMethod.POST, consumes = {"application/json"})
+	@RequestMapping(value = "/workflow/start", method = RequestMethod.POST, consumes = {"application/json"})
 	public ResponseEntity<?> start(@RequestBody(required = true)String data)
 			throws IOException, InterruptedException {
 
