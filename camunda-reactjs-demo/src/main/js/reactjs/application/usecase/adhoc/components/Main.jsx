@@ -22,11 +22,9 @@ const Workflow = require('WorkflowMain');
 const WorkflowStartAction = require('WorkflowStartAction');
 
 // tag::vars[]
-const dataApiHost = process.env.DATA_API_HOST != "" ? `${process.env.DATA_API_HOST}:${process.env.DATA_API_PORT}` : "/";
-const dataApi = `${dataApiHost}${process.env.DATA_API_ROOT}`;
+const dataApi = process.env.DATA_API != "" ? process.env.DATA_API : "/";
 
-const cloudApiHost = process.env.CLOUD_API_CLIENT_HOST != "" ? `${process.env.CLOUD_API_CLIENT_HOST}:${process.env.CLOUD_API_CLIENT_PORT}` : "/";
-const cloudApi = `${cloudApiHost}${process.env.CLOUD_API_CONTEXT}`;
+const cloudApi = process.env.CLIENT_API != "" ? process.env.CLIENT_API : "/";
 
 // end::vars[]
 

@@ -8,7 +8,7 @@
 
 .translucent-form-overlay {
     color: #777;
-    background-image: url(https://camunda.com/wp-content/themes/camunda/assets/svg/hero-bg.svg);
+    /*background-image: url(https://camunda.com/wp-content/themes/camunda/assets/svg/hero-bg.svg);*/
     background-repeat: no-repeat;
     background-size: cover;
     padding: 8.25rem 0;

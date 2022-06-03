@@ -1,7 +1,8 @@
-package com.camunda.poc.starter.integration.email;
+package com.camunda.poc.starter.bpm;
 
-import com.camunda.poc.starter.bpm.LoggerDelegate;
+import com.camunda.poc.starter.integration.email.EmailService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.Expression;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -17,6 +18,15 @@ public class EmailDelegate implements JavaDelegate {
 
     private EmailService emailService;
 
+    //get the dynamic object to be updated
+    private Expression subject;
+
+    //get the value of the type of object to submit
+    private Expression message;
+
+    //Use Camunda field injection to get the value from the workflow config
+    private Expression email;
+
     @Autowired
     public EmailDelegate(EmailService emailService){
         this.emailService = emailService;
@@ -25,13 +35,9 @@ public class EmailDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution execution) throws Exception {
 
-        String emailSubject = (String) execution.getVariableLocal("subject");
-        String emailBody = (String) execution.getVariableLocal("body");
-        String emailTo = (String) execution.getVariableLocal("emailTo");
-
-        if(emailBody == null || emailBody.isEmpty()) {
-            emailBody = (String) execution.getVariable("messageBody");
-        }
+        String emailSubject = (String) subject.getValue(execution).toString();
+        String emailBody = (String) message.getValue(execution).toString();
+        String emailTo = (String) email.getValue(execution).toString();
 
         emailService.sendSimpleMessage(emailTo, emailSubject, emailBody);
 
