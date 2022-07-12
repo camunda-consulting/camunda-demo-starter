@@ -36,6 +36,12 @@ public class WorkflowController {
 		this.client = client;
 	}
 
+	@RequestMapping(value = "/workflow/health", method = RequestMethod.GET, consumes = {"application/json"})
+	public ResponseEntity<?> health() throws IOException, InterruptedException {
+
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
 	/**
 	 * Start a workflow sync with REST
 	 * @param data
