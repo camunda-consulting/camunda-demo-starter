@@ -1,6 +1,8 @@
 package io.camunda.getstarted.controller;
 
 import io.camunda.getstarted.service.tasklist.TaskListService;
+import io.camunda.getstarted.service.tasklist.TaskListServiceImpl;
+import io.camunda.tasklist.dto.Form;
 import io.camunda.tasklist.dto.Task;
 import io.camunda.tasklist.exception.TaskListException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,35 @@ public class TaskListController {
 
 		List<Task> tasks = taskListService.getAssigneeTasks(userId);
 		return new ResponseEntity<>(tasks, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/tasklist/getTask", method = RequestMethod.GET)
+	public ResponseEntity<?> getTask(@RequestParam String taskId) throws TaskListException {
+
+		LOGGER.info("getTask");
+
+		Task task = taskListService.getTask(taskId);
+		return new ResponseEntity<>(task, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/tasklist/getFormByKey", method = RequestMethod.GET)
+	public ResponseEntity<?> getFormByKey(@RequestParam String formKey,
+										  @RequestParam String processDefinitionId) throws TaskListException {
+
+		LOGGER.info("getFormByKey");
+
+		Form form = taskListService.getFormByKey(formKey, processDefinitionId);
+		return new ResponseEntity<>(form, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/tasklist/getFormById", method = RequestMethod.GET)
+	public ResponseEntity<?> getFormById(@RequestParam String formId,
+										 @RequestParam String processDefinitionId) throws TaskListException {
+
+		LOGGER.info("getFormById");
+
+		Form form = taskListService.getFormById(formId, processDefinitionId);
+		return new ResponseEntity<>(form, HttpStatus.OK);
 	}
 
 }
