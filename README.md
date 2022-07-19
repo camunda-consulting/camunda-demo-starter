@@ -7,7 +7,7 @@ The purpose of this project is to have a starter for a custom demo. This enables
 - Support quick startup of OOTB components for advanced demo of custom BPMN
 - Maintain development and architecture best practices for reference
 - Support development modes for each project for quick modification
-- Support integration with common technologies K8s, Kafka, SMTP, LDAP … 
+- Support integration with common technologies K8s, Kafka, SMTP, LDAP …
 - Support adding new components in a structured and flexible pattern
 
 ## Quick Start
@@ -25,9 +25,9 @@ Follow the steps below to use Docker Compose to quickly start a fully functionin
   ```bash
   cd camunda-demo
   ```
- 
+
 * [Authenticate to the Github container registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-to-the-container-registry)
- 
+
   ```bash
   docker login ghcr.io -u username -p PAT
   ```
@@ -43,9 +43,9 @@ Follow the steps below to use Docker Compose to quickly start a fully functionin
   ```bash
   git clone https://github.com/camunda/camunda-platform.git
   ```
-  
+
 * Clone this project (the `camunda-demo-starter` project) into your local `camunda-demo` directory.
-   
+
   ```bash
   git clone https://github.com/camunda-consulting/camunda-demo-starter.git
   ```
@@ -64,6 +64,7 @@ Follow the steps below to use Docker Compose to quickly start a fully functionin
                 -f ./camunda-demo-starter/docker-compose.smtp.yml \
                 -f ./camunda-platform/docker-compose-core.yaml \
                 -f ./camunda-demo-starter/docker-compose.c8.yml \
+                -f ./camunda-demo-starter/docker-compose.c8-dmn.yml \
                 up -d --build
   ```
 
@@ -73,9 +74,9 @@ Follow the steps below to use Docker Compose to quickly start a fully functionin
     - username/password: demo/demo
 - tasklist: http://localhost:8082
 - TODO: optimize isn't currently included .. should we include it as part of default? optimize: http://localhost:808?
-- c8-client: http://localhost:9012 
-- data-api: http://localhost:9000 
-- camunda-postgres: localhost:5432 
+- c8-client: http://localhost:9012
+- data-api: http://localhost:9000
+- camunda-postgres: localhost:5432
   - username/password: camunda/camunda
 - zeebe: localhost: 26500
 
@@ -87,7 +88,7 @@ Process diagrams are deployed through Camunda desktop modeler or web modeler
 
 [Start and view a workflow in C8 SaaS](https://docs.camunda.io/docs/guides/orchestrate-human-tasks/#start-and-view-your-process-instance)
 
-For Self-Managed use Camund Desktop Modeler to deploy the process. Simply click the radio button and target Self Managed. The endpoint is already configured to the default. 
+For Self-Managed use Camund Desktop Modeler to deploy the process. Simply click the radio button and target Self Managed. The endpoint is already configured to the default.
 
 #### How to use the C8 Client
 
@@ -104,9 +105,9 @@ For Self-Managed use Camund Desktop Modeler to deploy the process. Simply click 
 
   Connecting to real services such as Salesforce or a your real data will require use of a C8 client. See below for more on C8 Clients and the external worker pattern.
 
-  [Build your own C8 Client](https://docs.camunda.io/docs/apis-clients/overview/) 
+  [Build your own C8 Client](https://docs.camunda.io/docs/apis-clients/overview/)
 
-  [Extend the existing spring-boot C8 client](camunda-8-spring-boot-client/README.md)
+  [Extend the existing spring-boot C8 Template](https://github.com/camunda-consulting/camunda-8-poc-template) update the docker-compose.c8.yml to point to your local copy of the c8 client template. Note you can start with the [original template](https://github.com/camunda-community-hub/camunda-8-process-solution-template) instead of the forked poc template.
 
 ---
 
@@ -117,7 +118,7 @@ For Self-Managed use Camund Desktop Modeler to deploy the process. Simply click 
   ```
   git clone https://github.com/camunda-consulting/camunda-demo-starter.git
   ```
-  
+
 * Start a Camunda 7 environment
 
   ```
@@ -142,7 +143,7 @@ For Self-Managed use Camund Desktop Modeler to deploy the process. Simply click 
 - camunda-postgres: localhost:5432
     - username/password: camunda/camunda
 
-## C7 - How to customize 
+## C7 - How to customize
 
 #### Deploy Process Diagrams
 
@@ -166,9 +167,9 @@ Two entities exist and work with the prebuilt demo (User and Case). They are pre
 
 [Adding Data Model to Data API](camunda-data-api-demo/README.adoc)
 
-### Prebuilt Custom UI 
+### Prebuilt Custom UI
 
-The custom UI is using ReactJS. The UI serves the purpose of demonstrating the capability to integrate a Custom UI into a workflow. It is not an exhaustive example of what it possible. 
+The custom UI is using ReactJS. The UI serves the purpose of demonstrating the capability to integrate a Custom UI into a workflow. It is not an exhaustive example of what it possible.
 
 The Custom UI is dependent on the [Data API Project](camunda-data-api-demo)
 
@@ -180,19 +181,19 @@ See the docs on the [ReactJS Demo Project](camunda-reactjs-demo/README.adoc) for
 
 Typically every component has a docker-compose.<component-name>.yaml. It is configured to build and run a docker image.
 
-Also each component can be run on the CLI or through the IDE. When modifying a component this option will be the easiest strategy and will allow you to work quickly in development mode supported by the project. 
+Also each component can be run on the CLI or through the IDE. When modifying a component this option will be the easiest strategy and will allow you to work quickly in development mode supported by the project.
 
 [See more about modifying specific projects in the project README](#components)
 
 ### Add a new component
 
-You can build your component and integrate it with docker and docker-compose or you can just run your app on your local machine and utilize the other components / apps through the local network bridge by simply starting the existing apps you require with docker-compose. 
+You can build your component and integrate it with docker and docker-compose or you can just run your app on your local machine and utilize the other components / apps through the local network bridge by simply starting the existing apps you require with docker-compose.
 
 For more advanced integration you can publish your app to docker hub or github packages and then add a docker-compose.<component-name>.yaml to the project. An example would be creating a new app for UI presentation.
 
 - Decide which existing components you want to leverage like the Data API
-- Create your app in your preferred technology 
-- Publish the package 
+- Create your app in your preferred technology
+- Publish the package
 - Create a docker-compose.<component-name>.yaml to integrate your app into the demo-starter
 
 See the docker-compose.reactjs.yaml as an example.
@@ -288,7 +289,7 @@ Demo ReactJS app to start process and complete tasks.
 ---
 ## How to contribute to this project
 
-- Read the documentation on each project below. 
+- Read the documentation on each project below.
 - Fork the project from github into a new repository and checkout into a local project directory.
 - Each project contains a README describing how to setup a development environment and make code changes.
 - Make your changes and work in your fork.
