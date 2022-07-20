@@ -16,8 +16,10 @@ services:
 ########################################
   c7-client:
     container_name: c7-client
-    build:
-      context: ./camunda-7-spring-boot-client
+    image: ghcr.io/camunda-consulting/camunda-demo-c7-client:latest
+    #
+    # build:
+    #   context: ../camunda-7-demo-spring-boot-client
     ports:
       - "9012:8080"
     volumes:
@@ -26,7 +28,6 @@ services:
       PROFILES: cors,prod
       PORT: 8080
       CAMUNDA_API: http://camunda-7:8080/engine-rest/message
-#      VM_OPTIONS: -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap
     deploy:
       resources:
         limits:

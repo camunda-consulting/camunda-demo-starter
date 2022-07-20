@@ -8,7 +8,6 @@ volumes:
 
 networks:
   # Note there are two bridge networks. One for Zeebe and one for IAM. Operate, Tasklist, and Optimize use both
-  camunda-cloud: { }
   camunda-platform: { }
 
 services:
@@ -17,8 +16,10 @@ services:
   ########################################
   reactjs:
     container_name: reactjs
-    build:
-      context: ./camunda-reactjs-demo
+    image: ghcr.io/camunda-consulting/camunda-demo-ui:latest
+    # to develop locally pull the project and use the build
+    # build:
+    #   context: ../camunda-demo-reactjs
     ports:
       - "3000:8080"
     environment:
@@ -31,5 +32,4 @@ services:
         reservations:
           memory: 1000M
     networks:
-      - camunda-cloud
       - camunda-platform

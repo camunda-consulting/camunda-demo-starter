@@ -123,12 +123,12 @@ For Self-Managed use Camund Desktop Modeler to deploy the process. Simply click 
 
   ```
     docker-compose  \
-               -f ./docker-compose.postgres.yml \
-               -f ./docker-compose.data-api.yml \
-               -f ./docker-compose.smtp.yml \
-               -f ./docker-compose.c7.yml \
-               -f ./docker-compose.c7-client.yml \
-               -f ./docker-compose.reactjs.yml \
+               -f ./camunda-demo-starter/docker-compose.postgres.yml \
+               -f ./camunda-demo-starter/docker-compose.data-api.yml \
+               -f ./camunda-demo-starter/docker-compose.smtp.yml \
+               -f ./camunda-demo-starter/docker-compose.c7.yml \
+               -f ./camunda-demo-starter/docker-compose.c7-client.yml \
+               -f ./camunda-demo-starter/docker-compose.reactjs.yml \
                up -d --build
   ```
 
