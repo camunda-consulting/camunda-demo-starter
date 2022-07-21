@@ -1,6 +1,0 @@
-:stylesdir: {asciidoctorconfigdir}/.asciidoctor
-:stylesheet: styles.css
-
-//:linkcss:
-//:stylesdir: https://darshandsoni.com/asciidoctor-skins/css
-//:stylesheet: dark.css
