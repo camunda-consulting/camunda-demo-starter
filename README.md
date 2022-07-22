@@ -25,12 +25,13 @@ Follow the steps below to use Docker Compose to quickly start a fully functionin
   ```bash
   cd camunda-demo
   ```
-
+<!--
 * [Authenticate to the Github container registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-to-the-container-registry)
 
   ```bash
   docker login ghcr.io -u username -p PAT
   ```
+-->
 
 * Now jump to either [Camunda 8](#Camunda-8) or [Camunda 7](#Camunda-7) sections below.
 
