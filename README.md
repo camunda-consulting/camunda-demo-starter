@@ -60,7 +60,7 @@ Follow the steps below to use Docker Compose to quickly start a fully functionin
   docker-compose \
                 -f ./camunda-demo-starter/docker-compose.postgres.yml \
                 -f ./camunda-demo-starter/docker-compose.data-api.yml \
-                -f ./camunda-demo-starter/docker-compose.reactjs.yml \
+                -f ./camunda-demo-starter/docker-compose.ui.yml \
                 -f ./camunda-demo-starter/docker-compose.smtp.yml \
                 -f ./camunda-platform/docker-compose-core.yaml \
                 -f ./camunda-demo-starter/docker-compose.c8.yml \
@@ -128,7 +128,7 @@ For Self-Managed use Camund Desktop Modeler to deploy the process. Simply click 
                -f ./docker-compose.smtp.yml \
                -f ./docker-compose.c7.yml \
                -f ./docker-compose.c7-client.yml \
-               -f ./docker-compose.reactjs.yml \
+               -f ./docker-compose.ui.yml \
                up -d --build
   ```
 
@@ -200,7 +200,7 @@ For more advanced integration you can publish your app to docker hub or github p
 - Publish the package
 - Create a docker-compose.<<component-name>>.yaml to integrate your app into the demo-starter
 
-See the docker-compose.reactjs.yaml as an example.
+See the docker-compose.ui.yaml as an example.
 
 ---
 

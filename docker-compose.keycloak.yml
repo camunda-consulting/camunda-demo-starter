@@ -8,7 +8,6 @@ volumes:
 
 networks:
   # Note there are two bridge networks. One for Zeebe and one for IAM. Operate, Tasklist, and Optimize use both
-  camunda-cloud: { }
   camunda-platform: { }
 
 services:
@@ -52,5 +51,4 @@ services:
     #   I used the name postgres-data but you can changed it to something else.
     #    volumes:
     networks:
-      - camunda-cloud
       - camunda-platform

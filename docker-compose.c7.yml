@@ -26,7 +26,7 @@ services:
       - ./certs:/opt/certs
     environment:
       # PROFILES: cors,prod,email
-#      DATABASE_URL: jdbc:postgresql://postgres:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true&ssl=true&sslrootcert=/opt/certs/root.crt&sslcert=/opt/certs/root.crt&sslmode=require
+      # DATABASE_URL: jdbc:postgresql://postgres:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true&ssl=true&sslrootcert=/opt/certs/root.crt&sslcert=/opt/certs/root.crt&sslmode=require
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true
       DB_DRIVER: org.postgresql.Driver
       # PORT: 8080
@@ -36,7 +36,7 @@ services:
       # RABBITMQ_HOST: rabbitmq-mgmt
       # ADMIN_CLIENT_URL: http://camunda-node-1:8080
       # DATA_API_URI: http://data-api:9000/api
-#      VM_OPTIONS: -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap
+      # VM_OPTIONS: -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap
     deploy:
       resources:
         limits:

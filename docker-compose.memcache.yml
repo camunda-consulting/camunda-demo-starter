@@ -8,7 +8,6 @@ volumes:
 
 networks:
   # Note there are two bridge networks. One for Zeebe and one for IAM. Operate, Tasklist, and Optimize use both
-  camunda-cloud: { }
   camunda-platform: { }
 
 services:
@@ -43,5 +42,4 @@ services:
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     networks:
-      - camunda-cloud
       - camunda-platform
