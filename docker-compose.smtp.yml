@@ -22,6 +22,6 @@ services:
       - "9999:8080"
       - "8085:8085"
     volumes:
-      - ../mailslurper-config.json:/opt/mailslurper/config.json
+      - ./mailslurper-config.json:/opt/mailslurper/config.json
     networks:
       - camunda-platform

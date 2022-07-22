@@ -19,15 +19,19 @@ services:
     image: ghcr.io/camunda-consulting/camunda-demo-c7-client:latest
     #
     # build:
-    #   context: ../camunda-7-demo-spring-boot-client
+    #   context: ../camunda-demo-c7-client
     ports:
       - "9012:8080"
     volumes:
       - ./certs:/opt/certs
     environment:
-      PROFILES: cors,prod
+      PROFILES: client,cors,prod,email,user-data
       PORT: 8080
+      MAIL_HOST: smtp
+      MAIL_PORT: 2500
+      DATA_API_URI: http://data-api:9000/api
       CAMUNDA_API: http://camunda-7:8080/engine-rest/message
+      CAMUNDA_REST_BASE: http://camunda-7:8080/engine-rest
     deploy:
       resources:
         limits:
@@ -36,7 +40,7 @@ services:
         reservations:
           memory: 1000M
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://camunda-platform:8080/engine-rest/engine"]
+      test: ["CMD", "curl", "-f", "http://camunda-7:8080/engine-rest/engine"]
       interval: 30s
       timeout: 10s
       retries: 5
