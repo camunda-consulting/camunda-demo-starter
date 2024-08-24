@@ -348,6 +348,18 @@ services:
       - identity
       - zeebe
 
+orchestrator:
+  image: europe-north1-docker.pkg.dev/pre-sales-demo-setup/presales-demo/presales-demo:latest
+  container_name: orchestrator
+  ports:
+    - 8085:8080
+  environment:
+  volumes:
+  networks:
+  depends_on:
+
+
+
 volumes:
   zeebe:
   elastic:
