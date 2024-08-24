@@ -358,7 +358,15 @@ orchestrator:
   networks:
   depends_on:
 
-
+executor:
+  image: europe-north1-docker.pkg.dev/pre-sales-demo-setup/presales-demo/presales-demo-executor:latest
+  container: executor
+  ports:
+    - 8085:8080
+  environment:
+  volumes:
+  networks:
+  depends_on:
 
 volumes:
   zeebe:
